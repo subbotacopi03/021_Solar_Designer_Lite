@@ -1,0 +1,132 @@
+[
+  {
+    "id": "demo-50k",
+    "name": "Навчальний інвертор 50 kW",
+    "ac_power_w": 50000,
+    "ac_voltage_v": 400,
+    "phases": 3,
+    "max_dc_voltage_v": 1100,
+    "max_dc_power_w": 75000,
+    "requires_optimizer": false,
+    "mppts": [
+      {
+        "id": "MPPT1",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT2",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT3",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT4",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT5",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT6",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT7",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT8",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT9",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT10",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      }
+    ],
+    "sources": [
+      {
+        "id": "synthetic-demo",
+        "label": "Synthetic teaching example, not a manufacturer datasheet",
+        "verification": "SYNTHETIC"
+      }
+    ],
+    "max_backfeed_current_a": 0
+  }
+]

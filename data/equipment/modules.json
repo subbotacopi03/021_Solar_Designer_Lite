@@ -1,0 +1,24 @@
+[
+  {
+    "id": "demo-585",
+    "name": "Навчальний модуль 585 W",
+    "pmax_w": 585,
+    "voc_v": 50,
+    "vmp_v": 42,
+    "isc_a": 14,
+    "imp_a": 13.2,
+    "beta_voc_pct_c": -0.28,
+    "beta_vmp_pct_c": -0.3,
+    "alpha_isc_pct_c": 0.05,
+    "gamma_pmax_pct_c": -0.35,
+    "max_system_voltage_v": 1100,
+    "max_series_fuse_a": 25,
+    "sources": [
+      {
+        "id": "synthetic-demo",
+        "label": "Synthetic teaching example, not a manufacturer datasheet",
+        "verification": "SYNTHETIC"
+      }
+    ]
+  }
+]

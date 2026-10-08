@@ -1,0 +1,116 @@
+{
+  "version": "0.1.0",
+  "hash_basis": "Complete UTF-8 source file SHA-256 (conservative change barrier, not approval)",
+  "formulas": [
+    {
+      "id": "PV-TEMP",
+      "path": "packages/core/src/fundamentals.ts",
+      "symbols": [
+        "moduleVoltageAt",
+        "moduleVmpAt"
+      ],
+      "formula": "Vstc × (1 + beta/100 × (Tcell − 25))",
+      "units": "V, %/°C, °C",
+      "sha256": "83563cd6074136c4d539d9e59f314bef5807d33ace52096768957351ea6de403"
+    },
+    {
+      "id": "AC-CURRENT",
+      "path": "packages/core/src/fundamentals.ts",
+      "symbols": [
+        "calculateAcCurrent"
+      ],
+      "formula": "Pout / (k × U × cosPhi); k=√3 or 1",
+      "units": "W, V, A",
+      "sha256": "83563cd6074136c4d539d9e59f314bef5807d33ace52096768957351ea6de403"
+    },
+    {
+      "id": "CABLE-RESISTANCE",
+      "path": "packages/core/src/fundamentals.ts",
+      "symbols": [
+        "resistanceAtTemperature"
+      ],
+      "formula": "R20 × (1 + alpha × (Tconductor − 20))",
+      "units": "Ω/km, 1/°C, °C",
+      "sha256": "83563cd6074136c4d539d9e59f314bef5807d33ace52096768957351ea6de403"
+    },
+    {
+      "id": "VOLTAGE-DROP",
+      "path": "packages/core/src/fundamentals.ts",
+      "symbols": [
+        "voltageDropV"
+      ],
+      "formula": "k × L/1000 × I × (RcosPhi + XsinPhi)",
+      "units": "m, A, Ω/km, V",
+      "sha256": "83563cd6074136c4d539d9e59f314bef5807d33ace52096768957351ea6de403"
+    },
+    {
+      "id": "STRING-RANGE",
+      "path": "packages/core/src/strings.ts",
+      "symbols": [
+        "stringLengthRange",
+        "parallelCapacity",
+        "generateStringPlan",
+        "validateStringPlan"
+      ],
+      "formula": "Nmin=ceil(Vmppt_min/Vmp_hot); Nmax=min(floor(Vlimit/Voc_cold),floor(Vmppt_max/Vmp_cold))",
+      "units": "V, A, modules",
+      "sha256": "eca475640e9710dc3e00cbdf00afba6fe8ad2799b73b247f1151f1dbb2c34b41"
+    },
+    {
+      "id": "CABLE-SIZING",
+      "path": "packages/core/src/cables.ts",
+      "symbols": [
+        "evaluateCable",
+        "sizeCable"
+      ],
+      "formula": "Ib ≤ In ≤ Iz × derating; ΔU ≤ explicit limit",
+      "units": "A, %, mm²",
+      "sha256": "6761bba9d2f9f8b2d870b58462bb03926668dd855eb468c83cd8e282bccaa23f"
+    },
+    {
+      "id": "PROTECTION",
+      "path": "packages/core/src/protection.ts",
+      "symbols": [
+        "selectStringFuse",
+        "selectDcIsolator",
+        "checkBreakingCapacity"
+      ],
+      "formula": "Explicit manufacturer ratings and policy; unknown backfeed is not assumed",
+      "units": "A, V, kA",
+      "sha256": "f4acb49caa1d21babe49c5361664adb7da59afcac6b2d927b213c12e09680f70"
+    },
+    {
+      "id": "SPD-CANDIDATE",
+      "path": "packages/core/src/spd.ts",
+      "symbols": [
+        "assessSpdCandidate"
+      ],
+      "formula": "Separate assembly Ucpv/UocSTC/Iscpv/Up and impulse-waveform limits; explicit context, no LPS-only type choice",
+      "units": "V, A, kV, kA8/20µs, kA10/350µs",
+      "sha256": "19bf94192d19c3348e20308ca7b63f0672d33ca5fed6cd385ecc91ccf68e7d74"
+    },
+    {
+      "id": "DC-SWITCH",
+      "path": "packages/core/src/dc-switch.ts",
+      "symbols": [
+        "assessDcSwitchCandidate"
+      ],
+      "formula": "Explicit Ue/Ie/category/poles/wiring profile; per-string nominal assessment, no Ui/Ith substitution",
+      "units": "V DC, A, poles",
+      "sha256": "a50e4de7d4d47c444ee98d40afb5a2b9ed6299c13bc20be430a64f34f95eca85"
+    },
+    {
+      "id": "CABLE-ROUTE-QUANTITY",
+      "path": "packages/core/src/routes.ts",
+      "symbols": [
+        "resolveDcRoute",
+        "resolveAcRoute",
+        "orphanRouteChecks",
+        "cableRouteQuantities"
+      ],
+      "formula": "Known selected routes only: DC2 × one-way length; AC1 × one-way multicore length; stale/missing routes never use fallback",
+      "units": "m, conductors, inverter index",
+      "sha256": "3b71cde6d009cb9aa528632388cab1371ad41208ac19893bb0df95017248379a"
+    }
+  ]
+}

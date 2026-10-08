@@ -1,0 +1,177 @@
+{
+  "schema_version": "0.1.0",
+  "name": "TSM-435NEG9R.28 / STP8.0-3AV-40 · source-limited example",
+  "module": {
+    "id": "trina-tsm-435neg9r28",
+    "name": "Trina Solar TSM-435NEG9R.28",
+    "manufacturer": "Trina Solar",
+    "model": "TSM-435NEG9R.28",
+    "pmax_w": 435,
+    "voc_v": 51.8,
+    "vmp_v": 43.6,
+    "isc_a": 10.64,
+    "imp_a": 9.99,
+    "beta_voc_pct_c": -0.24,
+    "beta_vmp_pct_c": null,
+    "alpha_isc_pct_c": 0.04,
+    "gamma_pmax_pct_c": -0.3,
+    "max_system_voltage_v": 1500,
+    "max_series_fuse_a": 20,
+    "reverse_current_withstand_a": null,
+    "units": {
+      "pmax_w": "W",
+      "voc_v": "V",
+      "vmp_v": "V",
+      "isc_a": "A",
+      "imp_a": "A",
+      "beta_voc_pct_c": "%/°C",
+      "beta_vmp_pct_c": "%/°C",
+      "alpha_isc_pct_c": "%/°C",
+      "gamma_pmax_pct_c": "%/°C",
+      "max_system_voltage_v": "V DC",
+      "max_series_fuse_a": "A",
+      "reverse_current_withstand_a": "A"
+    },
+    "data_notes": [
+      "UNKNOWN beta_vmp_pct_c: not stated; automatic allocation blocked by SPEC-03. Gamma minus alpha is not substituted.",
+      "UNKNOWN reverse_current_withstand_a: maximum series fuse 20 A is a different rating.",
+      "STC: 1000 W/m², cell 25 °C, AM1.5; measuring tolerance ±3%. This edition has two distinct power-bin SKUs, not two manufacturers."
+    ],
+    "sources": [
+      {
+        "id": "trina-neg9r28-2023-a",
+        "label": "Trina Solar Vertex S+ NEG9R.28, TSM_EN_2023_A",
+        "url": "https://static.trinasolar.com/sites/default/files/NEG9R.28_EN.pdf",
+        "verification": "VERIFIED",
+        "reviewed_on": "2026-10-08",
+        "document_revision": "TSM_EN_2023_A",
+        "locator": "Page 2: STC, temperature and maximum ratings",
+        "sha256": "bb1712d2e3656097085c551b6437cda4071b7e38cd8ba0301bc5824070e8b7fd",
+        "notes": "Only transcribed fields checked against this edition; beta Vmp and reverse-current withstand are not stated. This does not certify compatibility."
+      }
+    ]
+  },
+  "inverter": {
+    "id": "sma-stp8-3av40",
+    "name": "SMA Sunny Tripower STP8.0-3AV-40",
+    "manufacturer": "SMA Solar Technology AG",
+    "model": "STP8.0-3AV-40",
+    "ac_power_w": 8000,
+    "ac_voltage_v": 400,
+    "phases": 3,
+    "max_dc_voltage_v": 1000,
+    "max_dc_power_w": 15000,
+    "requires_optimizer": false,
+    "mppts": [
+      {
+        "id": "A",
+        "min_voltage_v": 260,
+        "max_voltage_v": 800,
+        "max_current_a": 20,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": null,
+        "max_isc_per_input_a": null
+      },
+      {
+        "id": "B",
+        "min_voltage_v": 260,
+        "max_voltage_v": 800,
+        "max_current_a": 12,
+        "max_isc_a": 18,
+        "max_strings": 1,
+        "inputs": 1,
+        "max_current_per_input_a": null,
+        "max_isc_per_input_a": null
+      }
+    ],
+    "units": {
+      "ac_power_w": "W",
+      "ac_voltage_v": "V line-to-line",
+      "max_dc_voltage_v": "V DC",
+      "max_dc_power_w": "Wp",
+      "mppts.voltage": "V DC",
+      "mppts.current": "A",
+      "mppts.inputs": "physical input pairs"
+    },
+    "data_notes": [
+      "Normal independent A/B operation only: 2 strings at tracker A, 1 at B. Parallel tracker operation and Y adapters are not modelled.",
+      "UNKNOWN max_current_per_input_a and max_isc_per_input_a: manual states tracker totals but does not separately rate each physical connector in the reviewed sections. Do not divide tracker totals by two.",
+      "MPP range is the model-specific published range; 125 V minimum and 175 V start voltage are not its lower MPP bound.",
+      "400 V is the explicitly selected 230/400 V grid configuration, not a site default. Check the actual network."
+    ],
+    "sources": [
+      {
+        "id": "sma-stp8-10-technical",
+        "label": "SMA Sunny Tripower 8.0/10.0 operating manual, DC/AC technical data",
+        "url": "https://manuals.sma.de/STP8-10-3AV-40/en-US/4176094859.html",
+        "verification": "VERIFIED",
+        "reviewed_on": "2026-10-08",
+        "document_revision": "STP8-10-3AV-40 online manual, reviewed 2026-10-08",
+        "locator": "DC input and AC output tables",
+        "notes": "Only listed ratings transcribed. Connector current limits remain UNKNOWN."
+      },
+      {
+        "id": "sma-stp8-10-dc-connection",
+        "label": "SMA operating manual: Requirements for the DC Connection",
+        "url": "https://manuals.sma.de/STP8-10-3AV-40/en-US/391157771.html",
+        "verification": "VERIFIED",
+        "reviewed_on": "2026-10-08",
+        "document_revision": "STP8-10-3AV-40 online manual, reviewed 2026-10-08",
+        "locator": "Normal operation connection options and per-input requirements",
+        "notes": "Two strings on A and one on B. Same module type, orientation and series count within tracker."
+      }
+    ],
+    "max_backfeed_current_a": 0
+  },
+  "inverter_quantity": 1,
+  "planes": [
+    {
+      "id": "south",
+      "name": "South teaching site, not a surveyed installation",
+      "module_count": 24
+    }
+  ],
+  "site": {
+    "t_min_cell_c": -20,
+    "t_max_cell_c": 70,
+    "cos_phi": 0.95
+  },
+  "policy": {
+    "id": "teaching-explicit-v1",
+    "isc_factor": 1.25,
+    "dc_ac_band": [0.9, 1.5],
+    "dc_drop_max_pct": 1,
+    "ac_drop_max_pct": 1.5,
+    "breaker_ratings_a": [
+      6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125, 160, 200, 250
+    ],
+    "fuse_ratings_a": [6, 10, 12, 15, 16, 20, 25, 32, 40, 50],
+    "isolator_ratings_a": [16, 20, 25, 32, 40, 63, 80, 100, 125],
+    "fuse_min_factor": 1.5,
+    "fuse_max_factor": 2.4,
+    "sources": [
+      {
+        "id": "teaching-policy",
+        "label": "Explicit teaching policy; not a UA/CZ normative profile",
+        "verification": "UNVERIFIED"
+      }
+    ]
+  },
+  "cables": [],
+  "dc": {
+    "length_m": null,
+    "conductor_temp_c": null,
+    "derating_factor": null,
+    "derating_basis": null
+  },
+  "ac": {
+    "length_m": null,
+    "conductor_temp_c": null,
+    "derating_factor": null,
+    "derating_basis": null
+  },
+  "prospective_short_circuit_ka": null,
+  "breaker_icu_ka": null
+}

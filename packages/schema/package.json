@@ -1,0 +1,8 @@
+{
+  "name": "@openpv/schema",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "license": "MPL-2.0",
+  "exports": "./src/index.ts"
+}

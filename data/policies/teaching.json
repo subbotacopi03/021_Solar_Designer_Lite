@@ -1,0 +1,59 @@
+{
+  "id": "teaching-explicit-v1",
+  "isc_factor": 1.25,
+  "dc_ac_band": [
+    0.9,
+    1.5
+  ],
+  "dc_drop_max_pct": 1,
+  "ac_drop_max_pct": 1.5,
+  "breaker_ratings_a": [
+    6,
+    10,
+    16,
+    20,
+    25,
+    32,
+    40,
+    50,
+    63,
+    80,
+    100,
+    125,
+    160,
+    200,
+    250
+  ],
+  "fuse_ratings_a": [
+    6,
+    10,
+    12,
+    15,
+    16,
+    20,
+    25,
+    32,
+    40,
+    50
+  ],
+  "isolator_ratings_a": [
+    16,
+    20,
+    25,
+    32,
+    40,
+    63,
+    80,
+    100,
+    125
+  ],
+  "fuse_min_factor": 1.5,
+  "fuse_max_factor": 2.4,
+  "sources": [
+    {
+      "id": "teaching-policy",
+      "label": "Explicit teaching policy; not a UA/CZ normative profile",
+      "verification": "UNVERIFIED"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.vite/
+coverage/
+*.log
+.env*
+!.env.example
+
+_previous_workspace_*/
+_starter_extract_*/
+
+.qa/
+build/

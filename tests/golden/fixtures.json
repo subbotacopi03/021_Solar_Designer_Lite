@@ -1,0 +1,38 @@
+[
+  {
+    "id": "GT-STR-01",
+    "formula": "VOC",
+    "v": 40,
+    "beta": -0.25,
+    "t": -10,
+    "n": 20,
+    "expected": 870
+  },
+  {
+    "id": "GT-STR-06",
+    "formula": "VOC",
+    "v": 41.5,
+    "beta": -0.27,
+    "t": -18,
+    "n": 20,
+    "expected": 926.363
+  },
+  {
+    "id": "GT-STR-07-cold",
+    "formula": "VMP",
+    "v": 34.8,
+    "beta": -0.34,
+    "t": -18,
+    "n": 20,
+    "expected": 797.7552
+  },
+  {
+    "id": "GT-STR-07-hot",
+    "formula": "VMP",
+    "v": 34.8,
+    "beta": -0.34,
+    "t": 70,
+    "n": 20,
+    "expected": 589.512
+  }
+]

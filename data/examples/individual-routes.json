@@ -1,0 +1,316 @@
+{
+  "schema_version": "0.1.0",
+  "name": "Individual cable routes · teaching",
+  "module": {
+    "id": "demo-585",
+    "name": "Навчальний модуль 585 W",
+    "pmax_w": 585,
+    "voc_v": 50,
+    "vmp_v": 42,
+    "isc_a": 14,
+    "imp_a": 13.2,
+    "beta_voc_pct_c": -0.28,
+    "beta_vmp_pct_c": -0.3,
+    "alpha_isc_pct_c": 0.05,
+    "gamma_pmax_pct_c": -0.35,
+    "max_system_voltage_v": 1100,
+    "max_series_fuse_a": 25,
+    "sources": [
+      {
+        "id": "synthetic-demo",
+        "label": "Synthetic teaching example, not a manufacturer datasheet",
+        "verification": "SYNTHETIC"
+      }
+    ]
+  },
+  "inverter": {
+    "id": "demo-50k",
+    "name": "Навчальний інвертор 50 kW",
+    "ac_power_w": 50000,
+    "ac_voltage_v": 400,
+    "phases": 3,
+    "max_dc_voltage_v": 1100,
+    "max_dc_power_w": 75000,
+    "requires_optimizer": false,
+    "mppts": [
+      {
+        "id": "MPPT1",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT2",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT3",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT4",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT5",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT6",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT7",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT8",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT9",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT10",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      }
+    ],
+    "sources": [
+      {
+        "id": "synthetic-demo",
+        "label": "Synthetic teaching example, not a manufacturer datasheet",
+        "verification": "SYNTHETIC"
+      }
+    ],
+    "max_backfeed_current_a": 0
+  },
+  "inverter_quantity": 2,
+  "planes": [
+    {
+      "id": "south",
+      "name": "South",
+      "module_count": 20
+    }
+  ],
+  "site": {
+    "t_min_cell_c": -20,
+    "t_max_cell_c": 70,
+    "cos_phi": 0.95
+  },
+  "policy": {
+    "id": "teaching-explicit-v1",
+    "isc_factor": 1.25,
+    "dc_ac_band": null,
+    "dc_drop_max_pct": 3,
+    "ac_drop_max_pct": 1.5,
+    "breaker_ratings_a": [
+      6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125, 160, 200, 250
+    ],
+    "fuse_ratings_a": [6, 10, 12, 15, 16, 20, 25, 32, 40, 50],
+    "isolator_ratings_a": [16, 20, 25, 32, 40, 63, 80, 100, 125],
+    "fuse_min_factor": 1.5,
+    "fuse_max_factor": 2.4,
+    "sources": [
+      {
+        "id": "teaching-policy",
+        "label": "Explicit teaching policy; not a UA/CZ normative profile",
+        "verification": "UNVERIFIED"
+      }
+    ]
+  },
+  "cables": [
+    {
+      "id": "dc-demo-4",
+      "name": "DC synthetic Cu 4 mm²",
+      "circuit": "DC",
+      "material": "Cu",
+      "section_mm2": 4,
+      "r20_ohm_km": 4.61,
+      "alpha_per_c": 0.00393,
+      "x_ohm_km": null,
+      "max_voltage_v": 1500,
+      "max_conductor_temp_c": 90,
+      "iz_a": 44,
+      "installation_basis": "Synthetic test method; must replace with manufacturer values",
+      "sources": [
+        {
+          "id": "synthetic-demo",
+          "label": "Synthetic teaching example, not a manufacturer datasheet",
+          "verification": "SYNTHETIC"
+        }
+      ]
+    },
+    {
+      "id": "ac-demo-50",
+      "name": "AC synthetic Cu 50 mm²",
+      "circuit": "AC",
+      "material": "Cu",
+      "section_mm2": 50,
+      "r20_ohm_km": 0.387,
+      "alpha_per_c": 0.00393,
+      "x_ohm_km": 0.08,
+      "max_voltage_v": 1000,
+      "max_conductor_temp_c": 70,
+      "iz_a": 168,
+      "installation_basis": "Synthetic test method; must replace with manufacturer values",
+      "sources": [
+        {
+          "id": "synthetic-demo",
+          "label": "Synthetic teaching example, not a manufacturer datasheet",
+          "verification": "SYNTHETIC"
+        }
+      ]
+    }
+  ],
+  "dc": {
+    "length_m": 30,
+    "conductor_temp_c": 70,
+    "derating_factor": 0.8,
+    "derating_basis": "Explicit teaching assumption"
+  },
+  "ac": {
+    "length_m": 80,
+    "conductor_temp_c": 70,
+    "derating_factor": 0.87,
+    "derating_basis": "Explicit teaching assumption"
+  },
+  "prospective_short_circuit_ka": 6,
+  "breaker_icu_ka": 10,
+  "manual_strings": [
+    {
+      "id": "s1",
+      "inverter": 1,
+      "mppt_id": "MPPT1",
+      "plane_id": "south",
+      "modules": 10
+    },
+    {
+      "id": "s2",
+      "inverter": 2,
+      "mppt_id": "MPPT1",
+      "plane_id": "south",
+      "modules": 10
+    }
+  ],
+  "dc_routes": [
+    {
+      "target": {
+        "id": "s1",
+        "inverter": 1,
+        "mppt_id": "MPPT1",
+        "plane_id": "south",
+        "modules": 10
+      },
+      "circuit": {
+        "length_m": 10,
+        "conductor_temp_c": 70,
+        "derating_factor": 0.8,
+        "derating_basis": "Explicit teaching assumption"
+      }
+    },
+    {
+      "target": {
+        "id": "s2",
+        "inverter": 2,
+        "mppt_id": "MPPT1",
+        "plane_id": "south",
+        "modules": 10
+      },
+      "circuit": {
+        "length_m": 30,
+        "conductor_temp_c": 70,
+        "derating_factor": 0.8,
+        "derating_basis": "Explicit teaching assumption"
+      }
+    }
+  ],
+  "ac_routes": [
+    {
+      "inverter": 1,
+      "circuit": {
+        "length_m": 20,
+        "conductor_temp_c": 70,
+        "derating_factor": 0.87,
+        "derating_basis": "Explicit teaching assumption"
+      }
+    },
+    {
+      "inverter": 2,
+      "circuit": {
+        "length_m": 80,
+        "conductor_temp_c": 70,
+        "derating_factor": 0.87,
+        "derating_basis": "Explicit teaching assumption"
+      }
+    }
+  ]
+}

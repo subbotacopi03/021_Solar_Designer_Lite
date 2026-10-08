@@ -1,0 +1,154 @@
+[
+  {
+    "id": "sma-stp8-3av40",
+    "name": "SMA Sunny Tripower STP8.0-3AV-40",
+    "manufacturer": "SMA Solar Technology AG",
+    "model": "STP8.0-3AV-40",
+    "ac_power_w": 8000,
+    "ac_voltage_v": 400,
+    "phases": 3,
+    "max_dc_voltage_v": 1000,
+    "max_dc_power_w": 15000,
+    "requires_optimizer": false,
+    "mppts": [
+      {
+        "id": "A",
+        "min_voltage_v": 260,
+        "max_voltage_v": 800,
+        "max_current_a": 20,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": null,
+        "max_isc_per_input_a": null
+      },
+      {
+        "id": "B",
+        "min_voltage_v": 260,
+        "max_voltage_v": 800,
+        "max_current_a": 12,
+        "max_isc_a": 18,
+        "max_strings": 1,
+        "inputs": 1,
+        "max_current_per_input_a": null,
+        "max_isc_per_input_a": null
+      }
+    ],
+    "units": {
+      "ac_power_w": "W",
+      "ac_voltage_v": "V line-to-line",
+      "max_dc_voltage_v": "V DC",
+      "max_dc_power_w": "Wp",
+      "mppts.voltage": "V DC",
+      "mppts.current": "A",
+      "mppts.inputs": "physical input pairs",
+      "max_backfeed_current_a": "A"
+    },
+    "data_notes": [
+      "Normal independent A/B operation only: 2 strings at tracker A, 1 at B. Parallel tracker operation and Y adapters are not modelled.",
+      "UNKNOWN max_current_per_input_a and max_isc_per_input_a: manual states tracker totals but does not separately rate each physical connector in the reviewed sections. Do not divide tracker totals by two.",
+      "MPP range is the model-specific published range; 125 V minimum and 175 V start voltage are not its lower MPP bound.",
+      "400 V is the explicitly selected 230/400 V grid configuration, not a site default. Check the actual network.",
+      "Maximum reverse current into PV array is explicitly0 A in the reviewed SMA technical data. No connector apportionment assumed."
+    ],
+    "sources": [
+      {
+        "id": "sma-stp8-10-technical",
+        "label": "SMA Sunny Tripower 8.0/10.0 operating manual, DC/AC technical data",
+        "url": "https://manuals.sma.de/STP8-10-3AV-40/en-US/4176094859.html",
+        "verification": "VERIFIED",
+        "reviewed_on": "2026-10-08",
+        "document_revision": "STP8-10-3AV-40 online manual, reviewed 2026-10-08",
+        "locator": "DC input and AC output tables",
+        "notes": "Only listed ratings transcribed. Connector current limits remain UNKNOWN."
+      },
+      {
+        "id": "sma-stp8-10-dc-connection",
+        "label": "SMA operating manual: Requirements for the DC Connection",
+        "url": "https://manuals.sma.de/STP8-10-3AV-40/en-US/391157771.html",
+        "verification": "VERIFIED",
+        "reviewed_on": "2026-10-08",
+        "document_revision": "STP8-10-3AV-40 online manual, reviewed 2026-10-08",
+        "locator": "Normal operation connection options and per-input requirements",
+        "notes": "Two strings on A and one on B. Same module type, orientation and series count within tracker."
+      }
+    ],
+    "max_backfeed_current_a": 0
+  },
+  {
+    "id": "sma-stp10-3av40",
+    "name": "SMA Sunny Tripower STP10.0-3AV-40",
+    "manufacturer": "SMA Solar Technology AG",
+    "model": "STP10.0-3AV-40",
+    "ac_power_w": 10000,
+    "ac_voltage_v": 400,
+    "phases": 3,
+    "max_dc_voltage_v": 1000,
+    "max_dc_power_w": 15000,
+    "requires_optimizer": false,
+    "mppts": [
+      {
+        "id": "A",
+        "min_voltage_v": 320,
+        "max_voltage_v": 800,
+        "max_current_a": 20,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": null,
+        "max_isc_per_input_a": null
+      },
+      {
+        "id": "B",
+        "min_voltage_v": 320,
+        "max_voltage_v": 800,
+        "max_current_a": 12,
+        "max_isc_a": 18,
+        "max_strings": 1,
+        "inputs": 1,
+        "max_current_per_input_a": null,
+        "max_isc_per_input_a": null
+      }
+    ],
+    "units": {
+      "ac_power_w": "W",
+      "ac_voltage_v": "V line-to-line",
+      "max_dc_voltage_v": "V DC",
+      "max_dc_power_w": "Wp",
+      "mppts.voltage": "V DC",
+      "mppts.current": "A",
+      "mppts.inputs": "physical input pairs",
+      "max_backfeed_current_a": "A"
+    },
+    "data_notes": [
+      "Normal independent A/B operation only: 2 strings at tracker A, 1 at B. Parallel tracker operation and Y adapters are not modelled.",
+      "UNKNOWN max_current_per_input_a and max_isc_per_input_a: manual states tracker totals but does not separately rate each physical connector in the reviewed sections. Do not divide tracker totals by two.",
+      "MPP range is the model-specific published range; 125 V minimum and 175 V start voltage are not its lower MPP bound.",
+      "400 V is the explicitly selected 230/400 V grid configuration, not a site default. Check the actual network.",
+      "Maximum reverse current into PV array is explicitly0 A in the reviewed SMA technical data. No connector apportionment assumed."
+    ],
+    "sources": [
+      {
+        "id": "sma-stp8-10-technical",
+        "label": "SMA Sunny Tripower 8.0/10.0 operating manual, DC/AC technical data",
+        "url": "https://manuals.sma.de/STP8-10-3AV-40/en-US/4176094859.html",
+        "verification": "VERIFIED",
+        "reviewed_on": "2026-10-08",
+        "document_revision": "STP8-10-3AV-40 online manual, reviewed 2026-10-08",
+        "locator": "DC input and AC output tables",
+        "notes": "Only listed ratings transcribed. Connector current limits remain UNKNOWN."
+      },
+      {
+        "id": "sma-stp8-10-dc-connection",
+        "label": "SMA operating manual: Requirements for the DC Connection",
+        "url": "https://manuals.sma.de/STP8-10-3AV-40/en-US/391157771.html",
+        "verification": "VERIFIED",
+        "reviewed_on": "2026-10-08",
+        "document_revision": "STP8-10-3AV-40 online manual, reviewed 2026-10-08",
+        "locator": "Normal operation connection options and per-input requirements",
+        "notes": "Two strings on A and one on B. Same module type, orientation and series count within tracker."
+      }
+    ],
+    "max_backfeed_current_a": 0
+  }
+]

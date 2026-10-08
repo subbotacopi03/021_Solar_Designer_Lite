@@ -1,0 +1,49 @@
+{
+  "name": "openpv",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MPL-2.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@11.25.0",
+  "scripts": {
+    "dev": "pnpm legal:generate && vite apps/designer-lite --host 127.0.0.1",
+    "build": "pnpm legal:generate && tsc -p tsconfig.build.json && vite build apps/designer-lite && pnpm standalone",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check": "pnpm legal:check && pnpm typecheck && pnpm test && pnpm manifest:check && pnpm build && pnpm schema:export && pnpm test:cli",
+    "cli": "node build/packages/cli/src/index.js",
+    "manifest:update": "node scripts/formula-manifest.mjs --update",
+    "manifest:check": "node scripts/formula-manifest.mjs",
+    "serve": "vite preview apps/designer-lite --host 127.0.0.1",
+    "schema:export": "node scripts/export-schema.mjs",
+    "test:cli": "node scripts/cli-smoke.mjs",
+    "test:browser": "node scripts/browser-smoke.mjs",
+    "standalone": "node scripts/standalone.mjs",
+    "legal:generate": "node scripts/legal-notices.mjs",
+    "legal:check": "node scripts/legal-notices.mjs --check",
+    "test:attribution:browser": "node scripts/attribution-browser-smoke.mjs",
+    "test:manual:browser": "node scripts/manual-plan-browser-smoke.mjs",
+    "test:safety:browser": "node scripts/project-safety-browser-smoke.mjs",
+    "test:adversarial:browser": "node scripts/adversarial-browser-smoke.mjs",
+    "test:missing:browser": "node scripts/missing-data-browser-smoke.mjs",
+    "review:pack": "pnpm build && node scripts/review-pack.mjs",
+    "review:verify": "node scripts/review-pack.mjs --verify",
+    "test:review-pack": "node scripts/review-pack-smoke.mjs",
+    "public:export": "node scripts/public-export.mjs"
+  },
+  "dependencies": {
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@sparticuz/chromium": "^153.0.0",
+    "@types/node": "^24.0.0",
+    "playwright": "1.62.1",
+    "prettier": "^3.9.9",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.0",
+    "vitest": "^4.0.0"
+  }
+}

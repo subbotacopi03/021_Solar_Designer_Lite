@@ -1,0 +1,49 @@
+[
+  {
+    "id": "abb-otdc32f2",
+    "name": "ABB OTDC32F2 /1SCA121456R1001",
+    "manufacturer": "ABB",
+    "model": "OTDC32F2 (1SCA121456R1001)",
+    "insulation_voltage_v": 1250,
+    "thermal_current_a": 45,
+    "profiles": [
+      {
+        "id": "dc21b-1000-2p",
+        "operational_voltage_v": 1000,
+        "operational_current_a": 20,
+        "utilization_category": "DC-21B",
+        "poles": 2,
+        "circuits": 1,
+        "wiring_diagrams": ["2a", "2b"]
+      }
+    ],
+    "units": {
+      "operational_voltage_v": "V DC",
+      "operational_current_a": "A",
+      "insulation_voltage_v": "V",
+      "thermal_current_a": "A",
+      "poles": "poles",
+      "circuits": "circuits"
+    },
+    "data_notes": [
+      "1000V profile: Ie20A DC-21B,2poles/1circuit, diagrams2a/2b. Model32 and Ith45 are not Ie at1000V.",
+      "Ui1250V applies at pollutiondegree2 with external handle; pollutiondegree3 Ui1000V. Direct handle requires installation instruction.",
+      "Ith45A open/40°C enclosure with10mm² Cu; at60°C enclosure Ith32A. Actual installation/terminals/thermal derating not evaluated.",
+      "UNKNOWN installation/category requirement, physical wiring, reverse-current switching and fault coordination. Do not infer DC-PV2 from the OTDC family name.",
+      "Catalogue publishes Icw0.8kA/1s at1000V; fault-specific withstand is not evaluated here."
+    ],
+    "sources": [
+      {
+        "id": "abb-otdc-23-08",
+        "label": "ABB Switch-disconnectors OTDC,1SCC301022C0201 Rev23-08",
+        "url": "https://library.e.abb.com/public/579fddc18eb04ee49c7f8755470aafbd/Switch-disconnectors%20OTDC_1SCC301022C0201_23-08.pdf",
+        "verification": "VERIFIED",
+        "reviewed_on": "2026-10-08",
+        "document_revision": "1SCC301022C0201 Rev23-08",
+        "locator": "PDF p22 technical OTDC32F column1000V/2P; p24 exact order code; p27 circuits2a/2b",
+        "sha256": "f96d19251871a22ba99308ea9bcddcce36dd293a12b8dd404660d0e170cd3b70",
+        "notes": "Transcribed nominal fields only; DC-21B does not establish DC-PV2 suitability. Technical660V and ordering600V entries not combined; only1000V profile imported."
+      }
+    ]
+  }
+]

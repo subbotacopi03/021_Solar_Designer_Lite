@@ -1,0 +1,233 @@
+[
+  {
+    "id": "dc-demo-4",
+    "name": "DC synthetic Cu 4 mm²",
+    "circuit": "DC",
+    "material": "Cu",
+    "section_mm2": 4,
+    "r20_ohm_km": 4.61,
+    "alpha_per_c": 0.00393,
+    "x_ohm_km": null,
+    "max_voltage_v": 1500,
+    "max_conductor_temp_c": 90,
+    "iz_a": 44,
+    "installation_basis": "Synthetic test method; must replace with manufacturer values",
+    "sources": [
+      {
+        "id": "synthetic-demo",
+        "label": "Synthetic teaching example, not a manufacturer datasheet",
+        "verification": "SYNTHETIC"
+      }
+    ]
+  },
+  {
+    "id": "dc-demo-6",
+    "name": "DC synthetic Cu 6 mm²",
+    "circuit": "DC",
+    "material": "Cu",
+    "section_mm2": 6,
+    "r20_ohm_km": 3.39,
+    "alpha_per_c": 0.00393,
+    "x_ohm_km": null,
+    "max_voltage_v": 1500,
+    "max_conductor_temp_c": 90,
+    "iz_a": 57,
+    "installation_basis": "Synthetic test method; must replace with manufacturer values",
+    "sources": [
+      {
+        "id": "synthetic-demo",
+        "label": "Synthetic teaching example, not a manufacturer datasheet",
+        "verification": "SYNTHETIC"
+      }
+    ]
+  },
+  {
+    "id": "dc-demo-10",
+    "name": "DC synthetic Cu 10 mm²",
+    "circuit": "DC",
+    "material": "Cu",
+    "section_mm2": 10,
+    "r20_ohm_km": 1.95,
+    "alpha_per_c": 0.00393,
+    "x_ohm_km": null,
+    "max_voltage_v": 1500,
+    "max_conductor_temp_c": 90,
+    "iz_a": 79,
+    "installation_basis": "Synthetic test method; must replace with manufacturer values",
+    "sources": [
+      {
+        "id": "synthetic-demo",
+        "label": "Synthetic teaching example, not a manufacturer datasheet",
+        "verification": "SYNTHETIC"
+      }
+    ]
+  },
+  {
+    "id": "ac-demo-6",
+    "name": "AC synthetic Cu 6 mm²",
+    "circuit": "AC",
+    "material": "Cu",
+    "section_mm2": 6,
+    "r20_ohm_km": 3.08,
+    "alpha_per_c": 0.00393,
+    "x_ohm_km": 0.08,
+    "max_voltage_v": 1000,
+    "max_conductor_temp_c": 70,
+    "iz_a": 46,
+    "installation_basis": "Synthetic test method; must replace with manufacturer values",
+    "sources": [
+      {
+        "id": "synthetic-demo",
+        "label": "Synthetic teaching example, not a manufacturer datasheet",
+        "verification": "SYNTHETIC"
+      }
+    ]
+  },
+  {
+    "id": "ac-demo-10",
+    "name": "AC synthetic Cu 10 mm²",
+    "circuit": "AC",
+    "material": "Cu",
+    "section_mm2": 10,
+    "r20_ohm_km": 1.83,
+    "alpha_per_c": 0.00393,
+    "x_ohm_km": 0.08,
+    "max_voltage_v": 1000,
+    "max_conductor_temp_c": 70,
+    "iz_a": 63,
+    "installation_basis": "Synthetic test method; must replace with manufacturer values",
+    "sources": [
+      {
+        "id": "synthetic-demo",
+        "label": "Synthetic teaching example, not a manufacturer datasheet",
+        "verification": "SYNTHETIC"
+      }
+    ]
+  },
+  {
+    "id": "ac-demo-16",
+    "name": "AC synthetic Cu 16 mm²",
+    "circuit": "AC",
+    "material": "Cu",
+    "section_mm2": 16,
+    "r20_ohm_km": 1.15,
+    "alpha_per_c": 0.00393,
+    "x_ohm_km": 0.08,
+    "max_voltage_v": 1000,
+    "max_conductor_temp_c": 70,
+    "iz_a": 85,
+    "installation_basis": "Synthetic test method; must replace with manufacturer values",
+    "sources": [
+      {
+        "id": "synthetic-demo",
+        "label": "Synthetic teaching example, not a manufacturer datasheet",
+        "verification": "SYNTHETIC"
+      }
+    ]
+  },
+  {
+    "id": "ac-demo-25",
+    "name": "AC synthetic Cu 25 mm²",
+    "circuit": "AC",
+    "material": "Cu",
+    "section_mm2": 25,
+    "r20_ohm_km": 0.727,
+    "alpha_per_c": 0.00393,
+    "x_ohm_km": 0.08,
+    "max_voltage_v": 1000,
+    "max_conductor_temp_c": 70,
+    "iz_a": 112,
+    "installation_basis": "Synthetic test method; must replace with manufacturer values",
+    "sources": [
+      {
+        "id": "synthetic-demo",
+        "label": "Synthetic teaching example, not a manufacturer datasheet",
+        "verification": "SYNTHETIC"
+      }
+    ]
+  },
+  {
+    "id": "ac-demo-35",
+    "name": "AC synthetic Cu 35 mm²",
+    "circuit": "AC",
+    "material": "Cu",
+    "section_mm2": 35,
+    "r20_ohm_km": 0.524,
+    "alpha_per_c": 0.00393,
+    "x_ohm_km": 0.08,
+    "max_voltage_v": 1000,
+    "max_conductor_temp_c": 70,
+    "iz_a": 138,
+    "installation_basis": "Synthetic test method; must replace with manufacturer values",
+    "sources": [
+      {
+        "id": "synthetic-demo",
+        "label": "Synthetic teaching example, not a manufacturer datasheet",
+        "verification": "SYNTHETIC"
+      }
+    ]
+  },
+  {
+    "id": "ac-demo-50",
+    "name": "AC synthetic Cu 50 mm²",
+    "circuit": "AC",
+    "material": "Cu",
+    "section_mm2": 50,
+    "r20_ohm_km": 0.387,
+    "alpha_per_c": 0.00393,
+    "x_ohm_km": 0.08,
+    "max_voltage_v": 1000,
+    "max_conductor_temp_c": 70,
+    "iz_a": 168,
+    "installation_basis": "Synthetic test method; must replace with manufacturer values",
+    "sources": [
+      {
+        "id": "synthetic-demo",
+        "label": "Synthetic teaching example, not a manufacturer datasheet",
+        "verification": "SYNTHETIC"
+      }
+    ]
+  },
+  {
+    "id": "ac-demo-70",
+    "name": "AC synthetic Cu 70 mm²",
+    "circuit": "AC",
+    "material": "Cu",
+    "section_mm2": 70,
+    "r20_ohm_km": 0.268,
+    "alpha_per_c": 0.00393,
+    "x_ohm_km": 0.08,
+    "max_voltage_v": 1000,
+    "max_conductor_temp_c": 70,
+    "iz_a": 213,
+    "installation_basis": "Synthetic test method; must replace with manufacturer values",
+    "sources": [
+      {
+        "id": "synthetic-demo",
+        "label": "Synthetic teaching example, not a manufacturer datasheet",
+        "verification": "SYNTHETIC"
+      }
+    ]
+  },
+  {
+    "id": "dc-demo-16",
+    "name": "DC synthetic Cu 16 mm²",
+    "circuit": "DC",
+    "material": "Cu",
+    "section_mm2": 16,
+    "r20_ohm_km": 1.24,
+    "alpha_per_c": 0.00393,
+    "x_ohm_km": null,
+    "max_voltage_v": 1500,
+    "max_conductor_temp_c": 90,
+    "iz_a": 105,
+    "installation_basis": "Synthetic test method; must replace with manufacturer values",
+    "sources": [
+      {
+        "id": "synthetic-demo",
+        "label": "Synthetic teaching example, not a manufacturer datasheet",
+        "verification": "SYNTHETIC"
+      }
+    ]
+  }
+]
