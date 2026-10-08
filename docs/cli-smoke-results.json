@@ -1,5 +1,5 @@
 {
-  "passed": 24,
+  "passed": 28,
   "checks": [
     "validate: exit 0",
     "calculate: UNKNOWN exit 3, JSON result 120 modules",
@@ -23,6 +23,10 @@
     "individual routes: DC2×(10+30)=80m; AC20+80=100m; UNKNOWN exit3",
     "individual routes: uk report retains actual conditions/origins",
     "individual routes: en report retains actual conditions/origins",
+    "real manual case: valid schema exit0",
+    "real manual case: 24/24, known cold Voc PASS; missing beta Vmp UNKNOWN exit3",
+    "real manual case: uk report with equipment/software provenance",
+    "real manual case: en report with equipment/software provenance",
     "invalid JSON: exit 2",
     "electrical failure: exit 1"
   ]

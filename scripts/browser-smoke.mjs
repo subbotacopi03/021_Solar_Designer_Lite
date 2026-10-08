@@ -45,6 +45,8 @@ await page.locator('nav [data-tab="equipment"]').click();
 await page.locator('[data-path="module.beta_voc_pct_c"]').fill("0.28");
 await page.locator('[data-path="module.beta_voc_pct_c"]').press("Tab");
 assert.ok(await page.locator(".toast").count());
+assert.ok((await page.locator(".toast").innerText()).includes("βVoc (%/°C)"));
+assert.ok(!(await page.locator(".toast").innerText()).includes('"code"'));
 assert.equal(
   await page.locator('[data-path="module.beta_voc_pct_c"]').inputValue(),
   "-0.28",
@@ -70,6 +72,7 @@ assert.equal(
   "Розміщено модулів\n0 / 120",
 );
 checks.push("Autosave restored and recalculated");
+page.once("dialog", (dialog) => dialog.accept());
 await page.locator("#reset").click();
 await page.locator("#lang").click();
 assert.ok((await page.locator("h1").innerText()).includes("PV electrical"));
@@ -100,6 +103,12 @@ const download = await dlPromise;
 assert.equal(download.suggestedFilename(), "openpv-report.md");
 checks.push("Engineering report download");
 await page.emulateMedia({ media: "print" });
+assert.equal(
+  await page.evaluate(
+    () => getComputedStyle(document.documentElement).backgroundColor,
+  ),
+  "rgb(255, 255, 255)",
+);
 await page.pdf({
   path: "docs/example-report.pdf",
   format: "A4",

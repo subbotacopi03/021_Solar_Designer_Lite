@@ -1,3 +1,4 @@
+import { reportText, reportLine } from "./markdown-text.js";
 import { ProjectSchema, } from "../../schema/src/index.js";
 import { generateStringPlan, validateStringPlan, stringLengthRange, } from "./strings.js";
 import { calculateAcCurrent } from "./fundamentals.js";
@@ -292,14 +293,14 @@ function cableCandidateAudit(result, uk) {
         })),
     ];
     return [
-        `\n## ${uk ? "Аудит кабельних кандидатів" : "Cable candidate audit"}`,
+        reportLine `\n## ${uk ? "Аудит кабельних кандидатів" : "Cable candidate audit"}`,
         ...lines.flatMap(({ label, line }) => [
-            `### ${label} · ${line.input_origin} · selected=${line.cable.selected?.cable.id ?? "UNKNOWN"}`,
+            reportLine `### ${label} · ${line.input_origin} · selected=${line.cable.selected?.cable.id ?? "UNKNOWN"}`,
             ...line.cable.candidates.flatMap((candidate) => [
-                `- ${candidate.cable.id} · ${candidate.cable.section_mm2} mm² · ${candidate.status}; R(T)=${candidate.r_ohm_km ?? "UNKNOWN"} Ω/km; Iz×k=${candidate.iz_derated_a ?? "UNKNOWN"} A; ΔU=${candidate.drop_v ?? "UNKNOWN"} V / ${candidate.drop_pct ?? "UNKNOWN"}%`,
+                reportLine `- ${candidate.cable.id} · ${candidate.cable.section_mm2} mm² · ${candidate.status}; R(T)=${candidate.r_ohm_km ?? "UNKNOWN"} Ω/km; Iz×k=${candidate.iz_derated_a ?? "UNKNOWN"} A; ΔU=${candidate.drop_v ?? "UNKNOWN"} V / ${candidate.drop_pct ?? "UNKNOWN"}%`,
                 ...candidate.checks
                     .filter((c) => c.status !== "PASS")
-                    .map((c) => `  ${c.status} · ${c.id}: ${c.demand ?? "UNKNOWN"} / ${c.capacity ?? "UNKNOWN"} ${c.unit}; ${c.basis}; missing=${c.missing.join(",") || "—"}; sources=${c.source_ids.join(",") || "UNKNOWN"}`),
+                    .map((c) => reportLine `  ${c.status} · ${c.id}: ${c.demand ?? "UNKNOWN"} / ${c.capacity ?? "UNKNOWN"} ${c.unit}; ${c.basis}; missing=${c.missing.join(",") || "—"}; sources=${c.source_ids.join(",") || "UNKNOWN"}`),
             ]),
             ...(line.cable.candidates.length
                 ? []
@@ -307,76 +308,78 @@ function cableCandidateAudit(result, uk) {
         ]),
     ];
 }
-export function projectReport(p, result, language = "uk") {
+import { softwareCredit } from "./software-credit.js";
+export function projectReport(p, result, language = "uk", attribution) {
     const uk = language === "uk";
     return [
-        `# ${p.name}`,
-        `${uk ? "Попередній електричний розрахунок" : "Preliminary electrical calculation"} · OpenPV ${ENGINE_VERSION}`,
-        `Status: ${result.status}`,
-        `Modules: ${result.installed_modules}/${result.requested_modules}`,
-        `DC: ${(result.dc_power_w / 1000).toFixed(3)} kWp · AC: ${(result.ac_power_w / 1000).toFixed(3)} kW · DC/AC: ${result.dc_ac_ratio.toFixed(4)}`,
-        `Tmin cell: ${p.site.t_min_cell_c ?? "UNKNOWN"} °C · Tmax cell: ${p.site.t_max_cell_c ?? "UNKNOWN"} °C`,
-        `\n## ${uk ? "Обладнання та джерела" : "Equipment and sources"}`,
+        reportLine `# ${p.name}`,
+        reportLine `${uk ? "Попередній електричний розрахунок" : "Preliminary electrical calculation"} · OpenPV ${ENGINE_VERSION}`,
+        reportLine `Status: ${result.status}`,
+        ...(attribution ? softwareCredit(attribution, language) : []),
+        reportLine `Modules: ${result.installed_modules}/${result.requested_modules}`,
+        reportLine `DC: ${(result.dc_power_w / 1000).toFixed(3)} kWp · AC: ${(result.ac_power_w / 1000).toFixed(3)} kW · DC/AC: ${result.dc_ac_ratio.toFixed(4)}`,
+        reportLine `Tmin cell: ${p.site.t_min_cell_c ?? "UNKNOWN"} °C · Tmax cell: ${p.site.t_max_cell_c ?? "UNKNOWN"} °C`,
+        reportLine `\n## ${uk ? "Обладнання та джерела" : "Equipment and sources"}`,
         ...[p.module, p.inverter].flatMap((equipment) => [
-            `### ${equipment.manufacturer ?? "USER INPUT / SYNTHETIC"} · ${equipment.model ?? equipment.name}`,
+            reportLine `### ${equipment.manufacturer ?? "USER INPUT / SYNTHETIC"} · ${equipment.model ?? equipment.name}`,
             ...Object.entries(equipment)
                 .filter(([key, value]) => typeof value === "number" || value === null)
-                .map(([key, value]) => `${key}: ${value ?? "UNKNOWN"} ${equipment.units?.[key] ?? ""}`),
+                .map(([key, value]) => reportLine `${key}: ${value ?? "UNKNOWN"} ${equipment.units?.[key] ?? ""}`),
             ...("mppts" in equipment
                 ? equipment.mppts.flatMap((mppt) => [
-                    `MPPT ${mppt.id}: ${mppt.min_voltage_v}–${mppt.max_voltage_v} V; Imp ${mppt.max_current_a ?? "UNKNOWN"} A; Isc ${mppt.max_isc_a ?? "UNKNOWN"} A; physical inputs ${mppt.inputs ?? "UNKNOWN"}`,
-                    `max_current_per_input_a: ${mppt.max_current_per_input_a ?? "UNKNOWN"} A; max_isc_per_input_a: ${mppt.max_isc_per_input_a ?? "UNKNOWN"} A`,
+                    reportLine `MPPT ${mppt.id}: ${mppt.min_voltage_v}–${mppt.max_voltage_v} V; Imp ${mppt.max_current_a ?? "UNKNOWN"} A; Isc ${mppt.max_isc_a ?? "UNKNOWN"} A; physical inputs ${mppt.inputs ?? "UNKNOWN"}`,
+                    reportLine `max_current_per_input_a: ${mppt.max_current_per_input_a ?? "UNKNOWN"} A; max_isc_per_input_a: ${mppt.max_isc_per_input_a ?? "UNKNOWN"} A`,
                 ])
                 : []),
-            ...(equipment.data_notes ?? []).map((note) => `- ${note}`),
-            ...equipment.sources.map((source) => `- ${source.verification} · ${source.label} · ${source.url ?? "UNKNOWN URL"} · ${source.reviewed_on ?? "UNKNOWN DATE"} · ${source.document_revision ?? "UNKNOWN REVISION"} · ${source.locator ?? ""} · ${source.notes ?? ""}`),
+            ...(equipment.data_notes ?? []).map((note) => reportLine `- ${note}`),
+            ...equipment.sources.map((source) => reportLine `- ${source.verification} · ${source.label} · ${source.url ?? "UNKNOWN URL"} · ${source.reviewed_on ?? "UNKNOWN DATE"} · ${source.document_revision ?? "UNKNOWN REVISION"} · ${source.locator ?? ""} · ${source.notes ?? ""}`),
         ]),
         ...(p.dc_switch_device
             ? [
-                `\n## ${uk ? "Кандидат DC-роз’єднувача" : "DC switch-disconnector candidate"}`,
-                JSON.stringify(p.dc_switch_device),
-                JSON.stringify(p.dc_switch_context ?? "UNKNOWN context"),
+                reportLine `\n## ${uk ? "Кандидат DC-роз’єднувача" : "DC switch-disconnector candidate"}`,
+                reportText(JSON.stringify(p.dc_switch_device)),
+                reportText(JSON.stringify(p.dc_switch_context ?? "UNKNOWN context")),
             ]
             : []),
         ...(p.spd_device
             ? [
-                `\n## ${uk ? "Кандидат SPD" : "SPD candidate"}`,
-                JSON.stringify(p.spd_device),
-                JSON.stringify(p.spd_context ?? "UNKNOWN context"),
+                reportLine `\n## ${uk ? "Кандидат SPD" : "SPD candidate"}`,
+                reportText(JSON.stringify(p.spd_device)),
+                reportText(JSON.stringify(p.spd_context ?? "UNKNOWN context")),
             ]
             : []),
         ...(p.string_fuse_device
             ? [
-                `\n## ${uk ? "Кандидат запобіжника" : "Fuse candidate"}`,
-                JSON.stringify(p.string_fuse_device),
+                reportLine `\n## ${uk ? "Кандидат запобіжника" : "Fuse candidate"}`,
+                reportText(JSON.stringify(p.string_fuse_device)),
             ]
             : []),
-        `\n## ${uk ? "Кабельні дані та derating" : "Cable data and derating"}`,
+        reportLine `\n## ${uk ? "Кабельні дані та derating" : "Cable data and derating"}`,
         ...p.cables.flatMap((cable) => [
-            `${cable.manufacturer ?? "SYNTHETIC / USER INPUT"} ${cable.model ?? cable.name}; R20=${cable.r20_ohm_km ?? "UNKNOWN"} Ω/km; α=${cable.alpha_per_c ?? "UNKNOWN"} 1/°C; X=${cable.x_ohm_km ?? "UNKNOWN"} Ω/km; Iz=${cable.iz_a ?? "UNKNOWN"} A`,
-            cable.installation_basis,
-            `Ampacity reference: ${JSON.stringify(cable.ampacity_reference ?? "UNKNOWN")}`,
-            ...(cable.data_notes ?? []),
-            ...cable.sources.map((source) => `${source.verification} · ${source.url ?? source.label} · ${source.reviewed_on ?? "UNKNOWN DATE"}`),
+            reportLine `${cable.manufacturer ?? "SYNTHETIC / USER INPUT"} ${cable.model ?? cable.name}; R20=${cable.r20_ohm_km ?? "UNKNOWN"} Ω/km; α=${cable.alpha_per_c ?? "UNKNOWN"} 1/°C; X=${cable.x_ohm_km ?? "UNKNOWN"} Ω/km; Iz=${cable.iz_a ?? "UNKNOWN"} A`,
+            reportText(cable.installation_basis),
+            reportLine `Ampacity reference: ${JSON.stringify(cable.ampacity_reference ?? "UNKNOWN")}`,
+            ...(cable.data_notes ?? []).map(reportText),
+            ...cable.sources.map((source) => reportLine `${source.verification} · ${source.url ?? source.label} · ${source.reviewed_on ?? "UNKNOWN DATE"}`),
         ]),
-        ...["dc", "ac"].map((side) => `${side.toUpperCase()}: ${JSON.stringify(p[side])}`),
-        `\n## ${uk ? "Кабельні траси" : "Cable routes"}`,
-        ...result.dc_lines.map((line) => `DC ${line.string_id} · ${line.input_origin} · ${JSON.stringify(line.circuit_input)}`),
-        ...result.ac_lines.map((line) => `AC INV${line.inverter} · ${line.input_origin} · ${JSON.stringify(line.circuit_input)} · cable=${line.cable.selected?.cable.id ?? "UNKNOWN"}`),
-        `Cable BOM omitted routes: ${result.cable_bom.omitted_routes}; unresolved DC layout: ${result.cable_bom.unresolved_dc_layout}`,
-        `Saved DC routes: ${JSON.stringify(p.dc_routes ?? [])}`,
-        `Saved AC routes: ${JSON.stringify(p.ac_routes ?? [])}`,
+        ...["dc", "ac"].map((side) => reportLine `${side.toUpperCase()}: ${JSON.stringify(p[side])}`),
+        reportLine `\n## ${uk ? "Кабельні траси" : "Cable routes"}`,
+        ...result.dc_lines.map((line) => reportLine `DC ${line.string_id} · ${line.input_origin} · ${JSON.stringify(line.circuit_input)}`),
+        ...result.ac_lines.map((line) => reportLine `AC INV${line.inverter} · ${line.input_origin} · ${JSON.stringify(line.circuit_input)} · cable=${line.cable.selected?.cable.id ?? "UNKNOWN"}`),
+        reportLine `Cable BOM omitted routes: ${result.cable_bom.omitted_routes}; unresolved DC layout: ${result.cable_bom.unresolved_dc_layout}`,
+        reportLine `Saved DC routes: ${JSON.stringify(p.dc_routes ?? [])}`,
+        reportLine `Saved AC routes: ${JSON.stringify(p.ac_routes ?? [])}`,
         ...cableCandidateAudit(result, uk),
-        `\n## ${uk ? "Стрінги" : "Strings"}`,
+        reportLine `\n## ${uk ? "Стрінги" : "Strings"}`,
         "| ID | Inverter | MPPT | Plane | Modules |",
         "|---|---:|---|---|---:|",
-        ...result.strings.map((s) => `| ${s.id} | ${s.inverter} | ${s.mppt_id} | ${s.plane_id} | ${s.modules} |`),
-        `\n## ${uk ? "Перевірки" : "Checks"}`,
-        ...result.checks.map((c) => `- ${c.status} · ${c.id}: ${c.demand ?? "?"} / ${c.capacity ?? "?"} ${c.unit} — ${c.basis}${c.missing.length ? " · missing: " + c.missing.join(", ") : ""}`),
+        ...result.strings.map((s) => reportLine `| ${s.id} | ${s.inverter} | ${s.mppt_id} | ${s.plane_id} | ${s.modules} |`),
+        reportLine `\n## ${uk ? "Перевірки" : "Checks"}`,
+        ...result.checks.map((c) => reportLine `- ${c.status} · ${c.id}: ${c.demand ?? "?"} / ${c.capacity ?? "?"} ${c.unit} — ${c.basis}${c.missing.length ? " · missing: " + c.missing.join(", ") : ""}`),
         `\n## BOM`,
         "| Item | Quantity | Unit | Basis |",
         "|---|---:|---|---|",
-        ...result.bom.map((x) => `| ${x.item} | ${x.quantity} | ${x.unit} | ${x.basis} |`),
+        ...result.bom.map((x) => reportLine `| ${x.item} | ${x.quantity} | ${x.unit} | ${x.basis} |`),
         "\n## Scope",
         uk
             ? "AC — окремий фідер кожного інвертора з власними умовами траси. DC — окремий кабель кожного стрінгу. Джерела обладнання наведено вище; навчальні policies та непідтверджені кабельні дані не є нормативним погодженням. Повна нормативна перевірка захисту, SPD, заземлення та проєктне погодження не виконані."

@@ -497,7 +497,7 @@ tbody tr:last-child td {
 }
 
 @media print {
-  html {
+  :root {
     background: #fff;
   }
   .shell {
@@ -525,4 +525,71 @@ tbody tr:last-child td {
 #cableInspector summary {
   cursor: pointer;
   padding: 8px 0;
+}
+
+.about-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-top: 24px;
+  padding: 20px 0;
+  border-top: 1px solid #d9e0dd;
+  font-size: 13px;
+}
+.about-panel {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.about-dialog {
+  width: min(640px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  box-sizing: border-box;
+  overflow: auto;
+  border: 1px solid #d9e0dd;
+  border-radius: 12px;
+  padding: 24px;
+  color: inherit;
+  background: #fff;
+}
+.about-dialog::backdrop {
+  background: #18282080;
+}
+.about-dialog .tools {
+  justify-content: space-between;
+}
+.about-dialog h2 {
+  font-size: 20px;
+  margin: 0;
+}
+.about-pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+.about-dialog textarea {
+  min-height: 100px;
+}
+#manualPlan table {
+  min-width: 760px;
+}
+#manualPlan .field {
+  margin: 0;
+}
+#manualPlan input {
+  min-width: 80px;
+}
+#manualPlan select {
+  min-width: 95px;
+}
+@media print {
+  .about-footer button,
+  .about-dialog {
+    display: none !important;
+  }
+  .about-footer {
+    display: block;
+  }
 }

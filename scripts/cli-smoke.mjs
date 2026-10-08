@@ -143,6 +143,39 @@ try {
       `individual routes: ${language} report retains actual conditions/origins`,
     );
   }
+  const manualFile = "data/examples/trina435-manual24.json";
+  r = run(["validate", manualFile]);
+  assert.equal(r.status, 0);
+  results.push("real manual case: valid schema exit0");
+  r = run(["calculate", manualFile]);
+  assert.equal(r.status, 3);
+  const manualResult = JSON.parse(r.stdout);
+  assert.equal(manualResult.installed_modules, 24);
+  assert.equal(manualResult.unassigned_modules, 0);
+  const voltages = manualResult.checks.filter((c) => c.id.endsWith(":VOC_DC"));
+  assert.equal(voltages.length, 2);
+  assert.ok(voltages.every((c) => c.status === "PASS"));
+  assert.ok(
+    manualResult.checks.some(
+      (c) => c.status === "UNKNOWN" && c.missing.includes("beta_vmp_pct_c"),
+    ),
+  );
+  results.push(
+    "real manual case: 24/24, known cold Voc PASS; missing beta Vmp UNKNOWN exit3",
+  );
+  for (const language of ["uk", "en"]) {
+    r = run(["report", manualFile, "--lang", language]);
+    assert.equal(r.status, 3);
+    assert.match(r.stdout, /24\/24/);
+    assert.match(r.stdout, /TSM-435NEG9R.28/);
+    assert.match(
+      r.stdout,
+      language === "uk" ? /Походження програми/ : /Software provenance/,
+    );
+    results.push(
+      `real manual case: ${language} report with equipment/software provenance`,
+    );
+  }
   const bad = join(root, "bad.json");
   writeFileSync(bad, "{");
   r = run(["validate", bad]);

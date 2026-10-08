@@ -1,3 +1,12 @@
+import { formatInputError } from "./input-errors.js";
+import {
+  renderManualStrings,
+  bindManualStrings,
+  confirmManualDraftDiscard,
+} from "./manual-strings.js";
+import { renderAttribution, bindAttribution } from "./about.js";
+import attribution from "../../../data/attribution.json" with { type: "json" };
+import legal from "../../../data/legal-notices.json" with { type: "json" };
 import "./style.css";
 import { renderRoutes, bindRoutes } from "./routes.js";
 import { renderCableInspector, bindCableInspector } from "./cable-inspector.js";
@@ -197,10 +206,32 @@ function toast(message: string) {
   document.body.append(el);
   setTimeout(() => el.remove(), 4000);
 }
-function commit(next: unknown) {
+let previousProject: Project | null = null;
+try {
+  const saved = localStorage.getItem("openpv-previous-project-v1");
+  if (saved) previousProject = ProjectSchema.parse(JSON.parse(saved));
+} catch {
+  /* recovery remains unavailable if storage is absent or invalid */
+}
+function commit(next: unknown, rememberPrevious = false) {
   try {
     const p = ProjectSchema.parse(next);
     const calculated = calculateProject(p);
+    if (rememberPrevious) {
+      previousProject = structuredClone(project);
+      try {
+        localStorage.setItem(
+          "openpv-previous-project-v1",
+          JSON.stringify(previousProject),
+        );
+      } catch {
+        toast(
+          lang === "uk"
+            ? "Попередній проєкт доступний лише до закриття вкладки — збережіть JSON."
+            : "Previous project is available only until this tab closes — save JSON.",
+        );
+      }
+    }
     project = p;
     result = calculated;
     try {
@@ -214,7 +245,7 @@ function commit(next: unknown) {
     }
     render();
   } catch (e) {
-    toast(e instanceof Error ? e.message : String(e));
+    toast(formatInputError(e, lang));
     render();
   }
 }
@@ -454,7 +485,7 @@ function render() {
     "json",
   ];
   document.getElementById("app")!.innerHTML =
-    `<header><div class="brand"><div class="mark" aria-hidden="true">PV</div><div><strong>Solar Designer Lite</strong><span class="small">OpenPV · engineering workspace</span></div></div><div class="tools"><button id="reset">${x.reset}</button><button id="load">${x.load}</button><button id="save" class="primary">${x.save}</button><button id="lang" aria-label="Change language">${lang === "uk" ? "EN" : "UA"}</button><input id="file" class="hidden" type="file" accept=".json,application/json"></div></header><div class="shell"><aside><nav aria-label="${lang === "uk" ? "Розділи" : "Sections"}">${nav.map((key, i) => `<button data-tab="${key}" class="${tab === key ? "active" : ""}" ${tab === key ? 'aria-current="page"' : ""}>${String(i + 1).padStart(2, "0")} &nbsp; ${esc(x[key as keyof typeof x])}</button>`).join("")}</nav><div class="aside-note"><strong>OpenPV Core v0.1</strong><p>${x.intro}</p><label><input id="student" type="checkbox" ${student ? "checked" : ""}> ${x.student}</label><p>${lang === "uk" ? "Дані й розрахунки залишаються у вашому браузері." : "Data and calculations stay in your browser."}</p></div></aside><main class="main"><div class="title-row"><div><div class="eyebrow">${x.project} / ${esc(project.name)}</div><h1>${esc(tab === "overview" ? x.title : x[tab as keyof typeof x])}</h1><p class="subtitle">${x.subtitle}</p></div>${badge(result.status)}</div><div class="metric-strip"><div class="metric"><label>${x.dc}</label><strong>${fmt(result.dc_power_w / 1000, 2)}</strong> <span>kWp</span></div><div class="metric"><label>${x.ac}</label><strong>${fmt(result.ac_power_w / 1000, 2)}</strong> <span>kW</span></div><div class="metric"><label>${x.ratio}</label><strong>${fmt(result.dc_ac_ratio, 3)}</strong></div><div class="metric"><label>${x.allocated}</label><strong>${result.installed_modules}</strong> <span>/ ${result.requested_modules}</span></div></div><div class="banner">${x.notice}</div><div id="content"></div><footer class="footer"><span>${x.scope}</span><span>${x.run}</span></footer></main></div>`;
+    `<header><div class="brand"><div class="mark" aria-hidden="true">PV</div><div><strong>Solar Designer Lite</strong><span class="small">OpenPV · engineering workspace</span></div></div><div class="tools"><button id="reset">${x.reset}</button><button id="load">${x.load}</button><button id="save" class="primary">${x.save}</button>${previousProject ? `<button id="restorePrevious">${lang === "uk" ? "Попередній проєкт" : "Previous project"}</button>` : ""}<button id="lang" aria-label="Change language">${lang === "uk" ? "EN" : "UA"}</button><input id="file" class="hidden" type="file" accept=".json,application/json"></div></header><div class="shell"><aside><nav aria-label="${lang === "uk" ? "Розділи" : "Sections"}">${nav.map((key, i) => `<button data-tab="${key}" class="${tab === key ? "active" : ""}" ${tab === key ? 'aria-current="page"' : ""}>${String(i + 1).padStart(2, "0")} &nbsp; ${esc(x[key as keyof typeof x])}</button>`).join("")}</nav><div class="aside-note"><strong>OpenPV Core v0.1</strong><p>${x.intro}</p><label><input id="student" type="checkbox" ${student ? "checked" : ""}> ${x.student}</label><p>${lang === "uk" ? "Дані й розрахунки залишаються у вашому браузері." : "Data and calculations stay in your browser."}</p></div></aside><main class="main"><div class="title-row"><div><div class="eyebrow">${x.project} / ${esc(project.name)}</div><h1>${esc(tab === "overview" ? x.title : x[tab as keyof typeof x])}</h1><p class="subtitle">${x.subtitle}</p></div>${badge(result.status)}</div><div class="metric-strip"><div class="metric"><label>${x.dc}</label><strong>${fmt(result.dc_power_w / 1000, 2)}</strong> <span>kWp</span></div><div class="metric"><label>${x.ac}</label><strong>${fmt(result.ac_power_w / 1000, 2)}</strong> <span>kW</span></div><div class="metric"><label>${x.ratio}</label><strong>${fmt(result.dc_ac_ratio, 3)}</strong></div><div class="metric"><label>${x.allocated}</label><strong>${result.installed_modules}</strong> <span>/ ${result.requested_modules}</span></div></div><div class="banner">${x.notice}</div><div id="content"></div><footer class="footer"><span>${x.scope}</span><span>${x.run}</span></footer>${renderAttribution(lang)}</main></div>`;
   const content = document.getElementById("content")!;
   if (tab === "overview")
     content.innerHTML = `<section class="panel"><h2>${lang === "uk" ? "Вихідні дані" : "Project inputs"}</h2><div class="form-grid">${field(x.name, "name", project.name, "text")}${field(x.count + " · " + x.inverter, "inverter_quantity", project.inverter_quantity)}<div><span class="small">${x.module}</span><p>${esc(project.module.name)} · ${project.module.pmax_w} W</p></div></div><h3>${x.planes}</h3>${project.planes.map((p, i) => `<div class="form-grid" style="margin-bottom:16px">${field(x.name, `planes.${i}.name`, p.name, "text")}${field(x.count + " · PV", `planes.${i}.module_count`, p.module_count)}<div class="tools"><button data-remove-plane="${i}" ${project.planes.length === 1 ? "disabled" : ""}>${lang === "uk" ? "Видалити" : "Remove"}</button></div></div>`).join("")}<div class="tools"><button id="addPlane">${x.addPlane}</button><button class="primary" data-tab="strings">${x.next}</button></div></section><section class="panel"><h2>${lang === "uk" ? "Результат ліній" : "Feeder results"}</h2>${cableTable()}</section>${student ? `<div class="banner info">${x.blank}</div>` : ""}`;
@@ -492,7 +523,7 @@ function render() {
         fmt(m.voc_cold_v, 3),
         fmt(m.vmp_hot_v, 3),
       ]),
-    )}</section><section class="panel"><h2>${lang === "uk" ? "Розподіл стрінгів" : "String allocation"}</h2><div class="mppt-grid">${result.strings.map((s) => `<div class="mppt-box"><strong>${esc(s.id)}</strong><div class="small">${esc(s.plane_id)} · ${s.modules} PV</div><div class="modules" role="img" aria-label="${s.modules} modules">${Array.from({ length: Math.min(s.modules, 60) }, () => "<i></i>").join("")}</div></div>`).join("") || `<div class="empty">UNKNOWN · ${x.missing}</div>`}</div></section><section class="panel"><h2>${x.manual}</h2><textarea id="manual" aria-label="${x.manual}">${esc(JSON.stringify(project.manual_strings ?? result.strings, null, 2))}</textarea><div class="tools" style="margin-top:16px"><button id="manualApply" class="primary">${x.manualApply}</button><button id="auto">${x.auto}</button></div></section>`;
+    )}</section><section class="panel"><h2>${lang === "uk" ? "Розподіл стрінгів" : "String allocation"}</h2><div class="mppt-grid">${result.strings.map((s) => `<div class="mppt-box"><strong>${esc(s.id)}</strong><div class="small">${esc(s.plane_id)} · ${s.modules} PV</div><div class="modules" role="img" aria-label="${s.modules} modules">${Array.from({ length: Math.min(s.modules, 60) }, () => "<i></i>").join("")}</div></div>`).join("") || `<div class="empty">UNKNOWN · ${x.missing}</div>`}</div></section>${renderManualStrings(project, result, lang)}<details class="panel"><summary>${lang === "uk" ? "Додатково: ручний план у JSON" : "Advanced: manual plan JSON"}</summary><textarea id="manual" aria-label="${x.manual}">${esc(JSON.stringify(project.manual_strings ?? result.strings, null, 2))}</textarea><div class="tools" style="margin-top:16px"><button id="manualApply" class="primary">${x.manualApply}</button><button id="auto">${x.auto}</button></div></details>`;
   if (tab === "checks")
     content.innerHTML = `<section class="panel"><div class="check-filters">${["ALL", "FAIL", "UNKNOWN", "WARN", "PASS", "NOT_APPLICABLE"].map((s) => `<button data-filter="${s}" class="${filter === s ? "primary" : ""}">${s === "ALL" ? x.all : s} · ${s === "ALL" ? result.checks.length : result.checks.filter((c) => c.status === s).length}</button>`).join("")}</div>${checksTable()}</section>`;
   if (tab === "report")
@@ -513,7 +544,7 @@ function render() {
   if (tab === "json")
     content.innerHTML = `<section class="panel"><h2>${x.edit}</h2><p class="subtitle">schema_version = 0.1.0 · W, V, A, m, mm², Ω/km, °C, %/°C</p><textarea id="json" aria-label="Project JSON">${esc(JSON.stringify(project, null, 2))}</textarea><div class="tools" style="margin-top:16px"><button id="apply" class="primary">${x.apply}</button><button id="cancel">${x.cancel}</button></div></section>`;
   if (tab === "learn")
-    content.innerHTML = `<section class="panel"><h2>${x.learnTitle}</h2><p>${x.intro}</p><div class="exercise"><strong>01 · Voc(Tmin)</strong><p>Voc(T) = VocSTC × [1 + βVoc/100 × (T − 25)]<br>50 × [1 + (−0.28/100) × (−20 − 25)] = 56.3 V.<br>19 PV → 1069.7 V; 20 PV → 1126 V &gt; 1100 V.</p><button data-exercise="cold">${lang === "uk" ? "Порівняти при Tmin −35 °C" : "Compare at Tmin −35 °C"}</button></div><div class="exercise"><strong>02 · UNKNOWN</strong><p>${lang === "uk" ? "Видаліть βVmp. Основний розрахунок стрінгів має стати UNKNOWN. γPmax − αIsc може бути лише окремою апроксимацією." : "Remove βVmp. Main string result must become UNKNOWN. γPmax − αIsc is an approximation only."}</p><button data-exercise="missing">${lang === "uk" ? "Перевірити відсутнє βVmp" : "Test missing βVmp"}</button></div><div class="exercise"><strong>03 · Iac &amp; ΔU</strong><p>Iac = Pout / (√3 × U × cos φ).<br>50 000 / (√3 × 400 × 0.95) = 75.967 A.<br>R(T) = R20 × [1 + α × (T − 20)].<br>${lang === "uk" ? "Збільште AC трасу з 80 до 160 m та перевірте зміну перерізу." : "Increase the AC route from 80 to 160 m and inspect the selected cable."}</p><button data-exercise="length">${lang === "uk" ? "AC траса 160 m" : "AC route 160 m"}</button></div><button id="reset">${x.reset}</button></section>`;
+    content.innerHTML = `<section class="panel"><h2>${x.learnTitle}</h2><p>${x.intro}</p><div class="exercise"><strong>01 · Voc(Tmin)</strong><p>Voc(T) = VocSTC × [1 + βVoc/100 × (T − 25)]<br>50 × [1 + (−0.28/100) × (−20 − 25)] = 56.3 V.<br>19 PV → 1069.7 V; 20 PV → 1126 V &gt; 1100 V.</p><button data-exercise="cold">${lang === "uk" ? "Порівняти при Tmin −35 °C" : "Compare at Tmin −35 °C"}</button></div><div class="exercise"><strong>02 · UNKNOWN</strong><p>${lang === "uk" ? "Видаліть βVmp. Основний розрахунок стрінгів має стати UNKNOWN. γPmax − αIsc може бути лише окремою апроксимацією." : "Remove βVmp. Main string result must become UNKNOWN. γPmax − αIsc is an approximation only."}</p><button data-exercise="missing">${lang === "uk" ? "Перевірити відсутнє βVmp" : "Test missing βVmp"}</button></div><div class="exercise"><strong>03 · Iac &amp; ΔU</strong><p>Iac = Pout / (√3 × U × cos φ).<br>50 000 / (√3 × 400 × 0.95) = 75.967 A.<br>R(T) = R20 × [1 + α × (T − 20)].<br>${lang === "uk" ? "Збільште AC трасу з 80 до 160 m та перевірте зміну перерізу." : "Increase the AC route from 80 to 160 m and inspect the selected cable."}</p><button data-exercise="length">${lang === "uk" ? "AC траса 160 m" : "AC route 160 m"}</button></div><button data-reset>${x.reset}</button></section>`;
   if (tab === "site")
     content.insertAdjacentHTML(
       "beforeend",
@@ -568,6 +599,8 @@ function invalidateEquipmentEdit(next: Project, previous: Project): Project {
   return next;
 }
 function bind() {
+  bindAttribution(lang, toast);
+  bindManualStrings(project, result, lang, (next) => commit(next), toast);
   bindCableInspector(result, lang);
   bindRoutes(
     project,
@@ -578,6 +611,7 @@ function bind() {
   document.querySelectorAll<HTMLButtonElement>("[data-tab]").forEach(
     (b) =>
       (b.onclick = () => {
+        if (!confirmManualDraftDiscard(lang)) return;
         tab = b.dataset.tab!;
         render();
       }),
@@ -610,7 +644,7 @@ function bind() {
             );
           } catch (error) {
             render();
-            toast(String(error));
+            toast(formatInputError(error, lang));
           }
         }),
     );
@@ -705,17 +739,38 @@ function bind() {
     commit(p);
   });
   on("lang", () => {
+    if (!confirmManualDraftDiscard(lang)) return;
     lang = lang === "uk" ? "en" : "uk";
     render();
   });
-  on("save", () =>
-    download("openpv-project.json", JSON.stringify(project, null, 2)),
-  );
+  on("save", () => {
+    if (document.getElementById("manualPlan")?.dataset.manualDirty === "true") {
+      toast(
+        lang === "uk"
+          ? "Спочатку застосуйте ручний план, щоб включити зміни до JSON."
+          : "Apply the manual plan first to include changes in JSON.",
+      );
+      return;
+    }
+    download("openpv-project.json", JSON.stringify(project, null, 2));
+  });
   on("load", () => document.getElementById("file")!.click());
-  document.querySelectorAll("#reset").forEach((b) =>
+  on("restorePrevious", () => {
+    if (!confirmManualDraftDiscard(lang)) return;
+    if (previousProject) commit(previousProject, true);
+  });
+  document.querySelectorAll("#reset, [data-reset]").forEach((b) =>
     b.addEventListener("click", () => {
+      if (
+        !window.confirm(
+          lang === "uk"
+            ? "Замінити поточний проєкт навчальним прикладом? Останній застосований проєкт можна відновити кнопкою «Попередній проєкт». Незастосовані зміни ручного плану буде відкинуто. Для надійної копії збережіть JSON."
+            : "Replace the current project with the teaching example? Previous project restores the last applied project. Unapplied manual changes will be discarded. Save JSON for a reliable backup.",
+        )
+      )
+        return;
       tab = "overview";
-      commit(demo);
+      commit(demo, true);
     }),
   );
   on("apply", () => {
@@ -727,11 +782,12 @@ function bind() {
       );
       commit(invalidateEquipmentEdit(edited, project));
     } catch (e) {
-      toast(String(e));
+      toast(formatInputError(e, lang));
     }
   });
   on("cancel", render);
   on("manualApply", () => {
+    if (!confirmManualDraftDiscard(lang)) return;
     try {
       commit({
         ...project,
@@ -740,10 +796,11 @@ function bind() {
         ),
       });
     } catch (e) {
-      toast(String(e));
+      toast(formatInputError(e, lang));
     }
   });
   on("auto", () => {
+    if (!confirmManualDraftDiscard(lang)) return;
     const p = structuredClone(project);
     delete p.manual_strings;
     commit(p);
@@ -752,7 +809,10 @@ function bind() {
   on("reportDownload", () =>
     download(
       "openpv-report.md",
-      projectReport(project, result, lang),
+      projectReport(project, result, lang, {
+        ...attribution,
+        version: legal.version,
+      }),
       "text/markdown",
     ),
   );
@@ -760,6 +820,10 @@ function bind() {
     download("openpv-result.json", JSON.stringify(result, null, 2)),
   );
   document.getElementById("student")?.addEventListener("change", (e) => {
+    if (!confirmManualDraftDiscard(lang)) {
+      (e.target as HTMLInputElement).checked = student;
+      return;
+    }
     student = (e.target as HTMLInputElement).checked;
     render();
   });
@@ -771,7 +835,7 @@ function bind() {
         if (b.dataset.exercise === "missing") p.module.beta_vmp_pct_c = null;
         if (b.dataset.exercise === "length") p.ac.length_m = 160;
         tab = b.dataset.exercise === "missing" ? "checks" : "strings";
-        commit(p);
+        commit(p, true);
       }),
   );
   document.getElementById("file")?.addEventListener("change", async (e) => {
@@ -782,10 +846,21 @@ function bind() {
       return;
     }
     try {
-      commit(JSON.parse(await file.text()));
+      const imported = ProjectSchema.parse(JSON.parse(await file.text()));
+      if (!confirmManualDraftDiscard(lang)) {
+        (e.target as HTMLInputElement).value = "";
+        return;
+      }
+      commit(imported, true);
     } catch (e) {
-      toast(String(e));
+      toast(formatInputError(e, lang));
     }
   });
 }
+window.addEventListener("beforeunload", (event) => {
+  if (document.getElementById("manualPlan")?.dataset.manualDirty === "true") {
+    event.preventDefault();
+    event.returnValue = "";
+  }
+});
 render();

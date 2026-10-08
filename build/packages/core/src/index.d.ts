@@ -701,4 +701,6 @@ export declare function calculateProject(raw: unknown): {
     }[];
 };
 export type ProjectResult = ReturnType<typeof calculateProject>;
-export declare function projectReport(p: Project, result: ProjectResult, language?: "uk" | "en"): string;
+export { type SoftwareAttribution } from "./software-credit.js";
+import { type SoftwareAttribution } from "./software-credit.js";
+export declare function projectReport(p: Project, result: ProjectResult, language?: "uk" | "en", attribution?: SoftwareAttribution): string;

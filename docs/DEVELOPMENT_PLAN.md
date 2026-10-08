@@ -67,3 +67,11 @@ Per-feeder stage виконано:17 regression cases, dc_routes/ac_routes schem
 Inspector stage: existing candidate results показати без нового engineering selection/state. Markdown export додати компактні statuses/R(T)/Iz/drop та всі non-PASS reasons/source IDs; numerical formulas не змінювати. Full project JSON уже містить усі candidate checks.
 
 Inspector stage завершено в тій же сесії: existing core candidates, independent line selector, all checks/actual inputs/source metadata, safe HTTP(S) links, UA/EN/native keyboard details/mobile і Markdown non-PASS audit. Fresh software verification наведено в IMPLEMENTATION_REPORT.md. Наступний engineering етап: manufacturer installation/coordination pack із перевіреними missing inputs; поточні missing-data blockers не обходити synthetic чи generic значеннями.
+
+## Користувацький етап і авторство
+
+Новий scope власника: підготувати корисний обмежений кейс для форумних користувачів, visible origin у програмі/коді й незалежні економні reviews. Оцінка коду, браузера та конкретні acceptance gates — USER_READINESS.md. Публікація/зміна ліцензії не авторизовані цією реалізацією.
+
+Виконано: central attribution metadata, UA/EN About/footer/citation, embedded full Zod/Vite-helper notices, provenance у shared report CLI/UI. Ім’я/URL лишили null до відповіді власника. Додано ручний редактор без JSON, real24-module manual example та CLI/UI/report parity, короткі schema errors. Reviews відтворили й усунули reset без захисту, Markdown injection та silent remap невідомих manual targets. Додано previous-project recovery, guards draft navigation/save та точний reset notice. Formula spec/manifest не змінювалися.
+
+До public alpha три етапи: missing-data guidance; multi-browser + novice/engineer pilot; clean public download pack/rights/identity/history review. Наступна конкретна code робота — missing-data панель із людськими назвами, одиницями, verified source locator і впливом на конкретні checks. Acceptance: існуючі missing arrays core відображаються без нових assumptions/calculations, UA/EN, grouping per field/line, actionable source gaps, real manual case і no-data regression, `pnpm check` та browser. Engineering manufacturer/coordination pack залишається окремо BLOCKED до первинних даних; broad normative features не є умовою preliminary alpha з чіткими межами.

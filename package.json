@@ -9,11 +9,11 @@
   },
   "packageManager": "pnpm@11.25.0",
   "scripts": {
-    "dev": "vite apps/designer-lite --host 127.0.0.1",
-    "build": "tsc -p tsconfig.build.json && vite build apps/designer-lite && pnpm standalone",
+    "dev": "pnpm legal:generate && vite apps/designer-lite --host 127.0.0.1",
+    "build": "pnpm legal:generate && tsc -p tsconfig.build.json && vite build apps/designer-lite && pnpm standalone",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "check": "pnpm typecheck && pnpm test && pnpm manifest:check && pnpm build && pnpm schema:export && pnpm test:cli",
+    "check": "pnpm legal:check && pnpm typecheck && pnpm test && pnpm manifest:check && pnpm build && pnpm schema:export && pnpm test:cli",
     "cli": "node build/packages/cli/src/index.js",
     "manifest:update": "node scripts/formula-manifest.mjs --update",
     "manifest:check": "node scripts/formula-manifest.mjs",
@@ -21,7 +21,12 @@
     "schema:export": "node scripts/export-schema.mjs",
     "test:cli": "node scripts/cli-smoke.mjs",
     "test:browser": "node scripts/browser-smoke.mjs",
-    "standalone": "node scripts/standalone.mjs"
+    "standalone": "node scripts/standalone.mjs",
+    "legal:generate": "node scripts/legal-notices.mjs",
+    "legal:check": "node scripts/legal-notices.mjs --check",
+    "test:attribution:browser": "node scripts/attribution-browser-smoke.mjs",
+    "test:manual:browser": "node scripts/manual-plan-browser-smoke.mjs",
+    "test:safety:browser": "node scripts/project-safety-browser-smoke.mjs"
   },
   "dependencies": {
     "zod": "4.6.5"

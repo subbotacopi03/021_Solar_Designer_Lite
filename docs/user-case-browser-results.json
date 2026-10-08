@@ -1,0 +1,112 @@
+{
+  "date": "2026-10-08",
+  "browser": "system Chrome / macOS",
+  "fallback_reason": "Browser plugin not available; repository Playwright used",
+  "suites": [
+    {
+      "suite": "baseline",
+      "target": "local dev",
+      "status": "PASS",
+      "passed": 11,
+      "runtime_errors": []
+    },
+    {
+      "suite": "manual",
+      "target": "local dev",
+      "status": "PASS",
+      "checks": [
+        "Real source-limited catalog case can enter a manual plan with no automatic allocation",
+        "Empty module count is explicit and cannot be applied",
+        "24 real modules across two MPPTs: shared known voltage checks and honest missing-data UNKNOWN",
+        "Duplicate IDs rejected without replacing saved project",
+        "Manual overvoltage remains known FAIL in core and rendered checks",
+        "Autosave/reload, English controls and mobile table scrolling",
+        "Return to automatic plan removes manual override",
+        "Navigation asks before discarding an unapplied manual draft"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "project-safety",
+      "target": "local dev",
+      "status": "PASS",
+      "checks": [
+        "Cancel replacement preserves UI and autosaved project",
+        "Accepted replacement retains recoverable previous project across reload",
+        "Teaching exercise retains previous project for recovery",
+        "Invalid import preserves current project",
+        "Reset warning distinguishes applied recovery from discarded manual draft"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "attribution",
+      "target": "local dev",
+      "status": "PASS",
+      "checks": [
+        "Visible project credit opens accessible native About dialog",
+        "Actual project license and complete bundled Zod MIT notice",
+        "Pending author/source explicit; no invented identity or citation",
+        "Keyboard close restores focus and English translation works",
+        "Markdown download retains software provenance separately from equipment sources",
+        "390px mobile dialog fits and closes",
+        "No runtime/console errors or external requests; file target runs offline"
+      ],
+      "errors": [],
+      "remote": []
+    },
+    {
+      "suite": "manual",
+      "target": "standalone file",
+      "status": "PASS",
+      "checks": [
+        "Real source-limited catalog case can enter a manual plan with no automatic allocation",
+        "Empty module count is explicit and cannot be applied",
+        "24 real modules across two MPPTs: shared known voltage checks and honest missing-data UNKNOWN",
+        "Duplicate IDs rejected without replacing saved project",
+        "Manual overvoltage remains known FAIL in core and rendered checks",
+        "Autosave/reload, English controls and mobile table scrolling",
+        "Return to automatic plan removes manual override",
+        "Navigation asks before discarding an unapplied manual draft"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "project-safety",
+      "target": "standalone file",
+      "status": "PASS",
+      "checks": [
+        "Cancel replacement preserves UI and autosaved project",
+        "Accepted replacement retains recoverable previous project across reload",
+        "Teaching exercise retains previous project for recovery",
+        "Invalid import preserves current project",
+        "Reset warning distinguishes applied recovery from discarded manual draft"
+      ],
+      "errors": []
+    },
+    {
+      "suite": "attribution",
+      "target": "standalone file offline",
+      "status": "PASS",
+      "checks": [
+        "Visible project credit opens accessible native About dialog",
+        "Actual project license and complete bundled Zod MIT notice",
+        "Pending author/source explicit; no invented identity or citation",
+        "Keyboard close restores focus and English translation works",
+        "Markdown download retains software provenance separately from equipment sources",
+        "390px mobile dialog fits and closes",
+        "No runtime/console errors or external requests; file target runs offline"
+      ],
+      "errors": [],
+      "remote": []
+    }
+  ],
+  "not_run": [
+    "lint: no repository script/config",
+    "Windows Edge/Chrome, Safari, Firefox",
+    "novice/independent-engineer pilot",
+    "normative UA/CZ compliance",
+    "public distribution / license decision"
+  ],
+  "scope": "Software verification only; source gaps remain UNKNOWN."
+}
