@@ -27,7 +27,8 @@
     "test:attribution:browser": "node scripts/attribution-browser-smoke.mjs",
     "test:manual:browser": "node scripts/manual-plan-browser-smoke.mjs",
     "test:safety:browser": "node scripts/project-safety-browser-smoke.mjs",
-    "test:adversarial:browser": "node scripts/adversarial-browser-smoke.mjs"
+    "test:adversarial:browser": "node scripts/adversarial-browser-smoke.mjs",
+    "test:missing:browser": "node scripts/missing-data-browser-smoke.mjs"
   },
   "dependencies": {
     "zod": "4.6.5"

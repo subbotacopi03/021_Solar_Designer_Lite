@@ -79,3 +79,7 @@ Inspector stage завершено в тій же сесії: existing core cand
 ## Завершено: adversarial user-work preservation
 
 2026-10-08:10 економних tester agents,111 baseline observations/3 defect groups; root відтворення→fix→регресії та незалежний postfix review. JSON/native drafts, asyncimport ordering, representable result boundary implemented. Acceptance PASS:164 unit / 30 CLI / 10 manifest та85 browser checks dev/file. Журнал — ADVERSARIAL_TEST_REPORT.md. Lint absent/інші браузери/pilot NOT_RUN. Наступним залишається UA/EN missing-data guidance на actual result/check/source records; не розширювати формули/нормативні claims на основі цього QA.
+
+## Виконано: missing-data guidance
+
+UA/EN панель MISSING/PROVIDED/REVIEW, actual source metadata/units/affected checks і ефективний per-feeder/candidate context без нових формул/defaults. Acceptance software PASS:8unit,9dev+9file browser, full check172unit/30CLI/10manifest. Novice pilot/cross-browser acceptance NOT_RUN. Наступна незалежна робота: allowlist локальний review pack (HTML, UA/EN guide, приклади, існуючий LICENSE/notices/attribution, manifest/checksums); перевірка складу/цілісності й offline відкриття. Public redistribution/push не дозволяти автоматично, доки identity/LICENSE pending. Зовнішній пілот та повні engineering primary data — окремі blockers.

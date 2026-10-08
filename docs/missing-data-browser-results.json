@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-08",
+  "environment": "macOS / repository Playwright / system Chrome; Browser plugin not available; fresh isolated contexts",
+  "checks": [
+    "Real exact-SKU manual case exposes beta gap, units and no-substitution guidance",
+    "Known temperature dependencies are provided; MPPT physical-input gaps stay separate",
+    "Actual source revision, locator, review date and safe manual link are shown",
+    "Guidance links to inputs and switches to English without changing the project",
+    "Reading guidance leaves portable JSON untouched and survives autosaved reload",
+    "Known overvoltage FAIL remains visible alongside UNKNOWN dependencies",
+    "Unselected cable candidate gaps are visible per feeder",
+    "Mobile 320/390px reflows, details respond to keyboard Enter, no runtime/console errors",
+    "Imported HTML-like locators are literal text and unsafe URLs never become active links"
+  ],
+  "errors": [],
+  "targets": [
+    {
+      "target": "dev http://127.0.0.1:5173/",
+      "status": "PASS",
+      "checks": 9
+    },
+    {
+      "target": "built standalone file://",
+      "status": "PASS",
+      "checks": 9
+    }
+  ],
+  "existing_matrix": {
+    "status": "PASS",
+    "suite_targets": 9,
+    "checks": 85
+  },
+  "unit_tests": {
+    "status": "PASS",
+    "total": 172,
+    "new_missing_data_cases": 8
+  },
+  "cli_scenarios": 30,
+  "manifest_entries_unchanged": 10,
+  "not_run": [
+    "Lint: script/config absent",
+    "Other OS/browsers, screen reader, touch, real browser zoom",
+    "Human novice/engineer pilot and normative compliance"
+  ],
+  "raw_evidence": ".qa/missing-data/"
+}

@@ -593,3 +593,33 @@ tbody tr:last-child td {
     display: block;
   }
 }
+
+.missing-data {
+  overflow-wrap: anywhere;
+}
+.missing-data > details {
+  margin-top: 12px;
+}
+.missing-item {
+  margin: 8px 0;
+  border: 1px solid #d9e0dd;
+  border-left: 3px solid #a87800;
+  border-radius: 4px;
+  padding: 10px 14px;
+  min-width: 0;
+}
+.missing-item[data-missing-state="PROVIDED"] {
+  border-left-color: #0e7a6e;
+}
+.missing-item > summary span {
+  display: block;
+}
+.missing-item p {
+  max-width: 85ch;
+}
+.missing-item ul {
+  padding-left: 20px;
+}
+.missing-item .code {
+  white-space: pre-wrap;
+}
