@@ -1,0 +1,14 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.waitForSelector: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('#cableInspector') to be visible[22m
+
+    at /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/scripts/cable-inspector-browser-smoke.mjs:34:14 {
+  log: [ "  - waiting for locator('#cableInspector') to be visible" ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0

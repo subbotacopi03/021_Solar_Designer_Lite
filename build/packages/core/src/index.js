@@ -283,6 +283,30 @@ export function calculateProject(raw) {
         bom,
     };
 }
+function cableCandidateAudit(result, uk) {
+    const lines = [
+        ...result.dc_lines.map((line) => ({ label: `DC ${line.string_id}`, line })),
+        ...result.ac_lines.map((line) => ({
+            label: `AC INV${line.inverter}`,
+            line,
+        })),
+    ];
+    return [
+        `\n## ${uk ? "Аудит кабельних кандидатів" : "Cable candidate audit"}`,
+        ...lines.flatMap(({ label, line }) => [
+            `### ${label} · ${line.input_origin} · selected=${line.cable.selected?.cable.id ?? "UNKNOWN"}`,
+            ...line.cable.candidates.flatMap((candidate) => [
+                `- ${candidate.cable.id} · ${candidate.cable.section_mm2} mm² · ${candidate.status}; R(T)=${candidate.r_ohm_km ?? "UNKNOWN"} Ω/km; Iz×k=${candidate.iz_derated_a ?? "UNKNOWN"} A; ΔU=${candidate.drop_v ?? "UNKNOWN"} V / ${candidate.drop_pct ?? "UNKNOWN"}%`,
+                ...candidate.checks
+                    .filter((c) => c.status !== "PASS")
+                    .map((c) => `  ${c.status} · ${c.id}: ${c.demand ?? "UNKNOWN"} / ${c.capacity ?? "UNKNOWN"} ${c.unit}; ${c.basis}; missing=${c.missing.join(",") || "—"}; sources=${c.source_ids.join(",") || "UNKNOWN"}`),
+            ]),
+            ...(line.cable.candidates.length
+                ? []
+                : [uk ? "Немає кандидатів у каталозі." : "No catalog candidates."]),
+        ]),
+    ];
+}
 export function projectReport(p, result, language = "uk") {
     const uk = language === "uk";
     return [
@@ -331,6 +355,7 @@ export function projectReport(p, result, language = "uk") {
         ...p.cables.flatMap((cable) => [
             `${cable.manufacturer ?? "SYNTHETIC / USER INPUT"} ${cable.model ?? cable.name}; R20=${cable.r20_ohm_km ?? "UNKNOWN"} Ω/km; α=${cable.alpha_per_c ?? "UNKNOWN"} 1/°C; X=${cable.x_ohm_km ?? "UNKNOWN"} Ω/km; Iz=${cable.iz_a ?? "UNKNOWN"} A`,
             cable.installation_basis,
+            `Ampacity reference: ${JSON.stringify(cable.ampacity_reference ?? "UNKNOWN")}`,
             ...(cable.data_notes ?? []),
             ...cable.sources.map((source) => `${source.verification} · ${source.url ?? source.label} · ${source.reviewed_on ?? "UNKNOWN DATE"}`),
         ]),
@@ -341,6 +366,7 @@ export function projectReport(p, result, language = "uk") {
         `Cable BOM omitted routes: ${result.cable_bom.omitted_routes}; unresolved DC layout: ${result.cable_bom.unresolved_dc_layout}`,
         `Saved DC routes: ${JSON.stringify(p.dc_routes ?? [])}`,
         `Saved AC routes: ${JSON.stringify(p.ac_routes ?? [])}`,
+        ...cableCandidateAudit(result, uk),
         `\n## ${uk ? "Стрінги" : "Strings"}`,
         "| ID | Inverter | MPPT | Plane | Modules |",
         "|---|---:|---|---|---:|",

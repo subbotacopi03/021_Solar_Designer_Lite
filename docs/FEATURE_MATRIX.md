@@ -20,6 +20,7 @@
 | UA/EN | IDs/basis English | Report UA/EN | UI UA/EN | IMPLEMENTED · basis technical English |
 | Manufacturer field evidence | 2 PV + 2 string inverter SKUs | 2 source-limited examples | Selector + evidence | IMPLEMENTED · βVmp/connector ratings UNKNOWN |
 | UA/CZ compliance packs | Input policy | Input | JSON | NOT IMPLEMENTED |
+| Cable candidate audit | Existing candidate metrics/checks/sources | JSON + Markdown rejection reasons | Per-line inspector | IMPLEMENTED · read-only, no extra formulas |
 | Окремі DC/AC траси | Full replacements + snapshot/ambiguous/orphan checks | individual-routes example / calculate / report | UA/EN editor + save/load | IMPLEMENTED · per-string / per-inverter, single run only |
 | PWA/desktop installers | — | — | — | NOT IMPLEMENTED |
 | BESS/economics/CAD/GIS | — | — | — | OUT OF SCOPE / PRIVATE |

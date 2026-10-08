@@ -1,0 +1,167 @@
+
+ RUN  v4.1.11 /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite
+
+ ❯ tests/differential/routes.test.ts (18 tests | 1 failed) 23ms
+   × Markdown candidate audit retains known FAIL and UNKNOWN reasons with actual route conditions 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/differential/routes.test.ts > Markdown candidate audit retains known FAIL and UNKNOWN reasons with actual route conditions
+AssertionError: expected '# Навчальна СЕС · 120 модулів\nPrelim…' to contain 'Cable candidate audit'
+
+- Expected
++ Received
+
+- Cable candidate audit
++ # Навчальна СЕС · 120 модулів
++ Preliminary electrical calculation · OpenPV 0.1.0
++ Status: FAIL
++ Modules: 20/20
++ DC: 11.700 kWp · AC: 100.000 kW · DC/AC: 0.1170
++ Tmin cell: -20 °C · Tmax cell: 70 °C
++
++ ## Equipment and sources
++ ### USER INPUT / SYNTHETIC · Навчальний модуль 585 W
++ pmax_w: 585
++ voc_v: 50
++ vmp_v: 42
++ isc_a: 14
++ imp_a: 13.2
++ beta_voc_pct_c: -0.28
++ beta_vmp_pct_c: -0.3
++ alpha_isc_pct_c: 0.05
++ gamma_pmax_pct_c: -0.35
++ max_system_voltage_v: 1100
++ max_series_fuse_a: 25
++ - SYNTHETIC · Synthetic teaching example, not a manufacturer datasheet · UNKNOWN URL · UNKNOWN DATE · UNKNOWN REVISION ·  ·
++ ### USER INPUT / SYNTHETIC · Навчальний інвертор 50 kW
++ ac_power_w: 50000
++ ac_voltage_v: 400
++ phases: 3
++ max_dc_voltage_v: 1100
++ max_dc_power_w: 75000
++ max_backfeed_current_a: 0
++ MPPT MPPT1: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
++ max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
++ MPPT MPPT2: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
++ max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
++ MPPT MPPT3: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
++ max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
++ MPPT MPPT4: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
++ max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
++ MPPT MPPT5: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
++ max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
++ MPPT MPPT6: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
++ max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
++ MPPT MPPT7: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
++ max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
++ MPPT MPPT8: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
++ max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
++ MPPT MPPT9: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
++ max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
++ MPPT MPPT10: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
++ max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
++ - SYNTHETIC · Synthetic teaching example, not a manufacturer datasheet · UNKNOWN URL · UNKNOWN DATE · UNKNOWN REVISION ·  ·
++
++ ## Cable data and derating
++ SYNTHETIC / USER INPUT DC synthetic Cu 4 mm²; R20=4.61 Ω/km; α=0.00393 1/°C; X=UNKNOWN Ω/km; Iz=44 A
++ Synthetic test method; must replace with manufacturer values
++ SYNTHETIC · Synthetic teaching example, not a manufacturer datasheet · UNKNOWN DATE
++ SYNTHETIC / USER INPUT AC synthetic Cu 50 mm²; R20=0.387 Ω/km; α=0.00393 1/°C; X=0.08 Ω/km; Iz=168 A
++ Synthetic test method; must replace with manufacturer values
++ SYNTHETIC · Synthetic teaching example, not a manufacturer datasheet · UNKNOWN DATE
++ DC: {"length_m":30,"conductor_temp_c":70,"derating_factor":0.8,"derating_basis":"Explicit teaching assumption"}
++ AC: {"length_m":80,"conductor_temp_c":70,"derating_factor":0.87,"derating_basis":"Explicit teaching assumption"}
++
++ ## Cable routes
++ DC s1 · OVERRIDE · {"length_m":null,"conductor_temp_c":70,"derating_factor":0.8,"derating_basis":"Explicit teaching assumption"}
++ DC s2 · OVERRIDE · {"length_m":30,"conductor_temp_c":70,"derating_factor":0.8,"derating_basis":"Explicit teaching assumption"}
++ AC INV1 · COMMON · {"length_m":80,"conductor_temp_c":70,"derating_factor":0.87,"derating_basis":"Explicit teaching assumption"} · cable=ac-demo-50
++ AC INV2 · COMMON · {"length_m":80,"conductor_temp_c":70,"derating_factor":0.87,"derating_basis":"Explicit teaching assumption"} · cable=ac-demo-50
++ Cable BOM omitted routes: 2; unresolved DC layout: false
++ Saved DC routes: [{"target":{"id":"s1","inverter":1,"mppt_id":"MPPT1","plane_id":"south","modules":10},"circuit":{"length_m":null,"conductor_temp_c":70,"derating_factor":0.8,"derating_basis":"Explicit teaching assumption"}},{"target":{"id":"s2","inverter":2,"mppt_id":"MPPT1","plane_id":"south","modules":10},"circuit":{"length_m":30,"conductor_temp_c":70,"derating_factor":0.8,"derating_basis":"Explicit teaching assumption"}}]
++ Saved AC routes: []
++
++ ## Strings
++ | ID | Inverter | MPPT | Plane | Modules |
++ |---|---:|---|---|---:|
++ | s1 | 1 | MPPT1 | south | 10 |
++ | s2 | 2 | MPPT1 | south | 10 |
++
++ ## Checks
++ - PASS · COUNT:south: 20 / 20 modules — Requested plane count
++ - PASS · INV1:DC_POWER: 5850 / 75000 W — Manufacturer max DC power
++ - PASS · s1:VOC_DC: 563 / 1100 V — Voc(Tmin) × N
++ - PASS · s1:VOC_MODULE: 563 / 1100 V — Module system voltage
++ - PASS · s1:VMP_MIN: 363.29999999999995 / 200 V — Vmp(Tmax cell) × N
++ - PASS · s1:VMP_MAX: 476.70000000000005 / 1000 V — Vmp(Tmin cell) × N
++ - PASS · INV1:MPPT1:IMP: 13.2 / 30 A — Imp × parallel strings
++ - PASS · INV1:MPPT1:ISC: 17.5 / 30 A — Isc × explicit policy factor × parallel strings
++ - PASS · INV1:MPPT1:INPUTS: 1 / 2 strings — One string per physical input; Y connectors unsupported
++ - PASS · INV1:MPPT1:STRINGS: 1 / 2 strings — Manufacturer string limit
++ - PASS · INV1:MPPT1:INPUT_IMP: 13.2 / 15 A — Imp per input
++ - PASS · INV1:MPPT1:INPUT_ISC: 17.5 / 20 A — Isc factor per input
++ - PASS · INV2:DC_POWER: 5850 / 75000 W — Manufacturer max DC power
++ - PASS · s2:VOC_DC: 563 / 1100 V — Voc(Tmin) × N
++ - PASS · s2:VOC_MODULE: 563 / 1100 V — Module system voltage
++ - PASS · s2:VMP_MIN: 363.29999999999995 / 200 V — Vmp(Tmax cell) × N
++ - PASS · s2:VMP_MAX: 476.70000000000005 / 1000 V — Vmp(Tmin cell) × N
++ - PASS · INV2:MPPT1:IMP: 13.2 / 30 A — Imp × parallel strings
++ - PASS · INV2:MPPT1:ISC: 17.5 / 30 A — Isc × explicit policy factor × parallel strings
++ - PASS · INV2:MPPT1:INPUTS: 1 / 2 strings — One string per physical input; Y connectors unsupported
++ - PASS · INV2:MPPT1:STRINGS: 1 / 2 strings — Manufacturer string limit
++ - PASS · INV2:MPPT1:INPUT_IMP: 13.2 / 15 A — Imp per input
++ - PASS · INV2:MPPT1:INPUT_ISC: 17.5 / 20 A — Isc factor per input
++ - PASS · ALLOCATION: 20 / 20 modules — All requested modules must be allocated
++ - UNKNOWN · RATIO_POLICY: ? / ?  — Ratio is calculated, acceptance band is not defined · missing: dc_ac_band
++ - PASS · ac-demo-50:IB_IN: 75.9671406828455 / 80 A — Ib ≤ In
++ - PASS · ac-demo-50:IN_IZ: 80 / 146.16 A — In ≤ Iz × kT × kg
++ - PASS · ac-demo-50:DROP: 1.2233505710357724 / 1.5 % — One-way route; R at design conductor temperature
++ - PASS · ac-demo-50:VOLTAGE: 400 / 1000 V — Rated voltage; confirm conductor-to-earth arrangement
++ - PASS · ac-demo-50:TEMPERATURE: 70 / 70 °C — Cable temperature rating
++ - WARN · ac-demo-50:PROVENANCE: ? / ?  — Catalog ampacity is preliminary; verify datasheet and installation method
++ - PASS · INV2:AC:ac-demo-50:IB_IN: 75.9671406828455 / 80 A — Ib ≤ In
++ - PASS · INV2:AC:ac-demo-50:IN_IZ: 80 / 146.16 A — In ≤ Iz × kT × kg
++ - PASS · INV2:AC:ac-demo-50:DROP: 1.2233505710357724 / 1.5 % — One-way route; R at design conductor temperature
++ - PASS · INV2:AC:ac-demo-50:VOLTAGE: 400 / 1000 V — Rated voltage; confirm conductor-to-earth arrangement
++ - PASS · INV2:AC:ac-demo-50:TEMPERATURE: 70 / 70 °C — Cable temperature rating
++ - WARN · INV2:AC:ac-demo-50:PROVENANCE: ? / ?  — Catalog ampacity is preliminary; verify datasheet and installation method
++ - PASS · AC_BREAKING_CAPACITY: 6 / 10 kA — Prospective fault current ≤ device Icu at actual system voltage
++ - NOT_APPLICABLE · s1:FUSE_REQUIREMENT: ? / ?  — Zero array and explicitly declared inverter backfeed; limited reverse-current assessment only
++ - FAIL · s1:CABLE_SELECTION: ? / ?  — No proven single-run candidate; no automatic parallel cables
++ - NOT_APPLICABLE · s2:FUSE_REQUIREMENT: ? / ?  — Zero array and explicitly declared inverter backfeed; limited reverse-current assessment only
++ - FAIL · s2:CABLE_SELECTION: ? / ?  — No proven single-run candidate; no automatic parallel cables
++ - UNKNOWN · SPD: ? / ?  — SPD topology requires earthing system, LPS separation, routing, impulse current and manufacturer coordination. No automatic T1/T2 verdict. · missing: earthing_system, lps_separation, spd_coordination
++ - UNKNOWN · PROTECTION_SCOPE: ? / ?  — Full protection design remains outside v0.1: I2 ≤ 1.45 Iz, disconnection time, adiabatic withstand, RCD, DC switch utilization category and fault-specific inverter backfeed coordination · missing: device_curves, fault_loop, earthing_system, fault_specific_backfeed_coordination
++ - WARN · SOURCE:synthetic-demo: ? / ?  — Synthetic teaching example, not a manufacturer datasheet
++ - WARN · SOURCE:synthetic-demo: ? / ?  — Synthetic teaching example, not a manufacturer datasheet
++ - WARN · SOURCE:teaching-policy: ? / ?  — Explicit teaching policy; not a UA/CZ normative profile
++ - UNKNOWN · CABLE_BOM_SCOPE: ? / ?  — Known selected routes only: two conductors per DC string, one multicore per inverter; omitted routes/layout make totals partial; no reserve · missing: unquantified_feeder_routes
++
++ ## BOM
++ | Item | Quantity | Unit | Basis |
++ |---|---:|---|---|
++ | Навчальний модуль 585 W | 20 | pcs | Installed modules |
++ | Навчальний інвертор 50 kW | 2 | pcs | Declared inverter fleet |
++ | ac-demo-50 | 160 | m | Known selected feeder routes only; DC two conductors / AC one multicore; partial if routes omitted; no reserve |
++ | DC isolator candidate 20 A | 2 | pcs | Per-string candidate topology; manufacturer utilization category and voltage remain unverified |
++ | AC breaker candidate 80 A | 2 | pcs | Rating candidate; fault and curve checks required |
++
++ ## Scope
++ AC is one independently assessed feeder per inverter; DC is one route per string. Equipment sources are listed above; teaching policies and unverified ampacity do not establish regulatory compliance. Full protection, SPD, earthing and regulatory review not completed.
+
+ ❯ tests/differential/routes.test.ts:301:18
+    299|   const p=fixture();p.dc_routes=routes(p,[null,30]);p.cables[0]!.max_v…
+    300|   const r=calculateProject(p), report=projectReport(p,r,"en");
+    301|   expect(report).toContain("Cable candidate audit");
+       |                  ^
+    302|   expect(report).toContain("DC s1 · OVERRIDE");
+    303|   expect(report).toContain("FAIL · dc-demo-4:VOLTAGE");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 17 passed (18)
+   Start at  17:36:07
+   Duration  189ms (transform 45ms, setup 0ms, import 91ms, tests 23ms, environment 0ms)

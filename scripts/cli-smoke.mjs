@@ -131,6 +131,13 @@ try {
     r = run(["report", routesFile, "--lang", language]);
     assert.equal(r.status, 3);
     assert.match(r.stdout, /AC INV2 · OVERRIDE/);
+    assert.match(r.stdout, /R\(T\)/);
+    assert.match(
+      r.stdout,
+      language === "uk"
+        ? /Аудит кабельних кандидатів/
+        : /Cable candidate audit/,
+    );
     assert.match(r.stdout, /"length_m":30/);
     results.push(
       `individual routes: ${language} report retains actual conditions/origins`,

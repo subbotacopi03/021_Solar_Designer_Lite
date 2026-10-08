@@ -1,5 +1,6 @@
 import "./style.css";
 import { renderRoutes, bindRoutes } from "./routes.js";
+import { renderCableInspector, bindCableInspector } from "./cable-inspector.js";
 import realDcSwitches from "../../../data/equipment/verified/dc-switches.json" with { type: "json" };
 import realSpds from "../../../data/equipment/verified/spds.json" with { type: "json" };
 import realFuses from "../../../data/equipment/verified/fuses.json" with { type: "json" };
@@ -516,7 +517,7 @@ function render() {
   if (tab === "site")
     content.insertAdjacentHTML(
       "beforeend",
-      renderRoutes(project, result, lang),
+      renderRoutes(project, result, lang) + renderCableInspector(result, lang),
     );
   bind();
 }
@@ -567,6 +568,7 @@ function invalidateEquipmentEdit(next: Project, previous: Project): Project {
   return next;
 }
 function bind() {
+  bindCableInspector(result, lang);
   bindRoutes(
     project,
     result,

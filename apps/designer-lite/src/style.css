@@ -496,4 +496,33 @@ tbody tr:last-child td {
   }
 }
 
-@media print { html { background: #fff; } .shell { min-height: 0; } h2, h3 { break-after: avoid; } }
+@media print {
+  html {
+    background: #fff;
+  }
+  .shell {
+    min-height: 0;
+  }
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+}
+
+#cableInspector li,
+.cable-candidate > summary {
+  overflow-wrap: anywhere;
+}
+#cableInspector td:nth-child(2) {
+  white-space: nowrap;
+}
+.cable-candidate {
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid #d9e0dd;
+  border-radius: 4px;
+}
+#cableInspector summary {
+  cursor: pointer;
+  padding: 8px 0;
+}

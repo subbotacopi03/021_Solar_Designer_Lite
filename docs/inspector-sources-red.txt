@@ -1,0 +1,110 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Independent revision note/. Input:
+
+'DC стрінг · s1 · #1\n' +
+  '\n' +
+  'Походження вводу: OVERRIDE\n' +
+  '\n' +
+  'Фактичний CircuitInput\n' +
+  '\n' +
+  'Немає доведеного кандидата кабелю для цієї лінії.\n' +
+  '\n' +
+  'Кандидати кабелю · 1\n' +
+  'dc-demo-4 · <img src=x onerror="window.injected=true"> · 4 mm² · Не обраний · FAIL\n' +
+  'ID\n' +
+  '\n' +
+  'dc-demo-4\n' +
+  '\n' +
+  'Переріз, mm²\n' +
+  '\n' +
+  '4\n' +
+  '\n' +
+  'R(T), Ω/km\n' +
+  '\n' +
+  '5,516\n' +
+  '\n' +
+  'Iz з derating, A\n' +
+  '\n' +
+  '35,2\n' +
+  '\n' +
+  'Падіння напруги, V\n' +
+  '\n' +
+  'UNKNOWN\n' +
+  '\n' +
+  'Падіння напруги, %\n' +
+  '\n' +
+  'UNKNOWN\n' +
+  '\n' +
+  'Джерела\n' +
+  'Synthetic teaching example, not a manufacturer datasheet · Перевірка: USER_INPUT · Дата перегляду: UNKNOWN · Equipment edited by user; published source no longer verifies these values.\n' +
+  'untrusted link · javascript:alert(1) · Перевірка: USER_INPUT · Дата перегляду: UNKNOWN · Equipment edited by user; published source no longer verifies these values.\n' +
+  'Перевірки · 7\n' +
+  'Статус\tID\tПопит\tМежа\tОд.\tПідстава\tБракує даних\n' +
+  'PASS\tdc-demo-4:IB_IN\t17,5\t17,5\tA\tIb ≤ In\t—\n' +
+  'PASS\tdc-demo-4:IN_IZ\t17,5\t35,2\tA\tIn ≤ Iz × kT × kg\t—\n' +
+  'UNKNOWN\tdc-demo-4:DROP\tUNKNOWN\t3\t%\tOne-way route; R at design conductor temperature\tlength_m\n' +
+  'FAIL\tdc-demo-4:VOLTAGE\t563\t100\tV\tRated voltage; confirm conductor-to-earth arrangement\t—\n' +
+  'PASS\tdc-demo-4:TEMPERATURE\t70\t90\t°C\tCable temperature rating\t—\n' +
+  'UNKNOWN\tdc-demo-4:DATA\tUNKNOWN\tUNKNOWN\t—\tMissing circuit data\tlength_m\n' +
+  'WARN\tdc-demo-4:PROVENANCE\tUNKNOWN\tUNKNOWN\t—\tCatalog ampacity is preliminary; verify datasheet and installation method\t—\n' +
+  'Перевірки вибору · 1'
+
+    at file:///Users/subbota/_%D0%9F%D0%A0%D0%9E%D0%95%D0%9A%D0%A2%D0%98/021_Solar_Designer_Lite/scripts/cable-inspector-browser-smoke.mjs:89:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'DC стрінг · s1 · #1\n' +
+    '\n' +
+    'Походження вводу: OVERRIDE\n' +
+    '\n' +
+    'Фактичний CircuitInput\n' +
+    '\n' +
+    'Немає доведеного кандидата кабелю для цієї лінії.\n' +
+    '\n' +
+    'Кандидати кабелю · 1\n' +
+    'dc-demo-4 · <img src=x onerror="window.injected=true"> · 4 mm² · Не обраний · FAIL\n' +
+    'ID\n' +
+    '\n' +
+    'dc-demo-4\n' +
+    '\n' +
+    'Переріз, mm²\n' +
+    '\n' +
+    '4\n' +
+    '\n' +
+    'R(T), Ω/km\n' +
+    '\n' +
+    '5,516\n' +
+    '\n' +
+    'Iz з derating, A\n' +
+    '\n' +
+    '35,2\n' +
+    '\n' +
+    'Падіння напруги, V\n' +
+    '\n' +
+    'UNKNOWN\n' +
+    '\n' +
+    'Падіння напруги, %\n' +
+    '\n' +
+    'UNKNOWN\n' +
+    '\n' +
+    'Джерела\n' +
+    'Synthetic teaching example, not a manufacturer datasheet · Перевірка: USER_INPUT · Дата перегляду: UNKNOWN · Equipment edited by user; published source no longer verifies these values.\n' +
+    'untrusted link · javascript:alert(1) · Перевірка: USER_INPUT · Дата перегляду: UNKNOWN · Equipment edited by user; published source no longer verifies these values.\n' +
+    'Перевірки · 7\n' +
+    'Статус\tID\tПопит\tМежа\tОд.\tПідстава\tБракує даних\n' +
+    'PASS\tdc-demo-4:IB_IN\t17,5\t17,5\tA\tIb ≤ In\t—\n' +
+    'PASS\tdc-demo-4:IN_IZ\t17,5\t35,2\tA\tIn ≤ Iz × kT × kg\t—\n' +
+    'UNKNOWN\tdc-demo-4:DROP\tUNKNOWN\t3\t%\tOne-way route; R at design conductor temperature\tlength_m\n' +
+    'FAIL\tdc-demo-4:VOLTAGE\t563\t100\tV\tRated voltage; confirm conductor-to-earth arrangement\t—\n' +
+    'PASS\tdc-demo-4:TEMPERATURE\t70\t90\t°C\tCable temperature rating\t—\n' +
+    'UNKNOWN\tdc-demo-4:DATA\tUNKNOWN\tUNKNOWN\t—\tMissing circuit data\tlength_m\n' +
+    'WARN\tdc-demo-4:PROVENANCE\tUNKNOWN\tUNKNOWN\t—\tCatalog ampacity is preliminary; verify datasheet and installation method\t—\n' +
+    'Перевірки вибору · 1',
+  expected: /Independent revision note/,
+  operator: 'match',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

@@ -294,3 +294,19 @@ it("route overrides retain unverified evidence and assess applicability independ
     p.dc.derating_evidence,
   );
 });
+
+it("Markdown candidate audit retains known FAIL and UNKNOWN reasons with actual route conditions", () => {
+  const p = fixture();
+  p.dc_routes = routes(p, [null, 30]);
+  p.cables[0]!.max_voltage_v = 100;
+  const r = calculateProject(p),
+    report = projectReport(p, r, "en");
+  expect(report).toContain("Cable candidate audit");
+  expect(report).toContain("DC s1 · OVERRIDE");
+  expect(report).toContain("FAIL · dc-demo-4:VOLTAGE");
+  expect(report).toContain("UNKNOWN · dc-demo-4:DROP");
+  expect(report).toContain("length_m");
+  expect(report).toContain("R(T)");
+  expect(report).toContain("synthetic-demo");
+  expect(projectReport(p, r, "uk")).toContain("Аудит кабельних кандидатів");
+});
