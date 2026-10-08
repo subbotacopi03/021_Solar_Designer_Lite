@@ -8,6 +8,8 @@ P0 baseline відтворено, P1 завершено: реалізовано 
 
 Уже зроблено: baseline, real Trina435/440 і SMA8/10, bounded generator recovery, routes/inspector, nominal cable/protection/SPD/DC-switch contracts, UA/EN/Student/save/load/report, native manual form, previous applied-project recovery, shared draft guards/import sequence/numeric finite guard, safe text/links, MISSING/PROVIDED/REVIEW guidance, offline About/notices/credit, owner-review ZIP/checksums/UAEN quickstarts, pilot matrix (52 checks) та 5 UI fixes.
 
+Огляд 2026-10-08 (Claude): дорожня карта E1–E6 до відкритого навчального репозиторію — у `DEVELOPMENT_PLAN.md`; супровід і допомога студентам — проєктний скіл `.cursor/skills/openpv-steward/SKILL.md`. Пілотний скрипт Antigravity лежить у ignored `.qa/`, а його S09 не порівнює з результатом програми — виправляється в E1.
+
 Наступний порядок: P2 public preparation / identity / LICENSE / attribution holder / history gates (очікує рішень власника) → окремий P3 manufacturer installation / coordination evidence. Блокована частина не зупиняє незалежну роботу. UNKNOWN не заповнювати defaults, known FAIL не приховувати; core pure/shared, SPEC-01…10 незмінні. Formula changes: spec → independent RED → code → review → deliberate manifest.
 
 LICENSE UNLICENSED; data/attribution holder/URLs null, рішення власника pending. Internal pack не public release. Не виводити identity з account/Git, не змінювати ліцензію / не робити push / release / history rewrite без окремого завдання, не додавати telemetry. Повні manufacturer / coordination / normative gaps у handoff/evidence docs. Повний engineering verdict не доведено. Economics / customers / CAD / GIS / private workflows поза scope.
