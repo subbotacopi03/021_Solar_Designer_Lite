@@ -29,3 +29,7 @@
 6. SPD: окремий contract для earthing, separation, routing, coordination та manufacturer ratings. LPS boolean не визначає тип SPD. Первинні manuals; неперевірена нормативна вимога UNKNOWN. Check/docs/commit.
 
 Поточні обмеження: відсутні βVmp не обчислювати як γ−α в основному pipeline; SMA tracker totals не ділити на число фізичних конекторів. Обидва real examples можуть коректно повертати UNKNOWN/exit 3. Це успішна обробка невідомих даних, а не позитивний engineering verdict.
+
+## Виконання 2026-10-08
+
+Пункти1–3 реалізовано й збережено окремими commits. Пункт4: завершено контракт missing manufacturer data та sourced derating applicability, додано Nexans record/UI/example; повний sizing BLOCKED через відсутні α/reference conductor temperature/applicable derating sources. Незалежно продовжено пункти5–6.

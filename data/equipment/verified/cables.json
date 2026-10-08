@@ -1,0 +1,63 @@
+[
+  {
+    "id": "nexans-id540479078",
+    "name": "Nexans C.4 mm2 H1Z2Z2-K",
+    "manufacturer": "Nexans",
+    "model": "C.4 mm2 H1Z2Z2-K (ID540479078)",
+    "circuit": "DC",
+    "material": "Cu",
+    "section_mm2": 4,
+    "r20_ohm_km": 5.09,
+    "alpha_per_c": null,
+    "x_ohm_km": null,
+    "max_voltage_v": 1500,
+    "max_conductor_temp_c": 90,
+    "iz_a": 55,
+    "installation_basis": "Single cable outdoors at 60°C ambient; manufacturer cites EN50618 Table A.3. Reference conductor temperature not explicitly linked to 55 A. Conduit/grouped application not established.",
+    "ampacity_reference": {
+      "installation_method": "SINGLE_CABLE_OUTDOORS",
+      "ambient_temp_c": 60,
+      "conductor_temp_c": null,
+      "grouped_circuits": 1,
+      "sources": [
+        {
+          "id": "nexans-id540479078",
+          "label": "Nexans C.4 mm2 H1Z2Z2-K manufacturer product datasheet",
+          "url": "https://www.nexans.co/en/products/Sistemas-Solares/Granjas-Solares/Cable-solar-premium-H1Z2Z2-K/H1Z2Z2-K/product~ID540479078~.html",
+          "verification": "VERIFIED",
+          "reviewed_on": "2026-10-08",
+          "document_revision": "Online product ID540479078, reviewed 2026-10-08",
+          "locator": "Electrical characteristics, Operating Temperature, Ampacity Conditions",
+          "notes": "R20/Iz/voltage/section checked. Alpha, X, reference conductor temperature and derating tables are not stated in reviewed data."
+        }
+      ]
+    },
+    "units": {
+      "section_mm2": "mm²",
+      "r20_ohm_km": "Ω/km at20°C (maximum)",
+      "alpha_per_c": "1/°C",
+      "x_ohm_km": "Ω/km",
+      "max_voltage_v": "V DC U0/U",
+      "max_conductor_temp_c": "°C continuous",
+      "iz_a": "A reference"
+    },
+    "data_notes": [
+      "UNKNOWN alpha_per_c and x_ohm_km: not stated. Generic Cu alpha is not inserted; R(T) and voltage drop remain UNKNOWN.",
+      "Ampacity55 A is only for the stated reference installation. Ambient/grouping/installation factors require independent sourced evidence.",
+      "90°C continuous operating limit used; +120°C is limited to20000 h and is not treated as a continuous rating.",
+      "Manufacturer catalog product identity is ID540479078; no unverified distributor order code imported."
+    ],
+    "sources": [
+      {
+        "id": "nexans-id540479078",
+        "label": "Nexans C.4 mm2 H1Z2Z2-K manufacturer product datasheet",
+        "url": "https://www.nexans.co/en/products/Sistemas-Solares/Granjas-Solares/Cable-solar-premium-H1Z2Z2-K/H1Z2Z2-K/product~ID540479078~.html",
+        "verification": "VERIFIED",
+        "reviewed_on": "2026-10-08",
+        "document_revision": "Online product ID540479078, reviewed 2026-10-08",
+        "locator": "Electrical characteristics, Operating Temperature, Ampacity Conditions",
+        "notes": "R20/Iz/voltage/section checked. Alpha, X, reference conductor temperature and derating tables are not stated in reviewed data."
+      }
+    ]
+  }
+]

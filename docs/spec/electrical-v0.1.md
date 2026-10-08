@@ -63,3 +63,13 @@ Recovery budget: at most 24 slots, 8 planes, 2000 requested modules and 30000 vi
 Independent witness: site Tmin=Tmax=25°C, Voc=50 V, Vmp=42 V; tracker A 252–798 V → N6..19, tracker B252–420V → N6..10, one physical input each. E10/W19 fits E10→B/W19→A; greedy E10→A/W10→B leaves9. Two inverters with 16965 W cap each, E20/W38 fits the same per-inverter witness (29×585=16965 W). Manual witnesses must pass exactly the same voltage/current/input/power checks.
 
 Manual diagnostic independence: a missing βVmp blocks Vmp-based limits and automatic planning but must not erase computable Voc(Tmin). A manual 20-module synthetic string has 20×56.3=1126 V>1100 V and must FAIL Voc even with βVmp UNKNOWN. Missing inputs attach to the specific check, not all checks indiscriminately.
+
+## Cable evidence extension · 2026-10-08
+
+A manufacturer record may lack r20/α/X/Iz: these fields remain null and must not be replaced by generic copper/aluminium values. Missing r20 or α produces UNKNOWN R(T) and voltage drop. The original explicit aggregate factor/basis remains supported for legacy teaching inputs.
+
+New manufacturer ampacity profiles declare installation method, reference ambient/conductor temperatures, reference grouping count and sources. Actual method, ambient temperature and grouped-circuit count are explicit circuit inputs. A profile does not apply to a different method merely because the cable itself permits that installation.
+
+Structured derating evidence has TEMPERATURE, GROUPING and INSTALLATION factors, each with value, basis and sources. All factors are explicit, including 1. Product k=kt×kg×ki replaces aggregate in this path; if aggregate is also supplied, it must agree within1e-9. Missing/unverified source or applicability inputs means UNKNOWN selection. Reference profile conductor temperature must be known and consistent with the allowed continuous rating; the calculation's conductor design temperature remains the R(T) input, never ambient air temperature.
+
+Independent arithmetic: 55 A×0.8×0.7×1=30.8 A; R20=5.09 Ω/km, explicitly supplied α0.00393/°C at70°C gives6.090185 Ω/km. That α is a synthetic test input, not attributed to Nexans. Manufacturer source does not state α, X or grouping/ambient factors; these remain UNKNOWN. Single-cable outdoors60°C ampacity cannot be applied automatically to conduits or grouped cables. Parallel cable selection remains disabled.

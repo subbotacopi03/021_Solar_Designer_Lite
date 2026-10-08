@@ -54,6 +54,12 @@ try {
   results.push(
     "constraint recovery: 58/58, per-inverter power quotas, UNKNOWN scope exit 3",
   );
+  r = run(["calculate", "data/examples/source-limited-cable.json"]);
+  assert.equal(r.status, 3);
+  assert.equal(JSON.parse(r.stdout).dc_lines[0].cable.selected, null);
+  results.push(
+    "source-limited cable: missing alpha/applicability retain UNKNOWN, exit 3",
+  );
   const bad = join(root, "bad.json");
   writeFileSync(bad, "{");
   r = run(["validate", bad]);

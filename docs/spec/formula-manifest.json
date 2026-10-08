@@ -65,7 +65,7 @@
       ],
       "formula": "Ib ≤ In ≤ Iz × derating; ΔU ≤ explicit limit",
       "units": "A, %, mm²",
-      "sha256": "8bb236ffbfe4a3a8d8dfcd90a23be0e974655f7d220e986680dee85b3bf11e61"
+      "sha256": "cad242480b5966c3a87edd8ec6d0d5b8601d42bd933c1cce3e930429ba8cda2f"
     },
     {
       "id": "PROTECTION",

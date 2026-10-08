@@ -1,3 +1,11 @@
+# Оновлення · етап 3 · 2026-10-08
+
+Додано Nexans ID540479078 source-limited cable record; `docs/CABLE_EVIDENCE.md`, `data/examples/source-limited-cable.json`. Schema підтримує UNKNOWN R20/α, ampacity reference та structured derating із джерелами. Core перевіряє метод/температуру/групування й добуток factors; UI має cable pack selector і явні site fields; report зберігає evidence. Не вставлено generic α/X/Iz; parallel cables не реалізовано. Manufacturer candidate лишається UNKNOWN через α, reference conductor temperature та derating data; повний manufacturer sizing BLOCKED до отримання цих джерел.
+
+PASS `pnpm check`:99 tests,15 CLI,7 manifest, typecheck/build/schema.11 equipment/allocation/cable browser checks PASS (окремо baseline11). Test-first spec/arithmetic:30.8 A,6.090185 Ω/km,4.872148 V. На першому GREEN run один fixture мав додаткове відоме In>Iz; fixture Iz задано55 A для ізоляції missing-α case, а FAIL precedence збережено. CABLE-SIZING hash оновлено після99 PASS; thermal/AC formulas unchanged. Наступна незалежна робота — reverse-current/backfeed та номінальні параметри fuse, окремо SPD candidate evidence; full curves/normative coordination UNKNOWN.
+
+---
+
 # Оновлення · етап 2 · 2026-10-08
 
 Реалізовано bounded recovery у `packages/core/src/strings.ts`, tests у `tests/differential/allocation.test.ts`. Контрприклади E10/W19 та E20/W38 (2 інвертори, max16965 W кожен) тепер без залишку. Primary objective — більше розміщених модулів; ties — менше стрінгів серед розглянутих. 24 slots/8 planes/2000 modules/30000 nodes; перевищення дає WARN ALLOCATION_SEARCH_LIMIT. Глобальна оптимальність не заявляється. Повні greedy плани збережено.

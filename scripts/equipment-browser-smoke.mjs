@@ -79,6 +79,22 @@ try {
   await page.locator('nav [data-tab="strings"]').click();
   assert.equal(await page.locator(".mppt-box").count(), 4);
   checks.push("Bounded recovery example allocates 58/58 across four trackers");
+  await page.locator('nav [data-tab="site"]').click();
+  await page.locator("#cableCatalog").selectOption("nexans");
+  assert.match(await page.locator("#content").innerText(), /ID540479078/);
+  await page.locator('nav [data-tab="json"]').click();
+  p = JSON.parse(await page.locator("#json").inputValue());
+  assert.equal(p.cables[0].alpha_per_c, null);
+  await page.locator('nav [data-tab="report"]').click();
+  const cableDownloadEvent = page.waitForEvent("download");
+  await page.locator("#reportDownload").click();
+  const cableDownload = await cableDownloadEvent;
+  await cableDownload.saveAs(".qa/cable-report.md");
+  assert.match(readFileSync(".qa/cable-report.md", "utf8"), /nexans.co/);
+  assert.match(readFileSync(".qa/cable-report.md", "utf8"), /α=UNKNOWN/);
+  checks.push(
+    "Manufacturer cable pack retains UNKNOWN alpha and sourced report",
+  );
   await page.locator("#lang").click();
   await page.locator('nav [data-tab="equipment"]').click();
   assert.match(

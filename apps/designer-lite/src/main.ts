@@ -1,4 +1,6 @@
 import "./style.css";
+import realCables from "../../../data/equipment/verified/cables.json" with { type: "json" };
+import teachingCables from "../../../data/equipment/cables.json" with { type: "json" };
 import realModules from "../../../data/equipment/verified/modules.json" with { type: "json" };
 import realInverters from "../../../data/equipment/verified/inverters.json" with { type: "json" };
 import syntheticModules from "../../../data/equipment/modules.json" with { type: "json" };
@@ -8,6 +10,7 @@ import {
   ProjectSchema,
   PvModuleSchema,
   InverterSchema,
+  CableSchema,
   type Project,
 } from "../../../packages/schema/src/index.js";
 import {
@@ -214,7 +217,10 @@ function table(headers: string[], rows: string[][]) {
   return `<div class="table-wrap"><table><thead><tr>${headers.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows.map((row) => `<tr>${row.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
 }
 const badge = (s: string) => `<span class="status ${esc(s)}">${esc(s)}</span>`;
-function equipmentSources(equipment: Project["module"] | Project["inverter"]) {
+function equipmentSources(
+  equipment:
+    Project["module"] | Project["inverter"] | Project["cables"][number],
+) {
   return `<div class="equipment-evidence"><p>${esc(equipment.manufacturer ?? "SYNTHETIC / USER INPUT")} · ${esc(equipment.model ?? equipment.name)}</p>${(equipment.data_notes ?? []).map((n) => `<p class="small">${esc(n)}</p>`).join("")}${equipment.sources.map((s) => `<p class="small">${esc(s.verification)} · ${s.url && /^https?:/.test(s.url) ? `<a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.label)}</a>` : esc(s.label)} · ${esc(s.reviewed_on ?? "UNKNOWN DATE")} · ${esc(s.document_revision ?? "UNKNOWN REVISION")}<br>${esc(s.notes)}</p>`).join("")}</div>`;
 }
 function equipmentSelect(side: "module" | "inverter") {
@@ -377,7 +383,12 @@ function render() {
       ]),
     )}<p class="small">${lang === "uk" ? "Індивідуальні параметри MPPT та sources змінюйте в редакторі JSON." : "Edit individual MPPT parameters and sources in the JSON editor."}</p><button data-tab="json">${x.json}</button></section>`;
   if (tab === "site")
-    content.innerHTML = `<section class="panel"><h2>${x.siteTitle}</h2><div class="form-grid">${field("Tmin cell, °C", "site.t_min_cell_c", project.site.t_min_cell_c)}${field("Tmax cell, °C", "site.t_max_cell_c", project.site.t_max_cell_c)}${field("cos φ", "site.cos_phi", project.site.cos_phi)}${field("Ik, kA", "prospective_short_circuit_ka", project.prospective_short_circuit_ka)}${field("Icu, kA", "breaker_icu_ka", project.breaker_icu_ka)}</div><p class="small">${x.blank}</p></section>${(["dc", "ac"] as const).map((side) => `<section class="panel"><h2>${side === "dc" ? x.dcCable : x.acCable}</h2><div class="form-grid">${field(x.length, side + ".length_m", project[side].length_m)}${field(x.temperature, side + ".conductor_temp_c", project[side].conductor_temp_c)}${field(x.derating, side + ".derating_factor", project[side].derating_factor)}${field(x.basis, side + ".derating_basis", project[side].derating_basis, "text")}</div></section>`).join("")}<section class="panel"><h2>${x.policy}</h2><div class="form-grid">${field("Isc factor", "policy.isc_factor", project.policy.isc_factor)}${field("DC ΔU max, %", "policy.dc_drop_max_pct", project.policy.dc_drop_max_pct)}${field("AC ΔU max, %", "policy.ac_drop_max_pct", project.policy.ac_drop_max_pct)}</div><p class="small">${esc(project.policy.sources.map((s) => s.label).join("; "))}</p><button data-tab="json">${x.json}</button></section>`;
+    content.innerHTML = `<section class="panel"><h2>${lang === "uk" ? "Каталог кабелів" : "Cable catalog"}</h2><label class="field"><span>${lang === "uk" ? "Набір даних" : "Data pack"}</span><select id="cableCatalog"><option value="">${lang === "uk" ? "Поточний набір" : "Current data"}</option><option value="nexans">Nexans ID540479078 · UNKNOWN α / derating</option><option value="teaching">SYNTHETIC · teaching cables</option></select></label>${project.cables
+      .filter((c) => c.manufacturer)
+      .map((c) => equipmentSources(c))
+      .join(
+        "",
+      )}</section><section class="panel"><h2>${x.siteTitle}</h2><div class="form-grid">${field("Tmin cell, °C", "site.t_min_cell_c", project.site.t_min_cell_c)}${field("Tmax cell, °C", "site.t_max_cell_c", project.site.t_max_cell_c)}${field("cos φ", "site.cos_phi", project.site.cos_phi)}${field("Ik, kA", "prospective_short_circuit_ka", project.prospective_short_circuit_ka)}${field("Icu, kA", "breaker_icu_ka", project.breaker_icu_ka)}</div><p class="small">${x.blank}</p></section>${(["dc", "ac"] as const).map((side) => `<section class="panel"><h2>${side === "dc" ? x.dcCable : x.acCable}</h2><div class="form-grid">${field(x.length, side + ".length_m", project[side].length_m)}${field(x.temperature, side + ".conductor_temp_c", project[side].conductor_temp_c)}${field(x.derating, side + ".derating_factor", project[side].derating_factor)}${field(x.basis, side + ".derating_basis", project[side].derating_basis, "text")}${field(lang === "uk" ? "Спосіб прокладання" : "Installation method", side + ".installation_method", project[side].installation_method, "text")}${field(lang === "uk" ? "Температура повітря, °C" : "Ambient temperature, °C", side + ".ambient_temp_c", project[side].ambient_temp_c)}${field(lang === "uk" ? "Кількість згрупованих кіл" : "Grouped circuits", side + ".grouped_circuits", project[side].grouped_circuits)}</div></section>`).join("")}<section class="panel"><h2>${x.policy}</h2><div class="form-grid">${field("Isc factor", "policy.isc_factor", project.policy.isc_factor)}${field("DC ΔU max, %", "policy.dc_drop_max_pct", project.policy.dc_drop_max_pct)}${field("AC ΔU max, %", "policy.ac_drop_max_pct", project.policy.ac_drop_max_pct)}</div><p class="small">${esc(project.policy.sources.map((s) => s.label).join("; "))}</p><button data-tab="json">${x.json}</button></section>`;
   if (tab === "strings")
     content.innerHTML = `<section class="panel"><h2>${lang === "uk" ? "Діапазон модулів у стрінгу" : "String length range"}</h2>${table(
       ["MPPT", "Nmin", "Nmax", "Voc cold, V", "Vmp hot, V"],
@@ -473,6 +484,15 @@ function bind() {
         commit(p);
       }),
   );
+  document.getElementById("cableCatalog")?.addEventListener("change", (e) => {
+    const value = (e.target as HTMLSelectElement).value;
+    if (!value) return;
+    const p = structuredClone(project);
+    p.cables = (value === "nexans" ? realCables : teachingCables).map((c) =>
+      CableSchema.parse(c),
+    );
+    commit(p);
+  });
   for (const side of ["module", "inverter"] as const) {
     document
       .getElementById(side + "Catalog")

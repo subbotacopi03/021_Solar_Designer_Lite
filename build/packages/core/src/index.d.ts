@@ -97,8 +97,6 @@ export declare function calculateProject(raw: unknown): {
                     circuit: "DC" | "AC";
                     material: "Cu" | "Al";
                     section_mm2: number;
-                    r20_ohm_km: number;
-                    alpha_per_c: number;
                     installation_basis: string;
                     sources: {
                         id: string;
@@ -111,10 +109,33 @@ export declare function calculateProject(raw: unknown): {
                         sha256?: string | undefined;
                         notes?: string | undefined;
                     }[];
+                    r20_ohm_km?: number | null | undefined;
+                    alpha_per_c?: number | null | undefined;
                     x_ohm_km?: number | null | undefined;
                     max_voltage_v?: number | null | undefined;
                     max_conductor_temp_c?: number | null | undefined;
                     iz_a?: number | null | undefined;
+                    ampacity_reference?: {
+                        installation_method: string;
+                        sources: {
+                            id: string;
+                            label: string;
+                            verification: "USER_INPUT" | "UNVERIFIED" | "VERIFIED" | "SYNTHETIC";
+                            url?: string | undefined;
+                            reviewed_on?: string | undefined;
+                            document_revision?: string | undefined;
+                            locator?: string | undefined;
+                            sha256?: string | undefined;
+                            notes?: string | undefined;
+                        }[];
+                        ambient_temp_c?: number | null | undefined;
+                        conductor_temp_c?: number | null | undefined;
+                        grouped_circuits?: number | null | undefined;
+                    } | undefined;
+                    manufacturer?: string | undefined;
+                    model?: string | undefined;
+                    units?: Record<string, string> | undefined;
+                    data_notes?: string[] | undefined;
                 };
                 checks: {
                     id: string;
@@ -141,8 +162,6 @@ export declare function calculateProject(raw: unknown): {
                     circuit: "DC" | "AC";
                     material: "Cu" | "Al";
                     section_mm2: number;
-                    r20_ohm_km: number;
-                    alpha_per_c: number;
                     installation_basis: string;
                     sources: {
                         id: string;
@@ -155,10 +174,33 @@ export declare function calculateProject(raw: unknown): {
                         sha256?: string | undefined;
                         notes?: string | undefined;
                     }[];
+                    r20_ohm_km?: number | null | undefined;
+                    alpha_per_c?: number | null | undefined;
                     x_ohm_km?: number | null | undefined;
                     max_voltage_v?: number | null | undefined;
                     max_conductor_temp_c?: number | null | undefined;
                     iz_a?: number | null | undefined;
+                    ampacity_reference?: {
+                        installation_method: string;
+                        sources: {
+                            id: string;
+                            label: string;
+                            verification: "USER_INPUT" | "UNVERIFIED" | "VERIFIED" | "SYNTHETIC";
+                            url?: string | undefined;
+                            reviewed_on?: string | undefined;
+                            document_revision?: string | undefined;
+                            locator?: string | undefined;
+                            sha256?: string | undefined;
+                            notes?: string | undefined;
+                        }[];
+                        ambient_temp_c?: number | null | undefined;
+                        conductor_temp_c?: number | null | undefined;
+                        grouped_circuits?: number | null | undefined;
+                    } | undefined;
+                    manufacturer?: string | undefined;
+                    model?: string | undefined;
+                    units?: Record<string, string> | undefined;
+                    data_notes?: string[] | undefined;
                 };
                 checks: {
                     id: string;
@@ -200,8 +242,6 @@ export declare function calculateProject(raw: unknown): {
                 circuit: "DC" | "AC";
                 material: "Cu" | "Al";
                 section_mm2: number;
-                r20_ohm_km: number;
-                alpha_per_c: number;
                 installation_basis: string;
                 sources: {
                     id: string;
@@ -214,10 +254,33 @@ export declare function calculateProject(raw: unknown): {
                     sha256?: string | undefined;
                     notes?: string | undefined;
                 }[];
+                r20_ohm_km?: number | null | undefined;
+                alpha_per_c?: number | null | undefined;
                 x_ohm_km?: number | null | undefined;
                 max_voltage_v?: number | null | undefined;
                 max_conductor_temp_c?: number | null | undefined;
                 iz_a?: number | null | undefined;
+                ampacity_reference?: {
+                    installation_method: string;
+                    sources: {
+                        id: string;
+                        label: string;
+                        verification: "USER_INPUT" | "UNVERIFIED" | "VERIFIED" | "SYNTHETIC";
+                        url?: string | undefined;
+                        reviewed_on?: string | undefined;
+                        document_revision?: string | undefined;
+                        locator?: string | undefined;
+                        sha256?: string | undefined;
+                        notes?: string | undefined;
+                    }[];
+                    ambient_temp_c?: number | null | undefined;
+                    conductor_temp_c?: number | null | undefined;
+                    grouped_circuits?: number | null | undefined;
+                } | undefined;
+                manufacturer?: string | undefined;
+                model?: string | undefined;
+                units?: Record<string, string> | undefined;
+                data_notes?: string[] | undefined;
             };
             checks: {
                 id: string;
@@ -244,8 +307,6 @@ export declare function calculateProject(raw: unknown): {
                 circuit: "DC" | "AC";
                 material: "Cu" | "Al";
                 section_mm2: number;
-                r20_ohm_km: number;
-                alpha_per_c: number;
                 installation_basis: string;
                 sources: {
                     id: string;
@@ -258,10 +319,33 @@ export declare function calculateProject(raw: unknown): {
                     sha256?: string | undefined;
                     notes?: string | undefined;
                 }[];
+                r20_ohm_km?: number | null | undefined;
+                alpha_per_c?: number | null | undefined;
                 x_ohm_km?: number | null | undefined;
                 max_voltage_v?: number | null | undefined;
                 max_conductor_temp_c?: number | null | undefined;
                 iz_a?: number | null | undefined;
+                ampacity_reference?: {
+                    installation_method: string;
+                    sources: {
+                        id: string;
+                        label: string;
+                        verification: "USER_INPUT" | "UNVERIFIED" | "VERIFIED" | "SYNTHETIC";
+                        url?: string | undefined;
+                        reviewed_on?: string | undefined;
+                        document_revision?: string | undefined;
+                        locator?: string | undefined;
+                        sha256?: string | undefined;
+                        notes?: string | undefined;
+                    }[];
+                    ambient_temp_c?: number | null | undefined;
+                    conductor_temp_c?: number | null | undefined;
+                    grouped_circuits?: number | null | undefined;
+                } | undefined;
+                manufacturer?: string | undefined;
+                model?: string | undefined;
+                units?: Record<string, string> | undefined;
+                data_notes?: string[] | undefined;
             };
             checks: {
                 id: string;

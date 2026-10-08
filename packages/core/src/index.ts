@@ -124,6 +124,7 @@ export function calculateProject(raw: unknown) {
     );
   // AC route is one identical feeder per inverter; never the aggregate plant feeder.
   const ac = sizeCable(p.cables, {
+    ...p.ac,
     circuit: p.inverter.phases === 3 ? "AC3" : "AC1",
     ib_a: acCurrent,
     in_a: breaker,
@@ -159,6 +160,7 @@ export function calculateProject(raw: unknown) {
     const ib =
       p.policy.isc_factor == null ? null : p.module.isc_a * p.policy.isc_factor;
     const cable = sizeCable(p.cables, {
+      ...p.dc,
       circuit: "DC",
       ib_a: ib,
       in_a: fuse.required === null ? null : (fuse.rating_a ?? ib),
@@ -329,6 +331,19 @@ export function projectReport(
           `- ${source.verification} · ${source.label} · ${source.url ?? "UNKNOWN URL"} · ${source.reviewed_on ?? "UNKNOWN DATE"} · ${source.document_revision ?? "UNKNOWN REVISION"} · ${source.locator ?? ""} · ${source.notes ?? ""}`,
       ),
     ]),
+    `\n## ${uk ? "Кабельні дані та derating" : "Cable data and derating"}`,
+    ...p.cables.flatMap((cable) => [
+      `${cable.manufacturer ?? "SYNTHETIC / USER INPUT"} ${cable.model ?? cable.name}; R20=${cable.r20_ohm_km ?? "UNKNOWN"} Ω/km; α=${cable.alpha_per_c ?? "UNKNOWN"} 1/°C; X=${cable.x_ohm_km ?? "UNKNOWN"} Ω/km; Iz=${cable.iz_a ?? "UNKNOWN"} A`,
+      cable.installation_basis,
+      ...(cable.data_notes ?? []),
+      ...cable.sources.map(
+        (source) =>
+          `${source.verification} · ${source.url ?? source.label} · ${source.reviewed_on ?? "UNKNOWN DATE"}`,
+      ),
+    ]),
+    ...(["dc", "ac"] as const).map(
+      (side) => `${side.toUpperCase()}: ${JSON.stringify(p[side])}`,
+    ),
     `\n## ${uk ? "Стрінги" : "Strings"}`,
     "| ID | Inverter | MPPT | Plane | Modules |",
     "|---|---:|---|---|---:|",

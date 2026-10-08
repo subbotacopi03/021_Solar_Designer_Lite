@@ -131,25 +131,9 @@ export declare const SiteConditionsSchema: z.ZodObject<{
     t_max_cell_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
     cos_phi: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
 }, z.core.$strict>;
-export declare const CableSchema: z.ZodObject<{
-    id: z.ZodString;
-    name: z.ZodString;
-    circuit: z.ZodEnum<{
-        DC: "DC";
-        AC: "AC";
-    }>;
-    material: z.ZodEnum<{
-        Cu: "Cu";
-        Al: "Al";
-    }>;
-    section_mm2: z.ZodNumber;
-    r20_ohm_km: z.ZodNumber;
-    alpha_per_c: z.ZodNumber;
-    x_ohm_km: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
-    max_voltage_v: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
-    max_conductor_temp_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
-    iz_a: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
-    installation_basis: z.ZodString;
+export declare const FactorEvidenceSchema: z.ZodObject<{
+    factor: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    basis: z.ZodString;
     sources: z.ZodArray<z.ZodObject<{
         id: z.ZodString;
         label: z.ZodString;
@@ -166,6 +150,152 @@ export declare const CableSchema: z.ZodObject<{
         sha256: z.ZodOptional<z.ZodString>;
         notes: z.ZodOptional<z.ZodString>;
     }, z.core.$strict>>;
+}, z.core.$strict>;
+export declare const DeratingEvidenceSchema: z.ZodObject<{
+    temperature: z.ZodObject<{
+        factor: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        basis: z.ZodString;
+        sources: z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            label: z.ZodString;
+            url: z.ZodOptional<z.ZodURL>;
+            verification: z.ZodEnum<{
+                USER_INPUT: "USER_INPUT";
+                UNVERIFIED: "UNVERIFIED";
+                VERIFIED: "VERIFIED";
+                SYNTHETIC: "SYNTHETIC";
+            }>;
+            reviewed_on: z.ZodOptional<z.ZodISODate>;
+            document_revision: z.ZodOptional<z.ZodString>;
+            locator: z.ZodOptional<z.ZodString>;
+            sha256: z.ZodOptional<z.ZodString>;
+            notes: z.ZodOptional<z.ZodString>;
+        }, z.core.$strict>>;
+    }, z.core.$strict>;
+    grouping: z.ZodObject<{
+        factor: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        basis: z.ZodString;
+        sources: z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            label: z.ZodString;
+            url: z.ZodOptional<z.ZodURL>;
+            verification: z.ZodEnum<{
+                USER_INPUT: "USER_INPUT";
+                UNVERIFIED: "UNVERIFIED";
+                VERIFIED: "VERIFIED";
+                SYNTHETIC: "SYNTHETIC";
+            }>;
+            reviewed_on: z.ZodOptional<z.ZodISODate>;
+            document_revision: z.ZodOptional<z.ZodString>;
+            locator: z.ZodOptional<z.ZodString>;
+            sha256: z.ZodOptional<z.ZodString>;
+            notes: z.ZodOptional<z.ZodString>;
+        }, z.core.$strict>>;
+    }, z.core.$strict>;
+    installation: z.ZodObject<{
+        factor: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        basis: z.ZodString;
+        sources: z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            label: z.ZodString;
+            url: z.ZodOptional<z.ZodURL>;
+            verification: z.ZodEnum<{
+                USER_INPUT: "USER_INPUT";
+                UNVERIFIED: "UNVERIFIED";
+                VERIFIED: "VERIFIED";
+                SYNTHETIC: "SYNTHETIC";
+            }>;
+            reviewed_on: z.ZodOptional<z.ZodISODate>;
+            document_revision: z.ZodOptional<z.ZodString>;
+            locator: z.ZodOptional<z.ZodString>;
+            sha256: z.ZodOptional<z.ZodString>;
+            notes: z.ZodOptional<z.ZodString>;
+        }, z.core.$strict>>;
+    }, z.core.$strict>;
+}, z.core.$strict>;
+export declare const AmpacityReferenceSchema: z.ZodObject<{
+    installation_method: z.ZodString;
+    ambient_temp_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    conductor_temp_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    grouped_circuits: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    sources: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        label: z.ZodString;
+        url: z.ZodOptional<z.ZodURL>;
+        verification: z.ZodEnum<{
+            USER_INPUT: "USER_INPUT";
+            UNVERIFIED: "UNVERIFIED";
+            VERIFIED: "VERIFIED";
+            SYNTHETIC: "SYNTHETIC";
+        }>;
+        reviewed_on: z.ZodOptional<z.ZodISODate>;
+        document_revision: z.ZodOptional<z.ZodString>;
+        locator: z.ZodOptional<z.ZodString>;
+        sha256: z.ZodOptional<z.ZodString>;
+        notes: z.ZodOptional<z.ZodString>;
+    }, z.core.$strict>>;
+}, z.core.$strict>;
+export declare const CableSchema: z.ZodObject<{
+    id: z.ZodString;
+    name: z.ZodString;
+    circuit: z.ZodEnum<{
+        DC: "DC";
+        AC: "AC";
+    }>;
+    material: z.ZodEnum<{
+        Cu: "Cu";
+        Al: "Al";
+    }>;
+    section_mm2: z.ZodNumber;
+    r20_ohm_km: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    alpha_per_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    x_ohm_km: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    max_voltage_v: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    max_conductor_temp_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    iz_a: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    installation_basis: z.ZodString;
+    ampacity_reference: z.ZodOptional<z.ZodObject<{
+        installation_method: z.ZodString;
+        ambient_temp_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        conductor_temp_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        grouped_circuits: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        sources: z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            label: z.ZodString;
+            url: z.ZodOptional<z.ZodURL>;
+            verification: z.ZodEnum<{
+                USER_INPUT: "USER_INPUT";
+                UNVERIFIED: "UNVERIFIED";
+                VERIFIED: "VERIFIED";
+                SYNTHETIC: "SYNTHETIC";
+            }>;
+            reviewed_on: z.ZodOptional<z.ZodISODate>;
+            document_revision: z.ZodOptional<z.ZodString>;
+            locator: z.ZodOptional<z.ZodString>;
+            sha256: z.ZodOptional<z.ZodString>;
+            notes: z.ZodOptional<z.ZodString>;
+        }, z.core.$strict>>;
+    }, z.core.$strict>>;
+    sources: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        label: z.ZodString;
+        url: z.ZodOptional<z.ZodURL>;
+        verification: z.ZodEnum<{
+            USER_INPUT: "USER_INPUT";
+            UNVERIFIED: "UNVERIFIED";
+            VERIFIED: "VERIFIED";
+            SYNTHETIC: "SYNTHETIC";
+        }>;
+        reviewed_on: z.ZodOptional<z.ZodISODate>;
+        document_revision: z.ZodOptional<z.ZodString>;
+        locator: z.ZodOptional<z.ZodString>;
+        sha256: z.ZodOptional<z.ZodString>;
+        notes: z.ZodOptional<z.ZodString>;
+    }, z.core.$strict>>;
+    manufacturer: z.ZodOptional<z.ZodString>;
+    model: z.ZodOptional<z.ZodString>;
+    units: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodString>>;
+    data_notes: z.ZodOptional<z.ZodArray<z.ZodString>>;
 }, z.core.$strict>;
 export declare const ElectricalPolicySchema: z.ZodObject<{
     id: z.ZodString;
@@ -232,6 +362,71 @@ export declare const EngineeringCheckSchema: z.ZodObject<{
     message_key: z.ZodString;
 }, z.core.$strict>;
 export declare const CircuitInputSchema: z.ZodObject<{
+    installation_method: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    ambient_temp_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    grouped_circuits: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    derating_evidence: z.ZodOptional<z.ZodObject<{
+        temperature: z.ZodObject<{
+            factor: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+            basis: z.ZodString;
+            sources: z.ZodArray<z.ZodObject<{
+                id: z.ZodString;
+                label: z.ZodString;
+                url: z.ZodOptional<z.ZodURL>;
+                verification: z.ZodEnum<{
+                    USER_INPUT: "USER_INPUT";
+                    UNVERIFIED: "UNVERIFIED";
+                    VERIFIED: "VERIFIED";
+                    SYNTHETIC: "SYNTHETIC";
+                }>;
+                reviewed_on: z.ZodOptional<z.ZodISODate>;
+                document_revision: z.ZodOptional<z.ZodString>;
+                locator: z.ZodOptional<z.ZodString>;
+                sha256: z.ZodOptional<z.ZodString>;
+                notes: z.ZodOptional<z.ZodString>;
+            }, z.core.$strict>>;
+        }, z.core.$strict>;
+        grouping: z.ZodObject<{
+            factor: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+            basis: z.ZodString;
+            sources: z.ZodArray<z.ZodObject<{
+                id: z.ZodString;
+                label: z.ZodString;
+                url: z.ZodOptional<z.ZodURL>;
+                verification: z.ZodEnum<{
+                    USER_INPUT: "USER_INPUT";
+                    UNVERIFIED: "UNVERIFIED";
+                    VERIFIED: "VERIFIED";
+                    SYNTHETIC: "SYNTHETIC";
+                }>;
+                reviewed_on: z.ZodOptional<z.ZodISODate>;
+                document_revision: z.ZodOptional<z.ZodString>;
+                locator: z.ZodOptional<z.ZodString>;
+                sha256: z.ZodOptional<z.ZodString>;
+                notes: z.ZodOptional<z.ZodString>;
+            }, z.core.$strict>>;
+        }, z.core.$strict>;
+        installation: z.ZodObject<{
+            factor: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+            basis: z.ZodString;
+            sources: z.ZodArray<z.ZodObject<{
+                id: z.ZodString;
+                label: z.ZodString;
+                url: z.ZodOptional<z.ZodURL>;
+                verification: z.ZodEnum<{
+                    USER_INPUT: "USER_INPUT";
+                    UNVERIFIED: "UNVERIFIED";
+                    VERIFIED: "VERIFIED";
+                    SYNTHETIC: "SYNTHETIC";
+                }>;
+                reviewed_on: z.ZodOptional<z.ZodISODate>;
+                document_revision: z.ZodOptional<z.ZodString>;
+                locator: z.ZodOptional<z.ZodString>;
+                sha256: z.ZodOptional<z.ZodString>;
+                notes: z.ZodOptional<z.ZodString>;
+            }, z.core.$strict>>;
+        }, z.core.$strict>;
+    }, z.core.$strict>>;
     length_m: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
     conductor_temp_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
     derating_factor: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
@@ -368,13 +563,35 @@ export declare const ProjectSchema: z.ZodObject<{
             Al: "Al";
         }>;
         section_mm2: z.ZodNumber;
-        r20_ohm_km: z.ZodNumber;
-        alpha_per_c: z.ZodNumber;
+        r20_ohm_km: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        alpha_per_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
         x_ohm_km: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
         max_voltage_v: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
         max_conductor_temp_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
         iz_a: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
         installation_basis: z.ZodString;
+        ampacity_reference: z.ZodOptional<z.ZodObject<{
+            installation_method: z.ZodString;
+            ambient_temp_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+            conductor_temp_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+            grouped_circuits: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+            sources: z.ZodArray<z.ZodObject<{
+                id: z.ZodString;
+                label: z.ZodString;
+                url: z.ZodOptional<z.ZodURL>;
+                verification: z.ZodEnum<{
+                    USER_INPUT: "USER_INPUT";
+                    UNVERIFIED: "UNVERIFIED";
+                    VERIFIED: "VERIFIED";
+                    SYNTHETIC: "SYNTHETIC";
+                }>;
+                reviewed_on: z.ZodOptional<z.ZodISODate>;
+                document_revision: z.ZodOptional<z.ZodString>;
+                locator: z.ZodOptional<z.ZodString>;
+                sha256: z.ZodOptional<z.ZodString>;
+                notes: z.ZodOptional<z.ZodString>;
+            }, z.core.$strict>>;
+        }, z.core.$strict>>;
         sources: z.ZodArray<z.ZodObject<{
             id: z.ZodString;
             label: z.ZodString;
@@ -391,14 +608,148 @@ export declare const ProjectSchema: z.ZodObject<{
             sha256: z.ZodOptional<z.ZodString>;
             notes: z.ZodOptional<z.ZodString>;
         }, z.core.$strict>>;
+        manufacturer: z.ZodOptional<z.ZodString>;
+        model: z.ZodOptional<z.ZodString>;
+        units: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodString>>;
+        data_notes: z.ZodOptional<z.ZodArray<z.ZodString>>;
     }, z.core.$strict>>;
     dc: z.ZodObject<{
+        installation_method: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        ambient_temp_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        grouped_circuits: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        derating_evidence: z.ZodOptional<z.ZodObject<{
+            temperature: z.ZodObject<{
+                factor: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+                basis: z.ZodString;
+                sources: z.ZodArray<z.ZodObject<{
+                    id: z.ZodString;
+                    label: z.ZodString;
+                    url: z.ZodOptional<z.ZodURL>;
+                    verification: z.ZodEnum<{
+                        USER_INPUT: "USER_INPUT";
+                        UNVERIFIED: "UNVERIFIED";
+                        VERIFIED: "VERIFIED";
+                        SYNTHETIC: "SYNTHETIC";
+                    }>;
+                    reviewed_on: z.ZodOptional<z.ZodISODate>;
+                    document_revision: z.ZodOptional<z.ZodString>;
+                    locator: z.ZodOptional<z.ZodString>;
+                    sha256: z.ZodOptional<z.ZodString>;
+                    notes: z.ZodOptional<z.ZodString>;
+                }, z.core.$strict>>;
+            }, z.core.$strict>;
+            grouping: z.ZodObject<{
+                factor: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+                basis: z.ZodString;
+                sources: z.ZodArray<z.ZodObject<{
+                    id: z.ZodString;
+                    label: z.ZodString;
+                    url: z.ZodOptional<z.ZodURL>;
+                    verification: z.ZodEnum<{
+                        USER_INPUT: "USER_INPUT";
+                        UNVERIFIED: "UNVERIFIED";
+                        VERIFIED: "VERIFIED";
+                        SYNTHETIC: "SYNTHETIC";
+                    }>;
+                    reviewed_on: z.ZodOptional<z.ZodISODate>;
+                    document_revision: z.ZodOptional<z.ZodString>;
+                    locator: z.ZodOptional<z.ZodString>;
+                    sha256: z.ZodOptional<z.ZodString>;
+                    notes: z.ZodOptional<z.ZodString>;
+                }, z.core.$strict>>;
+            }, z.core.$strict>;
+            installation: z.ZodObject<{
+                factor: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+                basis: z.ZodString;
+                sources: z.ZodArray<z.ZodObject<{
+                    id: z.ZodString;
+                    label: z.ZodString;
+                    url: z.ZodOptional<z.ZodURL>;
+                    verification: z.ZodEnum<{
+                        USER_INPUT: "USER_INPUT";
+                        UNVERIFIED: "UNVERIFIED";
+                        VERIFIED: "VERIFIED";
+                        SYNTHETIC: "SYNTHETIC";
+                    }>;
+                    reviewed_on: z.ZodOptional<z.ZodISODate>;
+                    document_revision: z.ZodOptional<z.ZodString>;
+                    locator: z.ZodOptional<z.ZodString>;
+                    sha256: z.ZodOptional<z.ZodString>;
+                    notes: z.ZodOptional<z.ZodString>;
+                }, z.core.$strict>>;
+            }, z.core.$strict>;
+        }, z.core.$strict>>;
         length_m: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
         conductor_temp_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
         derating_factor: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
         derating_basis: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     }, z.core.$strict>;
     ac: z.ZodObject<{
+        installation_method: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        ambient_temp_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        grouped_circuits: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        derating_evidence: z.ZodOptional<z.ZodObject<{
+            temperature: z.ZodObject<{
+                factor: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+                basis: z.ZodString;
+                sources: z.ZodArray<z.ZodObject<{
+                    id: z.ZodString;
+                    label: z.ZodString;
+                    url: z.ZodOptional<z.ZodURL>;
+                    verification: z.ZodEnum<{
+                        USER_INPUT: "USER_INPUT";
+                        UNVERIFIED: "UNVERIFIED";
+                        VERIFIED: "VERIFIED";
+                        SYNTHETIC: "SYNTHETIC";
+                    }>;
+                    reviewed_on: z.ZodOptional<z.ZodISODate>;
+                    document_revision: z.ZodOptional<z.ZodString>;
+                    locator: z.ZodOptional<z.ZodString>;
+                    sha256: z.ZodOptional<z.ZodString>;
+                    notes: z.ZodOptional<z.ZodString>;
+                }, z.core.$strict>>;
+            }, z.core.$strict>;
+            grouping: z.ZodObject<{
+                factor: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+                basis: z.ZodString;
+                sources: z.ZodArray<z.ZodObject<{
+                    id: z.ZodString;
+                    label: z.ZodString;
+                    url: z.ZodOptional<z.ZodURL>;
+                    verification: z.ZodEnum<{
+                        USER_INPUT: "USER_INPUT";
+                        UNVERIFIED: "UNVERIFIED";
+                        VERIFIED: "VERIFIED";
+                        SYNTHETIC: "SYNTHETIC";
+                    }>;
+                    reviewed_on: z.ZodOptional<z.ZodISODate>;
+                    document_revision: z.ZodOptional<z.ZodString>;
+                    locator: z.ZodOptional<z.ZodString>;
+                    sha256: z.ZodOptional<z.ZodString>;
+                    notes: z.ZodOptional<z.ZodString>;
+                }, z.core.$strict>>;
+            }, z.core.$strict>;
+            installation: z.ZodObject<{
+                factor: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+                basis: z.ZodString;
+                sources: z.ZodArray<z.ZodObject<{
+                    id: z.ZodString;
+                    label: z.ZodString;
+                    url: z.ZodOptional<z.ZodURL>;
+                    verification: z.ZodEnum<{
+                        USER_INPUT: "USER_INPUT";
+                        UNVERIFIED: "UNVERIFIED";
+                        VERIFIED: "VERIFIED";
+                        SYNTHETIC: "SYNTHETIC";
+                    }>;
+                    reviewed_on: z.ZodOptional<z.ZodISODate>;
+                    document_revision: z.ZodOptional<z.ZodString>;
+                    locator: z.ZodOptional<z.ZodString>;
+                    sha256: z.ZodOptional<z.ZodString>;
+                    notes: z.ZodOptional<z.ZodString>;
+                }, z.core.$strict>>;
+            }, z.core.$strict>;
+        }, z.core.$strict>>;
         length_m: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
         conductor_temp_c: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
         derating_factor: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
@@ -423,3 +774,4 @@ export type EngineeringCheck = z.infer<typeof EngineeringCheckSchema>;
 export type StringConfiguration = z.infer<typeof StringConfigurationSchema>;
 export type Project = z.infer<typeof ProjectSchema>;
 export type Status = EngineeringCheck["status"];
+export type CircuitInput = z.infer<typeof CircuitInputSchema>;

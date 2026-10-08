@@ -7,8 +7,14 @@ export function evaluateCable(cable, input) {
         length_m: input.length_m,
         voltage_v: input.voltage_v,
         conductor_temp_c: input.conductor_temp_c,
-        derating_factor: input.derating_factor,
-        derating_basis: input.derating_basis,
+        ...(!input.derating_evidence
+            ? {
+                derating_factor: input.derating_factor,
+                derating_basis: input.derating_basis,
+            }
+            : {}),
+        r20_ohm_km: cable.r20_ohm_km,
+        alpha_per_c: cable.alpha_per_c,
         iz_a: cable.iz_a,
         in_a: input.in_a,
         drop_limit_pct: input.drop_limit_pct,
@@ -22,7 +28,9 @@ export function evaluateCable(cable, input) {
         if (cable.x_ohm_km == null)
             missing.push("x_ohm_km");
     }
-    const r = input.conductor_temp_c == null
+    const r = input.conductor_temp_c == null ||
+        cable.r20_ohm_km == null ||
+        cable.alpha_per_c == null
         ? null
         : resistanceAtTemperature(cable.r20_ohm_km, cable.alpha_per_c, input.conductor_temp_c);
     const drop = r == null || input.ib_a == null || input.length_m == null
@@ -38,9 +46,14 @@ export function evaluateCable(cable, input) {
     const pct = drop == null || input.voltage_v == null
         ? null
         : (drop / input.voltage_v) * 100;
-    const iz = cable.iz_a == null || input.derating_factor == null
-        ? null
-        : cable.iz_a * input.derating_factor;
+    const evidence = input.derating_evidence;
+    const factors = evidence ? Object.values(evidence) : [];
+    const factor = evidence
+        ? factors.every((e) => e.factor != null)
+            ? factors.reduce((product, e) => product * e.factor, 1)
+            : null
+        : input.derating_factor;
+    const iz = cable.iz_a == null || factor == null ? null : cable.iz_a * factor;
     const checks = [
         check(cable.id + ":IB_IN", input.ib_a, input.in_a, "A", "Ib ≤ In", missing),
         check(cable.id + ":IN_IZ", input.in_a, iz, "A", "In ≤ Iz × kT × kg", missing),
@@ -48,13 +61,52 @@ export function evaluateCable(cable, input) {
         check(cable.id + ":VOLTAGE", input.required_voltage_v, cable.max_voltage_v, "V", "Rated voltage; confirm conductor-to-earth arrangement", ["max_voltage_v", "required_voltage_v"]),
         check(cable.id + ":TEMPERATURE", input.conductor_temp_c, cable.max_conductor_temp_c, "°C", "Cable temperature rating", ["max_conductor_temp_c"]),
     ];
+    if (evidence) {
+        if (factor == null)
+            missing.push("derating_evidence.factors");
+        if (factors.some((e) => !e.sources.length ||
+            e.sources.some((s) => s.verification !== "VERIFIED")))
+            missing.push("verified_derating_sources");
+        if (input.derating_factor != null && factor != null)
+            checks.push(finding(cable.id + ":DERATING_PRODUCT", Math.abs(input.derating_factor - factor) <= 1e-9 ? "PASS" : "FAIL", "Explicit aggregate factor must equal the sourced temperature × grouping × installation product"));
+    }
+    const reference = cable.ampacity_reference;
+    if (reference) {
+        const profileMissing = [];
+        for (const [key, value] of Object.entries({
+            installation_method: input.installation_method,
+            ambient_temp_c: input.ambient_temp_c,
+            grouped_circuits: input.grouped_circuits,
+            derating_evidence: evidence,
+            reference_ambient_temp_c: reference.ambient_temp_c,
+            reference_conductor_temp_c: reference.conductor_temp_c,
+            reference_grouped_circuits: reference.grouped_circuits,
+        }))
+            if (value == null)
+                profileMissing.push(key);
+        if (input.installation_method !== reference.installation_method)
+            profileMissing.push("applicable_installation_method");
+        if (reference.conductor_temp_c != null &&
+            input.conductor_temp_c !== reference.conductor_temp_c)
+            profileMissing.push("conductor_temperature_ampacity_profile");
+        if (!reference.sources.length ||
+            reference.sources.some((s) => s.verification !== "VERIFIED"))
+            profileMissing.push("verified_ampacity_reference_sources");
+        checks.push(finding(cable.id + ":INSTALLATION_PROFILE", profileMissing.length ? "UNKNOWN" : "PASS", "Ampacity reference applicability: method, ambient, conductor temperature and grouping; no implicit factors", profileMissing));
+    }
     if (missing.length)
         checks.push(finding(cable.id + ":DATA", "UNKNOWN", "Missing circuit data", missing));
     if (!cable.sources.length ||
         cable.sources.some((s) => s.verification !== "VERIFIED"))
         checks.push(finding(cable.id + ":PROVENANCE", "WARN", "Catalog ampacity is preliminary; verify datasheet and installation method"));
     for (const c of checks)
-        c.source_ids = cable.sources.map((s) => s.id);
+        c.source_ids = [
+            ...new Set([
+                ...cable.sources,
+                ...(reference?.sources ?? []),
+                ...factors.flatMap((e) => e.sources),
+            ].map((s) => s.id)),
+        ];
     return {
         cable,
         checks,

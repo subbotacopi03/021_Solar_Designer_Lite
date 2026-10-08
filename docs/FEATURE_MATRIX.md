@@ -7,7 +7,7 @@
 | Isc/Imp на MPPT і входах | Так | calculate | Findings | IMPLEMENTED |
 | DC/AC | Так | calculate | KPI/policy | IMPLEMENTED |
 | DC/AC кабель, ΔU, R(T) | Так | calculate | Feeder table | IMPLEMENTED · preliminary |
-| Derating | Explicit factor | JSON | Editable factor+basis | IMPLEMENTED · no automatic norm tables |
+| Derating | Explicit factor | JSON | Editable factor+basis | IMPLEMENTED · sourced structured factors / applicability; no automatic norm tables |
 | Breaker In/Icu | Candidate/check | calculate | Findings | IMPLEMENTED · not full protection |
 | Fuse requirement/rating | Explicit withstand / policy | calculate | Findings | PARTIAL · no inverter backfeed |
 | DC isolator | Nominal candidate | calculate | Result JSON | PARTIAL · device type/voltage checks required |

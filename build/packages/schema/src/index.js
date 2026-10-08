@@ -104,19 +104,38 @@ export const SiteConditionsSchema = z
     .refine((s) => s.t_min_cell_c == null ||
     s.t_max_cell_c == null ||
     s.t_min_cell_c <= s.t_max_cell_c, { message: "Tmin must not exceed Tmax" });
+export const FactorEvidenceSchema = z.strictObject({
+    factor: z.number().finite().gt(0).max(1).nullish(),
+    basis: z.string().min(1),
+    sources: z.array(SourceSchema),
+});
+export const DeratingEvidenceSchema = z.strictObject({
+    temperature: FactorEvidenceSchema,
+    grouping: FactorEvidenceSchema,
+    installation: FactorEvidenceSchema,
+});
+export const AmpacityReferenceSchema = z.strictObject({
+    installation_method: z.string().min(1),
+    ambient_temp_c: temperature,
+    conductor_temp_c: temperature,
+    grouped_circuits: count.nullish(),
+    sources: z.array(SourceSchema),
+});
 export const CableSchema = z.strictObject({
+    ...equipmentMetadata,
     id: z.string().min(1),
     name: z.string().min(1),
     circuit: z.enum(["DC", "AC"]),
     material: z.enum(["Cu", "Al"]),
     section_mm2: positive,
-    r20_ohm_km: positive,
-    alpha_per_c: positive,
+    r20_ohm_km: optionalPositive,
+    alpha_per_c: optionalPositive,
     x_ohm_km: nonnegative.nullish(),
     max_voltage_v: optionalPositive,
     max_conductor_temp_c: temperature,
     iz_a: optionalPositive,
     installation_basis: z.string().min(1),
+    ampacity_reference: AmpacityReferenceSchema.optional(),
     sources: z.array(SourceSchema),
 });
 export const ElectricalPolicySchema = z
@@ -164,6 +183,10 @@ export const EngineeringCheckSchema = z.strictObject({
     message_key: z.string(),
 });
 export const CircuitInputSchema = z.strictObject({
+    installation_method: z.string().min(1).nullish(),
+    ambient_temp_c: temperature,
+    grouped_circuits: count.nullish(),
+    derating_evidence: DeratingEvidenceSchema.optional(),
     length_m: nonnegative.nullish(),
     conductor_temp_c: temperature,
     derating_factor: z.number().finite().gt(0).max(1).nullish(),

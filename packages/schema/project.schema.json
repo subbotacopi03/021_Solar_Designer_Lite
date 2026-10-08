@@ -705,6 +705,29 @@
       "items": {
         "type": "object",
         "properties": {
+          "manufacturer": {
+            "type": "string",
+            "minLength": 1
+          },
+          "model": {
+            "type": "string",
+            "minLength": 1
+          },
+          "units": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "data_notes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "id": {
             "type": "string",
             "minLength": 1
@@ -732,12 +755,26 @@
             "exclusiveMinimum": 0
           },
           "r20_ohm_km": {
-            "type": "number",
-            "exclusiveMinimum": 0
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "alpha_per_c": {
-            "type": "number",
-            "exclusiveMinimum": 0
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "x_ohm_km": {
             "anyOf": [
@@ -787,6 +824,112 @@
           "installation_basis": {
             "type": "string",
             "minLength": 1
+          },
+          "ampacity_reference": {
+            "type": "object",
+            "properties": {
+              "installation_method": {
+                "type": "string",
+                "minLength": 1
+              },
+              "ambient_temp_c": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": -100,
+                    "maximum": 200
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "conductor_temp_c": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": -100,
+                    "maximum": 200
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "grouped_circuits": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "label": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "url": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "verification": {
+                      "type": "string",
+                      "enum": [
+                        "USER_INPUT",
+                        "UNVERIFIED",
+                        "VERIFIED",
+                        "SYNTHETIC"
+                      ]
+                    },
+                    "reviewed_on": {
+                      "type": "string",
+                      "format": "date",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                    },
+                    "document_revision": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "locator": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "sha256": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    "notes": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "label",
+                    "verification"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "installation_method",
+              "sources"
+            ],
+            "additionalProperties": false
           },
           "sources": {
             "type": "array",
@@ -851,8 +994,6 @@
           "circuit",
           "material",
           "section_mm2",
-          "r20_ohm_km",
-          "alpha_per_c",
           "installation_basis",
           "sources"
         ],
@@ -862,6 +1003,298 @@
     "dc": {
       "type": "object",
       "properties": {
+        "installation_method": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ambient_temp_c": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": -100,
+              "maximum": 200
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "grouped_circuits": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "derating_evidence": {
+          "type": "object",
+          "properties": {
+            "temperature": {
+              "type": "object",
+              "properties": {
+                "factor": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "exclusiveMinimum": 0,
+                      "maximum": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "basis": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sources": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "label": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "url": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "verification": {
+                        "type": "string",
+                        "enum": [
+                          "USER_INPUT",
+                          "UNVERIFIED",
+                          "VERIFIED",
+                          "SYNTHETIC"
+                        ]
+                      },
+                      "reviewed_on": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      },
+                      "document_revision": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "locator": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sha256": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      },
+                      "notes": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "label",
+                      "verification"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "basis",
+                "sources"
+              ],
+              "additionalProperties": false
+            },
+            "grouping": {
+              "type": "object",
+              "properties": {
+                "factor": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "exclusiveMinimum": 0,
+                      "maximum": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "basis": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sources": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "label": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "url": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "verification": {
+                        "type": "string",
+                        "enum": [
+                          "USER_INPUT",
+                          "UNVERIFIED",
+                          "VERIFIED",
+                          "SYNTHETIC"
+                        ]
+                      },
+                      "reviewed_on": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      },
+                      "document_revision": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "locator": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sha256": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      },
+                      "notes": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "label",
+                      "verification"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "basis",
+                "sources"
+              ],
+              "additionalProperties": false
+            },
+            "installation": {
+              "type": "object",
+              "properties": {
+                "factor": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "exclusiveMinimum": 0,
+                      "maximum": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "basis": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sources": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "label": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "url": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "verification": {
+                        "type": "string",
+                        "enum": [
+                          "USER_INPUT",
+                          "UNVERIFIED",
+                          "VERIFIED",
+                          "SYNTHETIC"
+                        ]
+                      },
+                      "reviewed_on": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      },
+                      "document_revision": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "locator": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sha256": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      },
+                      "notes": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "label",
+                      "verification"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "basis",
+                "sources"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "temperature",
+            "grouping",
+            "installation"
+          ],
+          "additionalProperties": false
+        },
         "length_m": {
           "anyOf": [
             {
@@ -914,6 +1347,298 @@
     "ac": {
       "type": "object",
       "properties": {
+        "installation_method": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ambient_temp_c": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": -100,
+              "maximum": 200
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "grouped_circuits": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "derating_evidence": {
+          "type": "object",
+          "properties": {
+            "temperature": {
+              "type": "object",
+              "properties": {
+                "factor": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "exclusiveMinimum": 0,
+                      "maximum": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "basis": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sources": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "label": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "url": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "verification": {
+                        "type": "string",
+                        "enum": [
+                          "USER_INPUT",
+                          "UNVERIFIED",
+                          "VERIFIED",
+                          "SYNTHETIC"
+                        ]
+                      },
+                      "reviewed_on": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      },
+                      "document_revision": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "locator": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sha256": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      },
+                      "notes": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "label",
+                      "verification"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "basis",
+                "sources"
+              ],
+              "additionalProperties": false
+            },
+            "grouping": {
+              "type": "object",
+              "properties": {
+                "factor": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "exclusiveMinimum": 0,
+                      "maximum": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "basis": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sources": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "label": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "url": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "verification": {
+                        "type": "string",
+                        "enum": [
+                          "USER_INPUT",
+                          "UNVERIFIED",
+                          "VERIFIED",
+                          "SYNTHETIC"
+                        ]
+                      },
+                      "reviewed_on": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      },
+                      "document_revision": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "locator": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sha256": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      },
+                      "notes": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "label",
+                      "verification"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "basis",
+                "sources"
+              ],
+              "additionalProperties": false
+            },
+            "installation": {
+              "type": "object",
+              "properties": {
+                "factor": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "exclusiveMinimum": 0,
+                      "maximum": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "basis": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sources": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "label": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "url": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "verification": {
+                        "type": "string",
+                        "enum": [
+                          "USER_INPUT",
+                          "UNVERIFIED",
+                          "VERIFIED",
+                          "SYNTHETIC"
+                        ]
+                      },
+                      "reviewed_on": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      },
+                      "document_revision": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "locator": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sha256": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      },
+                      "notes": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "label",
+                      "verification"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "basis",
+                "sources"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "temperature",
+            "grouping",
+            "installation"
+          ],
+          "additionalProperties": false
+        },
         "length_m": {
           "anyOf": [
             {
