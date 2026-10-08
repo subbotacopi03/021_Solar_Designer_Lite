@@ -122,3 +122,21 @@ Fresh pnpm check PASS178unit/17files,30CLI,10unchangedmanifest,legal/typecheck/b
 2026-10-08: DEVELOPMENT_PLAN переписано як актуальний P0baseline → P1pilot/fixes → P2public-preparation gates → P3manufacturer engineering plan. Завершені етапи не видаються наступними задачами. ANTIGRAVITY_HANDOFF.md містить source map, commands/exit codes, actual178/30/103/8verification scope, критичні invariants, pilot matrix, exact evidence gaps, author/license/root/privacy constraints та economy instructions. Короткий запуск — ANTIGRAVITY_START_PROMPT.txt; NEXT_AI_HANDOFF став актуальною короткою точкою входу, README/FEATURE_MATRIX оновлено. Попередні накопичені plan/handoff збережено в docs/history без видалення.
 
 Передавати всю source-папку, а не12-file runtimeZIP. Останній final committed-code archive smoke8PASS, source commit fafd5ec/dirtyfalse; вихідний backup/ZIP збережено. Цей handoff-stage змінює лише документацію; додаткові feature stages на прохання власника не починалися. Code baseline178unit/30CLI і existing browser evidence лишається чинним для незміненого коду; повторний pnpm check PASS178tests/17files,30CLI,10manifest,legal/typecheck/build/standalone/schema; evidence ignored .qa/handoff-check.txt. Lint/інші OS/human pilot/public release NOT_RUN, engineering UNKNOWN збережено.
+
+## Відтворення baseline (P0) та виконання користувацького пілоту (P1)
+
+2026-10-08: Роботу продовжено в поточному репозиторії. Відтворено вихідний baseline: Node v24.21.0, pnpm 11.25.0, `pnpm check` PASS (178 тестів / 17 файлів, 10 хешів маніфесту, 30 CLI smoke checks, збірка standalone HTML). CLI calculate та report на `trina435-manual24.json` повернули статус UNKNOWN із очікуваним інженерним кодом виходу 3. Усі наявні браузерні тести (browser-smoke, manual-plan, project-safety, attribution, adversarial, missing-data, routes, cable-inspector, review-pack) пройдено успішно з Google Chrome.
+
+Виконано етап P1 згідно з `DEVELOPMENT_PLAN.md` та `ANTIGRAVITY_HANDOFF.md`:
+1. Створено `docs/PILOT_TEST_MATRIX.md` із детальним журналом 9 сценаріїв пілоту (52 автоматизовані перевірки, усі PASS).
+2. Підтверджено та виправлено дефекти UX/A11y/локалізації:
+   - Додано відображення обраної моделі інвертора та потужності AC у блок «Вихідні дані» розділу «Огляд» (раніше виводилася лише кількість інверторів).
+   - Локалізовано обробку помилок у модулі `routes.ts`: передано `lang` у `bindRoutes`, підключено `formatInputError(reason, lang)`, перекладено системні сповіщення.
+   - Локалізовано сповіщення про ліміт розміру файлу JSON (1 МіБ) в `main.ts`.
+   - Усунуто дублювання повідомлення `noProven` в інспекторі кабелів: додано окреме інформативне повідомлення `noCandidates` українською та англійською мовами при порожньому списку кандидатів.
+   - Додано стилі `:focus-visible` для `<summary>` та `<a>` у `style.css` для повної клавіатурної доступності (WCAG Focus Visible).
+3. Проведено незалежну інженерну перевірку: Voc(-20°C) для 12 модулів Trina = 688.7328 V ≤ 1000 V SMA STP8.0 PASS; відсутній βVmp коректно залишає Vmp UNKNOWN.
+4. Підготовлено покроковий чеклист для тестування власником або зовнішнім тестером без залучення інструментів розробника.
+
+Результати перевірок після змін: `pnpm check` PASS (178 unit / 30 CLI / 10 manifest), усі browser suites PASS, автономний HTML оновлено. Збережено інваріанти: UNKNOWN, спільний core/CLI/UI, двомовність UA/EN, захист чернеток і авторство. Недоступні перевірки (інші ОС, браузери Safari/Firefox/Edge, тестування реальною людиною) зафіксовано як NOT_RUN.
+

@@ -4,6 +4,7 @@ import type {
   StringConfiguration,
 } from "../../../packages/schema/src/index.js";
 import type { ProjectResult } from "../../../packages/core/src/index.js";
+import { formatInputError } from "./input-errors.js";
 
 type Lang = "uk" | "en";
 
@@ -181,6 +182,7 @@ export function renderRoutes(
 export function bindRoutes(
   project: Project,
   result: ProjectResult,
+  lang: Lang,
   commit: (next: unknown) => void,
   toast: (message: string) => void,
 ): void {
@@ -188,8 +190,7 @@ export function bindRoutes(
   if (!root) return;
   const p = project;
   const clone = () => structuredClone(p);
-  const error = (reason: unknown) =>
-    toast(reason instanceof Error ? reason.message : String(reason));
+  const error = (reason: unknown) => toast(formatInputError(reason, lang));
 
   root.addEventListener("change", (event) => {
     const target = event.target;
@@ -214,7 +215,11 @@ export function bindRoutes(
       parsed = Number(value);
       if (!Number.isFinite(parsed)) {
         restoreInput();
-        error("Invalid route value");
+        toast(
+          lang === "uk"
+            ? "Введіть коректне числове значення."
+            : "Invalid route value",
+        );
         return;
       }
     }
@@ -246,7 +251,11 @@ export function bindRoutes(
       if (action === "add-dc") {
         const targetString = currentResult.strings[index];
         if (!targetString)
-          throw new Error("String target is no longer available");
+          throw new Error(
+            lang === "uk"
+              ? "Цільовий стрінг більше недоступний."
+              : "String target is no longer available",
+          );
         next.dc_routes ??= [];
         next.dc_routes.push({
           target: structuredClone(targetString),
@@ -255,7 +264,11 @@ export function bindRoutes(
       } else if (action === "add-ac") {
         const inverter = index;
         if (!currentResult.ac_lines.some((line) => line.inverter === inverter))
-          throw new Error("Inverter target is no longer available");
+          throw new Error(
+            lang === "uk"
+              ? "Цільовий інвертор більше недоступний."
+              : "Inverter target is no longer available",
+          );
         next.ac_routes ??= [];
         next.ac_routes.push({ inverter, circuit: structuredClone(p.ac) });
       } else if (action === "remove-dc" || action === "remove-orphan-dc") {
@@ -267,7 +280,11 @@ export function bindRoutes(
         const targetString =
           currentResult.strings[Number(button.dataset.routeTarget)];
         if (!oldRoute || !targetString)
-          throw new Error("Current string target is no longer available");
+          throw new Error(
+            lang === "uk"
+              ? "Поточний стрінг більше недоступний."
+              : "Current string target is no longer available",
+          );
         oldRoute.target = structuredClone(targetString);
       } else {
         return;

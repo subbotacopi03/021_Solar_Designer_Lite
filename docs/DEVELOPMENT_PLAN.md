@@ -22,22 +22,28 @@
 | PARTIAL | Генератор з bounded recovery, без доказу оптимальності | `packages/core/src/strings.ts`, `tests/differential/allocation.test.ts` |
 | PARTIAL | Manufacturer cables, nominal protection/SPD/DC switch | `cables.ts`, `protection.ts`, `spd.ts`, `dc-switch.ts`; evidence docs, incomplete installation/coordination |
 | BLOCKED | Public author identity/LICENSE та public distribution | `data/attribution.json` null; LICENSE UNLICENSED; рішення власника pending |
-| NOT IMPLEMENTED | Пілот новачка/інженера та підтверджений cross-browser/OS acceptance | Chrome/macOS автоматизовано; інші середовища й human pilot NOT_RUN |
+| IMPLEMENTED (TECH) | Матриця пілоту, чеклист власника та виправлення підтверджених дефектів | `docs/PILOT_TEST_MATRIX.md`; 52 automated browser checks PASS; human pilot / інші ОС NOT_RUN |
 | BLOCKED | Повний engineering verdict за відсутніх первинних inputs | EQUIPMENT_CATALOG/CABLE_EVIDENCE/PROTECTION_EVIDENCE/SPD_EVIDENCE/DC_SWITCH_EVIDENCE |
 
-Остання перевірена code revision: `fafd5ec`; попередні `5a424fb` (missing data), `30754b1` (adversarial fixes), `aed581e` (manual/attribution). Documentation-only handoff commit іде після них. `pnpm check` PASS178 unit/17files,30CLI,10formula hashes, legal/typecheck/build/standalone/schema; UI matrix103 combined checks дев/file, окремо pack8checks. Це різні suites і повторення середовищ, не111 унікальних користувацьких сценаріїв. Lint NOT_RUN — script/config відсутній.
+Остання перевірена code revision: поточний робочий стан після виправлень P1; попередній `fafd5ec` (owner-review pack). `pnpm check` PASS 178 unit / 17 files, 30 CLI, 10 formula hashes, legal/typecheck/build/standalone/schema; повна браузерна матриця та 52 перевірки пілоту PASS. Lint NOT_RUN — script/config відсутній.
 
 ## P0 — прийняти проєкт і відтворити baseline
 
-Відкрити всю source-папку, прочитати AGENTS/цей план/handoff/spec, перевірити pwd/Git/node/pnpm, `pnpm install --frozen-lockfile`, `pnpm check`. Не розпаковувати starter знову й не пересувати поточний код. Запустити UI та доступні browser suites. Результат — новий запис команд, середовища й PASS/FAIL/NOT_RUN, без підміни історичними logs. Acceptance: core працює, real24module JSON проходить schema, CLI calculate/report зберігають UNKNOWN/exit3, UI має24/24, save/load/report збігаються.
+Відкрити всю source-папку, прочитати AGENTS/цей план/handoff/spec, перевірити pwd/Git/node/pnpm, `pnpm install --frozen-lockfile`, `pnpm check`. Не розпаковувати starter знову й не пересувати поточний код. Запустити UI та доступні browser suites. Результат — новий запис команд, середовища й PASS/FAIL/NOT_RUN, без підміни історичними logs. Acceptance: core працює, real24module JSON проходить schema, CLI calculate/report зберігають UNKNOWN/exit3, UI має24/24, save/load/report збігаються. [ВИКОНАНО]
 
 ## P1 — користувацький пілот і виправлення підтверджених дефектів
 
-Спочатку прогнати quick start як новачок без JSON editing: відкрити offline HTML, імпортувати real case, змінити й застосувати ручний план, прочитати FAIL/UNKNOWN/missing guidance, зберегти/відкрити JSON, завантажити звіт. Перевірити наявні браузери/ОС, мобільну ширину, клавіатуру, storage unavailable, draft/import/error/recovery. Додати журнал відтворення й human pilot checklist. Недоступні платформи та відсутність реальних людей позначати NOT_RUN; AI-тестер не є незалежним інженером/новачком.
+Прогнано quick start сценарії: offline HTML, імпорт real case, зміна й застосування ручного плану, перевірка FAIL/UNKNOWN/missing guidance, збереження/відкриття JSON, експорт звіту/BOM, мобільна ширина 320–1280 px, клавіатура, збій сховища, захист чернеток і відновлення попереднього проєкту.
+Створено `docs/PILOT_TEST_MATRIX.md` із протоколом 9 сценаріїв (52 автоматизовані перевірки) та покроковим чеклистом для власника.
 
-Порядок fixes: втрата роботи/неправильний розрахунок → блокуючі import/apply/save → незрозумілий FAIL/UNKNOWN → responsive/keyboard/report. Кожний дефект: мінімальне відтворення, regression appropriate to risk, точковий fix, checks, UA/EN, документація, локальний commit. Не робити редизайн/перехід на React заради цього етапу.
+Виправлено підтверджені дефекти:
+- Додано відображення моделі та потужності інвертора у вихідні дані розділу «Огляд».
+- Локалізовано обробку помилок і повідомлення у `routes.ts` (`formatInputError`, `lang`).
+- Локалізовано сповіщення про ліміт розміру файлу JSON (1 МіБ).
+- Усунуто дублювання повідомлення про відсутність кандидатів кабелю в `cable-inspector.ts`.
+- Додано `:focus-visible` для `<summary>` та `<a>` у `style.css`.
 
-Acceptance: записані ОС/browser/version/steps/results, немає відтворених блокуючих дефектів у підтриманих середовищах; новачок сам проходить guide й розрізняє UNKNOWN та дозвіл на монтаж; інженер окремо перевіряє висновки. Незалежну доступну роботу завершити, pending human acceptance зберегти чесно.
+Acceptance технічної частини виконано. Зовнішній пілот людьми-новачками та незалежними інженерами зафіксовано як NOT_RUN у чеклисті.
 
 ## P2 — підготувати public alpha, зберігаючи контроль власника
 

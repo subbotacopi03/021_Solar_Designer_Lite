@@ -30,6 +30,8 @@ const copy = (lang: Lang) =>
         selected: "Вибраний кандидат",
         rejected: "Не обраний",
         noProven: "Немає доведеного кандидата кабелю для цієї лінії.",
+        noCandidates:
+          "У проєкті не вибрано кабелів для цієї лінії. Оберіть набір даних у «Каталог кабелів» вище або задайте кабелі в JSON.",
         candidates: "Кандидати кабелю",
         checks: "Перевірки",
         section: "Переріз, mm²",
@@ -62,6 +64,8 @@ const copy = (lang: Lang) =>
         selected: "Selected candidate",
         rejected: "Not selected",
         noProven: "No proven cable candidate is available for this route.",
+        noCandidates:
+          "No cables selected for this circuit. Choose a data pack in 'Cable catalog' above or supply cables in JSON.",
         candidates: "Cable candidates",
         checks: "Checks",
         section: "Section, mm²",
@@ -197,7 +201,7 @@ function selectedContent(result: ProjectResult, selection: string, lang: Lang) {
   return `<h3>${esc(title)}</h3><p>${esc(text.origin)}: ${statusBadge(line.input_origin)}</p><details><summary>${esc(text.resolved)}</summary><div class="table-wrap"><pre>${esc(JSON.stringify(line.circuit_input, null, 2))}</pre></div></details>${hasCandidate ? "" : `<p class="banner info" role="status">${esc(text.noProven)}</p>`}<h4>${esc(text.candidates)} · ${line.cable.candidates.length}</h4>${
     line.cable.candidates
       .map((candidate) => candidateDetails(candidate, line, selectedId, lang))
-      .join("") || `<p class="empty">${esc(text.noProven)}</p>`
+      .join("") || `<p class="empty">${esc(text.noCandidates)}</p>`
   }<details><summary>${esc(text.selectionChecks)} · ${line.cable.checks.length}</summary>${checksTable(line.cable.checks, lang)}</details>`;
 }
 
