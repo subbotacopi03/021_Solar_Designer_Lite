@@ -8,6 +8,6 @@ Core is pure: no filesystem, database, network, pricing or customer records. Sui
 
 For formula changes: update spec, add independent regression arithmetic, change code, review resulting findings, then update manifest deliberately. Run pnpm check. Browser smoke is available separately; never claim it ran unless it did.
 
-Do not claim normative UA/CZ compliance, production readiness or verified manufacturer catalog data. Public license/release remains pending. Do not publish or change project audience without an explicit task.
+Do not claim normative UA/CZ compliance, production readiness or verified manufacturer catalog data. License is MPL-2.0 (owner decision 2026-10-08); public release, author identity and URLs remain pending. Do not publish or change project audience without an explicit task.
 
 Current starter supports conventional string inverters, one equipment type per project and single-run feeder cables. Optimizer topology, full protection/SPD and regulatory packs are not implemented. Respect the implemented-vs-planned distinction in all reports.

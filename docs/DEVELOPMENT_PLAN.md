@@ -21,7 +21,7 @@
 | IMPLEMENTED | Visible origin/About/report notices та local review pack | `data/attribution.json`, `about.ts`, `review-pack.mjs`; 6 unit/8 pack checks |
 | PARTIAL | Генератор з bounded recovery, без доказу оптимальності | `packages/core/src/strings.ts`, `tests/differential/allocation.test.ts` |
 | PARTIAL | Manufacturer cables, nominal protection/SPD/DC switch | `cables.ts`, `protection.ts`, `spd.ts`, `dc-switch.ts`; evidence docs, incomplete installation/coordination |
-| BLOCKED | Public author identity/LICENSE та public distribution | `data/attribution.json` null; LICENSE UNLICENSED; рішення власника pending |
+| BLOCKED | Public author identity та public distribution | LICENSE MPL-2.0 встановлено; `data/attribution.json` null — ім’я/URL pending |
 | IMPLEMENTED (TECH) | Матриця пілоту, чеклист власника та виправлення підтверджених дефектів | `docs/PILOT_TEST_MATRIX.md`; 52 automated browser checks PASS; human pilot / інші ОС NOT_RUN |
 | BLOCKED | Повний engineering verdict за відсутніх первинних inputs | EQUIPMENT_CATALOG/CABLE_EVIDENCE/PROTECTION_EVIDENCE/SPD_EVIDENCE/DC_SWITCH_EVIDENCE |
 
@@ -47,7 +47,7 @@ Acceptance технічної частини виконано. Зовнішні�
 
 ## Дорожня карта до відкритого навчального репозиторію (оновлено 2026-10-08, огляд Claude)
 
-Мета власника: відкритий GitHub-репозиторій для студентів, які користуються програмою, тестують її й покращують дані/перевірки; цінні приватні матеріали (економіка, ціни, клієнти, шаблони, CAD/GIS, приватні AI workflows, ключі відповідей до вправ) у репозиторій не потрапляють. Супровід — проєктний скіл `.cursor/skills/openpv-steward/`.
+Мета власника: відкритий GitHub-репозиторій для студентів, які користуються програмою, тестують її й покращують дані/перевірки; цінні приватні матеріали (економіка, ціни, клієнти, шаблони, CAD/GIS, приватні AI workflows, ключі відповідей до вправ) у репозиторій не потрапляють. Супровід розробки — особистий скіл власника (не в репозиторії, студентам не передається).
 
 Знахідки огляду після роботи Antigravity (коміт `0a31b9f`):
 

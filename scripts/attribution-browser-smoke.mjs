@@ -41,7 +41,7 @@ try {
   );
   checks.push("Visible project credit opens accessible native About dialog");
   const dialog = page.locator("#aboutDialog");
-  assert.ok((await dialog.innerText()).includes("UNLICENSED"));
+  assert.ok((await dialog.innerText()).includes("MPL-2.0"));
   await dialog.locator("details").nth(1).locator("summary").click();
   assert.ok(
     (await dialog.innerText()).includes("Copyright (c) 2025 Colin McDonnell"),

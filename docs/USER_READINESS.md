@@ -19,7 +19,7 @@
 | IMPLEMENTED | Панель MISSING/PROVIDED/REVIEW, UA/EN назви/одиниці/джерела, per-feeder candidates | `missing-data-model.ts`, `missing-data.ts`; 8 unit + 9 dev/9 file browser checks |
 | PARTIAL | Реальне обладнання й автогенерація | exact-SKU catalogs є; missing βVmp/connectors не дозволяють підтверджений повний автоматичний план |
 | PARTIAL | Кабелі та nominal protection/SPD | `cables.ts`, `protection.ts`, `spd.ts`, `dc-switch.ts`; installation/coordination UNKNOWN |
-| BLOCKED | Повне персональне авторство й дозвіл на public redistribution | ім’я/канонічний URL не надані, LICENSE UNLICENSED; див. `ATTRIBUTION.md` |
+| BLOCKED | Повне персональне авторство й дозвіл на public redistribution | ім’я/канонічний URL не надані, LICENSE MPL-2.0 встановлено; див. `ATTRIBUTION.md` |
 | PARTIAL | Дистрибутив: локальний owner-review ZIP готовий, public release pending | `scripts/review-pack.mjs`, `review-pack-smoke.mjs`; 12 allowlisted files, UA/EN guides, CRC/SHA-256 та offline round-trip PASS |
 
 ## Скільки залишилося

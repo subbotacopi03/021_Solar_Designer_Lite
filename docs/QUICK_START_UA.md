@@ -1,6 +1,6 @@
 # Solar Designer Lite — короткий старт
 
-Цей комплект — **INTERNAL OWNER REVIEW ONLY**, для локального перегляду власником. Це не публічний реліз: LICENSE залишається UNLICENSED, публічне авторство й дозвіл на поширення ще не оформлені. Зберігайте LICENSE, ATTRIBUTION.md та THIRD_PARTY_NOTICES.txt разом із програмою.
+Цей комплект — **INTERNAL OWNER REVIEW ONLY**, для локального перегляду власником. Це не публічний реліз: ліцензія MPL-2.0, публічне авторство ще не оформлене. Зберігайте LICENSE, ATTRIBUTION.md та THIRD_PARTY_NOTICES.txt разом із програмою.
 
 ## Відкрити й пройти приклад
 

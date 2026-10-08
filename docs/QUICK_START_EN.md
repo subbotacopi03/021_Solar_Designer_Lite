@@ -1,6 +1,6 @@
 # Solar Designer Lite — quick start
 
-This package is **INTERNAL OWNER REVIEW ONLY**, for the owner's local review. It is not a public release: LICENSE remains UNLICENSED, and public attribution and redistribution permission are pending. Keep LICENSE, ATTRIBUTION.md and THIRD_PARTY_NOTICES.txt with the application.
+This package is **INTERNAL OWNER REVIEW ONLY**, for the owner's local review. It is not a public release: the license is MPL-2.0, public attribution is still pending. Keep LICENSE, ATTRIBUTION.md and THIRD_PARTY_NOTICES.txt with the application.
 
 ## Open and try the example
 

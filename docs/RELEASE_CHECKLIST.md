@@ -2,7 +2,7 @@
 
 Актуальна оцінка — USER_READINESS.md. Публікація ще не виконувалась; цей перелік не надає дозвіл на push/release.
 
-1. Підтвердити публічне ім’я правовласника, канонічний URL і заповнити `data/attribution.json`. Встановити повний узгоджений LICENSE та copyright/SPDX notices. Поточний UNLICENSED не дозволяє public redistribution.
+1. Підтвердити публічне ім’я правовласника, канонічний URL і заповнити `data/attribution.json`. Повний текст MPL-2.0 встановлено в LICENSE (рішення власника 2026-10-08); після підтвердження імені додати copyright/SPDX notices.
 2. Зберегти author/source credits у UI, standalone та звітах, перевірити citation з реальними metadata. Не обіцяти автоматичного сповіщення про кожне використання або незнімного кредиту.
 3. Пройти простий real manual кейс без JSON-редагування; інструкція має пояснювати відомі перевірки, UNKNOWN і непідтверджений монтажний висновок.
 4. Пройти `pnpm check`, browser dev/file smoke, cross-browser/OS та novice/independent-engineer pilot. Фіксувати NOT_RUN окремо; lint script зараз відсутній.
