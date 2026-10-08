@@ -1,7 +1,10 @@
 {
-  "checked_on": "2026-10-08T14:37:03.900Z",
+  "checked_on": "2026-10-08T20:06:17.434Z",
   "target": "file:///Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/Solar_Designer_Lite.html",
-  "viewports": [1440, 390],
+  "viewports": [
+    1440,
+    390
+  ],
   "passed": 15,
   "checks": [
     "Exact SKU selection, dated provenance and missing beta remain visible",

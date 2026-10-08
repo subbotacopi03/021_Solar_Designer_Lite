@@ -1,5 +1,5 @@
 {
-  "target": "http://127.0.0.1:5173/",
+  "target": "file:///Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/Solar_Designer_Lite.html",
   "checks": [
     "Initial demo and 120/120 module allocation",
     "All eight navigation sections",

@@ -29,6 +29,7 @@
     "test:safety:browser": "node scripts/project-safety-browser-smoke.mjs",
     "test:adversarial:browser": "node scripts/adversarial-browser-smoke.mjs",
     "test:missing:browser": "node scripts/missing-data-browser-smoke.mjs",
+    "test:equipment-form:browser": "node scripts/equipment-form-browser-smoke.mjs",
     "review:pack": "pnpm build && node scripts/review-pack.mjs",
     "review:verify": "node scripts/review-pack.mjs --verify",
     "test:review-pack": "node scripts/review-pack-smoke.mjs",

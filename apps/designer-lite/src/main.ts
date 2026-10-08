@@ -11,6 +11,12 @@ import attribution from "../../../data/attribution.json" with { type: "json" };
 import legal from "../../../data/legal-notices.json" with { type: "json" };
 import "./style.css";
 import { renderRoutes, bindRoutes } from "./routes.js";
+import {
+  equipmentLabel,
+  inverterFields,
+  moduleFields,
+  mpptFields,
+} from "./equipment-labels.js";
 import { renderCableInspector, bindCableInspector } from "./cable-inspector.js";
 import realDcSwitches from "../../../data/equipment/verified/dc-switches.json" with { type: "json" };
 import realSpds from "../../../data/equipment/verified/spds.json" with { type: "json" };
@@ -502,17 +508,14 @@ function render() {
   if (tab === "overview")
     content.innerHTML = `<section class="panel"><h2>${lang === "uk" ? "Вихідні дані" : "Project inputs"}</h2><div class="form-grid">${field(x.name, "name", project.name, "text")}${field(x.count + " · " + x.inverter, "inverter_quantity", project.inverter_quantity)}<div><span class="small">${x.module}</span><p>${esc(project.module.name)} · ${project.module.pmax_w} W</p></div><div><span class="small">${x.inverter}</span><p>${esc(project.inverter.name)} · ${fmt(project.inverter.ac_power_w / 1000)} kW</p></div></div><h3>${x.planes}</h3>${project.planes.map((p, i) => `<div class="form-grid" style="margin-bottom:16px">${field(x.name, `planes.${i}.name`, p.name, "text")}${field(x.count + " · PV", `planes.${i}.module_count`, p.module_count)}<div class="tools"><button data-remove-plane="${i}" ${project.planes.length === 1 ? "disabled" : ""}>${lang === "uk" ? "Видалити" : "Remove"}</button></div></div>`).join("")}<div class="tools"><button id="addPlane">${x.addPlane}</button><button class="primary" data-tab="strings">${x.next}</button></div></section><section class="panel"><h2>${lang === "uk" ? "Результат ліній" : "Feeder results"}</h2>${cableTable()}</section>${student ? `<div class="banner info">${x.blank}</div>` : ""}`;
   if (tab === "equipment")
-    content.innerHTML = `<section class="panel"><h2>${x.module}</h2>${equipmentSelect("module")}<div class="form-grid">${field(x.name, "module.name", project.module.name, "text")}${["pmax_w", "voc_v", "vmp_v", "isc_a", "imp_a", "beta_voc_pct_c", "beta_vmp_pct_c", "alpha_isc_pct_c", "gamma_pmax_pct_c", "max_system_voltage_v", "max_series_fuse_a", "reverse_current_withstand_a"].map((k) => field(k, "module." + k, (project.module as any)[k])).join("")}</div>${student ? '<p class="small">βVoc, βVmp, γPmax: %/°C (negative). αIsc: %/°C (positive). Vmp &lt; Voc; Imp ≤ Isc.</p>' : ""}</section><section class="panel"><h2>${x.inverter}</h2>${equipmentSelect("inverter")}<div class="form-grid">${field(x.name, "inverter.name", project.inverter.name, "text")}${["ac_power_w", "ac_voltage_v", "max_dc_voltage_v", "max_dc_power_w", "max_backfeed_current_a"].map((k) => field(k, "inverter." + k, (project.inverter as any)[k])).join("")}<label class="field"><span>phases</span><select data-path="inverter.phases" data-number><option ${project.inverter.phases === 1 ? "selected" : ""}>1</option><option ${project.inverter.phases === 3 ? "selected" : ""}>3</option></select></label></div><h3>MPPT · ${project.inverter.mppts.length}</h3>${table(
-      ["ID", "Vmin", "Vmax", "Imp max, A", "Isc max, A", "Inputs"],
-      project.inverter.mppts.map((m) => [
-        esc(m.id),
-        fmt(m.min_voltage_v),
-        fmt(m.max_voltage_v),
-        fmt(m.max_current_a),
-        fmt(m.max_isc_a),
-        fmt(m.inputs),
-      ]),
-    )}<p class="small">${lang === "uk" ? "Індивідуальні параметри MPPT та sources змінюйте в редакторі JSON." : "Edit individual MPPT parameters and sources in the JSON editor."}</p><button data-tab="json">${x.json}</button></section>`;
+    content.innerHTML = `<section class="panel"><h2>${x.module}</h2>${equipmentSelect("module")}<div class="form-grid">${field(x.name, "module.name", project.module.name, "text")}${moduleFields.map((k) => field(equipmentLabel(k, lang), "module." + k, project.module[k])).join("")}</div>${student ? '<p class="small">βVoc, βVmp, γPmax: %/°C (negative). αIsc: %/°C (positive). Vmp &lt; Voc; Imp ≤ Isc.</p>' : ""}</section><section class="panel"><h2>${x.inverter}</h2>${equipmentSelect("inverter")}<div class="form-grid">${field(x.name, "inverter.name", project.inverter.name, "text")}${inverterFields.map((k) => field(equipmentLabel(k, lang), "inverter." + k, project.inverter[k])).join("")}<label class="field"><span>${equipmentLabel("phases", lang)}</span><select data-path="inverter.phases" data-number><option ${project.inverter.phases === 1 ? "selected" : ""}>1</option><option ${project.inverter.phases === 3 ? "selected" : ""}>3</option></select></label></div><h3>MPPT · ${project.inverter.mppts.length}</h3>${project.inverter.mppts
+      .map(
+        (m, i) =>
+          `<div class="form-grid" style="margin-bottom:16px">${field(equipmentLabel("id", lang), `inverter.mppts.${i}.id`, m.id, "text")}${mpptFields.map((k) => field(equipmentLabel(k, lang), `inverter.mppts.${i}.${k}`, m[k])).join("")}<div class="tools"><button data-remove-mppt="${i}" ${project.inverter.mppts.length === 1 ? "disabled" : ""}>${lang === "uk" ? "Видалити MPPT" : "Remove MPPT"}</button></div></div>`,
+      )
+      .join(
+        "",
+      )}<div class="tools"><button id="addMppt">${lang === "uk" ? "Додати MPPT (копія останнього)" : "Add MPPT (copy of last)"}</button></div><p class="small">${lang === "uk" ? "Порожнє поле означає невідоме значення (UNKNOWN). Джерела даних — у розділі «Дані проєкту»." : "An empty field means an unknown value (UNKNOWN). Data sources are in Project data."}</p><button data-tab="json">${x.json}</button></section>`;
   if (tab === "equipment")
     content.innerHTML += `<section class="panel"><h2>${lang === "uk" ? "Кандидат запобіжника gPV" : "gPV fuse candidate"}</h2><label class="field"><span>${lang === "uk" ? "Номінальний кандидат; вибір не означає необхідність або узгодження" : "Nominal candidate; selection does not establish requirement or coordination"}</span><select id="fuseCatalog"><option value="">${lang === "uk" ? "Не задано" : "Not specified"}</option>${realFuses.map((f) => `<option value="${esc(f.id)}" ${project.string_fuse_device?.id === f.id ? "selected" : ""}>${esc(f.name)}</option>`).join("")}</select></label>${project.string_fuse_device ? equipmentSources(project.string_fuse_device) : ""}</section>`;
   if (tab === "equipment") content.innerHTML += dcSwitchPanel();
@@ -662,6 +665,36 @@ function bind() {
           }
         }),
     );
+  document.querySelectorAll<HTMLButtonElement>("[data-remove-mppt]").forEach(
+    (b) =>
+      (b.onclick = () => {
+        const clone = structuredClone(project);
+        clone.inverter.mppts.splice(Number(b.dataset.removeMppt), 1);
+        try {
+          commit(invalidateEquipmentEdit(ProjectSchema.parse(clone), project));
+        } catch (error) {
+          toast(formatInputError(error, lang));
+        }
+      }),
+  );
+  document.getElementById("addMppt")?.addEventListener("click", () => {
+    const clone = structuredClone(project);
+    const ids = new Set(clone.inverter.mppts.map((m) => m.id));
+    let n = clone.inverter.mppts.length + 1;
+    while (ids.has(`MPPT${n}`)) n++;
+    const letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+      .split("")
+      .find((c) => !ids.has(c));
+    clone.inverter.mppts.push({
+      ...structuredClone(clone.inverter.mppts.at(-1)!),
+      id: letter ?? `MPPT${n}`,
+    });
+    try {
+      commit(invalidateEquipmentEdit(ProjectSchema.parse(clone), project));
+    } catch (error) {
+      toast(formatInputError(error, lang));
+    }
+  });
   document.querySelectorAll<HTMLButtonElement>("[data-remove-plane]").forEach(
     (b) =>
       (b.onclick = () => {

@@ -1,5 +1,11 @@
 import { execFileSync } from "node:child_process";
-import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  writeFileSync,
+} from "node:fs";
 import { dirname, join, resolve } from "node:path";
 
 const INCLUDE_PREFIXES = [
@@ -97,5 +103,8 @@ for (const path of files) {
   copyFileSync(path, join(out, path));
 }
 const gitignore = join(out, ".gitignore");
-writeFileSync(gitignore, `${readFileSync(gitignore, "utf8").trimEnd()}\nbuild/\n`);
+writeFileSync(
+  gitignore,
+  `${readFileSync(gitignore, "utf8").trimEnd()}\nbuild/\n`,
+);
 console.log(`Public export: ${files.length} files → ${out}`);
