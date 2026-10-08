@@ -1,5 +1,5 @@
 {
-  "passed": 13,
+  "passed": 14,
   "checks": [
     "validate: exit 0",
     "calculate: UNKNOWN exit 3, JSON result 120 modules",
@@ -12,6 +12,7 @@
     "trina-440-sma-10: sourced input retains UNKNOWN, exit 3",
     "trina-440-sma-10: uk report includes evidence and UNKNOWN, exit 3",
     "trina-440-sma-10: en report includes evidence and UNKNOWN, exit 3",
+    "constraint recovery: 58/58, per-inverter power quotas, UNKNOWN scope exit 3",
     "invalid JSON: exit 2",
     "electrical failure: exit 1"
   ]

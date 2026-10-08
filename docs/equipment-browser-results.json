@@ -1,5 +1,5 @@
 {
-  "passed": 9,
+  "passed": 10,
   "checks": [
     "Exact SKU selection, dated provenance and missing beta remain visible",
     "Rendered and downloaded report retain SKU and source URL",
@@ -7,6 +7,7 @@
     "Manual equipment edit invalidates verified attribution",
     "trina-435-sma-8 schema/core/UI import retains UNKNOWN",
     "trina-440-sma-10 schema/core/UI import retains UNKNOWN",
+    "Bounded recovery example allocates 58/58 across four trackers",
     "English catalog and provenance UI",
     "390px equipment selection has no horizontal document overflow",
     "No page or console errors"

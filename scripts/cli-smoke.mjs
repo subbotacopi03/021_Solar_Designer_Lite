@@ -47,6 +47,13 @@ try {
       );
     }
   }
+  r = run(["calculate", "data/examples/constrained-planes.json"]);
+  assert.equal(r.status, 3);
+  assert.equal(JSON.parse(r.stdout).installed_modules, 58);
+  assert.equal(JSON.parse(r.stdout).unassigned_modules, 0);
+  results.push(
+    "constraint recovery: 58/58, per-inverter power quotas, UNKNOWN scope exit 3",
+  );
   const bad = join(root, "bad.json");
   writeFileSync(bad, "{");
   r = run(["validate", bad]);

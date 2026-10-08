@@ -67,6 +67,18 @@ try {
     );
     checks.push(`${name} schema/core/UI import retains UNKNOWN`);
   }
+  await page
+    .locator("#file")
+    .setInputFiles("data/examples/constrained-planes.json");
+  await page.waitForFunction(() =>
+    document
+      .querySelector(".metric:last-child")
+      ?.textContent?.includes("58 / 58"),
+  );
+  assert.match(await page.locator(".metric").last().innerText(), /58 \/ 58/);
+  await page.locator('nav [data-tab="strings"]').click();
+  assert.equal(await page.locator(".mppt-box").count(), 4);
+  checks.push("Bounded recovery example allocates 58/58 across four trackers");
   await page.locator("#lang").click();
   await page.locator('nav [data-tab="equipment"]').click();
   assert.match(

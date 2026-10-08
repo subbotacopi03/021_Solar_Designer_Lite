@@ -18,23 +18,15 @@ export declare function calculateProject(raw: unknown): {
     dc_ac_ratio: number;
     ac_current_per_inverter_a: number | null;
     breaker_candidate_a: number | null;
-    ranges: ({
-        min: null;
-        max: null;
-        voc_cold_v: null;
-        vmp_hot_v: null;
-        vmp_cold_v: null;
+    ranges: {
+        min: number | null;
+        max: number | null;
+        voc_cold_v: number | null;
+        vmp_hot_v: number | null;
+        vmp_cold_v: number | null;
         missing: string[];
         mppt_id: string;
-    } | {
-        min: number;
-        max: number;
-        voc_cold_v: number;
-        vmp_hot_v: number;
-        vmp_cold_v: number;
-        missing: string[];
-        mppt_id: string;
-    })[];
+    }[];
     strings: {
         id: string;
         inverter: number;

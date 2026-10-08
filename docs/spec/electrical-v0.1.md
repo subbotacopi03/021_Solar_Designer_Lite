@@ -51,3 +51,15 @@ https://www.electrical-installation.org/enwiki/Practical_values_for_a_protective
 https://webstore.iec.ch/en/publication/110893
 
 Software references: https://zod.dev/packages/zod ; https://vite.dev/guide/ ; https://vitest.dev/guide/index.html . Installed dependency versions are in pnpm-lock.yaml.
+
+## Allocation search extension · 2026-10-08
+
+Voltage/current formulas SPEC-01…10 unchanged. Greedy whole-MPPT plan remains the fast incumbent. If it leaves modules and equipment data is complete, search alternative whole-MPPT groups. Each occupied tracker has one plane, one integer string length N and k equal strings; 1≤k≤parallelCapacity, Nmin≤N≤Nmax. Count per plane cannot exceed demand; per-inverter installed STC watts cannot exceed declared max DC watts. Unknown max power still yields UNKNOWN validation, never a fabricated rating.
+
+Objective: maximize assigned modules; tie-break fewer strings among examined alternatives, then deterministic traversal order. This is not a claim of global optimality or minimum-string proof. If all modules are assigned the primary objective meets its known upper bound; search may stop before finding another equal-count plan. Existing complete greedy plans are preserved.
+
+Recovery budget: at most 24 slots, 8 planes, 2000 requested modules and 30000 visited search nodes. Larger cases retain greedy and emit ALLOCATION_SEARCH_LIMIT WARN. Node limit retains best explored valid incumbent and emits the same WARN. Remaining modules are a failed proposed allocation, not proof of infeasibility. No time-based/random decisions. Memoization includes slot index, remaining counts, inverter quotas and best row count; losing a plane or power dimension would be invalid pruning.
+
+Independent witness: site Tmin=Tmax=25°C, Voc=50 V, Vmp=42 V; tracker A 252–798 V → N6..19, tracker B252–420V → N6..10, one physical input each. E10/W19 fits E10→B/W19→A; greedy E10→A/W10→B leaves9. Two inverters with 16965 W cap each, E20/W38 fits the same per-inverter witness (29×585=16965 W). Manual witnesses must pass exactly the same voltage/current/input/power checks.
+
+Manual diagnostic independence: a missing βVmp blocks Vmp-based limits and automatic planning but must not erase computable Voc(Tmin). A manual 20-module synthetic string has 20×56.3=1126 V>1100 V and must FAIL Voc even with βVmp UNKNOWN. Missing inputs attach to the specific check, not all checks indiscriminately.

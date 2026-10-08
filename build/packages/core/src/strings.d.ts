@@ -1,17 +1,10 @@
 import type { Project, Mppt, StringConfiguration, EngineeringCheck } from "../../schema/src/index.js";
 export declare function stringLengthRange(p: Project, mppt: Mppt): {
-    min: null;
-    max: null;
-    voc_cold_v: null;
-    vmp_hot_v: null;
-    vmp_cold_v: null;
-    missing: string[];
-} | {
-    min: number;
-    max: number;
-    voc_cold_v: number;
-    vmp_hot_v: number;
-    vmp_cold_v: number;
+    min: number | null;
+    max: number | null;
+    voc_cold_v: number | null;
+    vmp_hot_v: number | null;
+    vmp_cold_v: number | null;
     missing: string[];
 };
 export declare function parallelCapacity(p: Project, mppt: Mppt): {

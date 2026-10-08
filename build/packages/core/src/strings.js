@@ -11,20 +11,17 @@ export function stringLengthRange(p, mppt) {
     }))
         if (v == null)
             missing.push(key);
-    if (missing.length)
-        return {
-            min: null,
-            max: null,
-            voc_cold_v: null,
-            vmp_hot_v: null,
-            vmp_cold_v: null,
-            missing,
-        };
-    const voc = moduleVoltageAt(m.voc_v, m.beta_voc_pct_c, s.t_min_cell_c);
-    const hot = moduleVmpAt(m, s.t_max_cell_c).value, cold = moduleVmpAt(m, s.t_min_cell_c).value;
+    const voc = m.beta_voc_pct_c == null || s.t_min_cell_c == null
+        ? null
+        : moduleVoltageAt(m.voc_v, m.beta_voc_pct_c, s.t_min_cell_c);
+    const hot = s.t_max_cell_c == null ? null : moduleVmpAt(m, s.t_max_cell_c).value;
+    const cold = s.t_min_cell_c == null ? null : moduleVmpAt(m, s.t_min_cell_c).value;
     return {
-        min: Math.max(1, Math.ceil(mppt.min_voltage_v / hot)),
-        max: Math.min(Math.floor(Math.min(p.inverter.max_dc_voltage_v, m.max_system_voltage_v) / voc), Math.floor(mppt.max_voltage_v / cold)),
+        min: hot == null ? null : Math.max(1, Math.ceil(mppt.min_voltage_v / hot)),
+        max: voc == null || cold == null || m.max_system_voltage_v == null
+            ? null
+            : Math.min(Math.floor(Math.min(p.inverter.max_dc_voltage_v, m.max_system_voltage_v) /
+                voc), Math.floor(mppt.max_voltage_v / cold)),
         voc_cold_v: voc,
         vmp_hot_v: hot,
         vmp_cold_v: cold,
@@ -55,6 +52,85 @@ export function parallelCapacity(p, mppt) {
         missing,
     };
 }
+/** Bounded recovery, not a global optimizer. All state stays in this pure call. */
+function recoverAllocation(p, slots, incumbent) {
+    const requested = p.planes.reduce((sum, plane) => sum + plane.module_count, 0);
+    if (slots.length > 24 || p.planes.length > 8 || requested > 2000)
+        return { strings: incumbent, limited: true, visited: 0 };
+    let best = incumbent.map((row) => ({ ...row }));
+    let bestCount = best.reduce((sum, row) => sum + row.modules, 0);
+    const remaining = p.planes.map((plane) => plane.module_count);
+    const quotas = Array.from({ length: p.inverter_quantity }, () => p.inverter.max_dc_power_w == null
+        ? requested
+        : Math.floor(p.inverter.max_dc_power_w / p.module.pmax_w));
+    const memo = new Map();
+    const rows = [];
+    let visited = 0, limited = false;
+    function visit(index, count) {
+        if (bestCount === requested || limited)
+            return;
+        if (visited >= 30000) {
+            limited = true;
+            return;
+        }
+        visited++;
+        if (count > bestCount ||
+            (count === bestCount && rows.length < best.length)) {
+            best = rows.map((row) => ({ ...row }));
+            bestCount = count;
+        }
+        if (index === slots.length || bestCount === requested)
+            return;
+        const upper = slots
+            .slice(index)
+            .reduce((sum, slot) => sum + Math.max(0, slot.range.max) * slot.capacity.count, 0);
+        if (count +
+            Math.min(upper, remaining.reduce((a, b) => a + b, 0), quotas.reduce((a, b) => a + b, 0)) <
+            bestCount)
+            return;
+        const key = `${index}|${remaining.join(",")}|${quotas.join(",")}`;
+        const previous = memo.get(key);
+        if (previous !== undefined && previous <= rows.length)
+            return;
+        memo.set(key, rows.length);
+        const slot = slots[index], lo = slot.range.min, hi = slot.range.max;
+        const choices = new Map();
+        for (let plane = 0; plane < remaining.length; plane++) {
+            const available = Math.min(remaining[plane], quotas[slot.inverter - 1]);
+            const cap = Math.min(slot.capacity.count, Math.floor(available / lo));
+            for (let k = 1; k <= cap; k++)
+                for (let n = Math.min(hi, Math.floor(available / k)); n >= lo; n--) {
+                    const take = k * n, key = `${plane}:${take}`;
+                    // Same slot/plane/take with more strings is dominated for all later constraints.
+                    if (!choices.has(key))
+                        choices.set(key, { plane, n, k, take });
+                }
+        }
+        const options = [...choices.values()].sort((a, b) => b.take - a.take || a.k - b.k || a.plane - b.plane || b.n - a.n);
+        for (const option of options) {
+            const size = rows.length;
+            for (let k = 1; k <= option.k; k++)
+                rows.push({
+                    id: `INV${slot.inverter}-${slot.mppt.id}-S${k}`,
+                    inverter: slot.inverter,
+                    mppt_id: slot.mppt.id,
+                    plane_id: p.planes[option.plane].id,
+                    modules: option.n,
+                });
+            remaining[option.plane] -= option.take;
+            quotas[slot.inverter - 1] -= option.take;
+            visit(index + 1, count + option.take);
+            remaining[option.plane] += option.take;
+            quotas[slot.inverter - 1] += option.take;
+            rows.length = size;
+            if (bestCount === requested || limited)
+                break;
+        }
+        visit(index + 1, count); // An unused tracker is a real search alternative.
+    }
+    visit(0, 0);
+    return { strings: best, limited, visited };
+}
 /** Greedy deterministic whole-MPPT allocation. Same plane and same length on parallel strings; no Y connectors. */
 export function generateStringPlan(p) {
     const checks = [];
@@ -74,7 +150,9 @@ export function generateStringPlan(p) {
             const range = stringLengthRange(p, mppt), capacity = parallelCapacity(p, mppt);
             slots.push({ inverter: i, mppt, range, capacity, used: false });
         }
-    if (slots.some((s) => s.range.min === null || s.capacity.count === null))
+    if (slots.some((s) => s.range.min === null ||
+        s.range.max === null ||
+        s.capacity.count === null))
         return {
             strings,
             checks: [
@@ -196,7 +274,13 @@ export function generateStringPlan(p) {
                 continue;
             groups.forEach((g, index) => g.rows.forEach((row) => (row.modules = base + (index < extra ? 1 : 0))));
         }
-    checks.push(check("MODULE_ALLOCATION", unassigned, 0, "modules", "Deterministic heuristic; a failed allocation is not proof that no other configuration exists"));
+    if (unassigned > 0) {
+        const recovery = recoverAllocation(p, slots, strings);
+        strings.splice(0, strings.length, ...recovery.strings);
+        unassigned = requested - strings.reduce((sum, row) => sum + row.modules, 0);
+        checks.push(finding(recovery.limited ? "ALLOCATION_SEARCH_LIMIT" : "ALLOCATION_SEARCH", recovery.limited ? "WARN" : "PASS", `Bounded recovery visited ${recovery.visited} nodes. Maximize assigned modules, then fewer strings among examined plans. Remaining modules do not prove infeasibility; no global optimality claim.`));
+    }
+    checks.push(check("MODULE_ALLOCATION", unassigned, 0, "modules", "Deterministic heuristic with bounded recovery; a failed allocation is not proof that no other configuration exists"));
     return { strings, checks, unassigned };
 }
 export function validateStringPlan(p, strings) {
@@ -230,10 +314,10 @@ export function validateStringPlan(p, strings) {
                 new Set(group.map((s) => s.modules)).size > 1)
                 out.push(finding(prefix + "PARALLEL_MISMATCH", "FAIL", "Parallel strings must have equal lengths and share a plane"));
             for (const row of group) {
-                out.push(check(row.id + ":VOC_DC", range.voc_cold_v == null ? null : row.modules * range.voc_cold_v, p.inverter.max_dc_voltage_v, "V", "Voc(Tmin) × N", range.missing));
-                out.push(check(row.id + ":VOC_MODULE", range.voc_cold_v == null ? null : row.modules * range.voc_cold_v, p.module.max_system_voltage_v, "V", "Module system voltage", range.missing));
-                out.push(check(row.id + ":VMP_MIN", range.vmp_hot_v == null ? null : row.modules * range.vmp_hot_v, mppt.min_voltage_v, "V", "Vmp(Tmax cell) × N", range.missing, "min"));
-                out.push(check(row.id + ":VMP_MAX", range.vmp_cold_v == null ? null : row.modules * range.vmp_cold_v, mppt.max_voltage_v, "V", "Vmp(Tmin cell) × N", range.missing));
+                out.push(check(row.id + ":VOC_DC", range.voc_cold_v == null ? null : row.modules * range.voc_cold_v, p.inverter.max_dc_voltage_v, "V", "Voc(Tmin) × N", ["beta_voc_pct_c", "t_min_cell_c"]));
+                out.push(check(row.id + ":VOC_MODULE", range.voc_cold_v == null ? null : row.modules * range.voc_cold_v, p.module.max_system_voltage_v, "V", "Module system voltage", ["beta_voc_pct_c", "t_min_cell_c", "max_system_voltage_v"]));
+                out.push(check(row.id + ":VMP_MIN", range.vmp_hot_v == null ? null : row.modules * range.vmp_hot_v, mppt.min_voltage_v, "V", "Vmp(Tmax cell) × N", ["beta_vmp_pct_c", "t_max_cell_c"], "min"));
+                out.push(check(row.id + ":VMP_MAX", range.vmp_cold_v == null ? null : row.modules * range.vmp_cold_v, mppt.max_voltage_v, "V", "Vmp(Tmin cell) × N", ["beta_vmp_pct_c", "t_min_cell_c"]));
             }
             out.push(check(prefix + "IMP", k * p.module.imp_a, mppt.max_current_a, "A", "Imp × parallel strings", ["max_current_a"]));
             out.push(check(prefix + "ISC", p.policy.isc_factor == null

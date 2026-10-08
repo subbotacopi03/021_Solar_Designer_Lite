@@ -1,3 +1,13 @@
+# Оновлення · етап 2 · 2026-10-08
+
+Реалізовано bounded recovery у `packages/core/src/strings.ts`, tests у `tests/differential/allocation.test.ts`. Контрприклади E10/W19 та E20/W38 (2 інвертори, max16965 W кожен) тепер без залишку. Primary objective — більше розміщених модулів; ties — менше стрінгів серед розглянутих. 24 slots/8 planes/2000 modules/30000 nodes; перевищення дає WARN ALLOCATION_SEARCH_LIMIT. Глобальна оптимальність не заявляється. Повні greedy плани збережено.
+
+Ручний план має ті самі voltage/current/input/power/plane checks. Виправлено coupled missing-data diagnostic: βVmp UNKNOWN не приховує обчислений Voc; 20×56.3=1126 V дає FAIL при1100 V. Спочатку додано spec і незалежні тести, відтворено RED, потім реалізацію. Manifest навмисно спершу FAIL після зміни strings.ts; оновлено тільки STRING-RANGE source hash після перевірки тестів. Формули температури/кабелів/струму не змінено.
+
+PASS `pnpm check`: 94 tests, 14 CLI, 7 manifest entries, typecheck/build/schema. `equipment-browser-smoke.mjs`: 10 checks, включно 58/58 у UI. Одна рання browser assertion випередила async file import; додано очікування фактичного DOM result, повторний запуск PASS. Форматування змінених файлів перевіряється перед commit. Наступний етап — source-limited manufacturer cable records та structured derating provenance; нормативні таблиці без первинних джерел UNKNOWN.
+
+---
+
 # Оновлення 2026-10-08 · етап 1
 
 Корінь: `/Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite`. Резерв: `_previous_workspace_20261008_160124`; вихідний ZIP у ньому. CRC PASS; 98/98 manifest hashes/sizes PASS (`STARTER_INTEGRITY.json`). Git ініціалізовано локально; push/release/license change не виконано.

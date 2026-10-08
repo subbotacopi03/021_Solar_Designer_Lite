@@ -3,7 +3,7 @@
 | Функція | Core | CLI | Lite | Статус |
 |---|---|---|---|---|
 | Voc/Vmp за температурою | Так | calculate | Inputs/results | IMPLEMENTED |
-| Window/string allocation | Так | calculate | Auto/manual MPPT plan | IMPLEMENTED · heuristic |
+| Window/string allocation | Так | calculate | Auto/manual MPPT plan | IMPLEMENTED · heuristic + bounded recovery; no global optimality claim |
 | Isc/Imp на MPPT і входах | Так | calculate | Findings | IMPLEMENTED |
 | DC/AC | Так | calculate | KPI/policy | IMPLEMENTED |
 | DC/AC кабель, ΔU, R(T) | Так | calculate | Feeder table | IMPLEMENTED · preliminary |

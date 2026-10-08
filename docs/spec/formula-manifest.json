@@ -54,7 +54,7 @@
       ],
       "formula": "Nmin=ceil(Vmppt_min/Vmp_hot); Nmax=min(floor(Vlimit/Voc_cold),floor(Vmppt_max/Vmp_cold))",
       "units": "V, A, modules",
-      "sha256": "2206b20880e76f4111e62e74013606eace4338d91a1fbe1067edb43d09677671"
+      "sha256": "eca475640e9710dc3e00cbdf00afba6fe8ad2799b73b247f1151f1dbb2c34b41"
     },
     {
       "id": "CABLE-SIZING",
