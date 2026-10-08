@@ -34,3 +34,7 @@
 ## Перевірки та зауваження економних агентів
 
 Три незалежні bounded review виконували агенти gpt-6-luna, доступні через Codex, над локальними файлами. Це не локально встановлені мовні моделі. Знайдено й виправлено reset без захисту та Markdown injection; окремий review атрибуції уточнив надмірну тестову assertion, яка помилково забороняла навіть безпечний plain text. Під час інтеграції ручного редактора також усунуто silent remap відсутніх targets. Деталі й свіжі PASS/FAIL/NOT_RUN — `IMPLEMENTATION_REPORT.md`.
+
+## Додаткова adversarial перевірка
+
+Десять економних tester agents завершили111 recorded observations;8 behavior failures зведено до 3 confirmed groups й виправлено. JSON-чернетки тепер захищені нарівні з native формою; старий asyncimport не перезаписує новішу роботу; числове переповнення відхиляється явно. Fresh check164 unit / 30 CLI / 10 manifest та85 browser checks dev/file PASS. Повний журнал дій, harness corrections, обмеження й NOT_RUN — [ADVERSARIAL_TEST_REPORT.md](ADVERSARIAL_TEST_REPORT.md). Це не замінює пілот/інші браузери/первинні engineering sources і не знімає три finishing stages вище.

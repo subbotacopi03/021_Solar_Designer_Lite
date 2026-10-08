@@ -7,6 +7,7 @@ export * from "./strings.js";
 export * from "./checks.js";
 export * from "./cables.js";
 export * from "./protection.js";
+export { CalculationRangeError } from "./numerical-safety.js";
 export declare const ENGINE_VERSION = "0.1.0";
 export declare function calculateProject(raw: unknown): {
     engine_version: string;

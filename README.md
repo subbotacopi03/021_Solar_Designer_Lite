@@ -64,3 +64,5 @@ CLI exit codes: 0 — PASS/WARN або валідна схема; 1 — FAIL; 2 
 Додано source-limited exact-SKU каталог Trina/SMA, Nexans/Eaton/Phoenix candidates, bounded allocation recovery, applicability derating та незалежні nominal protection/SPD checks. Вибір в UI та приклади `trina-435-sma-8.json` / `trina-440-sma-10.json`. Джерела й UNKNOWN: [docs/EQUIPMENT_CATALOG.md](docs/EQUIPMENT_CATALOG.md). Поточний план і докази: [docs/DEVELOPMENT_PLAN.md](docs/DEVELOPMENT_PLAN.md), [docs/IMPLEMENTATION_REPORT.md](docs/IMPLEMENTATION_REPORT.md).
 
 DC-роз’єднувач: додано ABB OTDC32F2 із явним1000V/20A/DC-21B профілем, scope/category/wiring controls та незалежними nominal checks. Повна installation/coordination UNKNOWN: [DC_SWITCH_EVIDENCE.md](docs/DC_SWITCH_EVIDENCE.md).
+
+Локальна adversarial перевірка десятьма економними tester agents, знайдені дефекти та виконані виправлення: [журнал перевірок](docs/ADVERSARIAL_TEST_REPORT.md). Регресії втрати чернеток, порядку імпортів і числового overflow: `pnpm test:adversarial:browser` (потребує Playwright browser або `OPENPV_CHROMIUM_EXECUTABLE`; optional `OPENPV_TEST_URL`).

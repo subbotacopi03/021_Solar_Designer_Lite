@@ -86,9 +86,7 @@ try {
   });
   await page.locator("#reset").first().click();
   assert.ok(notice.includes("Останній застосований"));
-  assert.ok(
-    notice.includes("Незастосовані зміни ручного плану буде відкинуто"),
-  );
+  assert.ok(notice.includes("Незастосовані зміни редактора буде відкинуто"));
   await page.locator("#restorePrevious").click();
   assert.equal(
     await page.evaluate(

@@ -1,0 +1,2261 @@
+{
+  "date": "2026-10-08",
+  "baseline_commit": "aed581eb69fa97a2937bdb1724056c7bdf58c704",
+  "baseline_sha256": "624d9a5b205dfd0f31750867d91962765b3e542474c995cdd3ea5dcde4ba7091",
+  "environment": "macOS / Playwright / system Chrome / fresh isolated contexts; frozen standalone file target, built core for engineering checks",
+  "testers": 10,
+  "max_parallel_testers": 3,
+  "baseline_observations": 111,
+  "baseline_status_counts": {
+    "PASS": 103,
+    "FAIL": 8,
+    "NOT_RUN": 0
+  },
+  "interpretation": "Counts include scenario/runtime assertions; no coverage or certification claim. Two numeric probes successfully reproduced bugs: normalized behavior verdict FAIL despite raw probe completion PASS. Engineering result status is separate. Root additional reproductions are not counted here.",
+  "reviews": [
+    {
+      "tester": 1,
+      "model": "gpt-6-luna",
+      "scope": "Імпорт і schema",
+      "attempts": [
+        {
+          "id": "T01-01",
+          "action": "malformed JSON",
+          "status": "PASS",
+          "expected": "reject with notice and preserve applied project/UI (parse error toast)",
+          "actual": "toast=\"Некоректний JSON. Перевірте формат файлу або тексту.\"; state unchanged=true"
+        },
+        {
+          "id": "T01-02",
+          "action": "missing required root field",
+          "status": "PASS",
+          "expected": "reject with notice and preserve applied project/UI (schema error toast)",
+          "actual": "toast=\"site: неправильний тип значення.\"; state unchanged=true"
+        },
+        {
+          "id": "T01-03",
+          "action": "extra root field",
+          "status": "PASS",
+          "expected": "reject with notice and preserve applied project/UI (strict-schema rejection)",
+          "actual": "toast=\"Проєкт: перевірте значення.\"; state unchanged=true"
+        },
+        {
+          "id": "T01-04",
+          "action": "wrong nested type",
+          "status": "PASS",
+          "expected": "reject with notice and preserve applied project/UI (schema error toast)",
+          "actual": "toast=\"module.pmax_w: потрібне числове значення.\"; state unchanged=true"
+        },
+        {
+          "id": "T01-05",
+          "action": "null required number",
+          "status": "PASS",
+          "expected": "reject with notice and preserve applied project/UI (schema error toast)",
+          "actual": "toast=\"module.voc_v: потрібне числове значення.\"; state unchanged=true"
+        },
+        {
+          "id": "T01-06",
+          "action": "zero positive number",
+          "status": "PASS",
+          "expected": "reject with notice and preserve applied project/UI (schema error toast)",
+          "actual": "toast=\"module.pmax_w: значення має бути > 0.\"; state unchanged=true"
+        },
+        {
+          "id": "T01-07",
+          "action": "negative positive number",
+          "status": "PASS",
+          "expected": "reject with notice and preserve applied project/UI (schema error toast)",
+          "actual": "toast=\"module.vmp_v: значення має бути > 0.\"; state unchanged=true"
+        },
+        {
+          "id": "T01-08",
+          "action": "non-finite JSON number token",
+          "status": "PASS",
+          "expected": "reject with notice and preserve applied project/UI (JSON parse rejection)",
+          "actual": "toast=\"Некоректний JSON. Перевірте формат файлу або тексту.\"; state unchanged=true"
+        },
+        {
+          "id": "T01-09",
+          "action": "oversized JSON (>1 MiB)",
+          "status": "PASS",
+          "expected": "reject before parse with 1 MiB notice and preserve applied project/UI",
+          "actual": "toast=\"JSON size limit: 1 MiB\"; state unchanged=true"
+        },
+        {
+          "id": "T01-10",
+          "action": "valid import with unusual name",
+          "status": "PASS",
+          "expected": "accept valid schema, show project name as text, retain usable project",
+          "actual": "saved name exact=true; heading ends with name=true (heading textContent prefixes the UI label «Проєкт /»); injected img count=0; toast=\"\""
+        }
+      ],
+      "findings": [],
+      "limitations": [
+        "Tested only the frozen file:// baseline using the installed Playwright and specified Chrome executable.",
+        "Schema-valid unusual name is treated as accepted input; nullable UNKNOWN fields were not classified as invalid.",
+        "First test run used the page title instead of the project-name eyebrow as the UI assertion; this harness mistake was corrected before interpreting application behavior.",
+        "Browser page errors: []",
+        "One early assertion compared the name against the complete project-heading text; corrected to verify name suffix and exact saved JSON. Whitespace/U+2028 text rendering is assessed separately from stored value."
+      ]
+    },
+    {
+      "tester": 2,
+      "model": "gpt-6-luna",
+      "scope": "Ручний план і чернетки",
+      "attempts": [
+        {
+          "id": "T02-01",
+          "action": "Add row",
+          "status": "PASS",
+          "expected": "one additional draft row with blank modules",
+          "actual": {
+            "initial": 7,
+            "added": 8,
+            "modules": ""
+          }
+        },
+        {
+          "id": "T02-02",
+          "action": "Remove added row",
+          "status": "PASS",
+          "expected": "added row removed while original rows remain",
+          "actual": 7
+        },
+        {
+          "id": "T02-03",
+          "action": "Apply empty modules",
+          "status": "PASS",
+          "expected": "reject explicitly, retain entered value and leave draft dirty",
+          "actual": {
+            "message": "Заповніть ID, інвертор, MPPT, площину та цілу кількість модулів більше нуля для кожного стрінга.",
+            "value": "",
+            "dirty": "true"
+          }
+        },
+        {
+          "id": "T02-04",
+          "action": "Apply fractional modules",
+          "status": "PASS",
+          "expected": "reject explicitly, retain entered value and leave draft dirty",
+          "actual": {
+            "message": "Заповніть ID, інвертор, MPPT, площину та цілу кількість модулів більше нуля для кожного стрінга.",
+            "value": "2.5",
+            "dirty": "true"
+          }
+        },
+        {
+          "id": "T02-05",
+          "action": "Apply negative modules",
+          "status": "PASS",
+          "expected": "reject explicitly, retain entered value and leave draft dirty",
+          "actual": {
+            "message": "Заповніть ID, інвертор, MPPT, площину та цілу кількість модулів більше нуля для кожного стрінга.",
+            "value": "-2",
+            "dirty": "true"
+          }
+        },
+        {
+          "id": "T02-06",
+          "action": "Malicious ID across rerender",
+          "status": "PASS",
+          "expected": "ID remains text and creates no executable HTML element",
+          "actual": {
+            "imgElements": 0,
+            "id": "<img src=x onerror=alert(1)>"
+          }
+        },
+        {
+          "id": "T02-07",
+          "action": "Duplicate row IDs",
+          "status": "PASS",
+          "expected": "reject duplicate IDs and preserve both draft rows",
+          "actual": {
+            "message": "ID стрінгів мають бути унікальними.",
+            "ids": [
+              "<img src=x onerror=alert(1)>",
+              "<img src=x onerror=alert(1)>"
+            ],
+            "dirty": "true"
+          }
+        },
+        {
+          "id": "T02-08",
+          "action": "Enter and blur mark edit dirty",
+          "status": "PASS",
+          "expected": "draft remains dirty and edited value is retained",
+          "actual": {
+            "dirty": "true",
+            "value": "19"
+          }
+        },
+        {
+          "id": "T02-09",
+          "action": "Save while dirty",
+          "status": "PASS",
+          "expected": "do not download JSON; explain manual plan must be applied",
+          "actual": "Спочатку застосуйте ручний план, щоб включити зміни до JSON."
+        },
+        {
+          "id": "T02-10",
+          "action": "Dirty guard: language switch",
+          "status": "PASS",
+          "expected": "ask before discarding; dismiss retains panel and exact draft",
+          "actual": {
+            "dialog": "Ручний план ще не застосовано. Відкинути зміни? Натисніть «Скасувати», щоб повернутися й застосувати план.",
+            "panelCount": 1,
+            "dirty": "true",
+            "contentKept": true
+          }
+        },
+        {
+          "id": "T02-11",
+          "action": "Dirty guard: student toggle",
+          "status": "PASS",
+          "expected": "ask before discarding; dismiss retains panel and exact draft",
+          "actual": {
+            "dialog": "Ручний план ще не застосовано. Відкинути зміни? Натисніть «Скасувати», щоб повернутися й застосувати план.",
+            "panelCount": 1,
+            "dirty": "true",
+            "contentKept": true
+          }
+        },
+        {
+          "id": "T02-12",
+          "action": "Dirty guard: navigation",
+          "status": "PASS",
+          "expected": "ask before discarding; dismiss retains panel and exact draft",
+          "actual": {
+            "dialog": "Ручний план ще не застосовано. Відкинути зміни? Натисніть «Скасувати», щоб повернутися й застосувати план.",
+            "panelCount": 1,
+            "dirty": "true",
+            "contentKept": true
+          }
+        },
+        {
+          "id": "T02-13",
+          "action": "Dirty guard: Auto",
+          "status": "PASS",
+          "expected": "ask before discarding; dismiss retains panel and exact draft",
+          "actual": {
+            "dialog": "Ручний план ще не застосовано. Відкинути зміни? Натисніть «Скасувати», щоб повернутися й застосувати план.",
+            "panelCount": 1,
+            "dirty": "true",
+            "contentKept": true
+          }
+        },
+        {
+          "id": "T02-14",
+          "action": "Dirty guard: reset",
+          "status": "PASS",
+          "expected": "ask before discarding; dismiss retains panel and exact draft",
+          "actual": {
+            "dialog": "Замінити поточний проєкт навчальним прикладом? Останній застосований проєкт можна відновити кнопкою «Попередній проєкт». Незастосовані зміни ручного плану буде відкинуто. Для надійної копії збережіть JSON.",
+            "panelCount": 1,
+            "dirty": "true",
+            "contentKept": true
+          }
+        },
+        {
+          "id": "T02-15",
+          "action": "Apply valid edited draft",
+          "status": "PASS",
+          "expected": "apply commits the edited value and renders a clean editor",
+          "actual": {
+            "dirty": "absent",
+            "modules": "19"
+          }
+        },
+        {
+          "id": "T02-16",
+          "action": "Save after Apply",
+          "status": "PASS",
+          "expected": "JSON download contains the applied manual plan value",
+          "actual": {
+            "downloaded": true,
+            "modules": 19
+          }
+        },
+        {
+          "id": "T02-17",
+          "action": "Auto after clean Apply",
+          "status": "PASS",
+          "expected": "return to automatic plan removes manual override without discard dialog",
+          "actual": {
+            "rows": 7,
+            "panel": 1
+          }
+        },
+        {
+          "id": "T02-18",
+          "action": "Import orphan target selections",
+          "status": "PASS",
+          "expected": "retain missing MPPT and plane values, visibly label the missing targets",
+          "actual": {
+            "importMessage": "",
+            "targetValues": {
+              "mppt": "MISSING-MPPT",
+              "plane": "MISSING-PLANE"
+            },
+            "missingOptions": [
+              "Відсутня ціль: MISSING-MPPT",
+              "Відсутня ціль: MISSING-PLANE"
+            ]
+          }
+        },
+        {
+          "id": "T02-19",
+          "action": "Apply orphan targets",
+          "status": "PASS",
+          "expected": "apply either preserves orphan IDs or reports explicit validation; never remap to available targets",
+          "actual": {
+            "values": {
+              "mppt": "MISSING-MPPT",
+              "plane": "MISSING-PLANE"
+            },
+            "message": ""
+          }
+        },
+        {
+          "id": "T02-20",
+          "action": "Advanced JSON draft and Save",
+          "status": "FAIL",
+          "expected": "Save warns that the advanced draft is unapplied or includes its edited value",
+          "actual": {
+            "nativeDirty": "absent",
+            "downloaded": true,
+            "warning": "",
+            "textareaValue": 10,
+            "savedManualValue": 8
+          }
+        },
+        {
+          "id": "T02-21",
+          "action": "Advanced JSON draft and navigation",
+          "status": "FAIL",
+          "expected": "navigation warns or preserves edited textarea value on return",
+          "actual": {
+            "editedValue": 10,
+            "afterReturnValue": 8,
+            "dirtyGuard": "absent"
+          }
+        },
+        {
+          "id": "T02-22",
+          "action": "Browser runtime errors",
+          "status": "PASS",
+          "expected": "no uncaught page or console errors during exercised flows",
+          "actual": []
+        }
+      ],
+      "findings": [
+        {
+          "title": "Advanced manual JSON draft is untracked and silently lost",
+          "reproducer": "Run run.mjs; edit #manual without clicking #manualApply, then (1) click #save and inspect advanced-draft-save.json, (2) navigate Overview → Strings and inspect #manual.",
+          "fileline": "PROJECT_ROOT/.qa/adversarial/baseline/Solar_Designer_Lite.html:1 (bundled inline application)",
+          "impact": "Save downloads the prior applied state without warning (edited modules 10, saved manual plan remains 8); navigation returns with textarea reset from 10 to 8. The user loses the unapplied draft silently."
+        }
+      ],
+      "limitations": [
+        "Single environment only: frozen standalone HTML in fresh headless Google Chrome context via file://; no other browser/OS or built/dev server tested.",
+        "No project source/build/docs were modified; browser checks are behavioral evidence, not engineering certification."
+      ]
+    },
+    {
+      "tester": 3,
+      "model": "gpt-6-luna",
+      "scope": "Автозбереження та відновлення",
+      "attempts": [
+        {
+          "id": "T03-01",
+          "action": "Apply edited project then reload",
+          "status": "PASS",
+          "expected": "Project name marker remains after reload, no page error",
+          "actual": {
+            "before": "ПРОЄКТ / QA AUTOSAVE MARKER",
+            "after": "ПРОЄКТ / QA AUTOSAVE MARKER",
+            "errors": []
+          }
+        },
+        {
+          "id": "T03-02",
+          "action": "Reset cancel, accept, and restore previous",
+          "status": "PASS",
+          "expected": "Cancel preserves edits; accept loads demo; restore recovers prior project",
+          "actual": {
+            "afterCancel": "ПРОЄКТ / QA RECOVERY MARKER",
+            "afterAccept": "ПРОЄКТ / НАВЧАЛЬНА СЕС · 120 МОДУЛІВ",
+            "restoreVisible": 1,
+            "afterRestore": "ПРОЄКТ / QA RECOVERY MARKER",
+            "afterRestoreToggle": "ПРОЄКТ / НАВЧАЛЬНА СЕС · 120 МОДУЛІВ",
+            "errors": []
+          }
+        },
+        {
+          "id": "T03-03",
+          "action": "Exercise change and recovery after reload",
+          "status": "PASS",
+          "expected": "Applied exercise persists; previous project remains recoverable and restores demo",
+          "actual": {
+            "changed": "ПРОЄКТ / НАВЧАЛЬНА СЕС · 120 МОДУЛІВ",
+            "persisted": "ПРОЄКТ / НАВЧАЛЬНА СЕС · 120 МОДУЛІВ",
+            "restoreAvailable": 1,
+            "recoveredMin": -20,
+            "errors": []
+          }
+        },
+        {
+          "id": "T03-04",
+          "action": "Valid JSON import and recovery after reload",
+          "status": "PASS",
+          "expected": "Imported project persists and prior project can be restored",
+          "actual": {
+            "importedName": "ПРОЄКТ / QA VALID IMPORT MARKER",
+            "persisted": "ПРОЄКТ / QA VALID IMPORT MARKER",
+            "restoreVisible": 1,
+            "restoredName": "Навчальна СЕС · 120 модулів",
+            "errors": []
+          }
+        },
+        {
+          "id": "T03-05",
+          "action": "Quota failure, warning, JSON export and reload",
+          "status": "PASS",
+          "expected": "Warning describes unavailable autosave; in-memory project is exportable; reload falls back to demo because this fresh context has no earlier stored project",
+          "actual": {
+            "warning": "Автозбереження недоступне — збережіть JSON",
+            "memoryState": "ПРОЄКТ / QA STORAGE FAILURE EXPORT MARKER",
+            "downloadedName": "QA storage failure export marker",
+            "afterReload": "ПРОЄКТ / НАВЧАЛЬНА СЕС · 120 МОДУЛІВ",
+            "errors": []
+          }
+        },
+        {
+          "id": "T03-06",
+          "action": "Corrupted project and previous-project localStorage",
+          "status": "PASS",
+          "expected": "App loads demo without crashing; invalid recovery is not presented",
+          "actual": {
+            "initial": "ПРОЄКТ / НАВЧАЛЬНА СЕС · 120 МОДУЛІВ",
+            "restore": 0,
+            "errors": []
+          }
+        },
+        {
+          "id": "T03-07",
+          "action": "getItem and setItem throw SecurityError; save JSON",
+          "status": "PASS",
+          "expected": "Startup falls back safely; changed project can be exported with accurate warning",
+          "actual": {
+            "warning": "Автозбереження недоступне — збережіть JSON",
+            "savedName": "QA blocked storage",
+            "errors": []
+          }
+        }
+      ],
+      "findings": [],
+      "limitations": []
+    },
+    {
+      "tester": 4,
+      "model": "gpt-6-luna",
+      "scope": "Інженерні обмеження",
+      "attempts": [
+        {
+          "id": "T04-01",
+          "action": "invalid inverter reference",
+          "status": "PASS",
+          "expected": "known FAIL",
+          "actual": {
+            "overall": "FAIL",
+            "check": {
+              "id": "STRING_REFERENCE",
+              "status": "FAIL",
+              "demand": null,
+              "capacity": null
+            }
+          }
+        },
+        {
+          "id": "T04-02",
+          "action": "invalid MPPT reference",
+          "status": "PASS",
+          "expected": "known FAIL",
+          "actual": {
+            "overall": "FAIL",
+            "check": {
+              "id": "STRING_REFERENCE",
+              "status": "FAIL",
+              "demand": null,
+              "capacity": null
+            }
+          }
+        },
+        {
+          "id": "T04-03",
+          "action": "invalid plane reference",
+          "status": "PASS",
+          "expected": "known FAIL",
+          "actual": {
+            "overall": "FAIL",
+            "check": {
+              "id": "STRING_REFERENCE",
+              "status": "FAIL",
+              "demand": null,
+              "capacity": null
+            }
+          }
+        },
+        {
+          "id": "T04-04",
+          "action": "module under-allocation",
+          "status": "PASS",
+          "expected": "known FAIL",
+          "actual": {
+            "overall": "FAIL",
+            "check": {
+              "id": "ALLOCATION",
+              "status": "FAIL",
+              "demand": 12,
+              "capacity": 24
+            }
+          }
+        },
+        {
+          "id": "T04-05",
+          "action": "module over-allocation",
+          "status": "PASS",
+          "expected": "known FAIL",
+          "actual": {
+            "overall": "FAIL",
+            "check": {
+              "id": "COUNT:south",
+              "status": "FAIL",
+              "demand": 25,
+              "capacity": 24
+            }
+          }
+        },
+        {
+          "id": "T04-06",
+          "action": "duplicate string IDs",
+          "status": "PASS",
+          "expected": "known FAIL",
+          "actual": {
+            "overall": "FAIL",
+            "check": {
+              "id": "DUPLICATE_STRING_ID",
+              "status": "FAIL",
+              "demand": null,
+              "capacity": null
+            }
+          }
+        },
+        {
+          "id": "T04-07",
+          "action": "mixed lengths on same MPPT",
+          "status": "PASS",
+          "expected": "known FAIL",
+          "actual": {
+            "overall": "FAIL",
+            "check": {
+              "id": "INV1:A:PARALLEL_MISMATCH",
+              "status": "FAIL",
+              "demand": null,
+              "capacity": null
+            }
+          }
+        },
+        {
+          "id": "T04-08",
+          "action": "mixed planes on same MPPT",
+          "status": "PASS",
+          "expected": "known FAIL",
+          "actual": {
+            "overall": "FAIL",
+            "check": {
+              "id": "INV1:A:PARALLEL_MISMATCH",
+              "status": "FAIL",
+              "demand": null,
+              "capacity": null
+            }
+          }
+        },
+        {
+          "id": "T04-09",
+          "action": "physical input count cap",
+          "status": "PASS",
+          "expected": "known FAIL",
+          "actual": {
+            "overall": "FAIL",
+            "check": {
+              "id": "INV1:A:INPUTS",
+              "status": "FAIL",
+              "demand": 3,
+              "capacity": 2
+            }
+          }
+        },
+        {
+          "id": "T04-10",
+          "action": "Imp per physical input cap",
+          "status": "PASS",
+          "expected": "known FAIL",
+          "actual": {
+            "overall": "FAIL",
+            "check": {
+              "id": "INV1:A:INPUT_IMP",
+              "status": "FAIL",
+              "demand": 9.99,
+              "capacity": 9.98
+            }
+          }
+        },
+        {
+          "id": "T04-11",
+          "action": "Isc per physical input cap remains separate from Imp",
+          "status": "PASS",
+          "expected": "known FAIL",
+          "actual": {
+            "overall": "FAIL",
+            "check": {
+              "id": "INV1:A:INPUT_ISC",
+              "status": "FAIL",
+              "demand": 13.3,
+              "capacity": 13.290000000000001
+            }
+          }
+        },
+        {
+          "id": "T04-12",
+          "action": "inverter DC power cap",
+          "status": "PASS",
+          "expected": "known FAIL",
+          "actual": {
+            "overall": "FAIL",
+            "check": {
+              "id": "INV1:DC_POWER",
+              "status": "FAIL",
+              "demand": 10440,
+              "capacity": 10439
+            }
+          }
+        },
+        {
+          "id": "T04-13",
+          "action": "duplicate plane IDs schema gate",
+          "status": "PASS",
+          "expected": "schema rejects duplicate identity",
+          "actual": {
+            "accepted": false,
+            "issues": ["Duplicate plane IDs"]
+          }
+        },
+        {
+          "id": "T04-14",
+          "action": "duplicate MPPT IDs schema gate",
+          "status": "PASS",
+          "expected": "schema rejects duplicate identity",
+          "actual": {
+            "accepted": false,
+            "issues": ["Duplicate MPPT IDs"]
+          }
+        },
+        {
+          "id": "T04-15",
+          "action": "Chrome file:// JSON import renders known overvoltage FAIL alongside missing-data UNKNOWN",
+          "status": "PASS",
+          "expected": "overall FAIL, VOC FAIL visible, UNKNOWN visible, no page errors",
+          "actual": {
+            "importedFile": ".qa/adversarial/tester04/fixtures/browser-overvoltage.json",
+            "overallStatus": "FAIL",
+            "renderedVocFail": true,
+            "renderedUnknown": true,
+            "pageErrors": []
+          }
+        }
+      ],
+      "findings": [],
+      "limitations": [
+        "No normative compliance assessment; tests cover manual allocation constraints only.",
+        "Duplicate plane and MPPT IDs are schema-rejected, so downstream handling of such malformed projects is outside core calculateProject's accepted input domain."
+      ]
+    },
+    {
+      "tester": 5,
+      "model": "gpt-6-luna",
+      "scope": "Траси й кабельні кандидати",
+      "attempts": [
+        {
+          "id": "T05-01",
+          "action": "Import and per-feeder route lines",
+          "status": "PASS",
+          "expected": "DC 10/30m and AC 20/80m display on their matching lines",
+          "actual": {
+            "fields": {
+              "dc1": "10",
+              "dc2": "30",
+              "ac1": "20",
+              "ac2": "80"
+            },
+            "text": "Окремі кабельні траси\n\nПеревизначення повністю замінює спільні параметри траси. Порожні поля залишаються UNKNOWN; автоматичного запасного значення немає.\n\nЦіль\tДовжина, m\tДжерело\t\nDC стрінг · s1 · INV 1 · MPPT1 · south · 10 PV\t10\tПовне перевизначення\tВидалити перевизначення → спільні\n\nДовжина, m\nТемпература провідника, °C\nКоефіцієнт derating\nПідстава derating\nСпосіб прокладання\nТемпература повітря, °C\nЗгруповані кола\n\nНеповний або застарілий ввід може залишити результат UNKNOWN.\n\n\nDC стрінг · s2 · INV 2 · MPPT1 · south · 10 PV\t30\tПовне перевизначення\tВидалити перевизначення → спільні\n\nДовжина,"
+          }
+        },
+        {
+          "id": "T05-02",
+          "action": "BOM quantities from selected per-feeder lengths",
+          "status": "PASS",
+          "expected": "DC 80 m conductors and AC 100 m feeder cable, zero omitted",
+          "actual": {
+            "dc": 80,
+            "ac": 100,
+            "scope": {
+              "totals": [
+                {
+                  "item": "dc-demo-4",
+                  "quantity": 80
+                },
+                {
+                  "item": "ac-demo-50",
+                  "quantity": 100
+                }
+              ],
+              "omitted_routes": 0,
+              "unresolved_dc_layout": false,
+              "checks": [
+                {
+                  "id": "CABLE_BOM_SCOPE",
+                  "status": "PASS",
+                  "demand": null,
+                  "capacity": null,
+                  "unit": "",
+                  "utilization": null,
+                  "missing": [],
+                  "basis": "Known selected routes only: two conductors per DC string, one multicore per inverter; omitted routes/layout make totals partial; no reserve",
+                  "source_ids": [],
+                  "message_key": "CABLE_BOM_SCOPE"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "T05-03",
+          "action": "Cable inspector dropdown follows each actual line",
+          "status": "PASS",
+          "expected": "4 options map to DC s1/s2 and AC inverter 1/2; each selected body title matches its feeder",
+          "actual": {
+            "options": [
+              {
+                "value": "dc:0",
+                "label": "DC стрінг · s1 · #1"
+              },
+              {
+                "value": "dc:1",
+                "label": "DC стрінг · s2 · #2"
+              },
+              {
+                "value": "ac:1",
+                "label": "AC інвертор · 1"
+              },
+              {
+                "value": "ac:2",
+                "label": "AC інвертор · 2"
+              }
+            ],
+            "selected": [
+              {
+                "option": {
+                  "value": "dc:0",
+                  "label": "DC стрінг · s1 · #1"
+                },
+                "heading": "DC стрінг · s1 · #1",
+                "hasCandidate": true,
+                "hasUnknown": false
+              },
+              {
+                "option": {
+                  "value": "dc:1",
+                  "label": "DC стрінг · s2 · #2"
+                },
+                "heading": "DC стрінг · s2 · #2",
+                "hasCandidate": true,
+                "hasUnknown": false
+              },
+              {
+                "option": {
+                  "value": "ac:1",
+                  "label": "AC інвертор · 1"
+                },
+                "heading": "AC інвертор · 1",
+                "hasCandidate": true,
+                "hasUnknown": false
+              },
+              {
+                "option": {
+                  "value": "ac:2",
+                  "label": "AC інвертор · 2"
+                },
+                "heading": "AC інвертор · 2",
+                "hasCandidate": true,
+                "hasUnknown": false
+              }
+            ]
+          }
+        },
+        {
+          "id": "T05-04",
+          "action": "Empty DC override field preserves UNKNOWN and partial BOM",
+          "status": "PASS",
+          "expected": "Null field remains null with no common fallback; line omitted and known remaining DC quantity is 60m",
+          "actual": {
+            "saved": null,
+            "resolved": {
+              "length_m": null,
+              "conductor_temp_c": 70,
+              "derating_factor": 0.8,
+              "derating_basis": "Explicit teaching assumption"
+            },
+            "selected": null,
+            "scope": {
+              "totals": [
+                {
+                  "item": "dc-demo-4",
+                  "quantity": 60
+                },
+                {
+                  "item": "ac-demo-50",
+                  "quantity": 100
+                }
+              ],
+              "omitted_routes": 1,
+              "unresolved_dc_layout": false,
+              "checks": [
+                {
+                  "id": "CABLE_BOM_SCOPE",
+                  "status": "UNKNOWN",
+                  "demand": null,
+                  "capacity": null,
+                  "unit": "",
+                  "utilization": null,
+                  "missing": ["unquantified_feeder_routes"],
+                  "basis": "Known selected routes only: two conductors per DC string, one multicore per inverter; omitted routes/layout make totals partial; no reserve",
+                  "source_ids": [],
+                  "message_key": "CABLE_BOM_SCOPE"
+                }
+              ]
+            },
+            "editorText": "DC стрінг · s1 · #1\n\nПоходження вводу: OVERRIDE\n\nФактичний CircuitInput\n\nНемає доведеного кандидата кабелю для цієї лінії.\n\nКандидати кабелю · 1\ndc-demo-4 · DC synthetic Cu 4 mm² · 4 mm² · Не обраний "
+          }
+        },
+        {
+          "id": "T05-05",
+          "action": "Allocation change marks route stale and does not reuse it",
+          "status": "PASS",
+          "expected": "Changed string snapshot becomes STALE_OVERRIDE with empty resolved circuit and UNKNOWN selection; explicit rebind offered",
+          "actual": {
+            "rebindButtons": 1,
+            "line": {
+              "string_id": "s1",
+              "circuit_input": {},
+              "input_origin": "STALE_OVERRIDE",
+              "voc_cold_v": 506.70000000000005,
+              "vmp_hot_v": 326.96999999999997,
+              "ib_a": 17.5,
+              "fuse": {
+                "required": false,
+                "rating_a": null,
+                "reverse_a": 0,
+                "checks": [
+                  {
+                    "id": "FUSE_REQUIREMENT",
+                    "status": "NOT_APPLICABLE",
+                    "demand": null,
+                    "capacity": null,
+                    "unit": "",
+                    "utilization": null,
+                    "missing": [],
+                    "basis": "Zero array and explicitly declared inverter backfeed; limited reverse-current assessment only",
+                    "source_ids": [],
+                    "message_key": "FUSE_REQUIREMENT"
+                  }
+                ]
+              },
+              "isolator_a": 20,
+              "dc_switch_checks": [],
+              "cable": {
+                "selected": null,
+                "candidates": [
+                  {
+                    "cable": {
+                      "id": "dc-demo-4",
+                      "name": "DC synthetic Cu 4 mm²",
+                      "circuit": "DC",
+                      "material": "Cu",
+                      "section_mm2": 4,
+                      "r20_ohm_km": 4.61,
+                      "alpha_per_c": 0.00393,
+                      "x_ohm_km": null,
+                      "max_voltage_v": 1500,
+                      "max_conductor_temp_c": 90,
+                      "iz_a": 44,
+                      "installation_basis": "Synthetic test method; must replace with manufacturer values",
+                      "sources": [
+                        {
+                          "id": "synthetic-demo",
+                          "label": "Synthetic teaching example, not a manufacturer datasheet",
+                          "verification": "SYNTHETIC"
+                        }
+                      ]
+                    },
+                    "checks": [
+                      {
+                        "id": "dc-demo-4:IB_IN",
+                        "status": "PASS",
+                        "demand": 17.5,
+                        "capacity": 17.5,
+                        "unit": "A",
+                        "utilization": 1,
+                        "missing": [],
+                        "basis": "Ib ≤ In",
+                        "source_ids": ["synthetic-demo"],
+                        "message_key": "dc-demo-4:IB_IN"
+                      },
+                      {
+                        "id": "dc-demo-4:IN_IZ",
+                        "status": "UNKNOWN",
+                        "demand": 17.5,
+                        "capacity": null,
+                        "unit": "A",
+                        "utilization": null,
+                        "missing": [
+                          "length_m",
+                          "conductor_temp_c",
+                          "derating_factor",
+                          "derating_basis"
+                        ],
+                        "basis": "In ≤ Iz × kT × kg",
+                        "source_ids": ["synthetic-demo"],
+                        "message_key": "dc-demo-4:IN_IZ"
+                      },
+                      {
+                        "id": "dc-demo-4:DROP",
+                        "status": "UNKNOWN",
+                        "demand": null,
+                        "capacity": 3,
+                        "unit": "%",
+                        "utilization": null,
+                        "missing": [
+                          "length_m",
+                          "conductor_temp_c",
+                          "derating_factor",
+                          "derating_basis"
+                        ],
+                        "basis": "One-way route; R at design conductor temperature",
+                        "source_ids": ["synthetic-demo"],
+                        "message_key": "dc-demo-4:DROP"
+                      },
+                      {
+                        "id": "dc-demo-4:VOLTAGE",
+                        "status": "PASS",
+                        "demand": 506.70000000000005,
+                        "capacity": 1500,
+                        "unit": "V",
+                        "utilization": 0.33780000000000004,
+                        "missing": [],
+                        "basis": "Rated voltage; confirm conductor-to-earth arrangement",
+                        "source_ids": ["synthetic-demo"],
+                        "message_key": "dc-demo-4:VOLTAGE"
+                      },
+                      {
+                        "id": "dc-demo-4:TEMPERATURE",
+                        "status": "UNKNOWN",
+                        "demand": null,
+                        "capacity": 90,
+                        "unit": "°C",
+                        "utilization": null,
+                        "missing": ["max_conductor_temp_c"],
+                        "basis": "Cable temperature rating",
+                        "source_ids": ["synthetic-demo"],
+                        "message_key": "dc-demo-4:TEMPERATURE"
+                      },
+                      {
+                        "id": "dc-demo-4:DATA",
+                        "status": "UNKNOWN",
+                        "demand": null,
+                        "capacity": null,
+                        "unit": "",
+                        "utilization": null,
+                        "missing": [
+                          "length_m",
+                          "conductor_temp_c",
+                          "derating_factor",
+                          "derating_basis"
+                        ],
+                        "basis": "Missing circuit data",
+                        "source_ids": ["synthetic-demo"],
+                        "message_key": "dc-demo-4:DATA"
+                      },
+                      {
+                        "id": "dc-demo-4:PROVENANCE",
+                        "status": "WARN",
+                        "demand": null,
+                        "capacity": null,
+                        "unit": "",
+                        "utilization": null,
+                        "missing": [],
+                        "basis": "Catalog ampacity is preliminary; verify datasheet and installation method",
+                        "source_ids": ["synthetic-demo"],
+                        "message_key": "dc-demo-4:PROVENANCE"
+                      }
+                    ],
+                    "status": "UNKNOWN",
+                    "r_ohm_km": null,
+                    "drop_v": null,
+                    "drop_pct": null,
+                    "iz_derated_a": null
+                  }
+                ],
+                "checks": [
+                  {
+                    "id": "CABLE_SELECTION",
+                    "status": "UNKNOWN",
+                    "demand": null,
+                    "capacity": null,
+                    "unit": "",
+                    "utilization": null,
+                    "missing": [],
+                    "basis": "No proven single-run candidate; no automatic parallel cables",
+                    "source_ids": [],
+                    "message_key": "CABLE_SELECTION"
+                  }
+                ]
+              }
+            },
+            "warning": "Окремі кабельні траси\n\nПеревизначення повністю замінює спільні параметри траси. Порожні поля залишаються UNKNOWN; автоматичного запасного значення немає.\n\nЦіль\tДовжина, m\tДжерело\t\nDC стрінг · s1 · INV 1 · MPPT1 · south · 9 PV\t10\tПовне перевизначення\nЦіль стрінга змінилася. Перевизначення не застосовується, доки його явно не прив’язано заново.\n\tВидалити перевизначення → спільні Прив’язати до поточного стрінга\n\nДовжина, m\nТемпература провідника, °C\nКоефіцієнт derating\nПідстава derating\nСпосіб прокладання\nТемпература повітря, °C\nЗгруповані кола\n\nНеповний або застарілий ввід може залишити результат UNKNOWN.\n\n\nDC стрінг · s2 · INV 2 · MPPT1 · south · 10 PV\t30\tПовне перевизначення\tВидалити перевиз"
+          }
+        },
+        {
+          "id": "T05-06",
+          "action": "Explicit stale route rebind",
+          "status": "PASS",
+          "expected": "Rebind updates exact saved snapshot to current 9-module target",
+          "actual": {
+            "target": {
+              "id": "s1",
+              "inverter": 1,
+              "mppt_id": "MPPT1",
+              "plane_id": "south",
+              "modules": 9
+            }
+          }
+        },
+        {
+          "id": "T05-07",
+          "action": "Remove override and explicitly copy common inputs",
+          "status": "PASS",
+          "expected": "Removal falls back to common route; Add snapshots the displayed common circuit",
+          "actual": {
+            "removedS1": true,
+            "copiedCircuit": {
+              "length_m": 30,
+              "conductor_temp_c": 70,
+              "derating_factor": 0.8,
+              "derating_basis": "Explicit teaching assumption"
+            },
+            "common": {
+              "length_m": 30,
+              "conductor_temp_c": 70,
+              "derating_factor": 0.8,
+              "derating_basis": "Explicit teaching assumption"
+            }
+          }
+        },
+        {
+          "id": "T05-08",
+          "action": "Reduced inverter count leaves only an explicit removable orphan",
+          "status": "PASS",
+          "expected": "AC inverter 2 override stays visibly removable as orphan; live result contains only inverter 1 using its own 20m route",
+          "actual": {
+            "orphanCount": 1,
+            "routesText": "атура провідника, °C\nКоефіцієнт derating\nПідстава derating\nСпосіб прокладання\nТемпература повітря, °C\nЗгруповані кола\n\nНеповний або застарілий ввід може залишити результат UNKNOWN.\n\n\nAC фідер · 1\t20\tПовне перевизначення\tВидалити перевизначення → спільні\n\nДовжина, m\nТемпература провідника, °C\nКоефіцієнт derating\nПідстава derating\nСпосіб прокладання\nТемпература повітря, °C\nЗгруповані кола\n\nНеповний або застарілий ввід може залишити результат UNKNOWN.\n\nОсиротілі перевизначення\nAC фідер · 2 Видалити",
+            "acLines": [
+              {
+                "inverter": 1,
+                "origin": "OVERRIDE",
+                "length": 20
+              }
+            ],
+            "scope": {
+              "totals": [
+                {
+                  "item": "dc-demo-4",
+                  "quantity": 120
+                },
+                {
+                  "item": "ac-demo-50",
+                  "quantity": 20
+                }
+              ],
+              "omitted_routes": 0,
+              "unresolved_dc_layout": false,
+              "checks": [
+                {
+                  "id": "CABLE_BOM_SCOPE",
+                  "status": "PASS",
+                  "demand": null,
+                  "capacity": null,
+                  "unit": "",
+                  "utilization": null,
+                  "missing": [],
+                  "basis": "Known selected routes only: two conductors per DC string, one multicore per inverter; omitted routes/layout make totals partial; no reserve",
+                  "source_ids": [],
+                  "message_key": "CABLE_BOM_SCOPE"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "T05-09",
+          "action": "Duplicate string IDs keep core route ambiguity and partial BOM",
+          "status": "PASS",
+          "expected": "Both DC lines AMBIGUOUS_OVERRIDE with empty effective circuits and no selected cable; DC omitted, AC stays 100m",
+          "actual": {
+            "lines": [
+              {
+                "id": "s1",
+                "origin": "AMBIGUOUS_OVERRIDE"
+              },
+              {
+                "id": "s1",
+                "origin": "AMBIGUOUS_OVERRIDE"
+              }
+            ],
+            "bom": [
+              {
+                "item": "Навчальний модуль 585 W",
+                "quantity": 20,
+                "unit": "pcs",
+                "basis": "Installed modules"
+              },
+              {
+                "item": "Навчальний інвертор 50 kW",
+                "quantity": 2,
+                "unit": "pcs",
+                "basis": "Declared inverter fleet"
+              },
+              {
+                "item": "ac-demo-50",
+                "quantity": 100,
+                "unit": "m",
+                "basis": "Known selected feeder routes only; DC two conductors / AC one multicore; partial if routes omitted; no reserve"
+              },
+              {
+                "item": "DC isolator candidate 20 A",
+                "quantity": 2,
+                "unit": "pcs",
+                "basis": "Per-string candidate topology; manufacturer utilization category and voltage remain unverified"
+              },
+              {
+                "item": "AC breaker candidate 80 A",
+                "quantity": 2,
+                "unit": "pcs",
+                "basis": "Rating candidate; fault and curve checks required"
+              }
+            ],
+            "scope": {
+              "totals": [
+                {
+                  "item": "ac-demo-50",
+                  "quantity": 100
+                }
+              ],
+              "omitted_routes": 2,
+              "unresolved_dc_layout": false,
+              "checks": [
+                {
+                  "id": "CABLE_BOM_SCOPE",
+                  "status": "UNKNOWN",
+                  "demand": null,
+                  "capacity": null,
+                  "unit": "",
+                  "utilization": null,
+                  "missing": ["unquantified_feeder_routes"],
+                  "basis": "Known selected routes only: two conductors per DC string, one multicore per inverter; omitted routes/layout make totals partial; no reserve",
+                  "source_ids": [],
+                  "message_key": "CABLE_BOM_SCOPE"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "T05-10",
+          "action": "Duplicate route editor warns that both stored overrides are unapplied",
+          "status": "PASS",
+          "expected": "Exactly 2 duplicate-ID rows show their saved 10m values with explicit “route is not applied” warnings; calculated lines independently remain AMBIGUOUS_OVERRIDE with empty effective circuits",
+          "actual": {
+            "rowCount": 2,
+            "rows": [
+              {
+                "cells": [
+                  "DC стрінг · s1 · INV 1 · MPPT1 · south · 10 PV",
+                  "10",
+                  "Повне перевизначення\nID стрінга повторюється. Виправте ручний план; збережена траса не застосовується.",
+                  "Видалити перевизначення → спільні"
+                ],
+                "length": "10",
+                "source": "Повне перевизначення\nID стрінга повторюється. Виправте ручний план; збережена траса не застосовується."
+              },
+              {
+                "cells": [
+                  "DC стрінг · s1 · INV 1 · MPPT1 · south · 10 PV",
+                  "10",
+                  "Повне перевизначення\nID стрінга повторюється. Виправте ручний план; збережена траса не застосовується.",
+                  "Видалити перевизначення → спільні"
+                ],
+                "length": "10",
+                "source": "Повне перевизначення\nID стрінга повторюється. Виправте ручний план; збережена траса не застосовується."
+              }
+            ],
+            "effectiveLines": [
+              {
+                "origin": "AMBIGUOUS_OVERRIDE"
+              },
+              {
+                "origin": "AMBIGUOUS_OVERRIDE"
+              }
+            ]
+          }
+        },
+        {
+          "id": "T05-11",
+          "action": "Inspector exposes rejected/UNKNOWN cable checks together",
+          "status": "PASS",
+          "expected": "Forced voltage incompatibility is visibly FAIL while missing route length remains UNKNOWN in inspector",
+          "actual": {
+            "summaries": [
+              "dc-demo-4 · DC synthetic Cu 4 mm² · 4 mm² · Не обраний · FAIL"
+            ],
+            "expanded": [
+              "dc-demo-4 · DC synthetic Cu 4 mm² · 4 mm² · Не обраний · FAIL\nID\n\ndc-demo-4\n\nПереріз, mm²\n\n4\n\nR(T), Ω/km\n\n5,516\n\nIz з derating, A\n\n35,2\n\nПадіння напруги, V\n\nUNKNOWN\n\nПадіння напруги, %\n\nUNKNOWN\n\nДжерела\nSynthetic teaching example, not a manufacturer datasheet · Перевірка: USER_INPUT · Дата перегляду: UNKNOWN · Equipment edited by user; published source no longer verifies these values.\nПеревірки · 7\nСтатус\tID\tПопит\tМежа\tОд.\tПідстава\tБракує даних\nPASS\tdc-demo-4:IB_IN\t17,5\t17,5\tA\tIb ≤ In\t—\nPASS\tdc-demo-4:IN_IZ\t17,5\t35,2\tA\tIn ≤ Iz × kT × kg\t—\nUNKNOWN\tdc-demo-4:DROP\tUNKNOWN\t3\t%\tOne-way route; R at design conductor temperature\tlength_m\nFAIL\tdc-demo-4:VOLTAGE\t563\t100\tV\tRated voltage; confirm conductor-to-earth arrangement\t—\nPASS\tdc-demo-4:TEMPERATURE\t70\t90\t°C\tCable temperature rating\t—\nUNKNOWN\tdc"
+            ]
+          }
+        }
+      ],
+      "findings": [],
+      "limitations": [
+        "One bounded run in a fresh Chrome context against file:// frozen HTML; no dev server/build and no other browsers.",
+        "Synthetic teaching cable data remains intentionally unverified; UNKNOWN findings are recorded as expected behavior unless a concrete UI/route contradiction is demonstrated.",
+        "No source, docs, fixtures, or baseline files were modified; only .qa/adversarial/tester05 artifacts were written."
+      ]
+    },
+    {
+      "tester": 6,
+      "model": "gpt-6-luna",
+      "scope": "HTML/Markdown/звіт та provenance",
+      "attempts": [
+        {
+          "id": "T06-01",
+          "action": "tampered-fail",
+          "status": "PASS",
+          "expected": {
+            "result_status": "FAIL",
+            "no_script_execution": true,
+            "unsafe_urls_not_activated": true,
+            "saved_project_unchanged_by_report": true
+          },
+          "actual": {
+            "result_status": "FAIL",
+            "visible_status": "Встановлена DC\n11,12 kWp\nПотужність AC\n50 kW\nСпіввідношення DC/AC\n0,222\nРозміщено модулів\n19 / 19",
+            "script_execution_count": 0,
+            "source_links": [
+              {
+                "href": "https://www.eaton.com/us/en-us/skuPage.PV-15A10F.html",
+                "target": "_blank",
+                "rel": "noopener noreferrer"
+              }
+            ],
+            "html_payload_rendered_as_literal_text": true,
+            "report_contains_payload": true,
+            "forged_markdown_heading_created": false,
+            "report_heading_count": 7,
+            "report_contains_status": true,
+            "saved_project_unchanged_by_report": true,
+            "external_requests": [],
+            "page_errors": []
+          }
+        },
+        {
+          "id": "T06-02",
+          "action": "tampered-unknown",
+          "status": "PASS",
+          "expected": {
+            "result_status": "UNKNOWN",
+            "no_script_execution": true,
+            "unsafe_urls_not_activated": true,
+            "saved_project_unchanged_by_report": true
+          },
+          "actual": {
+            "result_status": "UNKNOWN",
+            "visible_status": "Встановлена DC\n70,2 kWp\nПотужність AC\n50 kW\nСпіввідношення DC/AC\n1,404\nРозміщено модулів\n120 / 120",
+            "script_execution_count": 0,
+            "source_links": [
+              {
+                "href": "https://127.0.0.1:9/collect",
+                "target": "_blank",
+                "rel": "noopener noreferrer"
+              }
+            ],
+            "html_payload_rendered_as_literal_text": true,
+            "report_contains_payload": true,
+            "forged_markdown_heading_created": false,
+            "report_heading_count": 7,
+            "report_contains_status": true,
+            "saved_project_unchanged_by_report": true,
+            "external_requests": [],
+            "page_errors": []
+          }
+        },
+        {
+          "id": "T06-03",
+          "action": "native-about-provenance-notices",
+          "status": "PASS",
+          "expected": {
+            "native_dialog": true,
+            "unlicensed_pending_visible": true,
+            "third_party_notice_visible_on_expand": true
+          },
+          "actual": {
+            "zod_notice_open": true,
+            "notice_text_present": true,
+            "native_dialog_open": true,
+            "unlicensed_visible": true,
+            "notices_sections": 3,
+            "visible_text_excerpt": "Авторство та ліцензії\nЗакрити\nЛіцензія проєкту · UNLICENSED\nСторонні компоненти\nzod · 4.6.5 · MIT\nMIT License\n\nCopyright (c) 2025 Colin McDonnell\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons t",
+            "external_requests": []
+          }
+        }
+      ],
+      "findings": [],
+      "limitations": []
+    },
+    {
+      "tester": 7,
+      "model": "gpt-6-luna",
+      "scope": "Клавіатура, mobile, текст",
+      "attempts": [
+        {
+          "id": "T07-01",
+          "action": "keyboard tab overview",
+          "status": "PASS",
+          "expected": "section overview is shown",
+          "actual": {
+            "activeTab": "overview",
+            "bodyHasTabContent": true
+          }
+        },
+        {
+          "id": "T07-02",
+          "action": "keyboard tab equipment",
+          "status": "PASS",
+          "expected": "section equipment is shown",
+          "actual": {
+            "activeTab": "equipment",
+            "bodyHasTabContent": true
+          }
+        },
+        {
+          "id": "T07-03",
+          "action": "keyboard tab site",
+          "status": "PASS",
+          "expected": "section site is shown",
+          "actual": {
+            "activeTab": "site",
+            "bodyHasTabContent": true
+          }
+        },
+        {
+          "id": "T07-04",
+          "action": "keyboard tab strings",
+          "status": "PASS",
+          "expected": "section strings is shown",
+          "actual": {
+            "activeTab": "strings",
+            "bodyHasTabContent": true
+          }
+        },
+        {
+          "id": "T07-05",
+          "action": "keyboard tab checks",
+          "status": "PASS",
+          "expected": "section checks is shown",
+          "actual": {
+            "activeTab": "checks",
+            "bodyHasTabContent": true
+          }
+        },
+        {
+          "id": "T07-06",
+          "action": "keyboard tab report",
+          "status": "PASS",
+          "expected": "section report is shown",
+          "actual": {
+            "activeTab": "report",
+            "bodyHasTabContent": true
+          }
+        },
+        {
+          "id": "T07-07",
+          "action": "keyboard tab learn",
+          "status": "PASS",
+          "expected": "section learn is shown",
+          "actual": {
+            "activeTab": "learn",
+            "bodyHasTabContent": true
+          }
+        },
+        {
+          "id": "T07-08",
+          "action": "keyboard tab json",
+          "status": "PASS",
+          "expected": "section json is shown",
+          "actual": {
+            "activeTab": "json",
+            "bodyHasTabContent": true
+          }
+        },
+        {
+          "id": "T07-09",
+          "action": "keyboard focus visibility",
+          "status": "PASS",
+          "expected": "focused tab has visible outline or ring",
+          "actual": {
+            "outline": "rgb(46, 91, 255) solid 3px",
+            "shadow": "none",
+            "outlineWidth": "3px"
+          }
+        },
+        {
+          "id": "T07-10",
+          "action": "details keyboard toggle",
+          "status": "PASS",
+          "expected": "Enter opens native details",
+          "actual": {
+            "open": true
+          }
+        },
+        {
+          "id": "T07-11",
+          "action": "Enter in manual text field",
+          "status": "PASS",
+          "expected": "Enter leaves plan in editor; user activates Apply explicitly",
+          "actual": {
+            "before": null,
+            "after": "true",
+            "applyStillPresent": true,
+            "visibleSection": [
+              "Діапазон модулів у стрінгу",
+              "Розподіл стрінгів",
+              "Ручний план стрінгів",
+              "Авторство та ліцензії"
+            ]
+          }
+        },
+        {
+          "id": "T07-12",
+          "action": "native catalog select keyboard",
+          "status": "PASS",
+          "expected": "type-to-select keyboard changes native select option",
+          "actual": {
+            "before": "demo-585",
+            "after": "trina-tsm-435neg9r28"
+          }
+        },
+        {
+          "id": "T07-13",
+          "action": "about dialog keyboard lifecycle",
+          "status": "PASS",
+          "expected": "Dialog opens with focus, Tab remains usable, Escape closes",
+          "actual": {
+            "dialogOpen": true,
+            "focusOnOpen": "Закрити",
+            "tabNext": {
+              "tag": "SUMMARY",
+              "inside": true,
+              "label": null,
+              "text": "Ліцензія проєкту · UNLICENSED"
+            },
+            "escaped": true
+          }
+        },
+        {
+          "id": "T07-14",
+          "action": "error toast feedback",
+          "status": "PASS",
+          "expected": "Visible error is legible and announced to assistive technology",
+          "actual": [
+            {
+              "text": "Некоректний JSON. Перевірте формат файлу або тексту.",
+              "role": "status",
+              "live": null,
+              "rect": {
+                "x": 941,
+                "y": 812,
+                "w": 400,
+                "h": 64
+              },
+              "color": "rgb(255, 255, 255)",
+              "bg": "rgb(31, 43, 51)",
+              "contrastContext": "<div class=\"toast\" role=\"status\">Некоректний JSON. Перевірте формат файлу або тексту.</div>"
+            }
+          ]
+        },
+        {
+          "id": "T07-15",
+          "action": "mobile document overflow 320px",
+          "status": "PASS",
+          "expected": "No document-level horizontal overflow; local overflow is contained",
+          "actual": {
+            "viewport": 320,
+            "docScrollWidth": 320,
+            "bodyScrollWidth": 320,
+            "overflowX": false,
+            "scrollers": [
+              {
+                "tag": "NAV",
+                "cls": "",
+                "id": "",
+                "client": 304,
+                "scroll": 1026
+              },
+              {
+                "tag": "DIV",
+                "cls": "table-wrap",
+                "id": "",
+                "client": 254,
+                "scroll": 590
+              }
+            ],
+            "nav": {
+              "scrollWidth": 1026,
+              "clientWidth": 304
+            },
+            "tabRects": [
+              {
+                "tab": "overview",
+                "x": 8,
+                "right": 92.671875,
+                "width": 84.671875
+              },
+              {
+                "tab": "equipment",
+                "x": 100.671875,
+                "right": 225.15625,
+                "width": 124.484375
+              },
+              {
+                "tab": "site",
+                "x": 233.15625,
+                "right": 374.9375,
+                "width": 141.78125
+              },
+              {
+                "tab": "strings",
+                "x": 382.9375,
+                "right": 534.75,
+                "width": 151.8125
+              },
+              {
+                "tab": "checks",
+                "x": 542.75,
+                "right": 661.6875,
+                "width": 118.9375
+              },
+              {
+                "tab": "report",
+                "x": 669.6875,
+                "right": 781.46875,
+                "width": 111.78125
+              },
+              {
+                "tab": "learn",
+                "x": 789.46875,
+                "right": 896.90625,
+                "width": 107.4375
+              },
+              {
+                "tab": "json",
+                "x": 904.90625,
+                "right": 1034.140625,
+                "width": 129.234375
+              }
+            ]
+          }
+        },
+        {
+          "id": "T07-16",
+          "action": "mobile document overflow 390px",
+          "status": "PASS",
+          "expected": "No document-level horizontal overflow; local overflow is contained",
+          "actual": {
+            "viewport": 390,
+            "docScrollWidth": 390,
+            "bodyScrollWidth": 390,
+            "overflowX": false,
+            "scrollers": [
+              {
+                "tag": "NAV",
+                "cls": "",
+                "id": "",
+                "client": 374,
+                "scroll": 1026
+              },
+              {
+                "tag": "DIV",
+                "cls": "table-wrap",
+                "id": "",
+                "client": 324,
+                "scroll": 590
+              }
+            ],
+            "nav": {
+              "scrollWidth": 1026,
+              "clientWidth": 374
+            },
+            "tabRects": [
+              {
+                "tab": "overview",
+                "x": 8,
+                "right": 92.671875,
+                "width": 84.671875
+              },
+              {
+                "tab": "equipment",
+                "x": 100.671875,
+                "right": 225.15625,
+                "width": 124.484375
+              },
+              {
+                "tab": "site",
+                "x": 233.15625,
+                "right": 374.9375,
+                "width": 141.78125
+              },
+              {
+                "tab": "strings",
+                "x": 382.9375,
+                "right": 534.75,
+                "width": 151.8125
+              },
+              {
+                "tab": "checks",
+                "x": 542.75,
+                "right": 661.6875,
+                "width": 118.9375
+              },
+              {
+                "tab": "report",
+                "x": 669.6875,
+                "right": 781.46875,
+                "width": 111.78125
+              },
+              {
+                "tab": "learn",
+                "x": 789.46875,
+                "right": 896.90625,
+                "width": 107.4375
+              },
+              {
+                "tab": "json",
+                "x": 904.90625,
+                "right": 1034.140625,
+                "width": 129.234375
+              }
+            ]
+          }
+        },
+        {
+          "id": "T07-17",
+          "action": "enlarged text at 390px",
+          "status": "PASS",
+          "expected": "Text reflows without document horizontal overflow",
+          "actual": {
+            "viewport": 390,
+            "docScrollWidth": 390,
+            "bodyScrollWidth": 390,
+            "overflowX": false,
+            "rootFont": "32px"
+          }
+        },
+        {
+          "id": "T07-18",
+          "action": "form control labels",
+          "status": "PASS",
+          "expected": "Visible input/select/textarea controls have accessible labels",
+          "actual": {
+            "count": 54,
+            "unlabelled": []
+          }
+        },
+        {
+          "id": "T07-19",
+          "action": "eight primary sections",
+          "status": "PASS",
+          "expected": "All eight sections have identifiable keyboard controls",
+          "actual": [
+            {
+              "tab": "overview",
+              "text": "01   Огляд",
+              "label": null
+            },
+            {
+              "tab": "equipment",
+              "text": "02   Обладнання",
+              "label": null
+            },
+            {
+              "tab": "site",
+              "text": "03   Умови й кабелі",
+              "label": null
+            },
+            {
+              "tab": "strings",
+              "text": "04   Стрінги та MPPT",
+              "label": null
+            },
+            {
+              "tab": "checks",
+              "text": "05   Перевірки",
+              "label": null
+            },
+            {
+              "tab": "report",
+              "text": "06   Звіт і BOM",
+              "label": null
+            },
+            {
+              "tab": "learn",
+              "text": "07   Навчання",
+              "label": null
+            },
+            {
+              "tab": "json",
+              "text": "08   Дані проєкту",
+              "label": null
+            }
+          ]
+        }
+      ],
+      "findings": [],
+      "limitations": [
+        "Used a fresh Playwright Chrome context with the specified executable and the standalone file:// baseline; no user browser profile or network was used.",
+        "Screen reader and physical touch exploration were unavailable.",
+        "True browser chrome zoom was unavailable in headless mode; 200% root-font enlargement was used to check reflow.",
+        "Arrow-key movement inside the native select popup could not be observed reliably in headless Chrome; keyboard type-ahead selected the Trina option successfully."
+      ]
+    },
+    {
+      "tester": 8,
+      "model": "gpt-6-luna",
+      "scope": "Асинхронні імпорти",
+      "attempts": [
+        {
+          "id": "T08-01",
+          "action": "import-edit",
+          "status": "FAIL",
+          "expected": "Newer local edit remains active after delayed import completes",
+          "actual": "Delayed stale import"
+        },
+        {
+          "id": "T08-02",
+          "action": "import-edit-runtime",
+          "status": "PASS",
+          "expected": "No uncaught page errors",
+          "actual": []
+        },
+        {
+          "id": "T08-03",
+          "action": "import-reset",
+          "status": "FAIL",
+          "expected": "Explicit reset remains active after delayed import completes",
+          "actual": "Pre-reset pending import"
+        },
+        {
+          "id": "T08-04",
+          "action": "import-reset-runtime",
+          "status": "PASS",
+          "expected": "No uncaught page errors",
+          "actual": []
+        },
+        {
+          "id": "T08-05",
+          "action": "import-exercise",
+          "status": "FAIL",
+          "expected": "Exercise changes remain active after delayed import completes",
+          "actual": {
+            "name": "Import started before exercise",
+            "t_min_cell_c": -20
+          }
+        },
+        {
+          "id": "T08-06",
+          "action": "import-exercise-runtime",
+          "status": "PASS",
+          "expected": "No uncaught page errors",
+          "actual": []
+        },
+        {
+          "id": "T08-07",
+          "action": "two-import-reverse-completion",
+          "status": "FAIL",
+          "expected": "Later user-selected import B remains active",
+          "actual": "Import A older"
+        },
+        {
+          "id": "T08-08",
+          "action": "two-import-runtime",
+          "status": "PASS",
+          "expected": "No uncaught page errors",
+          "actual": []
+        }
+      ],
+      "findings": [
+        {
+          "id": "F08-1",
+          "title": "Pending JSON import silently overwrites a newer project edit",
+          "source": "apps/designer-lite/src/main.ts:841-854 (standalone bundled baseline import handler at Solar_Designer_Lite.html:~2060)",
+          "impact": "The file read yields before confirmation and commit. Edits made while the read is pending are replaced when it resolves; the normal confirmation helper does not warn when no manual draft is dirty.",
+          "reproduction": "Open JSON import, hold File.text() pending, apply a changed project name in the JSON editor, then resolve the import. The project name changes from the newer edit to the older imported value."
+        }
+      ],
+      "limitations": [
+        "Headless Chrome file:// contexts were fresh and isolated; delays were deterministic File.text() gates.",
+        "Only the frozen baseline was exercised. No source, build, docs, network, dependencies, user profile, or other project was changed."
+      ]
+    },
+    {
+      "tester": 9,
+      "model": "gpt-6-luna",
+      "scope": "Каталог і evidence",
+      "attempts": [
+        {
+          "id": "T09-01",
+          "action": "catalog labels separate manufacturer source-limited and synthetic teaching items",
+          "status": "PASS",
+          "expected": "Real/source-limited and synthetic/teaching classes clearly distinguished",
+          "actual": {
+            "groups": [
+              {
+                "label": "Manufacturer · source-limited",
+                "text": "Trina Solar TSM-435NEG9R.28Trina Solar TSM-440NEG9R.28"
+              },
+              {
+                "label": "SYNTHETIC · teaching",
+                "text": "Навчальний модуль 585 W"
+              }
+            ],
+            "moduleOptions": [
+              "Власні / змінені дані",
+              "Trina Solar TSM-435NEG9R.28",
+              "Trina Solar TSM-440NEG9R.28",
+              "Навчальний модуль 585 W"
+            ]
+          }
+        },
+        {
+          "id": "T09-02",
+          "action": "catalog-known and UNKNOWN values remain explicit",
+          "status": "PASS",
+          "expected": "Known SKU ratings are present while unstated beta Vmp and connector ratings remain UNKNOWN",
+          "actual": {
+            "knownRatings": {
+              "module.pmax_w": "440",
+              "module.voc_v": "52.2",
+              "module.vmp_v": "44",
+              "module.isc_a": "10.67",
+              "module.imp_a": "10.01",
+              "inverter.ac_power_w": "10000",
+              "inverter.max_dc_voltage_v": "1000"
+            },
+            "betaVmpInput": "",
+            "betaUnknownNote": true,
+            "renderedEquipmentText": "PV модуль\nКаталог виробників / навчальні дані\nВласні / змінені дані\nTrina Solar TSM-435NEG9R.28\nTrina Solar TSM-440NEG9R.28\nНавчальний модуль 585 W\n\nTrina Solar · TSM-440NEG9R.28\n\nUNKNOWN beta_vmp_pct_c: not stated; automatic allocation blocked by SPEC-03. Gamma minus alpha is not substituted.\n\nUNKNOWN reverse_current_withstand_a: maximum series fuse 20 A is a different rating.\n\nSTC: 1000 W/m², cell 25 °C, AM1.5; measuring tolerance ±3%. This edition has two distinct power-bin SKUs, not two manufacturers.\n\nVERIFIED · Trina Solar Vertex S+ NEG9R.28, TSM_EN_2023_A · 2026-10-08 · TSM_EN_2023_A\nOnly transcribed fields checked against this edition; beta Vmp and reverse-current withstand are not stated. This does not certify compatibility.\n\nНазва\npmax_w\nvoc_v\nvmp_v\nisc_a\nimp_a\nbeta_voc_pct_c\nbeta_vmp_pct_c\nalpha_isc_pct_c\ngamma_pmax_pct_c\nmax_system_voltage_v\nmax_series_fuse_a\nreverse_current_withstand_a\n\nβVoc, βVmp, γPmax: %/°C (negative). αIsc: %/°C (positive). Vmp < Voc; Imp ≤ Isc.\n\nІнвертор\nКаталог виробників / навчальні дані\nВласні / змінені дані\nSMA Sunny Tripower STP8.0-3AV-40\nSMA Sunny Tripower STP10.0-3AV-40\nНавчальний інвертор 50 kW\n\nSMA Solar Technology AG · STP10.0-3AV-40\n\nNormal independent A/B operation only: 2 strings at tracker A, 1 at B. Parallel tracker operation and Y adapters are not modelled.\n\nUNKNOWN max_current_per_input_a and max_isc_per_input_a: manual states tracker totals but does not separately rate each physical connector in the reviewed sections. Do not divide tracker totals by two.\n\nMPP range is the model-specific published range; 125 V minimum and 175 V start voltage are not its lower MPP bound.\n\n400 V is the explicitly selected 230/400 V grid configuration, not a site default. Check the actual network.\n\nMaximum reverse current into PV array is explicitly0 A in the reviewed SMA technical data. No connector apportionment assumed.\n\nVERIFIED · SMA Sunny Tripower 8.0/10.0 operating manual, DC/AC technical data · 2026-10-08 · STP8-10-3AV-40 onli… [скорочено; повний запис у локальному raw journal]",
+            "inverterPerInputUnknown": true,
+            "currentUnknown": true,
+            "iscUnknown": true,
+            "betaInputEmpty": true
+          }
+        },
+        {
+          "id": "T09-03",
+          "action": "manual plan fixture load",
+          "status": "PASS",
+          "expected": "Fixture contains a manual string plan before equipment switch",
+          "actual": {
+            "manualStringCount": 2
+          }
+        },
+        {
+          "id": "T09-04",
+          "action": "changing module invalidates incompatible manual plan",
+          "status": "PASS",
+          "expected": "manual_strings is removed after catalog equipment changes",
+          "actual": {
+            "manualStringsPresent": false
+          }
+        },
+        {
+          "id": "T09-05",
+          "action": "equipment form edit invalidates VERIFIED evidence",
+          "status": "PASS",
+          "expected": "Changed module provenance is USER_INPUT with reviewed date/hash removed",
+          "actual": {
+            "moduleSourceEvidence": [
+              {
+                "verification": "USER_INPUT",
+                "reviewed_on": null,
+                "sha256": null
+              }
+            ]
+          }
+        },
+        {
+          "id": "T09-06",
+          "action": "autosaved reload preserves edited values and invalidated evidence",
+          "status": "PASS",
+          "expected": "After reload, modified Voc and USER_INPUT provenance remain consistent",
+          "actual": {
+            "voc": 52.3,
+            "moduleVerifications": ["USER_INPUT"],
+            "hasReviewDate": false,
+            "hasHash": false
+          }
+        },
+        {
+          "id": "T09-07",
+          "action": "JSON editor equipment edits invalidate VERIFIED evidence",
+          "status": "PASS",
+          "expected": "Changed inverter provenance is USER_INPUT and review metadata is removed",
+          "actual": {
+            "inverterVoltage": 1001,
+            "sourceEvidence": [
+              {
+                "verification": "USER_INPUT",
+                "reviewed_on": null,
+                "sha256": null
+              },
+              {
+                "verification": "USER_INPUT",
+                "reviewed_on": null,
+                "sha256": null
+              }
+            ]
+          }
+        },
+        {
+          "id": "T09-08",
+          "action": "JSON-edited state retains provenance after reload",
+          "status": "PASS",
+          "expected": "Reload keeps edited inverter data and invalidated source evidence",
+          "actual": {
+            "maxDcVoltage": 1001,
+            "verifications": ["USER_INPUT", "USER_INPUT"],
+            "hasReviewDate": false,
+            "hasHash": false
+          }
+        },
+        {
+          "id": "T09-09",
+          "action": "browser runtime errors",
+          "status": "PASS",
+          "expected": "No uncaught browser or console errors during scenarios",
+          "actual": []
+        }
+      ],
+      "findings": [],
+      "limitations": [
+        "Imported VERIFIED metadata is treated as user-provided project evidence; it is not a security certification or authenticity proof.",
+        "Harness correction: the first attempt used option textContent instead of optgroup label attributes and expected UNKNOWN directly before the second field name; both locator/assertion mistakes were corrected and are not application defects.",
+        "This was a bounded UI pass against the frozen standalone baseline; no source, docs, or build files were modified."
+      ]
+    },
+    {
+      "tester": 10,
+      "model": "gpt-6-luna",
+      "scope": "Числові межі й bounded counts",
+      "attempts": [
+        {
+          "id": "T10-01",
+          "action": "ratio-overflow",
+          "status": "FAIL",
+          "expected": "Див. дію та спостереження; raw journal збережено.",
+          "actual": {
+            "elapsed_ms": 118,
+            "metrics": "Встановлена DC\n70,2 kWp\nПотужність AC\n0 kW\nСпіввідношення DC/AC\n∞\nРозміщено модулів\n120 / 120",
+            "dc_power_w": 70200,
+            "requested_dc_power_w": 70200,
+            "dc_ac_ratio": null,
+            "ac_power_w": 1e-308,
+            "ratioChecks": [
+              {
+                "id": "RATIO_MAX",
+                "status": "UNKNOWN",
+                "demand": null,
+                "capacity": 1.5,
+                "utilization": null
+              },
+              {
+                "id": "RATIO_MIN",
+                "status": "UNKNOWN",
+                "demand": null,
+                "capacity": 0.9,
+                "utilization": null
+              }
+            ],
+            "pageErrors": [],
+            "engine_result_status": "UNKNOWN"
+          }
+        },
+        {
+          "id": "T10-02",
+          "action": "requested-power-overflow",
+          "status": "FAIL",
+          "expected": "Див. дію та спостереження; raw journal збережено.",
+          "actual": {
+            "elapsed_ms": 111,
+            "metrics": "Встановлена DC\n0 kWp\nПотужність AC\n50 kW\nСпіввідношення DC/AC\n0\nРозміщено модулів\n0 / 2",
+            "dc_power_w": 0,
+            "requested_dc_power_w": null,
+            "dc_ac_ratio": 0,
+            "ac_power_w": 50000,
+            "ratioChecks": [
+              {
+                "id": "RATIO_MAX",
+                "status": "PASS",
+                "demand": 0,
+                "capacity": 1.5,
+                "utilization": 0
+              },
+              {
+                "id": "RATIO_MIN",
+                "status": "FAIL",
+                "demand": 0,
+                "capacity": 0.9,
+                "utilization": 0
+              }
+            ],
+            "pageErrors": [],
+            "engine_result_status": "FAIL"
+          }
+        },
+        {
+          "id": "T10-03",
+          "action": "ten-inverters-1200-modules",
+          "status": "PASS",
+          "expected": "Див. дію та спостереження; raw journal збережено.",
+          "actual": {
+            "elapsed_ms": 115,
+            "metrics": "Встановлена DC\n702 kWp\nПотужність AC\n500 kW\nСпіввідношення DC/AC\n1,404\nРозміщено модулів\n1200 / 1200",
+            "dc_power_w": 702000,
+            "requested_dc_power_w": 702000,
+            "dc_ac_ratio": 1.404,
+            "ac_power_w": 500000,
+            "ratioChecks": [
+              {
+                "id": "RATIO_MAX",
+                "status": "PASS",
+                "demand": 1.404,
+                "capacity": 1.5,
+                "utilization": 0.9359999999999999
+              },
+              {
+                "id": "RATIO_MIN",
+                "status": "PASS",
+                "demand": 1.404,
+                "capacity": 0.9,
+                "utilization": 1.5599999999999998
+              }
+            ],
+            "pageErrors": [],
+            "engine_result_status": "UNKNOWN"
+          }
+        },
+        {
+          "id": "T10-04",
+          "action": "invalid-NaN",
+          "status": "PASS",
+          "expected": "Див. дію та спостереження; raw journal збережено.",
+          "actual": {
+            "toast": "Некоректний JSON. Перевірте формат файлу або тексту.",
+            "pageErrors": []
+          }
+        },
+        {
+          "id": "T10-05",
+          "action": "invalid-Infinity",
+          "status": "PASS",
+          "expected": "Див. дію та спостереження; raw journal збережено.",
+          "actual": {
+            "toast": "Некоректний JSON. Перевірте формат файлу або тексту.",
+            "pageErrors": []
+          }
+        },
+        {
+          "id": "T10-06",
+          "action": "invalid-\"not-a-number\"",
+          "status": "PASS",
+          "expected": "Див. дію та спостереження; raw journal збережено.",
+          "actual": {
+            "toast": "module.pmax_w: потрібне числове значення.",
+            "pageErrors": []
+          }
+        },
+        {
+          "id": "T10-07",
+          "action": "bounded-count-100-prior-run",
+          "status": "PASS",
+          "expected": "Див. дію та спостереження; raw journal збережено.",
+          "actual": {
+            "elapsed_ms": 223,
+            "metrics": "10000 / 10000 modules; ratio 1.17",
+            "engine_result_status": "UNKNOWN",
+            "note": "100 inverters accepted; result was 18 MB. Probe was observed during initial harness run and not repeated."
+          }
+        }
+      ],
+      "findings": [
+        {
+          "id": "T10-01",
+          "title": "Finite inputs overflow numeric result fields into Infinity/null",
+          "status": "CONFIRMED",
+          "expected": "Accepted finite inputs should yield finite exported calculation numbers, or an explicit overflow/unavailable error; JSON null must not silently represent an attempted calculation that overflowed.",
+          "actual": "Case A: 120×585 W / 1e-308 W = 7.02e311, beyond IEEE-754 finite range; UI displays ∞, exported dc_ac_ratio is null and ratio check demand/utilization are null, with checks/overall UNKNOWN. Case B: pmax_w=1e308 and module_count=2 are finite accepted inputs; requested_dc_power_w=2e308 overflows and is exported null. Browser probe itself PASS; engine result status UNKNOWN in case A. Neither produces a false PASS.",
+          "sourcefileline": [
+            "packages/core/src/index.ts:83-84",
+            "packages/core/src/index.ts:85-105",
+            "packages/core/src/index.ts:397",
+            "apps/designer-lite/src/main.ts:182",
+            "apps/designer-lite/src/main.ts:820"
+          ],
+          "reproducer": "On frozen baseline, ratio case: set inverter.ac_power_w=1e-308 and inverter.max_dc_power_w=1e308. Requested-power case: set module.pmax_w=1e308, inverter.max_dc_power_w=1.7e308, and first plane module_count=2. Apply, then download result JSON. Independent arithmetic is in report; raw actual outputs are ratio-overflow-result.json and requested-power-overflow-result.json.",
+          "impact": "Result consumers cannot distinguish arithmetic overflow from a genuinely absent/null numeric field. The ratio UI exposes ∞. Overall ratio outcome is UNKNOWN for case A, reducing risk of false acceptance; case B has 0 allocated due current planner limits, but requested DC total is still lost as null."
+        }
+      ],
+      "limitations": [
+        "The extreme positive values are accepted by the current schema; this test does not assert that such equipment values are realistic. No independent regulatory or manufacturer limits were inferred.",
+        "Moderate 10-inverter/1,200-module UI probe completed without browser errors; 100-inverter/10,000-module prior bounded probe completed but produced a large result, so it was not repeated.",
+        "NaN and Infinity JSON tokens were rejected by JSON parser; numeric string rejected by schema. No source/build files changed."
+      ]
+    }
+  ],
+  "root_confirmed_groups": [
+    {
+      "id": "A01",
+      "status": "FIXED",
+      "problem": "JSON draft lifecycle: Save old state, silent navigation loss, invalid Apply loss, competing editors",
+      "implementation": [
+        "apps/designer-lite/src/drafts.ts",
+        "apps/designer-lite/src/main.ts",
+        "apps/designer-lite/src/manual-strings.ts"
+      ],
+      "regression": "scripts/adversarial-browser-smoke.mjs"
+    },
+    {
+      "id": "A02",
+      "status": "FIXED",
+      "problem": "Stale File.text completion replaces newer edit/reset/exercise/import",
+      "implementation": ["apps/designer-lite/src/main.ts"],
+      "regression": "scripts/adversarial-browser-smoke.mjs"
+    },
+    {
+      "id": "A03",
+      "status": "FIXED",
+      "problem": "Nonfinite output silently becomes JSON null",
+      "implementation": [
+        "packages/core/src/numerical-safety.ts",
+        "packages/core/src/index.ts",
+        "apps/designer-lite/src/input-errors.ts"
+      ],
+      "regression": [
+        "tests/integration/numerical-range.test.ts",
+        "scripts/cli-smoke.mjs",
+        "scripts/adversarial-browser-smoke.mjs"
+      ]
+    }
+  ],
+  "verification": {
+    "pnpm check": {
+      "status": "PASS",
+      "unit_tests": 164,
+      "test_files": 15,
+      "cli_scenarios": 30,
+      "formula_manifest_entries": 10,
+      "includes": [
+        "legal notices",
+        "typecheck",
+        "unit tests",
+        "manifest",
+        "build",
+        "standalone",
+        "schema export",
+        "CLI"
+      ]
+    },
+    "browser_matrix": {
+      "status": "PASS",
+      "suite_targets": 9,
+      "checks": 85,
+      "targets": ["development HTTP", "built standalone file"],
+      "commands": [
+        "test:browser (dev)",
+        "test:manual:browser ×2",
+        "test:safety:browser ×2",
+        "test:attribution:browser ×2",
+        "test:adversarial:browser ×2"
+      ]
+    },
+    "lint": {
+      "status": "NOT_RUN",
+      "reason": "No lint script/config in repository"
+    },
+    "other_OS_browsers_screenreader_touch_real_zoom": {
+      "status": "NOT_RUN",
+      "reason": "Unavailable in current headless macOS Chrome environment"
+    },
+    "engineering_pilot_normative_compliance_public_release": {
+      "status": "NOT_RUN",
+      "reason": "Requires separate evidence/people/authorization; software tests do not establish it"
+    }
+  },
+  "raw_evidence_local_ignored": ".qa/adversarial/",
+  "limitations": [
+    "No guarantee of absence of defects or comprehensive security/fuzz testing.",
+    "Drafts remain in current tab until Apply; explicit discard or closing can lose them.",
+    "No coordination of independent tabs editing same project; file import ordering applies within one tab.",
+    "Numerical guard rejects nonfinite returned numbers; underflow, precision and plausibility are not comprehensively checked.",
+    "Recorded timings are single local observations, not benchmarks."
+  ],
+  "postfix_independent_reviews": [
+    {
+      "tester": 2,
+      "browser_checks": 20,
+      "status": "PASS",
+      "scope": "Native/advanced/full JSON drafts; competing editor acceptance/cancel"
+    },
+    {
+      "tester": 8,
+      "browser_checks": 7,
+      "status": "PASS",
+      "scope": "Delayed imports, stale rejection, navigation-only completion"
+    },
+    {
+      "tester": 10,
+      "browser_checks": 5,
+      "unit_tests": 2,
+      "status": "PASS",
+      "scope": "Overflow/state/draft/storage preservation; normal UNKNOWN"
+    }
+  ],
+  "final_standalone_sha256": "a62cdeb45e9b618bf12943c11c014cd2eb3c1de4878e00abbf45ea43ba23a97d"
+}

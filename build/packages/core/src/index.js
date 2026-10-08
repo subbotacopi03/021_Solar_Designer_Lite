@@ -16,6 +16,8 @@ export * from "./strings.js";
 export * from "./checks.js";
 export * from "./cables.js";
 export * from "./protection.js";
+import { assertFiniteCalculation } from "./numerical-safety.js";
+export { CalculationRangeError } from "./numerical-safety.js";
 export const ENGINE_VERSION = "0.1.0";
 export function calculateProject(raw) {
     const p = ProjectSchema.parse(raw);
@@ -258,7 +260,7 @@ export function calculateProject(raw) {
             unit: "pcs",
             basis: "Rating candidate; fault and curve checks required",
         });
-    return {
+    return assertFiniteCalculation({
         engine_version: ENGINE_VERSION,
         schema_version: p.schema_version,
         status: overall(checks),
@@ -282,7 +284,7 @@ export function calculateProject(raw) {
         cable_bom: cableBom,
         checks,
         bom,
-    };
+    });
 }
 function cableCandidateAudit(result, uk) {
     const lines = [

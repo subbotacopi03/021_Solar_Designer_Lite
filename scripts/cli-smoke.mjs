@@ -176,6 +176,22 @@ try {
       `real manual case: ${language} report with equipment/software provenance`,
     );
   }
+  const overflow = JSON.parse(readFileSync(demo));
+  overflow.module.pmax_w = 1e308;
+  const overflowFile = join(root, "overflow.json");
+  writeFileSync(overflowFile, JSON.stringify(overflow));
+  for (const command of ["calculate", "report"]) {
+    const output = join(root, "protected-output.txt");
+    writeFileSync(output, "existing output");
+    r = run([command, overflowFile, "--out", output]);
+    assert.equal(r.status, 2);
+    assert.match(r.stderr, /numeric range.*requested_dc_power_w/);
+    assert.equal(r.stdout, "");
+    assert.equal(readFileSync(output, "utf8"), "existing output");
+    results.push(
+      `${command}: numeric overflow exit2, existing output preserved`,
+    );
+  }
   const bad = join(root, "bad.json");
   writeFileSync(bad, "{");
   r = run(["validate", bad]);

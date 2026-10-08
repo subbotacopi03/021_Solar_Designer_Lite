@@ -1,5 +1,5 @@
 {
-  "passed": 28,
+  "passed": 30,
   "checks": [
     "validate: exit 0",
     "calculate: UNKNOWN exit 3, JSON result 120 modules",
@@ -27,6 +27,8 @@
     "real manual case: 24/24, known cold Voc PASS; missing beta Vmp UNKNOWN exit3",
     "real manual case: uk report with equipment/software provenance",
     "real manual case: en report with equipment/software provenance",
+    "calculate: numeric overflow exit2, existing output preserved",
+    "report: numeric overflow exit2, existing output preserved",
     "invalid JSON: exit 2",
     "electrical failure: exit 1"
   ]

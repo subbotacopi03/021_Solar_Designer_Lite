@@ -5,6 +5,7 @@ import {
 } from "../../../packages/schema/src/index.js";
 import type { ProjectResult } from "../../../packages/core/src/index.js";
 import { ZodError } from "zod";
+import { confirmDraftDiscard } from "./drafts.js";
 
 type Lang = "uk" | "en";
 type ManualDraft = {
@@ -257,7 +258,7 @@ export function bindManualStrings(
           ...project,
           manual_strings: rows,
         });
-        root.dataset.manualDirty = "false";
+        if (!confirmDraftDiscard(lang, "manualPlan")) return;
         commit(validated);
       } catch (reason) {
         const path =
@@ -269,20 +270,10 @@ export function bindManualStrings(
       return;
     }
     if (target.closest("#manualPlanAuto")) {
-      if (!confirmManualDraftDiscard(lang)) return;
+      if (!confirmDraftDiscard(lang)) return;
       const next = structuredClone(project);
       delete next.manual_strings;
       commit(next);
     }
   });
-}
-
-export function confirmManualDraftDiscard(lang: Lang): boolean {
-  if (document.getElementById("manualPlan")?.dataset.manualDirty !== "true")
-    return true;
-  return window.confirm(
-    lang === "uk"
-      ? "Ручний план ще не застосовано. Відкинути зміни? Натисніть «Скасувати», щоб повернутися й застосувати план."
-      : "The manual plan has not been applied. Discard changes? Cancel to return and apply the plan.",
-  );
 }

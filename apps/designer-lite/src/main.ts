@@ -1,9 +1,10 @@
-import { formatInputError } from "./input-errors.js";
 import {
-  renderManualStrings,
-  bindManualStrings,
-  confirmManualDraftDiscard,
-} from "./manual-strings.js";
+  bindJsonDrafts,
+  hasUnappliedDraft,
+  confirmDraftDiscard,
+} from "./drafts.js";
+import { formatInputError } from "./input-errors.js";
+import { renderManualStrings, bindManualStrings } from "./manual-strings.js";
 import { renderAttribution, bindAttribution } from "./about.js";
 import attribution from "../../../data/attribution.json" with { type: "json" };
 import legal from "../../../data/legal-notices.json" with { type: "json" };
@@ -196,7 +197,16 @@ try {
 } catch {
   /* unavailable storage or invalid old data retains demo */
 }
-result = calculateProject(project);
+let startupCalculationError: unknown;
+try {
+  result = calculateProject(project);
+} catch (error) {
+  startupCalculationError = error;
+  project = ProjectSchema.parse(demo);
+  result = calculateProject(project);
+}
+let projectRevision = 0;
+let importSequence = 0;
 function toast(message: string) {
   document.querySelector(".toast")?.remove();
   const el = document.createElement("div");
@@ -234,6 +244,7 @@ function commit(next: unknown, rememberPrevious = false) {
     }
     project = p;
     result = calculated;
+    projectRevision++;
     try {
       localStorage.setItem("openpv-project-v1", JSON.stringify(p));
     } catch {
@@ -246,7 +257,7 @@ function commit(next: unknown, rememberPrevious = false) {
     render();
   } catch (e) {
     toast(formatInputError(e, lang));
-    render();
+    if (!hasUnappliedDraft()) render();
   }
 }
 function field(label: string, path: string, value: unknown, type = "number") {
@@ -599,6 +610,7 @@ function invalidateEquipmentEdit(next: Project, previous: Project): Project {
   return next;
 }
 function bind() {
+  bindJsonDrafts();
   bindAttribution(lang, toast);
   bindManualStrings(project, result, lang, (next) => commit(next), toast);
   bindCableInspector(result, lang);
@@ -611,7 +623,7 @@ function bind() {
   document.querySelectorAll<HTMLButtonElement>("[data-tab]").forEach(
     (b) =>
       (b.onclick = () => {
-        if (!confirmManualDraftDiscard(lang)) return;
+        if (!confirmDraftDiscard(lang)) return;
         tab = b.dataset.tab!;
         render();
       }),
@@ -739,16 +751,16 @@ function bind() {
     commit(p);
   });
   on("lang", () => {
-    if (!confirmManualDraftDiscard(lang)) return;
+    if (!confirmDraftDiscard(lang)) return;
     lang = lang === "uk" ? "en" : "uk";
     render();
   });
   on("save", () => {
-    if (document.getElementById("manualPlan")?.dataset.manualDirty === "true") {
+    if (hasUnappliedDraft()) {
       toast(
         lang === "uk"
-          ? "Спочатку застосуйте ручний план, щоб включити зміни до JSON."
-          : "Apply the manual plan first to include changes in JSON.",
+          ? "Спочатку застосуйте зміни редактора, щоб включити їх до JSON."
+          : "Apply editor changes first to include them in JSON.",
       );
       return;
     }
@@ -756,7 +768,7 @@ function bind() {
   });
   on("load", () => document.getElementById("file")!.click());
   on("restorePrevious", () => {
-    if (!confirmManualDraftDiscard(lang)) return;
+    if (!confirmDraftDiscard(lang)) return;
     if (previousProject) commit(previousProject, true);
   });
   document.querySelectorAll("#reset, [data-reset]").forEach((b) =>
@@ -764,8 +776,8 @@ function bind() {
       if (
         !window.confirm(
           lang === "uk"
-            ? "Замінити поточний проєкт навчальним прикладом? Останній застосований проєкт можна відновити кнопкою «Попередній проєкт». Незастосовані зміни ручного плану буде відкинуто. Для надійної копії збережіть JSON."
-            : "Replace the current project with the teaching example? Previous project restores the last applied project. Unapplied manual changes will be discarded. Save JSON for a reliable backup.",
+            ? "Замінити поточний проєкт навчальним прикладом? Останній застосований проєкт можна відновити кнопкою «Попередній проєкт». Незастосовані зміни редактора буде відкинуто. Для надійної копії збережіть JSON."
+            : "Replace the current project with the teaching example? Previous project restores the last applied project. Unapplied editor changes will be discarded. Save JSON for a reliable backup.",
         )
       )
         return;
@@ -787,20 +799,21 @@ function bind() {
   });
   on("cancel", render);
   on("manualApply", () => {
-    if (!confirmManualDraftDiscard(lang)) return;
     try {
-      commit({
+      const edited = ProjectSchema.parse({
         ...project,
         manual_strings: JSON.parse(
           (document.getElementById("manual") as HTMLTextAreaElement).value,
         ),
       });
+      if (!confirmDraftDiscard(lang, "manual")) return;
+      commit(edited);
     } catch (e) {
       toast(formatInputError(e, lang));
     }
   });
   on("auto", () => {
-    if (!confirmManualDraftDiscard(lang)) return;
+    if (!confirmDraftDiscard(lang)) return;
     const p = structuredClone(project);
     delete p.manual_strings;
     commit(p);
@@ -820,7 +833,7 @@ function bind() {
     download("openpv-result.json", JSON.stringify(result, null, 2)),
   );
   document.getElementById("student")?.addEventListener("change", (e) => {
-    if (!confirmManualDraftDiscard(lang)) {
+    if (!confirmDraftDiscard(lang)) {
       (e.target as HTMLInputElement).checked = student;
       return;
     }
@@ -841,26 +854,39 @@ function bind() {
   document.getElementById("file")?.addEventListener("change", async (e) => {
     const file = (e.target as HTMLInputElement).files?.[0];
     if (!file) return;
+    const sequence = ++importSequence;
+    const revision = projectRevision;
+    const isCurrent = () =>
+      sequence === importSequence && revision === projectRevision;
     if (file.size > 1024 * 1024) {
       toast("JSON size limit: 1 MiB");
       return;
     }
     try {
-      const imported = ProjectSchema.parse(JSON.parse(await file.text()));
-      if (!confirmManualDraftDiscard(lang)) {
+      const content = await file.text();
+      if (!isCurrent()) return;
+      const imported = ProjectSchema.parse(JSON.parse(content));
+      if (!confirmDraftDiscard(lang)) {
         (e.target as HTMLInputElement).value = "";
         return;
       }
       commit(imported, true);
     } catch (e) {
-      toast(formatInputError(e, lang));
+      if (isCurrent()) toast(formatInputError(e, lang));
     }
   });
 }
 window.addEventListener("beforeunload", (event) => {
-  if (document.getElementById("manualPlan")?.dataset.manualDirty === "true") {
+  if (hasUnappliedDraft()) {
     event.preventDefault();
     event.returnValue = "";
   }
 });
 render();
+if (startupCalculationError) {
+  toast(
+    lang === "uk"
+      ? `Збережений проєкт не вдалося розрахувати; відкрито навчальний приклад. Збережений JSON не змінено. ${formatInputError(startupCalculationError, lang)}`
+      : `The saved project could not be calculated; showing the teaching example. Stored JSON was not changed. ${formatInputError(startupCalculationError, lang)}`,
+  );
+}

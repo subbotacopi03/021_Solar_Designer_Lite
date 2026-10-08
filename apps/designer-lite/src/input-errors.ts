@@ -1,7 +1,12 @@
 import { ZodError } from "zod";
+import { CalculationRangeError } from "../../../packages/core/src/numerical-safety.js";
 
 export function formatInputError(error: unknown, lang: "uk" | "en"): string {
   const uk = lang === "uk";
+  if (error instanceof CalculationRangeError)
+    return uk
+      ? `Результат виходить за числовий діапазон (${error.path}). Перевірте значення й одиниці; розрахунок не застосовано.`
+      : `Result exceeds the numeric range (${error.path}). Check values and units; calculation was not applied.`;
   if (error instanceof SyntaxError)
     return uk
       ? "Некоректний JSON. Перевірте формат файлу або тексту."
