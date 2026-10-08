@@ -38,6 +38,6 @@ pnpm build && pnpm cli calculate data/examples/student-50kw.json
 
 CLI exit codes: 0 PASS/WARN, 1 FAIL, 2 input/JSON error, 3 UNKNOWN.
 
-## Contributing and license
+## License
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) and [Issues](https://github.com/subbotacopi03/021_Solar_Designer_Lite/issues). Licensed under the [Mozilla Public License 2.0](LICENSE). Attribution: [ATTRIBUTION.md](ATTRIBUTION.md). No telemetry.
+Licensed under the [Mozilla Public License 2.0](LICENSE). Attribution: [ATTRIBUTION.md](ATTRIBUTION.md). No telemetry.
