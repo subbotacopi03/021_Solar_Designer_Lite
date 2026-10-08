@@ -83,3 +83,9 @@ Inspector stage завершено в тій же сесії: existing core cand
 ## Виконано: missing-data guidance
 
 UA/EN панель MISSING/PROVIDED/REVIEW, actual source metadata/units/affected checks і ефективний per-feeder/candidate context без нових формул/defaults. Acceptance software PASS:8unit,9dev+9file browser, full check172unit/30CLI/10manifest. Novice pilot/cross-browser acceptance NOT_RUN. Наступна незалежна робота: allowlist локальний review pack (HTML, UA/EN guide, приклади, існуючий LICENSE/notices/attribution, manifest/checksums); перевірка складу/цілісності й offline відкриття. Public redistribution/push не дозволяти автоматично, доки identity/LICENSE pending. Зовнішній пілот та повні engineering primary data — окремі blockers.
+
+## Виконано: локальний owner-review pack
+
+Allowlist generator/strict verifier, унікальні каталоги без перезапису, CRC/SHA-256, два приклади й UA/EN quick starts. Symlink/outside/traversal/corruption/extra-file guards перевірено6unitcases. Fresh check178unit/30CLI/10manifest PASS;8archive/offline checks PASS. LICENSE/identity не змінювали, pack INTERNAL OWNER REVIEW ONLY.
+
+Наступний конкретний етап — зовнішній пілот: новачок проходить real24module case за quick start; інженер звіряє known FAIL/UNKNOWN, source gaps і report; Windows Chrome/Edge та Safari/Firefox import/save/reload. Acceptance — записані середовища/кроки/зауваження, відтворені дефекти виправлені з регресіями. До отримання цих результатів пілот NOT_RUN. Публічне оформлення потребує owner name/URL/LICENSE та окремого history/release review; missing manufacturer data лишаються UNKNOWN.

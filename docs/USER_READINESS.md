@@ -20,16 +20,16 @@
 | PARTIAL | Реальне обладнання й автогенерація | exact-SKU catalogs є; missing βVmp/connectors не дозволяють підтверджений повний автоматичний план |
 | PARTIAL | Кабелі та nominal protection/SPD | `cables.ts`, `protection.ts`, `spd.ts`, `dc-switch.ts`; installation/coordination UNKNOWN |
 | BLOCKED | Повне персональне авторство й дозвіл на public redistribution | ім’я/канонічний URL не надані, LICENSE UNLICENSED; див. `ATTRIBUTION.md` |
-| NOT IMPLEMENTED | Готовий перевірений public download pack та його release checklist | standalone уже є; дистрибутив з очищеним allowlist, guide/examples/checksums ще потрібен |
+| PARTIAL | Дистрибутив: локальний owner-review ZIP готовий, public release pending | `scripts/review-pack.mjs`, `review-pack-smoke.mjs`; 12 allowlisted files, UA/EN guides, CRC/SHA-256 та offline round-trip PASS |
 
 ## Скільки залишилося
 
 Software-частину допомоги з відсутніми даними реалізовано: UA/EN панель «Що потрібно уточнити» розрізняє MISSING, PROVIDED і REVIEW, показує одиниці, actual sources та affected checks. Вона не заповнює UNKNOWN. Acceptance з реальними новачками ще належить перевірити під час пілоту.
 
-До обмеженої публічної альфи залишаються **два завершувальні етапи**. Відсоток або строк без пілоту й закриття джерел не оцінюємо.
+До обмеженої публічної альфи залишаються **два завершувальні етапи**. Локальні програмні етапи виконано; загальний відсоток до engineering-ready продукту не оцінюємо без пілоту й закриття джерел.
 
 1. Користувацький пілот і браузери: independent engineer + форумні користувачі, Windows Chrome/Edge і macOS Safari/Firefox, import/save/reload/report/mobile та missing-data guidance. Acceptance: новачок проходить ручний реальний кейс, розрізняє FAIL і UNKNOWN; немає відтворених втрат роботи, нерозбірливих таблиць або розходжень CLI/UI. Поточні Chrome/macOS automated checks не замінюють ці перевірки.
-2. Публічний комплект: ім’я/канонічний URL власника, повний узгоджений LICENSE, clean allowlist-архів HTML+коротка інструкція+приклади+notices+checksums, відкриття на чистій машині. Історичні QA `.txt` містять локальні шляхи й уривки старих stacktraces: не включати їх або резерви в pack; перед public push окремо перевірити історію. Нічого з історії/резервів автоматично не видаляємо. GitHub release/push потребує окремого завдання.
+2. Публічний комплект: ім’я/канонічний URL власника, повний узгоджений LICENSE, Перевірений локальний owner-review архів уже містить HTML+UA/EN інструкції+приклади+notices+checksums. Ще потрібні public release review та відкриття на чистій машині. Історичні QA `.txt` містять локальні шляхи й уривки старих stacktraces: не включати їх або резерви в pack; перед public push окремо перевірити історію. Нічого з історії/резервів автоматично не видаляємо. GitHub release/push потребує окремого завдання.
 
 Для **підтвердженого автоматичного підбору реальної установки** потрібен окремий engineering етап: manufacturer coefficients/connectors/ampacity references/derating/coordination та первинні нормативні джерела. Терміни невідомі до отримання даних. UNKNOWN не закривається позитивним software test. Full UA/CZ, parallel cables, optimizers, BESS, CAD/GIS та економіка не входять у цю просту альфу.
 
@@ -39,4 +39,10 @@ Software-частину допомоги з відсутніми даними р
 
 ## Додаткова adversarial перевірка
 
-Десять економних tester agents завершили111 recorded observations;8 behavior failures зведено до 3 confirmed groups й виправлено. JSON-чернетки тепер захищені нарівні з native формою; старий asyncimport не перезаписує новішу роботу; числове переповнення відхиляється явно. Fresh check164 unit / 30 CLI / 10 manifest та85 browser checks dev/file PASS. Повний журнал дій, harness corrections, обмеження й NOT_RUN — [ADVERSARIAL_TEST_REPORT.md](ADVERSARIAL_TEST_REPORT.md). Це не замінює пілот/інші браузери/первинні engineering sources і не знімає три finishing stages вище.
+Десять економних tester agents завершили111 recorded observations;8 behavior failures зведено до 3 confirmed groups й виправлено. JSON-чернетки тепер захищені нарівні з native формою; старий asyncimport не перезаписує новішу роботу; числове переповнення відхиляється явно. Fresh check164 unit / 30 CLI / 10 manifest та85 browser checks dev/file PASS. Повний журнал дій, harness corrections, обмеження й NOT_RUN — [ADVERSARIAL_TEST_REPORT.md](ADVERSARIAL_TEST_REPORT.md). Це не замінює пілот/інші браузери/первинні engineering sources і не знімає два finishing stages вище.
+
+## Локальний комплект власника
+
+`pnpm review:pack` збирає автономний HTML і створює новий ZIP у ignored `.qa/review-packs/`. Копіюються лише 9 дозволених вихідних файлів; разом із REVIEW_ONLY, manifest та checksums у ZIP12файлів. Резерви/QA/Git/історія не копіюються. `pnpm review:verify <папка>` перевіряє розпакований комплект; `pnpm test:review-pack` створює й перевіряє новий ZIP, відкриває його offline у fresh Chrome context. Потрібні zip/unzip CLI для розробника; кінцевому користувачу достатньо HTML/браузера.
+
+Fresh full check178unit/17files,30CLI,10manifest PASS; 8archive/offline checks PASS. Чисту іншу машину та зовнішній пілот не перевірено. INTERNAL OWNER REVIEW ONLY — це не public release; LICENSE/identity лишилися pending. Інструкції: QUICK_START_UA.md і QUICK_START_EN.md.

@@ -66,3 +66,9 @@ CLI exit codes: 0 — PASS/WARN або валідна схема; 1 — FAIL; 2 
 DC-роз’єднувач: додано ABB OTDC32F2 із явним1000V/20A/DC-21B профілем, scope/category/wiring controls та незалежними nominal checks. Повна installation/coordination UNKNOWN: [DC_SWITCH_EVIDENCE.md](docs/DC_SWITCH_EVIDENCE.md).
 
 Локальна adversarial перевірка десятьма економними tester agents, знайдені дефекти та виконані виправлення: [журнал перевірок](docs/ADVERSARIAL_TEST_REPORT.md). Регресії втрати чернеток, порядку імпортів і числового overflow: `pnpm test:adversarial:browser` (потребує Playwright browser або `OPENPV_CHROMIUM_EXECUTABLE`; optional `OPENPV_TEST_URL`).
+
+## Локальний комплект для перегляду власником
+
+Короткі інструкції: [українська](docs/QUICK_START_UA.md), [English](docs/QUICK_START_EN.md). `pnpm review:pack` збирає HTML і створює новий allowlist ZIP у ignored `.qa/review-packs/`; для розробника потрібен `zip`. Комплект містить програму, два приклади, UA/EN guides, наявні legal notices, manifest та SHA-256, без резервів/QA/Git. Це **INTERNAL OWNER REVIEW ONLY**, не публічний реліз і не зміна LICENSE.
+
+`pnpm review:verify <розпакована-папка-в-PROJECT_ROOT>` перевіряє склад/розміри/суми. `OPENPV_CHROMIUM_EXECUTABLE=<Chrome> pnpm test:review-pack` додатково перевіряє ZIP через `unzip` та реальний offline import/save/report у fresh browser context. Build/tests не підмінюються checksum-перевіркою; звичайному користувачу Node/zip не потрібні.

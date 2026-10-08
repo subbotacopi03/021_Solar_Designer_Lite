@@ -1,0 +1,50 @@
+{
+  "verified_on": "2026-10-08",
+  "scope": "Local internal owner review pack; no public release",
+  "checks": {
+    "pnpm check": {
+      "status": "PASS",
+      "unit_tests": 178,
+      "test_files": 17,
+      "cli_checks": 30,
+      "formula_entries": 10,
+      "includes": [
+        "legal notices",
+        "typecheck",
+        "build",
+        "standalone",
+        "schema export"
+      ]
+    },
+    "pnpm test:review-pack": {
+      "status": "PASS",
+      "checks": [
+        "Archive SHA-256 and sidecar agree",
+        "ZIP CRC integrity passes",
+        "ZIP contains exactly 12 allowlisted files and no backups/history/QA",
+        "Extracted file sizes/checksums pass and originals match byte-for-byte",
+        "Extracted standalone starts offline in a fresh Chrome context",
+        "Packaged real manual case allocates 24/24 while UNKNOWN and beta gap remain explicit",
+        "Offline JSON round-trip and equipment/UNKNOWN report export pass",
+        "No page/console errors or external HTTP requests"
+      ],
+      "environment": "Chrome/macOS, fresh offline context"
+    },
+    "lint": {
+      "status": "NOT_RUN",
+      "reason": "Repository has no lint script/config"
+    },
+    "clean_machine_cross_browser_human_pilot": {
+      "status": "NOT_RUN",
+      "reason": "Same macOS host; fresh isolated offline Chrome context only"
+    },
+    "public_release": {
+      "status": "NOT_RUN",
+      "reason": "Owner identity/license/history review pending; no push/release"
+    }
+  },
+  "archive_files": 12,
+  "release_status": "INTERNAL_OWNER_REVIEW_ONLY",
+  "raw_evidence": ".qa/review-pack/ (ignored; not in pack)",
+  "formulas_changed": false
+}
