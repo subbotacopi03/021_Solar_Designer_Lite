@@ -62,6 +62,7 @@ export declare function validateInverter(input: unknown): import("zod").ZodSafeP
     id: string;
     name: string;
     max_dc_power_w?: number | null | undefined;
+    max_backfeed_current_a?: number | null | undefined;
     manufacturer?: string | undefined;
     model?: string | undefined;
     units?: Record<string, string> | undefined;

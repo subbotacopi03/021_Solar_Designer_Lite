@@ -95,6 +95,21 @@ try {
   checks.push(
     "Manufacturer cable pack retains UNKNOWN alpha and sourced report",
   );
+  await page.locator('nav [data-tab="equipment"]').click();
+  await page.locator("#fuseCatalog").selectOption("eaton-pv15a10f");
+  assert.match(await page.locator("#content").innerText(), /PV-15A10F/);
+  await page
+    .locator("#file")
+    .setInputFiles("data/examples/fuse-voltage-fail.json");
+  await page.waitForFunction(() =>
+    document
+      .querySelector(".eyebrow")
+      ?.textContent?.includes("Fuse voltage counterexample"),
+  );
+  assert.match(await page.locator(".title-row .status").innerText(), /FAIL/);
+  await page.locator('nav [data-tab="checks"]').click();
+  assert.match(await page.locator("#content").innerText(), /FUSE_DC_VOLTAGE/);
+  checks.push("Exact fuse candidate voltage check surfaces FAIL in UI");
   await page.locator("#lang").click();
   await page.locator('nav [data-tab="equipment"]').click();
   assert.match(

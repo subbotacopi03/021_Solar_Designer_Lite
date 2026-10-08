@@ -1,0 +1,35 @@
+[
+  {
+    "id": "eaton-pv15a10f",
+    "name": "Eaton Bussmann PV-15A10F",
+    "manufacturer": "Eaton",
+    "model": "PV-15A10F",
+    "family": "gPV",
+    "rated_current_a": 15,
+    "rated_dc_voltage_v": 1000,
+    "breaking_capacity_a": 50000,
+    "total_clearing_i2t_a2s": null,
+    "units": {
+      "rated_current_a": "A",
+      "rated_dc_voltage_v": "V DC",
+      "breaking_capacity_a": "A DC",
+      "total_clearing_i2t_a2s": "A²s"
+    },
+    "data_notes": [
+      "Nominal candidate checks only; manufacturer time-current coordination and holder/pole compatibility remain UNKNOWN.",
+      "Pre-arcing energy cannot substitute total-clearing energy."
+    ],
+    "sources": [
+      {
+        "id": "eaton-pv15a10f",
+        "label": "Eaton Bussmann PV-15A10F official electrical ratings",
+        "url": "https://www.eaton.com/us/en-us/skuPage.PV-15A10F.html",
+        "verification": "VERIFIED",
+        "reviewed_on": "2026-10-08",
+        "document_revision": "Online SKU page reviewed 2026-10-08",
+        "locator": "Electrical rating",
+        "notes": "15 A,1000 Vdc,50 kA interrupt,gPV checked. Pre-arcing I²t is not imported as total-clearing energy. Holder/coordination not established."
+      }
+    ]
+  }
+]

@@ -70,6 +70,8 @@ export function calculateProject(raw) {
             max_series_fuse_a: p.module.max_series_fuse_a,
             reverse_current_withstand_a: p.module.reverse_current_withstand_a,
             voc_cold_v: voc,
+            inverter_backfeed_a: p.inverter.max_backfeed_current_a,
+            device: p.string_fuse_device,
         });
         const ib = p.policy.isc_factor == null ? null : p.module.isc_a * p.policy.isc_factor;
         const cable = sizeCable(p.cables, {
@@ -215,6 +217,12 @@ export function projectReport(p, result, language = "uk") {
             ...(equipment.data_notes ?? []).map((note) => `- ${note}`),
             ...equipment.sources.map((source) => `- ${source.verification} · ${source.label} · ${source.url ?? "UNKNOWN URL"} · ${source.reviewed_on ?? "UNKNOWN DATE"} · ${source.document_revision ?? "UNKNOWN REVISION"} · ${source.locator ?? ""} · ${source.notes ?? ""}`),
         ]),
+        ...(p.string_fuse_device
+            ? [
+                `\n## ${uk ? "Кандидат запобіжника" : "Fuse candidate"}`,
+                JSON.stringify(p.string_fuse_device),
+            ]
+            : []),
         `\n## ${uk ? "Кабельні дані та derating" : "Cable data and derating"}`,
         ...p.cables.flatMap((cable) => [
             `${cable.manufacturer ?? "SYNTHETIC / USER INPUT"} ${cable.model ?? cable.name}; R20=${cable.r20_ohm_km ?? "UNKNOWN"} Ω/km; α=${cable.alpha_per_c ?? "UNKNOWN"} 1/°C; X=${cable.x_ohm_km ?? "UNKNOWN"} Ω/km; Iz=${cable.iz_a ?? "UNKNOWN"} A`,

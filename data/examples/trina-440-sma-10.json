@@ -122,7 +122,8 @@
         "locator": "Normal operation connection options and per-input requirements",
         "notes": "Two strings on A and one on B. Same module type, orientation and series count within tracker."
       }
-    ]
+    ],
+    "max_backfeed_current_a": 0
   },
   "inverter_quantity": 1,
   "planes": [

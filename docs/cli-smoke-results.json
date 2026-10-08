@@ -1,5 +1,5 @@
 {
-  "passed": 15,
+  "passed": 16,
   "checks": [
     "validate: exit 0",
     "calculate: UNKNOWN exit 3, JSON result 120 modules",
@@ -14,6 +14,7 @@
     "trina-440-sma-10: en report includes evidence and UNKNOWN, exit 3",
     "constraint recovery: 58/58, per-inverter power quotas, UNKNOWN scope exit 3",
     "source-limited cable: missing alpha/applicability retain UNKNOWN, exit 3",
+    "manufacturer fuse voltage: 1069.7 V exceeds1000 V rating, FAIL exit1",
     "invalid JSON: exit 2",
     "electrical failure: exit 1"
   ]

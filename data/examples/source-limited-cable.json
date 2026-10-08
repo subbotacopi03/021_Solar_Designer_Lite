@@ -150,7 +150,8 @@
         "label": "Synthetic teaching example, not a manufacturer datasheet",
         "verification": "SYNTHETIC"
       }
-    ]
+    ],
+    "max_backfeed_current_a": 0
   },
   "inverter_quantity": 1,
   "planes": [

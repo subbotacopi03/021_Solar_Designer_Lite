@@ -1,3 +1,11 @@
+# Оновлення · етап 4 · 2026-10-08
+
+Захист: full declared inverter backfeed + factored parallel array contribution; missing backfeed→UNKNOWN навіть для single string. SMA0 A підтверджено офіційною таблицею; synthetic examples мають явне навчальне0. Module reverse withstand не підмінено max series fuse. Додано strict fuse device schema, Eaton PV-15A10F source-limited record, UI candidate selector, voltage/current/breaking checks та source-preserving report. `fuse-voltage-fail.json`:1069.7 V>1000 V →FAIL. Details: PROTECTION_EVIDENCE.md.
+
+PASS `pnpm check`:105 tests,16 CLI,7 manifest entries, typecheck/build/schema.12 розширених browser checks PASS. Prettier змінених файлів перевірено перед commit. Spec/tests перед реалізацією, backfeed arithmetic40 A. PROTECTION source hash оновлено після105 PASS; pre-arcing I²t не підмінює total-clearing energy. Full protection coordination UNKNOWN/BLOCKED: curves/fault model/holder/poles/applicable standard sources. Наступний окремий етап — SPD nominal candidate checks з UNKNOWN topology/normative scope.
+
+---
+
 # Оновлення · етап 3 · 2026-10-08
 
 Додано Nexans ID540479078 source-limited cable record; `docs/CABLE_EVIDENCE.md`, `data/examples/source-limited-cable.json`. Schema підтримує UNKNOWN R20/α, ampacity reference та structured derating із джерелами. Core перевіряє метод/температуру/групування й добуток factors; UI має cable pack selector і явні site fields; report зберігає evidence. Не вставлено generic α/X/Iz; parallel cables не реалізовано. Manufacturer candidate лишається UNKNOWN через α, reference conductor temperature та derating data; повний manufacturer sizing BLOCKED до отримання цих джерел.

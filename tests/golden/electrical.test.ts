@@ -109,6 +109,7 @@ describe("Independent arithmetic golden cases", () => {
       parallel_strings: 3,
       max_series_fuse_a: 25,
       reverse_current_withstand_a: 25,
+      inverter_backfeed_a: 0,
       voc_cold_v: 1000,
     });
     expect(r.required).toBe(true);

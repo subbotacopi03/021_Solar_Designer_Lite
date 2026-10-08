@@ -60,6 +60,16 @@ try {
   results.push(
     "source-limited cable: missing alpha/applicability retain UNKNOWN, exit 3",
   );
+  r = run(["calculate", "data/examples/fuse-voltage-fail.json"]);
+  assert.equal(r.status, 1);
+  assert.ok(
+    JSON.parse(r.stdout).checks.some(
+      (c) => c.id.endsWith("FUSE_DC_VOLTAGE") && c.status === "FAIL",
+    ),
+  );
+  results.push(
+    "manufacturer fuse voltage: 1069.7 V exceeds1000 V rating, FAIL exit1",
+  );
   const bad = join(root, "bad.json");
   writeFileSync(bad, "{");
   r = run(["validate", bad]);

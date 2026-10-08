@@ -5,15 +5,52 @@ export function standardRatingAtLeast(series, value) {
     return [...series].sort((a, b) => a - b).find((x) => x >= value) ?? null;
 }
 export function selectStringFuse(policy, input) {
-    const reverse = (input.parallel_strings - 1) * input.isc_a;
-    // Maximum series fuse rating is NOT a declared reverse-current withstand rating.
-    if (input.parallel_strings === 1)
+    const arrayReverse = input.parallel_strings === 1
+        ? 0
+        : policy.isc_factor == null
+            ? null
+            : (input.parallel_strings - 1) * input.isc_a * policy.isc_factor;
+    const reverse = arrayReverse == null || input.inverter_backfeed_a == null
+        ? null
+        : arrayReverse + input.inverter_backfeed_a;
+    const checks = [];
+    const device = input.device;
+    if (device) {
+        checks.push(finding("FUSE_FAMILY", device.family === "gPV" ? "PASS" : "FAIL", "Candidate must be a photovoltaic gPV fuse; no substitution by current rating alone"), check("FUSE_DC_VOLTAGE", input.voc_cold_v, device.rated_dc_voltage_v, "V", "Cold string voltage ≤ declared fuse DC voltage", ["voc_cold_v", "rated_dc_voltage_v"]), check("FUSE_BREAKING_CAPACITY", reverse, device.breaking_capacity_a, "A", "Full array + inverter reverse contribution ≤ device DC breaking capacity", ["reverse_current", "breaking_capacity_a"]), finding("FUSE_COORDINATION", "UNKNOWN", "Nominal checks do not prove fault clearing, time-current coordination, holder/pole suitability or total clearing energy", [
+            "time_current_curves",
+            "fault_duration",
+            "holder_and_poles",
+            "cable_withstand",
+        ]));
+        if (!device.sources.length ||
+            device.sources.some((s) => s.verification !== "VERIFIED"))
+            checks.push(finding("FUSE_SOURCE", "WARN", "Device ratings require manufacturer evidence"));
+        for (const c of checks)
+            c.source_ids = device.sources.map((s) => s.id);
+    }
+    if (reverse == null)
+        return {
+            required: null,
+            rating_a: null,
+            reverse_a: null,
+            checks: [
+                ...checks,
+                finding("FUSE_REQUIREMENT", "UNKNOWN", "No zero-backfeed assumption; total reverse current requires explicit array factor and inverter backfeed", [
+                    ...(arrayReverse == null ? ["isc_factor"] : []),
+                    ...(input.inverter_backfeed_a == null
+                        ? ["inverter_backfeed_a"]
+                        : []),
+                ]),
+            ],
+        };
+    if (reverse === 0)
         return {
             required: false,
             rating_a: null,
-            reverse_a: reverse,
+            reverse_a: 0,
             checks: [
-                finding("FUSE_REQUIREMENT", "NOT_APPLICABLE", "Single string; only array backfeed considered, inverter backfeed must be checked separately"),
+                ...checks,
+                finding("FUSE_REQUIREMENT", "NOT_APPLICABLE", "Zero array and explicitly declared inverter backfeed; limited reverse-current assessment only"),
             ],
         };
     if (input.reverse_current_withstand_a == null)
@@ -22,40 +59,45 @@ export function selectStringFuse(policy, input) {
             rating_a: null,
             reverse_a: reverse,
             checks: [
-                finding("FUSE_REQUIREMENT", "UNKNOWN", "Maximum series fuse rating cannot substitute reverse-current withstand", ["reverse_current_withstand_a", "inverter_backfeed"]),
+                ...checks,
+                finding("FUSE_REQUIREMENT", "UNKNOWN", "Maximum series fuse rating cannot substitute module reverse-current withstand", ["reverse_current_withstand_a"]),
             ],
         };
     const required = reverse > input.reverse_current_withstand_a;
     if (!required)
         return {
-            required,
+            required: false,
             rating_a: null,
             reverse_a: reverse,
             checks: [
-                finding("FUSE_REQUIREMENT", "PASS", "Array reverse current below explicitly declared withstand; inverter backfeed excluded"),
+                ...checks,
+                check("FUSE_REQUIREMENT", reverse, input.reverse_current_withstand_a, "A", "Combined array and inverter reverse current ≤ explicitly declared module withstand"),
             ],
         };
     if (policy.fuse_min_factor == null ||
         policy.fuse_max_factor == null ||
         input.max_series_fuse_a == null)
         return {
-            required,
+            required: true,
             rating_a: null,
             reverse_a: reverse,
             checks: [
-                finding("FUSE_RATING", "UNKNOWN", "Fuse policy or module rating missing", ["fuse_factors", "max_series_fuse_a"]),
+                ...checks,
+                finding("FUSE_RATING", "UNKNOWN", "Fuse policy or module series-fuse rating missing", ["fuse_factors", "max_series_fuse_a"]),
             ],
         };
-    const min = policy.fuse_min_factor * input.isc_a, max = Math.min(policy.fuse_max_factor * input.isc_a, input.max_series_fuse_a), rating = standardRatingAtLeast(policy.fuse_ratings_a, min);
+    const min = policy.fuse_min_factor * input.isc_a;
+    const max = Math.min(policy.fuse_max_factor * input.isc_a, input.max_series_fuse_a);
+    const rating = device?.rated_current_a ??
+        standardRatingAtLeast(policy.fuse_ratings_a, min);
+    checks.push(check("FUSE_MIN_RATING", rating, min, "A", "Explicit lower fuse factor", [], "min"), check("FUSE_RATING", rating, max, "A", "Explicit policy upper bound and module maximum series-fuse rating"));
+    if (rating == null)
+        checks.push(finding("FUSE_RATING_AVAILABLE", "FAIL", "No rating available inside explicit fuse range"));
     return {
-        required,
-        rating_a: rating != null && rating <= max ? rating : null,
+        required: true,
+        rating_a: rating != null && rating >= min && rating <= max ? rating : null,
         reverse_a: reverse,
-        checks: [
-            rating == null || rating > max
-                ? finding("FUSE_RATING", "FAIL", "No standard rating inside explicit fuse range")
-                : check("FUSE_RATING", rating, max, "A", "Explicit policy range; manufacturer confirmation required"),
-        ],
+        checks,
     };
 }
 export function selectDcIsolator(policy, isc) {

@@ -1,4 +1,4 @@
-import { type Project } from "../../schema/src/index.js";
+import { type Project, type EngineeringCheck } from "../../schema/src/index.js";
 export * from "./fundamentals.js";
 export * from "./strings.js";
 export * from "./checks.js";
@@ -40,53 +40,10 @@ export declare function calculateProject(raw: unknown): {
         vmp_hot_v: number | null;
         ib_a: number | null;
         fuse: {
-            required: boolean;
-            rating_a: null;
-            reverse_a: number;
-            checks: {
-                id: string;
-                status: "PASS" | "WARN" | "FAIL" | "UNKNOWN" | "NOT_APPLICABLE";
-                demand: number | null;
-                capacity: number | null;
-                unit: string;
-                utilization: number | null;
-                missing: string[];
-                basis: string;
-                source_ids: string[];
-                message_key: string;
-            }[];
-        } | {
-            required: null;
-            rating_a: null;
-            reverse_a: number;
-            checks: {
-                id: string;
-                status: "PASS" | "WARN" | "FAIL" | "UNKNOWN" | "NOT_APPLICABLE";
-                demand: number | null;
-                capacity: number | null;
-                unit: string;
-                utilization: number | null;
-                missing: string[];
-                basis: string;
-                source_ids: string[];
-                message_key: string;
-            }[];
-        } | {
-            required: true;
+            required: boolean | null;
             rating_a: number | null;
-            reverse_a: number;
-            checks: {
-                id: string;
-                status: "PASS" | "WARN" | "FAIL" | "UNKNOWN" | "NOT_APPLICABLE";
-                demand: number | null;
-                capacity: number | null;
-                unit: string;
-                utilization: number | null;
-                missing: string[];
-                basis: string;
-                source_ids: string[];
-                message_key: string;
-            }[];
+            reverse_a: number | null;
+            checks: EngineeringCheck[];
         };
         isolator_a: number | null;
         cable: {

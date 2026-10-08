@@ -1,59 +1,18 @@
-import type { ElectricalPolicy } from "../../schema/src/index.js";
+import type { ElectricalPolicy, EngineeringCheck, StringFuseDevice } from "../../schema/src/index.js";
 export declare function standardRatingAtLeast(series: readonly number[], value: number): number | null;
 export declare function selectStringFuse(policy: ElectricalPolicy, input: {
     isc_a: number;
     parallel_strings: number;
     max_series_fuse_a: number | null | undefined;
     reverse_current_withstand_a?: number | null;
+    inverter_backfeed_a?: number | null;
     voc_cold_v: number | null;
+    device?: StringFuseDevice;
 }): {
-    required: boolean;
-    rating_a: null;
-    reverse_a: number;
-    checks: {
-        id: string;
-        status: "PASS" | "WARN" | "FAIL" | "UNKNOWN" | "NOT_APPLICABLE";
-        demand: number | null;
-        capacity: number | null;
-        unit: string;
-        utilization: number | null;
-        missing: string[];
-        basis: string;
-        source_ids: string[];
-        message_key: string;
-    }[];
-} | {
-    required: null;
-    rating_a: null;
-    reverse_a: number;
-    checks: {
-        id: string;
-        status: "PASS" | "WARN" | "FAIL" | "UNKNOWN" | "NOT_APPLICABLE";
-        demand: number | null;
-        capacity: number | null;
-        unit: string;
-        utilization: number | null;
-        missing: string[];
-        basis: string;
-        source_ids: string[];
-        message_key: string;
-    }[];
-} | {
-    required: true;
+    required: boolean | null;
     rating_a: number | null;
-    reverse_a: number;
-    checks: {
-        id: string;
-        status: "PASS" | "WARN" | "FAIL" | "UNKNOWN" | "NOT_APPLICABLE";
-        demand: number | null;
-        capacity: number | null;
-        unit: string;
-        utilization: number | null;
-        missing: string[];
-        basis: string;
-        source_ids: string[];
-        message_key: string;
-    }[];
+    reverse_a: number | null;
+    checks: EngineeringCheck[];
 };
 export declare function selectDcIsolator(policy: ElectricalPolicy, isc: number): number | null;
 export declare function checkBreakingCapacity(icu: number | null | undefined, ik: number | null | undefined): {

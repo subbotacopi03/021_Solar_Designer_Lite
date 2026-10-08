@@ -77,6 +77,7 @@ export const InverterSchema = z
     phases: z.union([z.literal(1), z.literal(3)]),
     max_dc_voltage_v: positive,
     max_dc_power_w: optionalPositive,
+    max_backfeed_current_a: nonnegative.nullish(),
     mppts: z.array(MpptSchema).min(1).max(100),
     requires_optimizer: z.boolean(),
     sources: z.array(SourceSchema),
@@ -192,6 +193,17 @@ export const CircuitInputSchema = z.strictObject({
     derating_factor: z.number().finite().gt(0).max(1).nullish(),
     derating_basis: z.string().min(1).nullish(),
 });
+export const StringFuseDeviceSchema = z.strictObject({
+    ...equipmentMetadata,
+    id: z.string().min(1),
+    name: z.string().min(1),
+    family: z.string().min(1),
+    rated_current_a: positive,
+    rated_dc_voltage_v: optionalPositive,
+    breaking_capacity_a: optionalPositive,
+    total_clearing_i2t_a2s: optionalPositive,
+    sources: z.array(SourceSchema),
+});
 export const ProjectSchema = z
     .strictObject({
     schema_version: z.literal("0.1.0"),
@@ -215,6 +227,7 @@ export const ProjectSchema = z
     prospective_short_circuit_ka: optionalPositive,
     breaker_icu_ka: optionalPositive,
     manual_strings: z.array(StringConfigurationSchema).max(10000).optional(),
+    string_fuse_device: StringFuseDeviceSchema.optional(),
 })
     .refine((p) => new Set(p.planes.map((x) => x.id)).size === p.planes.length, {
     message: "Duplicate plane IDs",

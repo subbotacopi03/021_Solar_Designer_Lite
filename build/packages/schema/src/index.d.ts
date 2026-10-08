@@ -68,6 +68,7 @@ export declare const InverterSchema: z.ZodObject<{
     phases: z.ZodUnion<readonly [z.ZodLiteral<1>, z.ZodLiteral<3>]>;
     max_dc_voltage_v: z.ZodNumber;
     max_dc_power_w: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    max_backfeed_current_a: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
     mppts: z.ZodArray<z.ZodObject<{
         id: z.ZodString;
         min_voltage_v: z.ZodNumber;
@@ -432,6 +433,35 @@ export declare const CircuitInputSchema: z.ZodObject<{
     derating_factor: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
     derating_basis: z.ZodOptional<z.ZodNullable<z.ZodString>>;
 }, z.core.$strict>;
+export declare const StringFuseDeviceSchema: z.ZodObject<{
+    id: z.ZodString;
+    name: z.ZodString;
+    family: z.ZodString;
+    rated_current_a: z.ZodNumber;
+    rated_dc_voltage_v: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    breaking_capacity_a: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    total_clearing_i2t_a2s: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    sources: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        label: z.ZodString;
+        url: z.ZodOptional<z.ZodURL>;
+        verification: z.ZodEnum<{
+            USER_INPUT: "USER_INPUT";
+            UNVERIFIED: "UNVERIFIED";
+            VERIFIED: "VERIFIED";
+            SYNTHETIC: "SYNTHETIC";
+        }>;
+        reviewed_on: z.ZodOptional<z.ZodISODate>;
+        document_revision: z.ZodOptional<z.ZodString>;
+        locator: z.ZodOptional<z.ZodString>;
+        sha256: z.ZodOptional<z.ZodString>;
+        notes: z.ZodOptional<z.ZodString>;
+    }, z.core.$strict>>;
+    manufacturer: z.ZodOptional<z.ZodString>;
+    model: z.ZodOptional<z.ZodString>;
+    units: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodString>>;
+    data_notes: z.ZodOptional<z.ZodArray<z.ZodString>>;
+}, z.core.$strict>;
 export declare const ProjectSchema: z.ZodObject<{
     schema_version: z.ZodLiteral<"0.1.0">;
     name: z.ZodString;
@@ -477,6 +507,7 @@ export declare const ProjectSchema: z.ZodObject<{
         phases: z.ZodUnion<readonly [z.ZodLiteral<1>, z.ZodLiteral<3>]>;
         max_dc_voltage_v: z.ZodNumber;
         max_dc_power_w: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        max_backfeed_current_a: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
         mppts: z.ZodArray<z.ZodObject<{
             id: z.ZodString;
             min_voltage_v: z.ZodNumber;
@@ -764,6 +795,35 @@ export declare const ProjectSchema: z.ZodObject<{
         plane_id: z.ZodString;
         modules: z.ZodNumber;
     }, z.core.$strict>>>;
+    string_fuse_device: z.ZodOptional<z.ZodObject<{
+        id: z.ZodString;
+        name: z.ZodString;
+        family: z.ZodString;
+        rated_current_a: z.ZodNumber;
+        rated_dc_voltage_v: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        breaking_capacity_a: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        total_clearing_i2t_a2s: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        sources: z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            label: z.ZodString;
+            url: z.ZodOptional<z.ZodURL>;
+            verification: z.ZodEnum<{
+                USER_INPUT: "USER_INPUT";
+                UNVERIFIED: "UNVERIFIED";
+                VERIFIED: "VERIFIED";
+                SYNTHETIC: "SYNTHETIC";
+            }>;
+            reviewed_on: z.ZodOptional<z.ZodISODate>;
+            document_revision: z.ZodOptional<z.ZodString>;
+            locator: z.ZodOptional<z.ZodString>;
+            sha256: z.ZodOptional<z.ZodString>;
+            notes: z.ZodOptional<z.ZodString>;
+        }, z.core.$strict>>;
+        manufacturer: z.ZodOptional<z.ZodString>;
+        model: z.ZodOptional<z.ZodString>;
+        units: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodString>>;
+        data_notes: z.ZodOptional<z.ZodArray<z.ZodString>>;
+    }, z.core.$strict>>;
 }, z.core.$strict>;
 export type PvModule = z.infer<typeof PvModuleSchema>;
 export type Inverter = z.infer<typeof InverterSchema>;
@@ -775,3 +835,4 @@ export type StringConfiguration = z.infer<typeof StringConfigurationSchema>;
 export type Project = z.infer<typeof ProjectSchema>;
 export type Status = EngineeringCheck["status"];
 export type CircuitInput = z.infer<typeof CircuitInputSchema>;
+export type StringFuseDevice = z.infer<typeof StringFuseDeviceSchema>;

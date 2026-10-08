@@ -1,4 +1,5 @@
 import "./style.css";
+import realFuses from "../../../data/equipment/verified/fuses.json" with { type: "json" };
 import realCables from "../../../data/equipment/verified/cables.json" with { type: "json" };
 import teachingCables from "../../../data/equipment/cables.json" with { type: "json" };
 import realModules from "../../../data/equipment/verified/modules.json" with { type: "json" };
@@ -11,6 +12,7 @@ import {
   PvModuleSchema,
   InverterSchema,
   CableSchema,
+  StringFuseDeviceSchema,
   type Project,
 } from "../../../packages/schema/src/index.js";
 import {
@@ -219,7 +221,10 @@ function table(headers: string[], rows: string[][]) {
 const badge = (s: string) => `<span class="status ${esc(s)}">${esc(s)}</span>`;
 function equipmentSources(
   equipment:
-    Project["module"] | Project["inverter"] | Project["cables"][number],
+    | Project["module"]
+    | Project["inverter"]
+    | Project["cables"][number]
+    | NonNullable<Project["string_fuse_device"]>,
 ) {
   return `<div class="equipment-evidence"><p>${esc(equipment.manufacturer ?? "SYNTHETIC / USER INPUT")} · ${esc(equipment.model ?? equipment.name)}</p>${(equipment.data_notes ?? []).map((n) => `<p class="small">${esc(n)}</p>`).join("")}${equipment.sources.map((s) => `<p class="small">${esc(s.verification)} · ${s.url && /^https?:/.test(s.url) ? `<a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.label)}</a>` : esc(s.label)} · ${esc(s.reviewed_on ?? "UNKNOWN DATE")} · ${esc(s.document_revision ?? "UNKNOWN REVISION")}<br>${esc(s.notes)}</p>`).join("")}</div>`;
 }
@@ -382,6 +387,8 @@ function render() {
         fmt(m.inputs),
       ]),
     )}<p class="small">${lang === "uk" ? "Індивідуальні параметри MPPT та sources змінюйте в редакторі JSON." : "Edit individual MPPT parameters and sources in the JSON editor."}</p><button data-tab="json">${x.json}</button></section>`;
+  if (tab === "equipment")
+    content.innerHTML += `<section class="panel"><h2>${lang === "uk" ? "Кандидат запобіжника gPV" : "gPV fuse candidate"}</h2><label class="field"><span>${lang === "uk" ? "Номінальний кандидат; вибір не означає необхідність або узгодження" : "Nominal candidate; selection does not establish requirement or coordination"}</span><select id="fuseCatalog"><option value="">${lang === "uk" ? "Не задано" : "Not specified"}</option>${realFuses.map((f) => `<option value="${esc(f.id)}" ${project.string_fuse_device?.id === f.id ? "selected" : ""}>${esc(f.name)}</option>`).join("")}</select></label>${project.string_fuse_device ? equipmentSources(project.string_fuse_device) : ""}</section>`;
   if (tab === "site")
     content.innerHTML = `<section class="panel"><h2>${lang === "uk" ? "Каталог кабелів" : "Cable catalog"}</h2><label class="field"><span>${lang === "uk" ? "Набір даних" : "Data pack"}</span><select id="cableCatalog"><option value="">${lang === "uk" ? "Поточний набір" : "Current data"}</option><option value="nexans">Nexans ID540479078 · UNKNOWN α / derating</option><option value="teaching">SYNTHETIC · teaching cables</option></select></label>${project.cables
       .filter((c) => c.manufacturer)
@@ -484,6 +491,14 @@ function bind() {
         commit(p);
       }),
   );
+  document.getElementById("fuseCatalog")?.addEventListener("change", (e) => {
+    const id = (e.target as HTMLSelectElement).value;
+    const p = structuredClone(project);
+    const device = realFuses.find((f) => f.id === id);
+    if (device) p.string_fuse_device = StringFuseDeviceSchema.parse(device);
+    else delete p.string_fuse_device;
+    commit(p);
+  });
   document.getElementById("cableCatalog")?.addEventListener("change", (e) => {
     const value = (e.target as HTMLSelectElement).value;
     if (!value) return;

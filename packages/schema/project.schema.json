@@ -280,6 +280,17 @@
             }
           ]
         },
+        "max_backfeed_current_a": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "mppts": {
           "minItems": 1,
           "maxItems": 100,
@@ -1748,6 +1759,147 @@
         ],
         "additionalProperties": false
       }
+    },
+    "string_fuse_device": {
+      "type": "object",
+      "properties": {
+        "manufacturer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "units": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "data_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "family": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rated_current_a": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "rated_dc_voltage_v": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "breaking_capacity_a": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "total_clearing_i2t_a2s": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "verification": {
+                "type": "string",
+                "enum": [
+                  "USER_INPUT",
+                  "UNVERIFIED",
+                  "VERIFIED",
+                  "SYNTHETIC"
+                ]
+              },
+              "reviewed_on": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+              },
+              "document_revision": {
+                "type": "string",
+                "minLength": 1
+              },
+              "locator": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "notes": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "id",
+              "label",
+              "verification"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "family",
+        "rated_current_a",
+        "sources"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [

@@ -9,7 +9,7 @@
 | DC/AC кабель, ΔU, R(T) | Так | calculate | Feeder table | IMPLEMENTED · preliminary |
 | Derating | Explicit factor | JSON | Editable factor+basis | IMPLEMENTED · sourced structured factors / applicability; no automatic norm tables |
 | Breaker In/Icu | Candidate/check | calculate | Findings | IMPLEMENTED · not full protection |
-| Fuse requirement/rating | Explicit withstand / policy | calculate | Findings | PARTIAL · no inverter backfeed |
+| Fuse requirement/rating | Explicit withstand / policy | calculate | Findings | PARTIAL · explicit inverter backfeed + nominal device checks; curves/coordination UNKNOWN |
 | DC isolator | Nominal candidate | calculate | Result JSON | PARTIAL · device type/voltage checks required |
 | SPD | UNKNOWN finding | calculate | Findings | NOT IMPLEMENTED |
 | Optimizer topology | Schema only | validate | JSON | NOT IMPLEMENTED |

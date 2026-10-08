@@ -41,13 +41,15 @@
       "max_dc_power_w": "Wp",
       "mppts.voltage": "V DC",
       "mppts.current": "A",
-      "mppts.inputs": "physical input pairs"
+      "mppts.inputs": "physical input pairs",
+      "max_backfeed_current_a": "A"
     },
     "data_notes": [
       "Normal independent A/B operation only: 2 strings at tracker A, 1 at B. Parallel tracker operation and Y adapters are not modelled.",
       "UNKNOWN max_current_per_input_a and max_isc_per_input_a: manual states tracker totals but does not separately rate each physical connector in the reviewed sections. Do not divide tracker totals by two.",
       "MPP range is the model-specific published range; 125 V minimum and 175 V start voltage are not its lower MPP bound.",
-      "400 V is the explicitly selected 230/400 V grid configuration, not a site default. Check the actual network."
+      "400 V is the explicitly selected 230/400 V grid configuration, not a site default. Check the actual network.",
+      "Maximum reverse current into PV array is explicitly0 A in the reviewed SMA technical data. No connector apportionment assumed."
     ],
     "sources": [
       {
@@ -70,7 +72,8 @@
         "locator": "Normal operation connection options and per-input requirements",
         "notes": "Two strings on A and one on B. Same module type, orientation and series count within tracker."
       }
-    ]
+    ],
+    "max_backfeed_current_a": 0
   },
   {
     "id": "sma-stp10-3av40",
@@ -114,13 +117,15 @@
       "max_dc_power_w": "Wp",
       "mppts.voltage": "V DC",
       "mppts.current": "A",
-      "mppts.inputs": "physical input pairs"
+      "mppts.inputs": "physical input pairs",
+      "max_backfeed_current_a": "A"
     },
     "data_notes": [
       "Normal independent A/B operation only: 2 strings at tracker A, 1 at B. Parallel tracker operation and Y adapters are not modelled.",
       "UNKNOWN max_current_per_input_a and max_isc_per_input_a: manual states tracker totals but does not separately rate each physical connector in the reviewed sections. Do not divide tracker totals by two.",
       "MPP range is the model-specific published range; 125 V minimum and 175 V start voltage are not its lower MPP bound.",
-      "400 V is the explicitly selected 230/400 V grid configuration, not a site default. Check the actual network."
+      "400 V is the explicitly selected 230/400 V grid configuration, not a site default. Check the actual network.",
+      "Maximum reverse current into PV array is explicitly0 A in the reviewed SMA technical data. No connector apportionment assumed."
     ],
     "sources": [
       {
@@ -143,6 +148,7 @@
         "locator": "Normal operation connection options and per-input requirements",
         "notes": "Two strings on A and one on B. Same module type, orientation and series count within tracker."
       }
-    ]
+    ],
+    "max_backfeed_current_a": 0
   }
 ]

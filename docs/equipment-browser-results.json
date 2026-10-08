@@ -1,5 +1,5 @@
 {
-  "passed": 11,
+  "passed": 12,
   "checks": [
     "Exact SKU selection, dated provenance and missing beta remain visible",
     "Rendered and downloaded report retain SKU and source URL",
@@ -9,6 +9,7 @@
     "trina-440-sma-10 schema/core/UI import retains UNKNOWN",
     "Bounded recovery example allocates 58/58 across four trackers",
     "Manufacturer cable pack retains UNKNOWN alpha and sourced report",
+    "Exact fuse candidate voltage check surfaces FAIL in UI",
     "English catalog and provenance UI",
     "390px equipment selection has no horizontal document overflow",
     "No page or console errors"
