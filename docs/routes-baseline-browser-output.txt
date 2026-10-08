@@ -1,0 +1,2 @@
+$ node scripts/browser-smoke.mjs
+{"passed":11,"runtime_errors":[]}

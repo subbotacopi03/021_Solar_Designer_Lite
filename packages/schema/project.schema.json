@@ -161,7 +161,12 @@
               },
               "verification": {
                 "type": "string",
-                "enum": ["USER_INPUT", "UNVERIFIED", "VERIFIED", "SYNTHETIC"]
+                "enum": [
+                  "USER_INPUT",
+                  "UNVERIFIED",
+                  "VERIFIED",
+                  "SYNTHETIC"
+                ]
               },
               "reviewed_on": {
                 "type": "string",
@@ -185,7 +190,11 @@
                 "minLength": 1
               }
             },
-            "required": ["id", "label", "verification"],
+            "required": [
+              "id",
+              "label",
+              "verification"
+            ],
             "additionalProperties": false
           }
         }
@@ -370,7 +379,11 @@
                 ]
               }
             },
-            "required": ["id", "min_voltage_v", "max_voltage_v"],
+            "required": [
+              "id",
+              "min_voltage_v",
+              "max_voltage_v"
+            ],
             "additionalProperties": false
           }
         },
@@ -396,7 +409,12 @@
               },
               "verification": {
                 "type": "string",
-                "enum": ["USER_INPUT", "UNVERIFIED", "VERIFIED", "SYNTHETIC"]
+                "enum": [
+                  "USER_INPUT",
+                  "UNVERIFIED",
+                  "VERIFIED",
+                  "SYNTHETIC"
+                ]
               },
               "reviewed_on": {
                 "type": "string",
@@ -420,7 +438,11 @@
                 "minLength": 1
               }
             },
-            "required": ["id", "label", "verification"],
+            "required": [
+              "id",
+              "label",
+              "verification"
+            ],
             "additionalProperties": false
           }
         }
@@ -463,7 +485,11 @@
             "maximum": 100000
           }
         },
-        "required": ["id", "name", "module_count"],
+        "required": [
+          "id",
+          "name",
+          "module_count"
+        ],
         "additionalProperties": false
       }
     },
@@ -637,7 +663,12 @@
               },
               "verification": {
                 "type": "string",
-                "enum": ["USER_INPUT", "UNVERIFIED", "VERIFIED", "SYNTHETIC"]
+                "enum": [
+                  "USER_INPUT",
+                  "UNVERIFIED",
+                  "VERIFIED",
+                  "SYNTHETIC"
+                ]
               },
               "reviewed_on": {
                 "type": "string",
@@ -661,7 +692,11 @@
                 "minLength": 1
               }
             },
-            "required": ["id", "label", "verification"],
+            "required": [
+              "id",
+              "label",
+              "verification"
+            ],
             "additionalProperties": false
           }
         }
@@ -714,11 +749,17 @@
           },
           "circuit": {
             "type": "string",
-            "enum": ["DC", "AC"]
+            "enum": [
+              "DC",
+              "AC"
+            ]
           },
           "material": {
             "type": "string",
-            "enum": ["Cu", "Al"]
+            "enum": [
+              "Cu",
+              "Al"
+            ]
           },
           "section_mm2": {
             "type": "number",
@@ -886,12 +927,19 @@
                       "minLength": 1
                     }
                   },
-                  "required": ["id", "label", "verification"],
+                  "required": [
+                    "id",
+                    "label",
+                    "verification"
+                  ],
                   "additionalProperties": false
                 }
               }
             },
-            "required": ["installation_method", "sources"],
+            "required": [
+              "installation_method",
+              "sources"
+            ],
             "additionalProperties": false
           },
           "sources": {
@@ -913,7 +961,12 @@
                 },
                 "verification": {
                   "type": "string",
-                  "enum": ["USER_INPUT", "UNVERIFIED", "VERIFIED", "SYNTHETIC"]
+                  "enum": [
+                    "USER_INPUT",
+                    "UNVERIFIED",
+                    "VERIFIED",
+                    "SYNTHETIC"
+                  ]
                 },
                 "reviewed_on": {
                   "type": "string",
@@ -937,7 +990,11 @@
                   "minLength": 1
                 }
               },
-              "required": ["id", "label", "verification"],
+              "required": [
+                "id",
+                "label",
+                "verification"
+              ],
               "additionalProperties": false
             }
           }
@@ -1062,12 +1119,19 @@
                         "minLength": 1
                       }
                     },
-                    "required": ["id", "label", "verification"],
+                    "required": [
+                      "id",
+                      "label",
+                      "verification"
+                    ],
                     "additionalProperties": false
                   }
                 }
               },
-              "required": ["basis", "sources"],
+              "required": [
+                "basis",
+                "sources"
+              ],
               "additionalProperties": false
             },
             "grouping": {
@@ -1137,12 +1201,19 @@
                         "minLength": 1
                       }
                     },
-                    "required": ["id", "label", "verification"],
+                    "required": [
+                      "id",
+                      "label",
+                      "verification"
+                    ],
                     "additionalProperties": false
                   }
                 }
               },
-              "required": ["basis", "sources"],
+              "required": [
+                "basis",
+                "sources"
+              ],
               "additionalProperties": false
             },
             "installation": {
@@ -1212,12 +1283,19 @@
                         "minLength": 1
                       }
                     },
-                    "required": ["id", "label", "verification"],
+                    "required": [
+                      "id",
+                      "label",
+                      "verification"
+                    ],
                     "additionalProperties": false
                   }
                 }
               },
-              "required": ["basis", "sources"],
+              "required": [
+                "basis",
+                "sources"
+              ],
               "additionalProperties": false
             },
             "applies_to": {
@@ -1324,12 +1402,19 @@
                                 "minLength": 1
                               }
                             },
-                            "required": ["id", "label", "verification"],
+                            "required": [
+                              "id",
+                              "label",
+                              "verification"
+                            ],
                             "additionalProperties": false
                           }
                         }
                       },
-                      "required": ["installation_method", "sources"],
+                      "required": [
+                        "installation_method",
+                        "sources"
+                      ],
                       "additionalProperties": false
                     },
                     {
@@ -1365,7 +1450,11 @@
               "additionalProperties": false
             }
           },
-          "required": ["temperature", "grouping", "installation"],
+          "required": [
+            "temperature",
+            "grouping",
+            "installation"
+          ],
           "additionalProperties": false
         },
         "length_m": {
@@ -1525,12 +1614,19 @@
                         "minLength": 1
                       }
                     },
-                    "required": ["id", "label", "verification"],
+                    "required": [
+                      "id",
+                      "label",
+                      "verification"
+                    ],
                     "additionalProperties": false
                   }
                 }
               },
-              "required": ["basis", "sources"],
+              "required": [
+                "basis",
+                "sources"
+              ],
               "additionalProperties": false
             },
             "grouping": {
@@ -1600,12 +1696,19 @@
                         "minLength": 1
                       }
                     },
-                    "required": ["id", "label", "verification"],
+                    "required": [
+                      "id",
+                      "label",
+                      "verification"
+                    ],
                     "additionalProperties": false
                   }
                 }
               },
-              "required": ["basis", "sources"],
+              "required": [
+                "basis",
+                "sources"
+              ],
               "additionalProperties": false
             },
             "installation": {
@@ -1675,12 +1778,19 @@
                         "minLength": 1
                       }
                     },
-                    "required": ["id", "label", "verification"],
+                    "required": [
+                      "id",
+                      "label",
+                      "verification"
+                    ],
                     "additionalProperties": false
                   }
                 }
               },
-              "required": ["basis", "sources"],
+              "required": [
+                "basis",
+                "sources"
+              ],
               "additionalProperties": false
             },
             "applies_to": {
@@ -1787,12 +1897,19 @@
                                 "minLength": 1
                               }
                             },
-                            "required": ["id", "label", "verification"],
+                            "required": [
+                              "id",
+                              "label",
+                              "verification"
+                            ],
                             "additionalProperties": false
                           }
                         }
                       },
-                      "required": ["installation_method", "sources"],
+                      "required": [
+                        "installation_method",
+                        "sources"
+                      ],
                       "additionalProperties": false
                     },
                     {
@@ -1828,7 +1945,11 @@
               "additionalProperties": false
             }
           },
-          "required": ["temperature", "grouping", "installation"],
+          "required": [
+            "temperature",
+            "grouping",
+            "installation"
+          ],
           "additionalProperties": false
         },
         "length_m": {
@@ -1879,6 +2000,1064 @@
         }
       },
       "additionalProperties": false
+    },
+    "dc_routes": {
+      "maxItems": 10000,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "target": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "inverter": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              },
+              "mppt_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "plane_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "modules": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "id",
+              "inverter",
+              "mppt_id",
+              "plane_id",
+              "modules"
+            ],
+            "additionalProperties": false
+          },
+          "circuit": {
+            "type": "object",
+            "properties": {
+              "installation_method": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "ambient_temp_c": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": -100,
+                    "maximum": 200
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "grouped_circuits": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "derating_evidence": {
+                "type": "object",
+                "properties": {
+                  "temperature": {
+                    "type": "object",
+                    "properties": {
+                      "factor": {
+                        "anyOf": [
+                          {
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "maximum": 1
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "basis": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sources": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "label": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "url": {
+                              "type": "string",
+                              "format": "uri"
+                            },
+                            "verification": {
+                              "type": "string",
+                              "enum": [
+                                "USER_INPUT",
+                                "UNVERIFIED",
+                                "VERIFIED",
+                                "SYNTHETIC"
+                              ]
+                            },
+                            "reviewed_on": {
+                              "type": "string",
+                              "format": "date",
+                              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                            },
+                            "document_revision": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "locator": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "sha256": {
+                              "type": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            },
+                            "notes": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "label",
+                            "verification"
+                          ],
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "required": [
+                      "basis",
+                      "sources"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "grouping": {
+                    "type": "object",
+                    "properties": {
+                      "factor": {
+                        "anyOf": [
+                          {
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "maximum": 1
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "basis": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sources": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "label": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "url": {
+                              "type": "string",
+                              "format": "uri"
+                            },
+                            "verification": {
+                              "type": "string",
+                              "enum": [
+                                "USER_INPUT",
+                                "UNVERIFIED",
+                                "VERIFIED",
+                                "SYNTHETIC"
+                              ]
+                            },
+                            "reviewed_on": {
+                              "type": "string",
+                              "format": "date",
+                              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                            },
+                            "document_revision": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "locator": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "sha256": {
+                              "type": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            },
+                            "notes": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "label",
+                            "verification"
+                          ],
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "required": [
+                      "basis",
+                      "sources"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "installation": {
+                    "type": "object",
+                    "properties": {
+                      "factor": {
+                        "anyOf": [
+                          {
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "maximum": 1
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "basis": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sources": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "label": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "url": {
+                              "type": "string",
+                              "format": "uri"
+                            },
+                            "verification": {
+                              "type": "string",
+                              "enum": [
+                                "USER_INPUT",
+                                "UNVERIFIED",
+                                "VERIFIED",
+                                "SYNTHETIC"
+                              ]
+                            },
+                            "reviewed_on": {
+                              "type": "string",
+                              "format": "date",
+                              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                            },
+                            "document_revision": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "locator": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "sha256": {
+                              "type": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            },
+                            "notes": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "label",
+                            "verification"
+                          ],
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "required": [
+                      "basis",
+                      "sources"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "applies_to": {
+                    "type": "object",
+                    "properties": {
+                      "cable_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "reference_iz_a": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "reference": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "installation_method": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "ambient_temp_c": {
+                                "anyOf": [
+                                  {
+                                    "type": "number",
+                                    "minimum": -100,
+                                    "maximum": 200
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "conductor_temp_c": {
+                                "anyOf": [
+                                  {
+                                    "type": "number",
+                                    "minimum": -100,
+                                    "maximum": 200
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "grouped_circuits": {
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "exclusiveMinimum": 0,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "sources": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "label": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "url": {
+                                      "type": "string",
+                                      "format": "uri"
+                                    },
+                                    "verification": {
+                                      "type": "string",
+                                      "enum": [
+                                        "USER_INPUT",
+                                        "UNVERIFIED",
+                                        "VERIFIED",
+                                        "SYNTHETIC"
+                                      ]
+                                    },
+                                    "reviewed_on": {
+                                      "type": "string",
+                                      "format": "date",
+                                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                                    },
+                                    "document_revision": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "locator": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "sha256": {
+                                      "type": "string",
+                                      "pattern": "^[a-f0-9]{64}$"
+                                    },
+                                    "notes": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "label",
+                                    "verification"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              }
+                            },
+                            "required": [
+                              "installation_method",
+                              "sources"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "installation_method": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "ambient_temp_c": {
+                        "type": "number"
+                      },
+                      "conductor_temp_c": {
+                        "type": "number"
+                      },
+                      "grouped_circuits": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "cable_id",
+                      "reference_iz_a",
+                      "reference",
+                      "installation_method",
+                      "ambient_temp_c",
+                      "conductor_temp_c",
+                      "grouped_circuits"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "temperature",
+                  "grouping",
+                  "installation"
+                ],
+                "additionalProperties": false
+              },
+              "length_m": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "conductor_temp_c": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": -100,
+                    "maximum": 200
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "derating_factor": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "maximum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "derating_basis": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "target",
+          "circuit"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "ac_routes": {
+      "maxItems": 100,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "inverter": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "circuit": {
+            "type": "object",
+            "properties": {
+              "installation_method": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "ambient_temp_c": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": -100,
+                    "maximum": 200
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "grouped_circuits": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "derating_evidence": {
+                "type": "object",
+                "properties": {
+                  "temperature": {
+                    "type": "object",
+                    "properties": {
+                      "factor": {
+                        "anyOf": [
+                          {
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "maximum": 1
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "basis": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sources": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "label": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "url": {
+                              "type": "string",
+                              "format": "uri"
+                            },
+                            "verification": {
+                              "type": "string",
+                              "enum": [
+                                "USER_INPUT",
+                                "UNVERIFIED",
+                                "VERIFIED",
+                                "SYNTHETIC"
+                              ]
+                            },
+                            "reviewed_on": {
+                              "type": "string",
+                              "format": "date",
+                              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                            },
+                            "document_revision": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "locator": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "sha256": {
+                              "type": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            },
+                            "notes": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "label",
+                            "verification"
+                          ],
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "required": [
+                      "basis",
+                      "sources"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "grouping": {
+                    "type": "object",
+                    "properties": {
+                      "factor": {
+                        "anyOf": [
+                          {
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "maximum": 1
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "basis": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sources": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "label": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "url": {
+                              "type": "string",
+                              "format": "uri"
+                            },
+                            "verification": {
+                              "type": "string",
+                              "enum": [
+                                "USER_INPUT",
+                                "UNVERIFIED",
+                                "VERIFIED",
+                                "SYNTHETIC"
+                              ]
+                            },
+                            "reviewed_on": {
+                              "type": "string",
+                              "format": "date",
+                              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                            },
+                            "document_revision": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "locator": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "sha256": {
+                              "type": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            },
+                            "notes": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "label",
+                            "verification"
+                          ],
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "required": [
+                      "basis",
+                      "sources"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "installation": {
+                    "type": "object",
+                    "properties": {
+                      "factor": {
+                        "anyOf": [
+                          {
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "maximum": 1
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "basis": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sources": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "label": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "url": {
+                              "type": "string",
+                              "format": "uri"
+                            },
+                            "verification": {
+                              "type": "string",
+                              "enum": [
+                                "USER_INPUT",
+                                "UNVERIFIED",
+                                "VERIFIED",
+                                "SYNTHETIC"
+                              ]
+                            },
+                            "reviewed_on": {
+                              "type": "string",
+                              "format": "date",
+                              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                            },
+                            "document_revision": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "locator": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "sha256": {
+                              "type": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            },
+                            "notes": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "label",
+                            "verification"
+                          ],
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "required": [
+                      "basis",
+                      "sources"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "applies_to": {
+                    "type": "object",
+                    "properties": {
+                      "cable_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "reference_iz_a": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "reference": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "installation_method": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "ambient_temp_c": {
+                                "anyOf": [
+                                  {
+                                    "type": "number",
+                                    "minimum": -100,
+                                    "maximum": 200
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "conductor_temp_c": {
+                                "anyOf": [
+                                  {
+                                    "type": "number",
+                                    "minimum": -100,
+                                    "maximum": 200
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "grouped_circuits": {
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "exclusiveMinimum": 0,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "sources": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "label": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "url": {
+                                      "type": "string",
+                                      "format": "uri"
+                                    },
+                                    "verification": {
+                                      "type": "string",
+                                      "enum": [
+                                        "USER_INPUT",
+                                        "UNVERIFIED",
+                                        "VERIFIED",
+                                        "SYNTHETIC"
+                                      ]
+                                    },
+                                    "reviewed_on": {
+                                      "type": "string",
+                                      "format": "date",
+                                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                                    },
+                                    "document_revision": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "locator": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "sha256": {
+                                      "type": "string",
+                                      "pattern": "^[a-f0-9]{64}$"
+                                    },
+                                    "notes": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "label",
+                                    "verification"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              }
+                            },
+                            "required": [
+                              "installation_method",
+                              "sources"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "installation_method": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "ambient_temp_c": {
+                        "type": "number"
+                      },
+                      "conductor_temp_c": {
+                        "type": "number"
+                      },
+                      "grouped_circuits": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "cable_id",
+                      "reference_iz_a",
+                      "reference",
+                      "installation_method",
+                      "ambient_temp_c",
+                      "conductor_temp_c",
+                      "grouped_circuits"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "temperature",
+                  "grouping",
+                  "installation"
+                ],
+                "additionalProperties": false
+              },
+              "length_m": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "conductor_temp_c": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": -100,
+                    "maximum": 200
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "derating_factor": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "maximum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "derating_basis": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "inverter",
+          "circuit"
+        ],
+        "additionalProperties": false
+      }
     },
     "prospective_short_circuit_ka": {
       "anyOf": [
@@ -1931,7 +3110,13 @@
             "maximum": 9007199254740991
           }
         },
-        "required": ["id", "inverter", "mppt_id", "plane_id", "modules"],
+        "required": [
+          "id",
+          "inverter",
+          "mppt_id",
+          "plane_id",
+          "modules"
+        ],
         "additionalProperties": false
       }
     },
@@ -2076,7 +3261,12 @@
               },
               "verification": {
                 "type": "string",
-                "enum": ["USER_INPUT", "UNVERIFIED", "VERIFIED", "SYNTHETIC"]
+                "enum": [
+                  "USER_INPUT",
+                  "UNVERIFIED",
+                  "VERIFIED",
+                  "SYNTHETIC"
+                ]
               },
               "reviewed_on": {
                 "type": "string",
@@ -2100,12 +3290,21 @@
                 "minLength": 1
               }
             },
-            "required": ["id", "label", "verification"],
+            "required": [
+              "id",
+              "label",
+              "verification"
+            ],
             "additionalProperties": false
           }
         }
       },
-      "required": ["id", "name", "profiles", "sources"],
+      "required": [
+        "id",
+        "name",
+        "profiles",
+        "sources"
+      ],
       "additionalProperties": false
     },
     "dc_switch_context": {
@@ -2160,7 +3359,11 @@
           "anyOf": [
             {
               "type": "string",
-              "enum": ["PER_STRING", "MPPT", "INVERTER"]
+              "enum": [
+                "PER_STRING",
+                "MPPT",
+                "INVERTER"
+              ]
             },
             {
               "type": "null"
@@ -2186,7 +3389,12 @@
               },
               "verification": {
                 "type": "string",
-                "enum": ["USER_INPUT", "UNVERIFIED", "VERIFIED", "SYNTHETIC"]
+                "enum": [
+                  "USER_INPUT",
+                  "UNVERIFIED",
+                  "VERIFIED",
+                  "SYNTHETIC"
+                ]
               },
               "reviewed_on": {
                 "type": "string",
@@ -2210,12 +3418,18 @@
                 "minLength": 1
               }
             },
-            "required": ["id", "label", "verification"],
+            "required": [
+              "id",
+              "label",
+              "verification"
+            ],
             "additionalProperties": false
           }
         }
       },
-      "required": ["sources"],
+      "required": [
+        "sources"
+      ],
       "additionalProperties": false
     },
     "string_fuse_device": {
@@ -2312,7 +3526,12 @@
               },
               "verification": {
                 "type": "string",
-                "enum": ["USER_INPUT", "UNVERIFIED", "VERIFIED", "SYNTHETIC"]
+                "enum": [
+                  "USER_INPUT",
+                  "UNVERIFIED",
+                  "VERIFIED",
+                  "SYNTHETIC"
+                ]
               },
               "reviewed_on": {
                 "type": "string",
@@ -2336,12 +3555,22 @@
                 "minLength": 1
               }
             },
-            "required": ["id", "label", "verification"],
+            "required": [
+              "id",
+              "label",
+              "verification"
+            ],
             "additionalProperties": false
           }
         }
       },
-      "required": ["id", "name", "family", "rated_current_a", "sources"],
+      "required": [
+        "id",
+        "name",
+        "family",
+        "rated_current_a",
+        "sources"
+      ],
       "additionalProperties": false
     },
     "spd_device": {
@@ -2380,7 +3609,11 @@
         },
         "type": {
           "type": "string",
-          "enum": ["T1", "T2", "T1+T2"]
+          "enum": [
+            "T1",
+            "T2",
+            "T1+T2"
+          ]
         },
         "ucpv_v": {
           "anyOf": [
@@ -2463,7 +3696,10 @@
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["ISOLATED", "GROUNDED"]
+            "enum": [
+              "ISOLATED",
+              "GROUNDED"
+            ]
           }
         },
         "sources": {
@@ -2485,7 +3721,12 @@
               },
               "verification": {
                 "type": "string",
-                "enum": ["USER_INPUT", "UNVERIFIED", "VERIFIED", "SYNTHETIC"]
+                "enum": [
+                  "USER_INPUT",
+                  "UNVERIFIED",
+                  "VERIFIED",
+                  "SYNTHETIC"
+                ]
               },
               "reviewed_on": {
                 "type": "string",
@@ -2509,12 +3750,22 @@
                 "minLength": 1
               }
             },
-            "required": ["id", "label", "verification"],
+            "required": [
+              "id",
+              "label",
+              "verification"
+            ],
             "additionalProperties": false
           }
         }
       },
-      "required": ["id", "name", "type", "pv_systems", "sources"],
+      "required": [
+        "id",
+        "name",
+        "type",
+        "pv_systems",
+        "sources"
+      ],
       "additionalProperties": false
     },
     "spd_context": {
@@ -2535,7 +3786,10 @@
           "anyOf": [
             {
               "type": "string",
-              "enum": ["ISOLATED", "GROUNDED"]
+              "enum": [
+                "ISOLATED",
+                "GROUNDED"
+              ]
             },
             {
               "type": "null"
@@ -2543,16 +3797,26 @@
           ]
         },
         "lps_present": {
-          "type": ["boolean", "null"]
+          "type": [
+            "boolean",
+            "null"
+          ]
         },
         "lps_separation_maintained": {
-          "type": ["boolean", "null"]
+          "type": [
+            "boolean",
+            "null"
+          ]
         },
         "required_type": {
           "anyOf": [
             {
               "type": "string",
-              "enum": ["T1", "T2", "T1+T2"]
+              "enum": [
+                "T1",
+                "T2",
+                "T1+T2"
+              ]
             },
             {
               "type": "null"
@@ -2633,7 +3897,12 @@
               },
               "verification": {
                 "type": "string",
-                "enum": ["USER_INPUT", "UNVERIFIED", "VERIFIED", "SYNTHETIC"]
+                "enum": [
+                  "USER_INPUT",
+                  "UNVERIFIED",
+                  "VERIFIED",
+                  "SYNTHETIC"
+                ]
               },
               "reviewed_on": {
                 "type": "string",
@@ -2657,12 +3926,18 @@
                 "minLength": 1
               }
             },
-            "required": ["id", "label", "verification"],
+            "required": [
+              "id",
+              "label",
+              "verification"
+            ],
             "additionalProperties": false
           }
         }
       },
-      "required": ["requirement_sources"],
+      "required": [
+        "requirement_sources"
+      ],
       "additionalProperties": false
     }
   },

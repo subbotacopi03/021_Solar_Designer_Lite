@@ -110,6 +110,32 @@ try {
   results.push(
     "DC switch report: exact SKU/source/profile retained, UNKNOWN exit3",
   );
+  const routesFile = "data/examples/individual-routes.json";
+  r = run(["validate", routesFile]);
+  assert.equal(r.status, 0);
+  results.push("individual routes: strict schema exit0");
+  r = run(["calculate", routesFile]);
+  assert.equal(r.status, 3);
+  const routed = JSON.parse(r.stdout);
+  assert.deepEqual(
+    routed.ac_lines.map((l) => l.circuit_input.length_m),
+    [20, 80],
+  );
+  assert.equal(routed.bom.find((b) => b.item === "dc-demo-4").quantity, 80);
+  assert.equal(routed.bom.find((b) => b.item === "ac-demo-50").quantity, 100);
+  assert.equal(routed.cable_bom.omitted_routes, 0);
+  results.push(
+    "individual routes: DC2×(10+30)=80m; AC20+80=100m; UNKNOWN exit3",
+  );
+  for (const language of ["uk", "en"]) {
+    r = run(["report", routesFile, "--lang", language]);
+    assert.equal(r.status, 3);
+    assert.match(r.stdout, /AC INV2 · OVERRIDE/);
+    assert.match(r.stdout, /"length_m":30/);
+    results.push(
+      `individual routes: ${language} report retains actual conditions/origins`,
+    );
+  }
   const bad = join(root, "bad.json");
   writeFileSync(bad, "{");
   r = run(["validate", bad]);

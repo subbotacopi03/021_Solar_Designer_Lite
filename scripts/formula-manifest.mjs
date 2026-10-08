@@ -70,6 +70,18 @@ definitions.push([
   "Explicit Ue/Ie/category/poles/wiring profile; per-string nominal assessment, no Ui/Ith substitution",
   "V DC, A, poles",
 ]);
+definitions.push([
+  "CABLE-ROUTE-QUANTITY",
+  "packages/core/src/routes.ts",
+  [
+    "resolveDcRoute",
+    "resolveAcRoute",
+    "orphanRouteChecks",
+    "cableRouteQuantities",
+  ],
+  "Known selected routes only: DC2 × one-way length; AC1 × one-way multicore length; stale/missing routes never use fallback",
+  "m, conductors, inverter index",
+]);
 const manifest = {
   version: "0.1.0",
   hash_basis:

@@ -1,0 +1,28 @@
+$ vitest run
+
+ RUN  v4.1.11 /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite
+
+ ❯ tests/differential/routes.test.ts (17 tests | 1 failed) 42ms
+   × route overrides retain derating evidence but changed applicability blocks only that route 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/differential/routes.test.ts > route overrides retain derating evidence but changed applicability blocks only that route
+AssertionError: expected null not to be null
+ ❯ tests/differential/routes.test.ts:281:45
+    279|     )?.status,
+    280|   ).toBe("UNKNOWN");
+    281|   expect(r.dc_lines[1]!.cable.selected).not.toBeNull();
+       |                                             ^
+    282|   expect(r.dc_lines[1]!.circuit_input.derating_evidence).toEqual(
+    283|     p.dc.derating_evidence,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 9 passed (10)
+      Tests  1 failed | 150 passed (151)
+   Start at  17:32:24
+   Duration  331ms (transform 635ms, setup 0ms, import 1.44s, tests 313ms, environment 0ms)
+
+[ELIFECYCLE] Test failed. See above for more details.

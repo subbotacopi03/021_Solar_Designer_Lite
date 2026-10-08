@@ -1,4 +1,5 @@
 import "./style.css";
+import { renderRoutes, bindRoutes } from "./routes.js";
 import realDcSwitches from "../../../data/equipment/verified/dc-switches.json" with { type: "json" };
 import realSpds from "../../../data/equipment/verified/spds.json" with { type: "json" };
 import realFuses from "../../../data/equipment/verified/fuses.json" with { type: "json" };
@@ -91,7 +92,7 @@ const texts = {
     manualApply: "Застосувати план",
     auto: "Автоматичний план",
     reportNote:
-      "AC розраховується для одного однакового фідера кожного інвертора. SPD, повна перевірка захисту й нормативне погодження потребують окремої перевірки.",
+      "AC розраховується окремо для фідера кожного інвертора. SPD, повна перевірка захисту й нормативне погодження потребують окремої перевірки.",
     learnTitle: "Вчитися на реальних перевірках",
     blank:
       "Порожнє поле = UNKNOWN. Температури — температури комірки; Tmax не є температурою повітря.",
@@ -152,7 +153,7 @@ const texts = {
     manualApply: "Apply plan",
     auto: "Automatic plan",
     reportNote:
-      "AC represents one identical feeder per inverter. SPD, complete protection checks and regulatory review require separate verification.",
+      "AC is assessed independently for each inverter feeder. SPD, complete protection checks and regulatory review require separate verification.",
     learnTitle: "Learn from engineering checks",
     blank:
       "Empty means UNKNOWN. Temperatures refer to cells; Tmax is not ambient air temperature.",
@@ -401,30 +402,41 @@ function planTable() {
   );
 }
 function cableTable() {
-  return table(
-    [
-      lang === "uk" ? "Лінія" : "Circuit",
-      lang === "uk" ? "Кабель" : "Cable",
-      "Iz × k, A",
-      "ΔU, %",
-      t().status,
-    ],
-    [
+  const rows = [
+    ...result.ac_lines.map((l) => ({
+      name: `${t().acCable} · INV ${l.inverter}`,
+      ...l,
+    })),
+    ...result.dc_lines.map((l) => ({ name: l.string_id, ...l })),
+  ];
+  const scope = result.cable_bom;
+  const summary = `<p data-cable-bom-scope>${badge(scope.checks[0]!.status)} · ${
+    lang === "uk"
+      ? `Кабелі: лише вибрані траси. Пропущено ліній: ${scope.omitted_routes}; невизначена DC розкладка: ${scope.unresolved_dc_layout ? "так" : "ні"}. Без запасу.`
+      : `Cable quantities: selected routes only. Omitted feeders: ${scope.omitted_routes}; unresolved DC layout: ${scope.unresolved_dc_layout ? "yes" : "no"}. No reserve.`
+  }</p>`;
+  return (
+    summary +
+    table(
       [
-        t().acCable,
-        esc(result.ac.selected?.cable.name ?? "—"),
-        fmt(result.ac.selected?.iz_derated_a),
-        fmt(result.ac.selected?.drop_pct, 3),
-        badge(result.ac.selected?.status ?? "UNKNOWN"),
+        lang === "uk" ? "Лінія" : "Circuit",
+        "L, m",
+        lang === "uk" ? "Джерело" : "Source",
+        lang === "uk" ? "Кабель" : "Cable",
+        "Iz × k, A",
+        "ΔU, %",
+        t().status,
       ],
-      ...result.dc_lines.map((l) => [
-        esc(l.string_id),
+      rows.map((l) => [
+        esc(l.name),
+        fmt(l.circuit_input.length_m),
+        esc(l.input_origin),
         esc(l.cable.selected?.cable.name ?? "—"),
         fmt(l.cable.selected?.iz_derated_a),
         fmt(l.cable.selected?.drop_pct, 3),
         badge(l.cable.selected?.status ?? "UNKNOWN"),
       ]),
-    ],
+    )
   );
 }
 function render() {
@@ -501,6 +513,11 @@ function render() {
     content.innerHTML = `<section class="panel"><h2>${x.edit}</h2><p class="subtitle">schema_version = 0.1.0 · W, V, A, m, mm², Ω/km, °C, %/°C</p><textarea id="json" aria-label="Project JSON">${esc(JSON.stringify(project, null, 2))}</textarea><div class="tools" style="margin-top:16px"><button id="apply" class="primary">${x.apply}</button><button id="cancel">${x.cancel}</button></div></section>`;
   if (tab === "learn")
     content.innerHTML = `<section class="panel"><h2>${x.learnTitle}</h2><p>${x.intro}</p><div class="exercise"><strong>01 · Voc(Tmin)</strong><p>Voc(T) = VocSTC × [1 + βVoc/100 × (T − 25)]<br>50 × [1 + (−0.28/100) × (−20 − 25)] = 56.3 V.<br>19 PV → 1069.7 V; 20 PV → 1126 V &gt; 1100 V.</p><button data-exercise="cold">${lang === "uk" ? "Порівняти при Tmin −35 °C" : "Compare at Tmin −35 °C"}</button></div><div class="exercise"><strong>02 · UNKNOWN</strong><p>${lang === "uk" ? "Видаліть βVmp. Основний розрахунок стрінгів має стати UNKNOWN. γPmax − αIsc може бути лише окремою апроксимацією." : "Remove βVmp. Main string result must become UNKNOWN. γPmax − αIsc is an approximation only."}</p><button data-exercise="missing">${lang === "uk" ? "Перевірити відсутнє βVmp" : "Test missing βVmp"}</button></div><div class="exercise"><strong>03 · Iac &amp; ΔU</strong><p>Iac = Pout / (√3 × U × cos φ).<br>50 000 / (√3 × 400 × 0.95) = 75.967 A.<br>R(T) = R20 × [1 + α × (T − 20)].<br>${lang === "uk" ? "Збільште AC трасу з 80 до 160 m та перевірте зміну перерізу." : "Increase the AC route from 80 to 160 m and inspect the selected cable."}</p><button data-exercise="length">${lang === "uk" ? "AC траса 160 m" : "AC route 160 m"}</button></div><button id="reset">${x.reset}</button></section>`;
+  if (tab === "site")
+    content.insertAdjacentHTML(
+      "beforeend",
+      renderRoutes(project, result, lang),
+    );
   bind();
 }
 function download(name: string, content: string, type = "application/json") {
@@ -550,6 +567,12 @@ function invalidateEquipmentEdit(next: Project, previous: Project): Project {
   return next;
 }
 function bind() {
+  bindRoutes(
+    project,
+    result,
+    (next) => commit(ProjectSchema.parse(next)),
+    toast,
+  );
   document.querySelectorAll<HTMLButtonElement>("[data-tab]").forEach(
     (b) =>
       (b.onclick = () => {

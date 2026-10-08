@@ -14,6 +14,13 @@ import { assessDcSwitchCandidate } from "./dc-switch.js";
 export * from "./dc-switch.js";
 import { assessSpdCandidate } from "./spd.js";
 export * from "./spd.js";
+import {
+  resolveDcRoute,
+  resolveAcRoute,
+  orphanRouteChecks,
+  cableRouteQuantities,
+} from "./routes.js";
+export * from "./routes.js";
 import { sizeCable } from "./cables.js";
 import {
   standardRatingAtLeast,
@@ -126,24 +133,37 @@ export function calculateProject(raw: unknown) {
         ["cos_phi_or_standard_rating"],
       ),
     );
-  // AC route is one identical feeder per inverter; never the aggregate plant feeder.
-  const ac = sizeCable(p.cables, {
-    ...p.ac,
-    circuit: p.inverter.phases === 3 ? "AC3" : "AC1",
-    ib_a: acCurrent,
-    in_a: breaker,
-    length_m: p.ac.length_m,
-    voltage_v: p.inverter.ac_voltage_v,
-    required_voltage_v: p.inverter.ac_voltage_v,
-    conductor_temp_c: p.ac.conductor_temp_c,
-    derating_factor: p.ac.derating_factor,
-    derating_basis: p.ac.derating_basis,
-    drop_limit_pct: p.policy.ac_drop_max_pct,
-    cos_phi: p.site.cos_phi,
+  const acLines = Array.from({ length: p.inverter_quantity }, (_, index) => {
+    const inverter = index + 1,
+      route = resolveAcRoute(p, inverter),
+      circuit = route.circuit_input;
+    const cable = sizeCable(p.cables, {
+      ...circuit,
+      circuit: p.inverter.phases === 3 ? "AC3" : "AC1",
+      ib_a: acCurrent,
+      in_a: breaker,
+      length_m: circuit.length_m,
+      voltage_v: p.inverter.ac_voltage_v,
+      required_voltage_v: p.inverter.ac_voltage_v,
+      conductor_temp_c: circuit.conductor_temp_c,
+      derating_factor: circuit.derating_factor,
+      derating_basis: circuit.derating_basis,
+      drop_limit_pct: p.policy.ac_drop_max_pct,
+      cos_phi: p.site.cos_phi,
+    });
+    // Preserve legacy first-feeder check IDs; every further feeder has a distinct prefix.
+    checks.push(
+      ...cable.checks.map((c) => ({
+        ...c,
+        id: inverter === 1 ? c.id : `INV${inverter}:AC:${c.id}`,
+      })),
+    );
+    return { inverter, ...route, cable };
   });
+  const ac = acLines[0]!.cable; // Compatibility alias ONLY for inverter1.
   checks.push(
-    ...ac.checks,
     checkBreakingCapacity(p.breaker_icu_ka, p.prospective_short_circuit_ka),
+    ...orphanRouteChecks(p, strings),
   );
   const dcLines = strings.map((row) => {
     const mppt = p.inverter.mppts.find((m) => m.id === row.mppt_id);
@@ -173,19 +193,22 @@ export function calculateProject(raw: unknown) {
           design_current_a: ib,
         })
       : [];
+    const route = resolveDcRoute(p, row, strings),
+      circuit = route.circuit_input;
+    checks.push(...route.checks);
     const cable = sizeCable(p.cables, {
-      ...p.dc,
+      ...circuit,
       circuit: "DC",
       ib_a: ib,
       in_a:
         p.string_fuse_device?.rated_current_a ??
         (fuse.required === null ? null : (fuse.rating_a ?? ib)),
-      length_m: p.dc.length_m,
+      length_m: circuit.length_m,
       voltage_v: vmp,
       required_voltage_v: voc,
-      conductor_temp_c: p.dc.conductor_temp_c,
-      derating_factor: p.dc.derating_factor,
-      derating_basis: p.dc.derating_basis,
+      conductor_temp_c: circuit.conductor_temp_c,
+      derating_factor: circuit.derating_factor,
+      derating_basis: circuit.derating_basis,
       drop_limit_pct: p.policy.dc_drop_max_pct,
     });
     checks.push(
@@ -195,6 +218,8 @@ export function calculateProject(raw: unknown) {
     );
     return {
       string_id: row.id,
+      circuit_input: route.circuit_input,
+      input_origin: route.input_origin,
       voc_cold_v: voc,
       vmp_hot_v: vmp,
       ib_a: ib,
@@ -294,26 +319,28 @@ export function calculateProject(raw: unknown) {
         basis: "Declared inverter fleet",
       },
     ];
-  const cableQty = new Map<string, number>();
-  for (const line of dcLines)
-    if (line.cable.selected && p.dc.length_m != null) {
-      const id = line.cable.selected.cable.id;
-      cableQty.set(id, (cableQty.get(id) ?? 0) + 2 * p.dc.length_m);
-    }
-  if (ac.selected && p.ac.length_m != null)
-    cableQty.set(
-      ac.selected.cable.id,
-      (cableQty.get(ac.selected.cable.id) ?? 0) +
-        p.ac.length_m * p.inverter_quantity,
-    );
-  for (const [id, quantity] of cableQty)
+  const cableBom = cableRouteQuantities(
+    [
+      ...dcLines.map((line) => ({
+        cable_id: line.cable.selected?.cable.id ?? null,
+        length_m: line.circuit_input.length_m,
+        conductors: 2 as const,
+      })),
+      ...acLines.map((line) => ({
+        cable_id: line.cable.selected?.cable.id ?? null,
+        length_m: line.circuit_input.length_m,
+        conductors: 1 as const,
+      })),
+    ],
+    !unknownLayout && installed === requested,
+  );
+  checks.push(...cableBom.checks);
+  for (const entry of cableBom.totals)
     bom.push({
-      item: id,
-      quantity,
+      ...entry,
       unit: "m",
-      basis: id.startsWith("dc")
-        ? "Two separate conductors per DC string; no reserve"
-        : "One multicore feeder per inverter; no reserve",
+      basis:
+        "Known selected feeder routes only; DC two conductors / AC one multicore; partial if routes omitted; no reserve",
     });
   const isolators = new Map<number, number>(),
     fuses = new Map<number, number>();
@@ -378,6 +405,8 @@ export function calculateProject(raw: unknown) {
     strings,
     dc_lines: dcLines,
     ac,
+    ac_lines: acLines,
+    cable_bom: cableBom,
     checks,
     bom,
   };
@@ -450,6 +479,18 @@ export function projectReport(
     ...(["dc", "ac"] as const).map(
       (side) => `${side.toUpperCase()}: ${JSON.stringify(p[side])}`,
     ),
+    `\n## ${uk ? "Кабельні траси" : "Cable routes"}`,
+    ...result.dc_lines.map(
+      (line) =>
+        `DC ${line.string_id} · ${line.input_origin} · ${JSON.stringify(line.circuit_input)}`,
+    ),
+    ...result.ac_lines.map(
+      (line) =>
+        `AC INV${line.inverter} · ${line.input_origin} · ${JSON.stringify(line.circuit_input)} · cable=${line.cable.selected?.cable.id ?? "UNKNOWN"}`,
+    ),
+    `Cable BOM omitted routes: ${result.cable_bom.omitted_routes}; unresolved DC layout: ${result.cable_bom.unresolved_dc_layout}`,
+    `Saved DC routes: ${JSON.stringify(p.dc_routes ?? [])}`,
+    `Saved AC routes: ${JSON.stringify(p.ac_routes ?? [])}`,
     `\n## ${uk ? "Стрінги" : "Strings"}`,
     "| ID | Inverter | MPPT | Plane | Modules |",
     "|---|---:|---|---|---:|",
@@ -470,7 +511,7 @@ export function projectReport(
     ),
     "\n## Scope",
     uk
-      ? "AC — окремий однаковий фідер кожного інвертора. DC — окремий кабель кожного стрінгу. Джерела обладнання наведено вище; навчальні policies та непідтверджені кабельні дані не є нормативним погодженням. Повна нормативна перевірка захисту, SPD, заземлення та проєктне погодження не виконані."
-      : "AC is one identical feeder per inverter; DC is one route per string. Equipment sources are listed above; teaching policies and unverified ampacity do not establish regulatory compliance. Full protection, SPD, earthing and regulatory review not completed.",
+      ? "AC — окремий фідер кожного інвертора з власними умовами траси. DC — окремий кабель кожного стрінгу. Джерела обладнання наведено вище; навчальні policies та непідтверджені кабельні дані не є нормативним погодженням. Повна нормативна перевірка захисту, SPD, заземлення та проєктне погодження не виконані."
+      : "AC is one independently assessed feeder per inverter; DC is one route per string. Equipment sources are listed above; teaching policies and unverified ampacity do not establish regulatory compliance. Full protection, SPD, earthing and regulatory review not completed.",
   ].join("\n");
 }

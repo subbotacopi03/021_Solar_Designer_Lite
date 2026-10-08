@@ -1,0 +1,212 @@
+$ vitest run
+
+ RUN  v4.1.11 /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite
+
+ ❯ tests/differential/routes.test.ts (10 tests | 9 failed) 19ms
+   × common inputs remain compatible but each inverter has a separate feeder result 9ms
+   × DC route BOM sums two conductors per actual route, not common length times strings 1ms
+   × null length in a complete override never inherits the common route 1ms
+   × a changed module count makes an override stale instead of silently reusing its length 4ms
+   × orphan routes are explicit UNKNOWN and never enter another route's BOM 1ms
+   × AC routes choose independent sections and sum known one-way feeder lengths 1ms
+   × partial AC overrides retain UNKNOWN fields instead of merging common values 0ms
+   × removed inverter AC override is orphaned without losing other feeder results 0ms
+   × schema/save/load/report retain complete route conditions and origins 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/differential/routes.test.ts > common inputs remain compatible but each inverter has a separate feeder result
+AssertionError: Target cannot be null or undefined.
+ ❯ tests/differential/routes.test.ts:19:22
+     17| it("common inputs remain compatible but each inverter has a separate f…
+     18|   const p=fixture(), r=calculateProject(p);
+     19|   expect(r.ac_lines).toHaveLength(2);
+       |                      ^
+     20|   expect(r.ac_lines.map(l=>l.circuit_input.length_m)).toEqual([80,80]);
+     21|   expect(r.ac).toEqual(r.ac_lines[0]!.cable);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  tests/differential/routes.test.ts > DC route BOM sums two conductors per actual route, not common length times strings
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "dc_routes"
+    ],
+    "path": [],
+    "message": "Unrecognized key: \"dc_routes\""
+  }
+]
+ ❯ calculateProject packages/core/src/index.ts:32:27
+     30| export const ENGINE_VERSION = "0.1.0";
+     31| export function calculateProject(raw: unknown) {
+     32|   const p = ProjectSchema.parse(raw);
+       |                           ^
+     33|   const requested = p.planes.reduce((a, x) => a + x.module_count, 0);
+     34|   const generated = p.manual_strings
+ ❯ tests/differential/routes.test.ts:26:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  tests/differential/routes.test.ts > null length in a complete override never inherits the common route
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "dc_routes"
+    ],
+    "path": [],
+    "message": "Unrecognized key: \"dc_routes\""
+  }
+]
+ ❯ calculateProject packages/core/src/index.ts:32:27
+     30| export const ENGINE_VERSION = "0.1.0";
+     31| export function calculateProject(raw: unknown) {
+     32|   const p = ProjectSchema.parse(raw);
+       |                           ^
+     33|   const requested = p.planes.reduce((a, x) => a + x.module_count, 0);
+     34|   const generated = p.manual_strings
+ ❯ tests/differential/routes.test.ts:33:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  tests/differential/routes.test.ts > a changed module count makes an override stale instead of silently reusing its length
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "dc_routes"
+    ],
+    "path": [],
+    "message": "Unrecognized key: \"dc_routes\""
+  }
+]
+ ❯ calculateProject packages/core/src/index.ts:32:27
+     30| export const ENGINE_VERSION = "0.1.0";
+     31| export function calculateProject(raw: unknown) {
+     32|   const p = ProjectSchema.parse(raw);
+       |                           ^
+     33|   const requested = p.planes.reduce((a, x) => a + x.module_count, 0);
+     34|   const generated = p.manual_strings
+ ❯ tests/differential/routes.test.ts:42:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  tests/differential/routes.test.ts > orphan routes are explicit UNKNOWN and never enter another route's BOM
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "dc_routes"
+    ],
+    "path": [],
+    "message": "Unrecognized key: \"dc_routes\""
+  }
+]
+ ❯ calculateProject packages/core/src/index.ts:32:27
+     30| export const ENGINE_VERSION = "0.1.0";
+     31| export function calculateProject(raw: unknown) {
+     32|   const p = ProjectSchema.parse(raw);
+       |                           ^
+     33|   const requested = p.planes.reduce((a, x) => a + x.module_count, 0);
+     34|   const generated = p.manual_strings
+ ❯ tests/differential/routes.test.ts:50:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  tests/differential/routes.test.ts > AC routes choose independent sections and sum known one-way feeder lengths
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "ac_routes"
+    ],
+    "path": [],
+    "message": "Unrecognized key: \"ac_routes\""
+  }
+]
+ ❯ calculateProject packages/core/src/index.ts:32:27
+     30| export const ENGINE_VERSION = "0.1.0";
+     31| export function calculateProject(raw: unknown) {
+     32|   const p = ProjectSchema.parse(raw);
+       |                           ^
+     33|   const requested = p.planes.reduce((a, x) => a + x.module_count, 0);
+     34|   const generated = p.manual_strings
+ ❯ tests/differential/routes.test.ts:68:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+ FAIL  tests/differential/routes.test.ts > partial AC overrides retain UNKNOWN fields instead of merging common values
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "ac_routes"
+    ],
+    "path": [],
+    "message": "Unrecognized key: \"ac_routes\""
+  }
+]
+ ❯ calculateProject packages/core/src/index.ts:32:27
+     30| export const ENGINE_VERSION = "0.1.0";
+     31| export function calculateProject(raw: unknown) {
+     32|   const p = ProjectSchema.parse(raw);
+       |                           ^
+     33|   const requested = p.planes.reduce((a, x) => a + x.module_count, 0);
+     34|   const generated = p.manual_strings
+ ❯ tests/differential/routes.test.ts:77:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯
+
+ FAIL  tests/differential/routes.test.ts > removed inverter AC override is orphaned without losing other feeder results
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "ac_routes"
+    ],
+    "path": [],
+    "message": "Unrecognized key: \"ac_routes\""
+  }
+]
+ ❯ calculateProject packages/core/src/index.ts:32:27
+     30| export const ENGINE_VERSION = "0.1.0";
+     31| export function calculateProject(raw: unknown) {
+     32|   const p = ProjectSchema.parse(raw);
+       |                           ^
+     33|   const requested = p.planes.reduce((a, x) => a + x.module_count, 0);
+     34|   const generated = p.manual_strings
+ ❯ tests/differential/routes.test.ts:85:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/9]⎯
+
+ FAIL  tests/differential/routes.test.ts > schema/save/load/report retain complete route conditions and origins
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "dc_routes",
+      "ac_routes"
+    ],
+    "path": [],
+    "message": "Unrecognized keys: \"dc_routes\", \"ac_routes\""
+  }
+]
+ ❯ tests/differential/routes.test.ts:91:30
+     89| it("schema/save/load/report retain complete route conditions and origi…
+     90|   const p=fixture();p.dc_routes=routes(p,[10,30]);p.ac_routes=[{invert…
+     91|   const parsed=ProjectSchema.parse(JSON.parse(JSON.stringify(p)));
+       |                              ^
+     92|   expect(parsed.dc_routes).toEqual(p.dc_routes);
+     93|   const r=calculateProject(parsed);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/9]⎯
+
+
+ Test Files  1 failed | 9 passed (10)
+      Tests  9 failed | 135 passed (144)
+   Start at  17:22:46
+   Duration  310ms (transform 474ms, setup 0ms, import 1.21s, tests 206ms, environment 1ms)
+
+[ELIFECYCLE] Test failed. See above for more details.

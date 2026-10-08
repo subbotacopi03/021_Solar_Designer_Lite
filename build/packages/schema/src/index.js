@@ -204,6 +204,14 @@ export const CircuitInputSchema = z.strictObject({
     derating_factor: z.number().finite().gt(0).max(1).nullish(),
     derating_basis: z.string().min(1).nullish(),
 });
+export const DcRouteInputSchema = z.strictObject({
+    target: StringConfigurationSchema,
+    circuit: CircuitInputSchema,
+});
+export const AcRouteInputSchema = z.strictObject({
+    inverter: count,
+    circuit: CircuitInputSchema,
+});
 export const StringFuseDeviceSchema = z.strictObject({
     ...equipmentMetadata,
     id: z.string().min(1),
@@ -293,6 +301,8 @@ export const ProjectSchema = z
     cables: z.array(CableSchema).max(500),
     dc: CircuitInputSchema,
     ac: CircuitInputSchema,
+    dc_routes: z.array(DcRouteInputSchema).max(10000).optional(),
+    ac_routes: z.array(AcRouteInputSchema).max(100).optional(),
     prospective_short_circuit_ka: optionalPositive,
     breaker_icu_ka: optionalPositive,
     manual_strings: z.array(StringConfigurationSchema).max(10000).optional(),
@@ -307,5 +317,9 @@ export const ProjectSchema = z
 })
     .refine((p) => new Set(p.cables.map((x) => x.id)).size === p.cables.length, {
     message: "Duplicate cable IDs",
-});
+})
+    .refine((p) => new Set(p.dc_routes?.map((r) => r.target.id)).size ===
+    (p.dc_routes?.length ?? 0), { message: "Duplicate DC route target IDs" })
+    .refine((p) => new Set(p.ac_routes?.map((r) => r.inverter)).size ===
+    (p.ac_routes?.length ?? 0), { message: "Duplicate AC route inverter targets" });
 //# sourceMappingURL=index.js.map

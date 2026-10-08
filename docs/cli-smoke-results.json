@@ -1,5 +1,5 @@
 {
-  "passed": 20,
+  "passed": 24,
   "checks": [
     "validate: exit 0",
     "calculate: UNKNOWN exit 3, JSON result 120 modules",
@@ -19,6 +19,10 @@
     "dc-switch-source-limited: explicit operational ratings/scope, exit3",
     "dc-switch-voltage-fail: explicit operational ratings/scope, exit1",
     "DC switch report: exact SKU/source/profile retained, UNKNOWN exit3",
+    "individual routes: strict schema exit0",
+    "individual routes: DC2×(10+30)=80m; AC20+80=100m; UNKNOWN exit3",
+    "individual routes: uk report retains actual conditions/origins",
+    "individual routes: en report retains actual conditions/origins",
     "invalid JSON: exit 2",
     "electrical failure: exit 1"
   ]

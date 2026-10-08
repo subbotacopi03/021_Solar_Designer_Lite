@@ -1,7 +1,10 @@
 {
-  "checked_on": "2026-10-08T14:49:46.645Z",
+  "checked_on": "2026-10-08T15:31:45.957Z",
   "target": "http://127.0.0.1:5173/",
-  "viewports": [1440, 390],
+  "viewports": [
+    1440,
+    390
+  ],
   "passed": 15,
   "checks": [
     "Exact SKU selection, dated provenance and missing beta remain visible",

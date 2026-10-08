@@ -1,0 +1,19 @@
+{
+  "checked_on": "2026-10-08T15:31:42.326Z",
+  "target": "file:///Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/Solar_Designer_Lite.html",
+  "passed": 11,
+  "checks": [
+    "Imported DC/AC route overrides render independently",
+    "UI/core/report export use actual DC90m and AC80m route totals",
+    "Save/load preserves independent route conditions",
+    "Empty override stays null, omits cable quantity, never falls back",
+    "Allocation change becomes UNKNOWN until explicit snapshot rebind",
+    "Remove restores common input; explicit copy creates full snapshot",
+    "Removed inverter route is visible and removable as orphan",
+    "Duplicate manual IDs never reuse saved route; report quantities remain partial",
+    "Invalid route value is rejected and form restores saved value",
+    "English route editor/mobile390px have no document overflow",
+    "No page/console errors"
+  ],
+  "errors": []
+}

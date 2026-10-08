@@ -1,0 +1,36 @@
+
+ RUN  v4.1.11 /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite
+
+ ❯ tests/differential/routes.test.ts (15 tests | 1 failed) 20ms
+   × one saved DC route cannot bind to duplicate manual string IDs 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/differential/routes.test.ts > one saved DC route cannot bind to duplicate manual string IDs
+AssertionError: expected [ 'OVERRIDE', 'OVERRIDE' ] to deeply equal [ 'AMBIGUOUS_OVERRIDE', …(1) ]
+
+- Expected
++ Received
+
+  [
+-   "AMBIGUOUS_OVERRIDE",
+-   "AMBIGUOUS_OVERRIDE",
++   "OVERRIDE",
++   "OVERRIDE",
+  ]
+
+ ❯ tests/differential/routes.test.ts:211:45
+    209|   const r=calculateProject(p);
+    210|   expect(r.checks.some(c=>c.id==="DUPLICATE_STRING_ID" && c.status==="…
+    211|   expect(r.dc_lines.map(l=>l.input_origin)).toEqual(["AMBIGUOUS_OVERRI…
+       |                                             ^
+    212|   expect(r.dc_lines.every(l=>l.cable.selected===null)).toBe(true);
+    213|   expect(r.bom.find(b=>b.item==="dc-demo-4")).toBeUndefined();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 14 passed (15)
+   Start at  17:29:54
+   Duration  190ms (transform 46ms, setup 0ms, import 94ms, tests 20ms, environment 0ms)
