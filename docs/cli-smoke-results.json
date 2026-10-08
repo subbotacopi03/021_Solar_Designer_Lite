@@ -1,0 +1,10 @@
+{
+  "passed": 5,
+  "checks": [
+    "validate: exit 0",
+    "calculate: UNKNOWN exit 3, JSON result 120 modules",
+    "report: Markdown written, exit 3",
+    "invalid JSON: exit 2",
+    "electrical failure: exit 1"
+  ]
+}

@@ -1,0 +1,24 @@
+# Реалізація стартового комплекту
+
+| Функція | Core | CLI | Lite | Статус |
+|---|---|---|---|---|
+| Voc/Vmp за температурою | Так | calculate | Inputs/results | IMPLEMENTED |
+| Window/string allocation | Так | calculate | Auto/manual MPPT plan | IMPLEMENTED · heuristic |
+| Isc/Imp на MPPT і входах | Так | calculate | Findings | IMPLEMENTED |
+| DC/AC | Так | calculate | KPI/policy | IMPLEMENTED |
+| DC/AC кабель, ΔU, R(T) | Так | calculate | Feeder table | IMPLEMENTED · preliminary |
+| Derating | Explicit factor | JSON | Editable factor+basis | IMPLEMENTED · no automatic norm tables |
+| Breaker In/Icu | Candidate/check | calculate | Findings | IMPLEMENTED · not full protection |
+| Fuse requirement/rating | Explicit withstand / policy | calculate | Findings | PARTIAL · no inverter backfeed |
+| DC isolator | Nominal candidate | calculate | Result JSON | PARTIAL · device type/voltage checks required |
+| SPD | UNKNOWN finding | calculate | Findings | NOT IMPLEMENTED |
+| Optimizer topology | Schema only | validate | JSON | NOT IMPLEMENTED |
+| BOM | Counts/lengths, no prices | report | Table | IMPLEMENTED · basic |
+| Save/load | Schema | File input | JSON + autosave | IMPLEMENTED |
+| Report | Markdown | report | Markdown / browser print PDF | IMPLEMENTED |
+| Student Mode | Same core | Examples | Three exercises | IMPLEMENTED |
+| UA/EN | IDs/basis English | Report UA/EN | UI UA/EN | IMPLEMENTED · basis technical English |
+| Verified manufacturer catalog | Input supported | Input | JSON | NOT INCLUDED |
+| UA/CZ compliance packs | Input policy | Input | JSON | NOT IMPLEMENTED |
+| PWA/desktop installers | — | — | — | NOT IMPLEMENTED |
+| BESS/economics/CAD/GIS | — | — | — | OUT OF SCOPE / PRIVATE |

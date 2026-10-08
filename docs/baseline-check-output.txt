@@ -1,0 +1,183 @@
+$ pnpm typecheck && pnpm test && pnpm manifest:check && pnpm build && pnpm schema:export && pnpm test:cli
+$ tsc --noEmit
+$ vitest run
+
+ RUN  v4.1.11 /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite
+
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/tz/tests/consumption-profile.test.ts (0 test)
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/stringing.test.ts (0 test)
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/tz/tests/roof-rules.test.ts (0 test)
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/electrical.test.ts (0 test)
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/lightning.test.ts (0 test)
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/oracle-chotycany.test.ts (0 test)
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/teo/lib/equipmentCompatibility.test.ts (0 test)
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/teo/lib/bessElectricalDesign.test.ts (0 test)
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/protection.test.ts (0 test)
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/cables.test.ts (0 test)
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/yield.test.ts (0 test)
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/formula-manifest.test.ts (0 test)
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/electrical-acceptance.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 13 ⎯⎯⎯⎯⎯⎯
+
+ FAIL  _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/cables.test.ts [ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/cables.test.ts ]
+Error: Cannot find module '../../../content/cables/cables.json' imported from /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/_previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/src/cables.ts
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/src/cables.ts:13:1
+     11| import { z } from "zod";
+     12|
+     13| import raw from "../../../content/cables/cables.json" with { type: "js…
+       | ^
+     14|
+     15| export type CableFamily = "PV_DC" | "AC_LV";
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/cables.test.ts:5:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/13]⎯
+
+ FAIL  _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/electrical-acceptance.test.ts [ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/electrical-acceptance.test.ts ]
+Error: Cannot find module './revisions.ts' imported from /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/_previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/src/equipment.ts
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/src/equipment.ts:1:1
+      1| import { contentHash } from "./revisions.ts";
+       | ^
+      2| import { normalizeSolarEdgeCsv } from "./solaredgeCsv.ts";
+      3|
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/electrical-acceptance.test.ts:7:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/13]⎯
+
+ FAIL  _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/electrical.test.ts [ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/electrical.test.ts ]
+Error: Cannot find module '../src/index.ts' imported from /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/_previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/electrical.test.ts
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/electrical.test.ts:5:1
+      3| import path from "node:path";
+      4| import test from "node:test";
+      5| import {
+       | ^
+      6|   normalizeSolarEdgeCsv,
+      7|   runStage2,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/13]⎯
+
+ FAIL  _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/formula-manifest.test.ts [ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/formula-manifest.test.ts ]
+Error: Cannot find module '../src/calc.ts' imported from /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/_previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/formula-manifest.test.ts
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/formula-manifest.test.ts:7:1
+      5| import { fileURLToPath, pathToFileURL } from "node:url";
+      6|
+      7| import { FORMULA_CATALOGUE_VERSION } from "../src/calc.ts";
+       | ^
+      8| import { FORMULA_MANIFEST, FORMULA_MANIFEST_CATALOGUE_VERSION, formula…
+      9|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/13]⎯
+
+ FAIL  _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/lightning.test.ts [ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/lightning.test.ts ]
+Error: Cannot find module '../src/layout.ts' imported from /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/_previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/lightning.test.ts
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/lightning.test.ts:6:1
+      4|
+      5| import type { LocalPoint } from "../src/geometry.ts";
+      6| import { generatePitchedLayout, moduleFootprint } from "../src/layout.…
+       | ^
+      7| import {
+      8|   LightningRulesError,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/13]⎯
+
+ FAIL  _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/oracle-chotycany.test.ts [ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/oracle-chotycany.test.ts ]
+Error: Cannot find module '../src/calc.ts' imported from /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/_previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/oracle-chotycany.test.ts
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/oracle-chotycany.test.ts:7:1
+      5| import { fileURLToPath } from "node:url";
+      6|
+      7| import { runStage1, STANDARD_GRAVITY, type Stage1Input } from "../src/…
+       | ^
+      8| import { runStage2 } from "../src/electrical.ts";
+      9| import { parseFrictionAssumptions, resolveFriction } from "../src/fric…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/13]⎯
+
+ FAIL  _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/protection.test.ts [ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/protection.test.ts ]
+Error: Cannot find module '../../../content/cables/cables.json' imported from /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/_previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/src/cables.ts
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/src/cables.ts:13:1
+     11| import { z } from "zod";
+     12|
+     13| import raw from "../../../content/cables/cables.json" with { type: "js…
+       | ^
+     14|
+     15| export type CableFamily = "PV_DC" | "AC_LV";
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/protection.test.ts:5:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/13]⎯
+
+ FAIL  _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/stringing.test.ts [ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/stringing.test.ts ]
+Error: Cannot find module '../src/consistency.ts' imported from /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/_previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/stringing.test.ts
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/stringing.test.ts:6:1
+      4| import test from "node:test";
+      5|
+      6| import { buildConsistencyReport, canonicalStringId, expectedStringIds,…
+       | ^
+      7| import { createInverter } from "../src/equipment.ts";
+      8| import {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/13]⎯
+
+ FAIL  _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/yield.test.ts [ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/yield.test.ts ]
+Error: ENOENT: no such file or directory, open '/Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/_previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/content/electrical/yield-model.v1.yaml'
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/construct/test/yield.test.ts:9:31
+      7|
+      8| const root = path.resolve(import.meta.dirname, "../../..");
+      9| const model = parseYieldModel(readFileSync(path.join(root, "content/el…
+       |                               ^
+     10| const chotycany = JSON.parse(readFileSync(path.join(root, "fixtures/el…
+     11|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/13]⎯
+
+ FAIL  _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/teo/lib/bessElectricalDesign.test.ts [ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/teo/lib/bessElectricalDesign.test.ts ]
+Error: Cannot find module './selectionSizing' imported from /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/_previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/teo/lib/bessElectricalDesign.ts
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/teo/lib/bessElectricalDesign.ts:1:1
+      1| import {
+       | ^
+      2|   batteryPortVoltageClass,
+      3|   bmsProtocolsOverlap,
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/teo/lib/bessElectricalDesign.test.ts:2:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/13]⎯
+
+ FAIL  _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/teo/lib/equipmentCompatibility.test.ts [ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/teo/lib/equipmentCompatibility.test.ts ]
+Error: Cannot find module './selectionSizing' imported from /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/_previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/teo/lib/equipmentCompatibility.test.ts
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/teo/lib/equipmentCompatibility.test.ts:18:1
+     16|   type PairRule,
+     17| } from "./equipmentCompatibility";
+     18| import { checkBessInverterCompatibility, selectCompatibleHybridConfigu…
+       | ^
+     19| import { assessCandidateAgainstScenario, decideCompatGate } from "./sc…
+     20|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/13]⎯
+
+ FAIL  _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/tz/tests/consumption-profile.test.ts [ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/tz/tests/consumption-profile.test.ts ]
+Error: Cannot find package 'exceljs' imported from /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/_previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/tz/tests/consumption-profile.test.ts
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/tz/tests/consumption-profile.test.ts:1:1
+      1| import ExcelJS from 'exceljs';
+       | ^
+      2| import { describe, expect, it } from 'vitest';
+      3| import {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/13]⎯
+
+ FAIL  _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/tz/tests/roof-rules.test.ts [ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/tz/tests/roof-rules.test.ts ]
+Error: Cannot find module '../../src/server/contracts' imported from /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/_previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/tz/tests/roof-rules.test.ts
+ ❯ _previous_workspace_20261008_160124/OPENPV_SOURCE_RECOVERY/CODE_SAMPLES/tz/tests/roof-rules.test.ts:2:1
+      1| import { describe, expect, it } from 'vitest';
+      2| import { loadContracts } from '../../src/server/contracts';
+       | ^
+      3| import { loadMarkets, type MarketCode } from '../../src/server/contrac…
+      4| import { expressRule } from '../../src/server/contracts/express';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/13]⎯
+
+
+ Test Files  13 failed | 7 passed (20)
+      Tests  157 passed (157)
+   Start at  16:02:04
+   Duration  394ms (transform 980ms, setup 0ms, import 439ms, tests 78ms, environment 1ms)
+
+[ELIFECYCLE] Test failed. See above for more details.
+[ELIFECYCLE] Command failed with exit code 1.

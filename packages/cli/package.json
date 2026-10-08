@@ -1,0 +1,8 @@
+{
+  "name": "@openpv/cli",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "license": "UNLICENSED",
+  "exports": "./src/index.ts"
+}

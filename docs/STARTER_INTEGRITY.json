@@ -1,0 +1,399 @@
+{
+  "manifest": "ARTIFACT_MANIFEST.json",
+  "checked": 98,
+  "failures": [],
+  "results": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "status": "PASS"
+    },
+    {
+      "path": ".gitignore",
+      "status": "PASS"
+    },
+    {
+      "path": ".prettierignore",
+      "status": "PASS"
+    },
+    {
+      "path": "AGENTS.md",
+      "status": "PASS"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "status": "PASS"
+    },
+    {
+      "path": "LICENSE",
+      "status": "PASS"
+    },
+    {
+      "path": "README.md",
+      "status": "PASS"
+    },
+    {
+      "path": "README_EN.md",
+      "status": "PASS"
+    },
+    {
+      "path": "START_DEVELOPMENT.cmd",
+      "status": "PASS"
+    },
+    {
+      "path": "START_DEVELOPMENT.sh",
+      "status": "PASS"
+    },
+    {
+      "path": "Solar_Designer_Lite.html",
+      "status": "PASS"
+    },
+    {
+      "path": "apps/designer-lite/dist/assets/index-Bng2gOxG.css",
+      "status": "PASS"
+    },
+    {
+      "path": "apps/designer-lite/dist/assets/index-Buaxa09K.css",
+      "status": "PASS"
+    },
+    {
+      "path": "apps/designer-lite/dist/assets/index-C5PebmNs.js",
+      "status": "PASS"
+    },
+    {
+      "path": "apps/designer-lite/dist/assets/index-jsX64y-6.js",
+      "status": "PASS"
+    },
+    {
+      "path": "apps/designer-lite/dist/index.html",
+      "status": "PASS"
+    },
+    {
+      "path": "apps/designer-lite/index.html",
+      "status": "PASS"
+    },
+    {
+      "path": "apps/designer-lite/package.json",
+      "status": "PASS"
+    },
+    {
+      "path": "apps/designer-lite/src/main.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "apps/designer-lite/src/style.css",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/cli/src/index.d.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/cli/src/index.js",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/cli/src/index.js.map",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/cables.d.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/cables.js",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/cables.js.map",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/checks.d.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/checks.js",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/checks.js.map",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/fundamentals.d.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/fundamentals.js",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/fundamentals.js.map",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/index.d.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/index.js",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/index.js.map",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/protection.d.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/protection.js",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/protection.js.map",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/strings.d.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/strings.js",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/core/src/strings.js.map",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/schema/src/index.d.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/schema/src/index.js",
+      "status": "PASS"
+    },
+    {
+      "path": "build/packages/schema/src/index.js.map",
+      "status": "PASS"
+    },
+    {
+      "path": "data/equipment/cables.json",
+      "status": "PASS"
+    },
+    {
+      "path": "data/equipment/inverters.json",
+      "status": "PASS"
+    },
+    {
+      "path": "data/equipment/modules.json",
+      "status": "PASS"
+    },
+    {
+      "path": "data/examples/student-50kw.json",
+      "status": "PASS"
+    },
+    {
+      "path": "data/examples/two-planes.json",
+      "status": "PASS"
+    },
+    {
+      "path": "data/policies/teaching.json",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/CONTINUE_IN_CODEX.md",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/FEATURE_MATRIX.md",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/IMPLEMENTATION_REPORT.md",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/NEXT_AI_HANDOFF.md",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/OPEN_SOURCE_BOUNDARY.md",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/RELEASE_CHECKLIST.md",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/SOURCE_PROVENANCE.md",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/START_HERE_UA.md",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/STUDENT_EXERCISES.md",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/browser-smoke-results.json",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/check-output.txt",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/cli-smoke-results.json",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/designer-lite-mobile.png",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/designer-lite-overview.png",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/designer-lite-strings.png",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/example-report.md",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/example-report.pdf",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/example-result.json",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/spec/electrical-v0.1.md",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/spec/formula-manifest.json",
+      "status": "PASS"
+    },
+    {
+      "path": "package.json",
+      "status": "PASS"
+    },
+    {
+      "path": "packages/cli/package.json",
+      "status": "PASS"
+    },
+    {
+      "path": "packages/cli/src/index.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "packages/core/package.json",
+      "status": "PASS"
+    },
+    {
+      "path": "packages/core/src/cables.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "packages/core/src/checks.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "packages/core/src/fundamentals.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "packages/core/src/index.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "packages/core/src/protection.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "packages/core/src/strings.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "packages/schema/package.json",
+      "status": "PASS"
+    },
+    {
+      "path": "packages/schema/project.schema.json",
+      "status": "PASS"
+    },
+    {
+      "path": "packages/schema/src/index.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "status": "PASS"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "status": "PASS"
+    },
+    {
+      "path": "scripts/browser-smoke.mjs",
+      "status": "PASS"
+    },
+    {
+      "path": "scripts/cli-smoke.mjs",
+      "status": "PASS"
+    },
+    {
+      "path": "scripts/export-schema.mjs",
+      "status": "PASS"
+    },
+    {
+      "path": "scripts/formula-manifest.mjs",
+      "status": "PASS"
+    },
+    {
+      "path": "scripts/standalone.mjs",
+      "status": "PASS"
+    },
+    {
+      "path": "tests/differential/spec-regressions.test.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "tests/golden/electrical.test.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "tests/golden/fixtures.json",
+      "status": "PASS"
+    },
+    {
+      "path": "tests/helpers.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "tests/integration/project.test.ts",
+      "status": "PASS"
+    },
+    {
+      "path": "tsconfig.build.json",
+      "status": "PASS"
+    },
+    {
+      "path": "tsconfig.json",
+      "status": "PASS"
+    }
+  ]
+}

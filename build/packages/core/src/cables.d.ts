@@ -1,0 +1,145 @@
+import type { Cable } from "../../schema/src/index.js";
+export type CableInput = {
+    circuit: "DC" | "AC1" | "AC3";
+    ib_a: number | null;
+    in_a: number | null;
+    length_m: number | null | undefined;
+    voltage_v: number | null;
+    required_voltage_v: number | null;
+    conductor_temp_c: number | null | undefined;
+    derating_factor: number | null | undefined;
+    derating_basis: string | null | undefined;
+    drop_limit_pct: number | null | undefined;
+    cos_phi?: number | null;
+};
+export declare function evaluateCable(cable: Cable, input: CableInput): {
+    cable: {
+        id: string;
+        name: string;
+        circuit: "DC" | "AC";
+        material: "Cu" | "Al";
+        section_mm2: number;
+        r20_ohm_km: number;
+        alpha_per_c: number;
+        installation_basis: string;
+        sources: {
+            id: string;
+            label: string;
+            verification: "USER_INPUT" | "UNVERIFIED" | "VERIFIED" | "SYNTHETIC";
+            url?: string | undefined;
+        }[];
+        x_ohm_km?: number | null | undefined;
+        max_voltage_v?: number | null | undefined;
+        max_conductor_temp_c?: number | null | undefined;
+        iz_a?: number | null | undefined;
+    };
+    checks: {
+        id: string;
+        status: "PASS" | "WARN" | "FAIL" | "UNKNOWN" | "NOT_APPLICABLE";
+        demand: number | null;
+        capacity: number | null;
+        unit: string;
+        utilization: number | null;
+        missing: string[];
+        basis: string;
+        source_ids: string[];
+        message_key: string;
+    }[];
+    status: "PASS" | "WARN" | "FAIL" | "UNKNOWN" | "NOT_APPLICABLE";
+    r_ohm_km: number | null;
+    drop_v: number | null;
+    drop_pct: number | null;
+    iz_derated_a: number | null;
+};
+export declare function sizeCable(catalog: Cable[], input: CableInput): {
+    selected: {
+        cable: {
+            id: string;
+            name: string;
+            circuit: "DC" | "AC";
+            material: "Cu" | "Al";
+            section_mm2: number;
+            r20_ohm_km: number;
+            alpha_per_c: number;
+            installation_basis: string;
+            sources: {
+                id: string;
+                label: string;
+                verification: "USER_INPUT" | "UNVERIFIED" | "VERIFIED" | "SYNTHETIC";
+                url?: string | undefined;
+            }[];
+            x_ohm_km?: number | null | undefined;
+            max_voltage_v?: number | null | undefined;
+            max_conductor_temp_c?: number | null | undefined;
+            iz_a?: number | null | undefined;
+        };
+        checks: {
+            id: string;
+            status: "PASS" | "WARN" | "FAIL" | "UNKNOWN" | "NOT_APPLICABLE";
+            demand: number | null;
+            capacity: number | null;
+            unit: string;
+            utilization: number | null;
+            missing: string[];
+            basis: string;
+            source_ids: string[];
+            message_key: string;
+        }[];
+        status: "PASS" | "WARN" | "FAIL" | "UNKNOWN" | "NOT_APPLICABLE";
+        r_ohm_km: number | null;
+        drop_v: number | null;
+        drop_pct: number | null;
+        iz_derated_a: number | null;
+    } | null;
+    candidates: {
+        cable: {
+            id: string;
+            name: string;
+            circuit: "DC" | "AC";
+            material: "Cu" | "Al";
+            section_mm2: number;
+            r20_ohm_km: number;
+            alpha_per_c: number;
+            installation_basis: string;
+            sources: {
+                id: string;
+                label: string;
+                verification: "USER_INPUT" | "UNVERIFIED" | "VERIFIED" | "SYNTHETIC";
+                url?: string | undefined;
+            }[];
+            x_ohm_km?: number | null | undefined;
+            max_voltage_v?: number | null | undefined;
+            max_conductor_temp_c?: number | null | undefined;
+            iz_a?: number | null | undefined;
+        };
+        checks: {
+            id: string;
+            status: "PASS" | "WARN" | "FAIL" | "UNKNOWN" | "NOT_APPLICABLE";
+            demand: number | null;
+            capacity: number | null;
+            unit: string;
+            utilization: number | null;
+            missing: string[];
+            basis: string;
+            source_ids: string[];
+            message_key: string;
+        }[];
+        status: "PASS" | "WARN" | "FAIL" | "UNKNOWN" | "NOT_APPLICABLE";
+        r_ohm_km: number | null;
+        drop_v: number | null;
+        drop_pct: number | null;
+        iz_derated_a: number | null;
+    }[];
+    checks: {
+        id: string;
+        status: "PASS" | "WARN" | "FAIL" | "UNKNOWN" | "NOT_APPLICABLE";
+        demand: number | null;
+        capacity: number | null;
+        unit: string;
+        utilization: number | null;
+        missing: string[];
+        basis: string;
+        source_ids: string[];
+        message_key: string;
+    }[];
+};

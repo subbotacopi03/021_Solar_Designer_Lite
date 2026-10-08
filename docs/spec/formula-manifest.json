@@ -1,0 +1,83 @@
+{
+  "version": "0.1.0",
+  "hash_basis": "Complete UTF-8 source file SHA-256 (conservative change barrier, not approval)",
+  "formulas": [
+    {
+      "id": "PV-TEMP",
+      "path": "packages/core/src/fundamentals.ts",
+      "symbols": [
+        "moduleVoltageAt",
+        "moduleVmpAt"
+      ],
+      "formula": "Vstc × (1 + beta/100 × (Tcell − 25))",
+      "units": "V, %/°C, °C",
+      "sha256": "83563cd6074136c4d539d9e59f314bef5807d33ace52096768957351ea6de403"
+    },
+    {
+      "id": "AC-CURRENT",
+      "path": "packages/core/src/fundamentals.ts",
+      "symbols": [
+        "calculateAcCurrent"
+      ],
+      "formula": "Pout / (k × U × cosPhi); k=√3 or 1",
+      "units": "W, V, A",
+      "sha256": "83563cd6074136c4d539d9e59f314bef5807d33ace52096768957351ea6de403"
+    },
+    {
+      "id": "CABLE-RESISTANCE",
+      "path": "packages/core/src/fundamentals.ts",
+      "symbols": [
+        "resistanceAtTemperature"
+      ],
+      "formula": "R20 × (1 + alpha × (Tconductor − 20))",
+      "units": "Ω/km, 1/°C, °C",
+      "sha256": "83563cd6074136c4d539d9e59f314bef5807d33ace52096768957351ea6de403"
+    },
+    {
+      "id": "VOLTAGE-DROP",
+      "path": "packages/core/src/fundamentals.ts",
+      "symbols": [
+        "voltageDropV"
+      ],
+      "formula": "k × L/1000 × I × (RcosPhi + XsinPhi)",
+      "units": "m, A, Ω/km, V",
+      "sha256": "83563cd6074136c4d539d9e59f314bef5807d33ace52096768957351ea6de403"
+    },
+    {
+      "id": "STRING-RANGE",
+      "path": "packages/core/src/strings.ts",
+      "symbols": [
+        "stringLengthRange",
+        "parallelCapacity",
+        "generateStringPlan",
+        "validateStringPlan"
+      ],
+      "formula": "Nmin=ceil(Vmppt_min/Vmp_hot); Nmax=min(floor(Vlimit/Voc_cold),floor(Vmppt_max/Vmp_cold))",
+      "units": "V, A, modules",
+      "sha256": "2206b20880e76f4111e62e74013606eace4338d91a1fbe1067edb43d09677671"
+    },
+    {
+      "id": "CABLE-SIZING",
+      "path": "packages/core/src/cables.ts",
+      "symbols": [
+        "evaluateCable",
+        "sizeCable"
+      ],
+      "formula": "Ib ≤ In ≤ Iz × derating; ΔU ≤ explicit limit",
+      "units": "A, %, mm²",
+      "sha256": "8bb236ffbfe4a3a8d8dfcd90a23be0e974655f7d220e986680dee85b3bf11e61"
+    },
+    {
+      "id": "PROTECTION",
+      "path": "packages/core/src/protection.ts",
+      "symbols": [
+        "selectStringFuse",
+        "selectDcIsolator",
+        "checkBreakingCapacity"
+      ],
+      "formula": "Explicit manufacturer ratings and policy; unknown backfeed is not assumed",
+      "units": "A, V, kA",
+      "sha256": "b4bdaa031942d9ef5b172f05676d81d7bae3dd385a8fef84c72da056f2ed2725"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+$ pnpm typecheck && pnpm test && pnpm manifest:check && pnpm build && pnpm schema:export && pnpm test:cli
+$ tsc --noEmit
+$ vitest run
+
+ RUN  v4.1.11 /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite
+
+
+ Test Files  3 passed (3)
+      Tests  84 passed (84)
+   Start at  16:02:24
+   Duration  167ms (transform 105ms, setup 0ms, import 206ms, tests 54ms, environment 0ms)
+
+$ node scripts/formula-manifest.mjs
+Formula manifest: 7 entries match
+$ tsc -p tsconfig.build.json && vite build apps/designer-lite && pnpm standalone
+vite v8.3.3 building client environment for production...
+transforming...
+✓ 108 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/designer-lite/dist/index.html                   0.41 kB │ gzip:  0.30 kB
+apps/designer-lite/dist/assets/index-Buaxa09K.css    6.08 kB │ gzip:  1.92 kB
+apps/designer-lite/dist/assets/index-C5PebmNs.js   139.29 kB │ gzip: 41.03 kB
+
+✓ built in 170ms
+$ node scripts/standalone.mjs
+Standalone HTML written; embedded scripts and CSS, no CDN dependencies
+$ node scripts/export-schema.mjs
+Project JSON schema exported (runtime cross-field rules remain in Zod)
+$ node scripts/cli-smoke.mjs
+CLI smoke: 5 checks passed

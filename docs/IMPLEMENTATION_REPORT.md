@@ -1,0 +1,40 @@
+# Звіт реалізації · OpenPV Starter v0.1.0
+
+Створено окремий виконуваний стартовий комплект: schema, pure electrical core, CLI, Designer Lite, synthetic data, regression tests, formula manifest, CI configuration та документація для продовження в Codex.
+
+## Виконана перевірка
+
+| Перевірка | Фактичний результат |
+|---|---|
+| TypeScript typecheck | PASS |
+| Vitest | 84/84 PASS у 3 test files |
+| Formula manifest | 7 entries match |
+| Node/CLI + Vite production build | PASS |
+| Project JSON Schema export | PASS; cross-field validation залишається в Zod |
+| CLI smoke | 5/5 PASS: validate, calculate, report, invalid JSON, electrical FAIL |
+| Browser smoke | 11/11 PASS; 0 JavaScript runtime errors |
+| Автономний HTML через file:// | PASS у Chromium; UI/load/save/report сценарії пройдено |
+| Mobile 390 px | Без горизонтального overflow документа |
+| Print/PDF | 2 сторінки A4, відрендеровано й перевірено візуально |
+
+Докази: check-output.txt, cli-smoke-results.json, browser-smoke-results.json, screenshots та example-report.pdf у docs. Chromium для QA отримано через npm-bundled binary після невдалого standard browser download у цьому середовищі; це не runtime dependency UI.
+
+## Відтворюваний приклад
+
+120 × 585 W = 70 200 W = 70.2 kWp. AC = 50 kW. DC/AC = 70.2/50 = 1.404.
+
+Voc cold = 50 × [1 + (−0.28/100) × (−20 − 25)] = 56.3 V. Nmax = floor(1100/56.3) = 19; Nmin = 6. Автоматичний план: 7 стрінгів, балансування 18 + 6 × 17 = 120 модулів.
+
+AC current = 50 000/(√3 × 400 × 0.95) = 75.96714 A. Номінальний breaker candidate 80 A. На synthetic cable catalog та заданому derating 0.87/довжині 80 m обрано AC candidate 50 mm² з ΔU близько 1.223 %. Цей synthetic candidate не є рекомендацією для будівництва.
+
+Дві площини 60 + 60 дають 8 окремих MPPT/string groups по 15 модулів. Повний проєкт має UNKNOWN, оскільки SPD та повна перевірка захисту не реалізовані; конкретні voltage/current checks мають власні PASS/FAIL.
+
+## Що написано
+
+Увесь deliverable code написано як новий starter за SPEC та selected arithmetic cases. Структуру findings і formula change barrier адаптовано концептуально. Production modules не копіювалися дослівно; raw source recovery не включено. Production Suite repositories не змінено. Попередні логи 286/286 TEO і 221/221 Construct не є результатами нового запуску в цьому комплекті.
+
+## Істотні обмеження
+
+Derating вводиться явно; automatic normative tables не затверджені. Обладнання навчальне, не manufacturer catalog. Generator heuristic, single equipment type/fleet, one string/physical input, no parallel cable autoselection. Optimizer topology, complete fuse/backfeed, full protection/SPD/earthing та UA/CZ compliance не завершені. Немає desktop installer, cloud sync, commercial reports або public release.
+
+License лишається UNLICENSED до рішення власника. Public GitHub/npm не створено і не опубліковано. Це завершений стартовий комплект для подальшої розробки, а не фінальна сертифікована інженерна програма.

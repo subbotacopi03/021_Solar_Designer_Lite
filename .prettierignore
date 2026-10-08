@@ -1,0 +1,11 @@
+node_modules
+build
+apps/designer-lite/dist
+Solar_Designer_Lite.html
+pnpm-lock.yaml
+docs/check-output.txt
+
+_previous_workspace_*/
+_starter_extract_*/
+
+.qa/

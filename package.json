@@ -1,0 +1,38 @@
+{
+  "name": "openpv",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@11.25.0",
+  "scripts": {
+    "dev": "vite apps/designer-lite --host 127.0.0.1",
+    "build": "tsc -p tsconfig.build.json && vite build apps/designer-lite && pnpm standalone",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check": "pnpm typecheck && pnpm test && pnpm manifest:check && pnpm build && pnpm schema:export && pnpm test:cli",
+    "cli": "node build/packages/cli/src/index.js",
+    "manifest:update": "node scripts/formula-manifest.mjs --update",
+    "manifest:check": "node scripts/formula-manifest.mjs",
+    "serve": "vite preview apps/designer-lite --host 127.0.0.1",
+    "schema:export": "node scripts/export-schema.mjs",
+    "test:cli": "node scripts/cli-smoke.mjs",
+    "test:browser": "node scripts/browser-smoke.mjs",
+    "standalone": "node scripts/standalone.mjs"
+  },
+  "dependencies": {
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@sparticuz/chromium": "^153.0.0",
+    "@types/node": "^24.0.0",
+    "playwright": "1.62.1",
+    "prettier": "^3.9.9",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.0",
+    "vitest": "^4.0.0"
+  }
+}

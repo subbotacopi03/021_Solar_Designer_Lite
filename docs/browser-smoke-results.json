@@ -1,0 +1,18 @@
+{
+  "target": "http://127.0.0.1:5173/",
+  "checks": [
+    "Initial demo and 120/120 module allocation",
+    "All eight navigation sections",
+    "Positive beta rejected without replacing project",
+    "Missing beta Vmp leads to UNKNOWN",
+    "Autosave restored and recalculated",
+    "Ukrainian/English UI switch",
+    "JSON import and two-plane allocation",
+    "Engineering report download",
+    "Printable PDF export",
+    "390 px mobile viewport without horizontal document overflow",
+    "No browser runtime errors"
+  ],
+  "passed": 11,
+  "runtime_errors": []
+}
