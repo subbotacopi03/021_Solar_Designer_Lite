@@ -1,91 +1,64 @@
-# План розвитку OpenPV
+# Актуальний план розвитку OpenPV / Solar Designer Lite
 
-Дата: 2026-10-08. Корінь: поточний workspace. Виконання в цій сесії, без зміни архітектури та зовнішніх Solar repositories.
+Оновлено 2026-10-08 для передачі Antigravity. Цей план замінює старі «наступні кроки». Хронологічний попередній план збережено в `history/DEVELOPMENT_PLAN_before_antigravity_20261008.md`, а не видалено. Детальна інструкція виконавцю — [ANTIGRAVITY_HANDOFF.md](ANTIGRAVITY_HANDOFF.md).
 
-Мета: продовжити starter, зберігаючи SPEC-01…10, чисте ядро, спільний pipeline schema → core → CLI/UI/report, UA/EN, Student Mode та save/load. UNKNOWN не підмінювати припущеннями. Залежності й ліцензію не змінювати.
+## Мета й межа готовності
 
-## Початкова карта стану (перевірено код)
+Довести наявну автономну програму до корисної **попередньої електричної перевірки** для форумних користувачів: реальний ручний string-проєкт, зрозумілі результати й прогалини, збереження роботи, переносний JSON і звіт. Не переписувати starter й не розширювати задачу до повного CAD/сертифікованої інженерної системи.
 
-| Статус | Пункт | Файл і доказ |
+Три різні критерії: локальний робочий сценарій уже є; bounded public alpha потребує пілоту й оформлення публічного комплекту; підтверджений підбір реальної установки потребує відсутніх первинних engineering inputs. Software PASS не закриває engineering UNKNOWN. Загальний відсоток і строк останнього критерію зараз не визначені.
+
+## Фактичний стан
+
+| Статус | Результат | Файл / доказ |
 |---|---|---|
-| IMPLEMENTED | Strict schema, signed β, missing inputs | packages/schema/src/index.ts; tests/differential/spec-regressions.test.ts |
-| IMPLEMENTED | Temperature, AC current, R(T), cosφ/X | packages/core/src/fundamentals.ts; tests/golden/electrical.test.ts |
-| IMPLEMENTED | Shared calculation, CLI/report | packages/core/src/index.ts; packages/cli/src/index.ts; 5 CLI smoke cases |
-| IMPLEMENTED | UA/EN, JSON import/export, Student Mode | apps/designer-lite/src/main.ts; scripts/browser-smoke.mjs (поточний запуск ще очікується) |
-| PARTIAL | String generator, manual engineering checks | packages/core/src/strings.ts; greedy/remainder recovery; no completeness proof |
-| PARTIAL | Cable candidates, explicit aggregate derating | packages/core/src/cables.ts; synthetic Iz, no manufacturer installation profile |
-| PARTIAL | Fuse/breaker/isolator candidates | packages/core/src/protection.ts; backfeed/curves/device voltage incomplete |
-| NOT IMPLEMENTED | Real equipment catalog | data/equipment/modules.json та inverters.json: лише SYNTHETIC |
-| NOT IMPLEMENTED | SPD/optimizer topology | protection.ts: spdAssessment UNKNOWN; strings.ts: OPTIMIZER_TOPOLOGY UNKNOWN |
-| BLOCKED | Full UA/CZ compliance | docs/spec/electrical-v0.1.md: full standard text/adoption not verified |
+| IMPLEMENTED | Schema → pure core → CLI/UI/report, SPEC-01…10 | `packages/schema/src/index.ts`, `packages/core/src/index.ts`, `packages/cli/src/index.ts`; golden/differential tests |
+| IMPLEMENTED | 2 exact-SKU PV + 2 string inverter records, sources/units/date, окремі synthetic | `data/equipment/verified/{modules,inverters}.json`, `tests/integration/equipment.test.ts` |
+| IMPLEMENTED | Ручна форма стрінгів, UA/EN, Student Mode, JSON save/load, попередній snapshot | `manual-strings.ts`, `main.ts`, `project-safety-browser-smoke.mjs` |
+| IMPLEMENTED | Захист чернеток/порядку async import, відхилення nonfinite results | `drafts.ts`, `numerical-safety.ts`, `adversarial-browser-smoke.mjs` |
+| IMPLEMENTED | Per-feeder DC/AC траси/BOM й cable candidate inspector | `packages/core/src/routes.ts`, UI `routes.ts`, `cable-inspector.ts`; routes tests |
+| IMPLEMENTED | UA/EN MISSING/PROVIDED/REVIEW без заповнення параметрів | `missing-data-model.ts`, `missing-data-fields.ts`, `missing-data.ts`; 8 unit/18 browser checks |
+| IMPLEMENTED | Visible origin/About/report notices та local review pack | `data/attribution.json`, `about.ts`, `review-pack.mjs`; 6 unit/8 pack checks |
+| PARTIAL | Генератор з bounded recovery, без доказу оптимальності | `packages/core/src/strings.ts`, `tests/differential/allocation.test.ts` |
+| PARTIAL | Manufacturer cables, nominal protection/SPD/DC switch | `cables.ts`, `protection.ts`, `spd.ts`, `dc-switch.ts`; evidence docs, incomplete installation/coordination |
+| BLOCKED | Public author identity/LICENSE та public distribution | `data/attribution.json` null; LICENSE UNLICENSED; рішення власника pending |
+| NOT IMPLEMENTED | Пілот новачка/інженера та підтверджений cross-browser/OS acceptance | Chrome/macOS автоматизовано; інші середовища й human pilot NOT_RUN |
+| BLOCKED | Повний engineering verdict за відсутніх первинних inputs | EQUIPMENT_CATALOG/CABLE_EVIDENCE/PROTECTION_EVIDENCE/SPD_EVIDENCE/DC_SWITCH_EVIDENCE |
 
-## Послідовність і критерії приймання
+Остання перевірена code revision: `fafd5ec`; попередні `5a424fb` (missing data), `30754b1` (adversarial fixes), `aed581e` (manual/attribution). Documentation-only handoff commit іде після них. `pnpm check` PASS178 unit/17files,30CLI,10formula hashes, legal/typecheck/build/standalone/schema; UI matrix103 combined checks дев/file, окремо pack8checks. Це різні suites і повторення середовищ, не111 унікальних користувацьких сценаріїв. Lint NOT_RUN — script/config відсутній.
 
-1. Підготовка: ZIP CRC і path safety; 98 hashes/sizes; резерв з початковим inventory; явні ignores та test scope. Node >=24/pnpm 11.25.0; frozen install; незалежний baseline check та browser smoke. Зберігати журнали невдалих запусків.
-2. Реальне обладнання: data/equipment/verified/modules.json та inverters.json, щонайменше 2 exact SKUs кожного типу. Schema metadata manufacturer/model/source revision/date/units/unknown explanations; офіційні джерела. Не називати весь виріб перевіреним через перевірені окремі поля. βVmp та фізичні limits без джерела = null. Каталог у UI, зміна SKU прибирає старий ручний план, ручне редагування скидає атрибуцію verified. 2 JSON examples; schema/core/CLI/report/UI roundtrip з UNKNOWN та джерелами. Тести exact arithmetic й невідомих параметрів; pnpm check + browser smoke; локальний commit.
-3. Генератор: задокументувати objective: максимізувати розміщені модулі; tie-break — менше стрінгів, детермінований порядок. Додати незалежні контрприклади greedy (змішані MPPT windows/planes/power quotas); bounded constraint search з чесним search-limit finding і без заяви глобальної оптимальності. Manual і auto використовують ті самі checks. Спочатку специфікація/тести, потім код, manifest лише після аналізу; check/browser/docs/commit.
-4. Кабелі: exact manufacturer data й окремі installation/temperature/grouping evidence; жодних generic α/X/Iz. Валідація застосовності derating. R(Tconductor), cosφ/X та один кабель/feeder зберігаються. Незалежна арифметика; unknown provenance блокує доведений вибір. Check/browser/docs/commit.
-5. Захист: окремий module contract для array reverse current + inverter backfeed; device rated voltage, curves/coordination/withstand. Maximum series fuse не є reverse withstand. Невідомі source inputs → UNKNOWN. Незалежні числові regression cases перед зміною формул; check/docs/commit.
-6. SPD: окремий contract для earthing, separation, routing, coordination та manufacturer ratings. LPS boolean не визначає тип SPD. Первинні manuals; неперевірена нормативна вимога UNKNOWN. Check/docs/commit.
+## P0 — прийняти проєкт і відтворити baseline
 
-Поточні обмеження: відсутні βVmp не обчислювати як γ−α в основному pipeline; SMA tracker totals не ділити на число фізичних конекторів. Обидва real examples можуть коректно повертати UNKNOWN/exit 3. Це успішна обробка невідомих даних, а не позитивний engineering verdict.
+Відкрити всю source-папку, прочитати AGENTS/цей план/handoff/spec, перевірити pwd/Git/node/pnpm, `pnpm install --frozen-lockfile`, `pnpm check`. Не розпаковувати starter знову й не пересувати поточний код. Запустити UI та доступні browser suites. Результат — новий запис команд, середовища й PASS/FAIL/NOT_RUN, без підміни історичними logs. Acceptance: core працює, real24module JSON проходить schema, CLI calculate/report зберігають UNKNOWN/exit3, UI має24/24, save/load/report збігаються.
 
-## Виконання 2026-10-08
+## P1 — користувацький пілот і виправлення підтверджених дефектів
 
-Пункти1–3 реалізовано й збережено окремими commits. Пункт4: завершено контракт missing manufacturer data та sourced derating applicability, додано Nexans record/UI/example; повний sizing BLOCKED через відсутні α/reference conductor temperature/applicable derating sources. Незалежно продовжено пункти5–6.
+Спочатку прогнати quick start як новачок без JSON editing: відкрити offline HTML, імпортувати real case, змінити й застосувати ручний план, прочитати FAIL/UNKNOWN/missing guidance, зберегти/відкрити JSON, завантажити звіт. Перевірити наявні браузери/ОС, мобільну ширину, клавіатуру, storage unavailable, draft/import/error/recovery. Додати журнал відтворення й human pilot checklist. Недоступні платформи та відсутність реальних людей позначати NOT_RUN; AI-тестер не є незалежним інженером/новачком.
 
-## Поточна карта після реалізації
+Порядок fixes: втрата роботи/неправильний розрахунок → блокуючі import/apply/save → незрозумілий FAIL/UNKNOWN → responsive/keyboard/report. Кожний дефект: мінімальне відтворення, regression appropriate to risk, точковий fix, checks, UA/EN, документація, локальний commit. Не робити редизайн/перехід на React заради цього етапу.
 
-| Статус | Фактичний результат | Доказ |
-|---|---|---|
-| IMPLEMENTED | Exact SKU field evidence, real/synthetic UI selector, source-preserving examples/report | data/equipment/verified/modules.json, inverters.json; tests/integration/equipment.test.ts; scripts/equipment-browser-smoke.mjs |
-| IMPLEMENTED | Pure core, schema/CLI/UI shared pipeline, SPEC-01…10, save/load/Student Mode/UA/EN | packages/core/src/index.ts; tests/differential/spec-regressions.test.ts; scripts/browser-smoke.mjs |
-| PARTIAL | Allocation improved with bounded recovery; global optimality/completeness not proved | packages/core/src/strings.ts; tests/differential/allocation.test.ts:29/29 і58/58 witnesses, caps/WARN |
-| PARTIAL | Cable manufacturer reference + sourced factors/applicability snapshot; no complete manufacturer sizing | packages/core/src/cables.ts; tests/differential/cable-evidence.test.ts; data/equipment/verified/cables.json |
-| PARTIAL | Full declared backfeed/reverse assessment and independent nominal fuse checks; coordination missing | packages/core/src/protection.ts; tests/differential/backfeed.test.ts; verified/fuses.json |
-| PARTIAL | Separate SPD nominal/context module, no automatic LPS type choice | packages/core/src/spd.ts; tests/differential/spd.test.ts; verified/spds.json |
-| NOT IMPLEMENTED | Parallel cable conditions/selection, optimizer topology | cables.ts single-run selection; strings.ts OPTIMIZER_TOPOLOGY UNKNOWN |
-| BLOCKED | Positive real design and cable sizing with missing coefficients/connector/reference data | EQUIPMENT_CATALOG.md, CABLE_EVIDENCE.md; null catalog fields propagate UNKNOWN |
-| BLOCKED | Complete protection/SPD/national coordination | PROTECTION_EVIDENCE.md, SPD_EVIDENCE.md; explicit UNKNOWN findings; missing curves/site/primary normative inputs |
+Acceptance: записані ОС/browser/version/steps/results, немає відтворених блокуючих дефектів у підтриманих середовищах; новачок сам проходить guide й розрізняє UNKNOWN та дозвіл на монтаж; інженер окремо перевіряє висновки. Незалежну доступну роботу завершити, pending human acceptance зберегти чесно.
 
-Етапи1–3 виконано. Для4–6 виконано всі незалежні nominal/schema/UI/test contracts; повний engineering verdict заблоковано переліченими evidence gaps, а не названо готовим. Наступний етап: manufacturer installation/coordination pack. Acceptance: офіційні missing inputs, applicability до конкретних cable/device/site умов, незалежні арифметичні cases перед формулами, pnpm check та browser flows; UNKNOWN зберігається там, де evidence досі немає. Не вмикати parallel cables або normative green verdict для обходу блокерів.
+## P2 — підготувати public alpha, зберігаючи контроль власника
 
-## Продовження: DC switch-disconnector nominal contract
+Локальний INTERNAL OWNER REVIEW ONLY pack уже готовий: HTML,2examples,UA/EN guides,LICENSE/ATTRIBUTION/notices/metadata,manifest/checksums;12файлів. Не переписувати generator. Перевірити source-history/privacy allowlist, документацію меж, instructions та issue-report template; не видаляти історію, резерви або QA. Окремо погодити з власником публічне ім’я, author/source URLs і повний LICENSE. Не виводити ім’я з account/Git і не додавати telemetry.
 
-Наступна незалежна частина protection: exact ABB OTDC32F2 source-limited candidate, окремі Ue/Ie/category/pole/wiring profiles без підміни Ui/Ith. Acceptance: explicit profile + installation scope; voltage/current/category/wiring independent FAIL; unknown coordination; switch Ie не впливає на cable fuse In; schema/core/CLI/UI/report roundtrip, UA/EN, save/load, manual-edit attribution. Spec → RED arithmetic → implementation → GREEN/manifest/check/browser/review → local commit. Existing manufacturer/coefficient/normative blockers залишаються.
+Після явного рішення власника застосувати metadata/LICENSE, перевірити legal generation/About/footer/CLI+UI reports/standalone й підготувати конкретний public candidate. Не вважати internal pack автоматично public-ready й не знімати його marker просто редагуванням рядка. Перед public artifact потрібні завершені gates RELEASE_CHECKLIST і окреме дозволене завдання. Push/release/зміна ліцензії не дозволені поточним handoff.
 
-DC-switch stage реалізовано: strict optional schema, pure assessment, ABB nominal profile,2 examples, UI/context controls, report/BOM та independent checks. Full installation/coordination лишається UNKNOWN. Критерії software verification і review фіксуються у IMPLEMENTATION_REPORT.md; наступний engineering pack потребує installation/fault/standard evidence.
+Acceptance: право/авторство узгоджені, повні notices збережено, source/history review записаний, чиста інша машина перевірена, SHA/версія й scope задокументовані, жодних приватних materials у дистрибутиві. Неможливо технічно гарантувати незнімний кредит або сповіщення про кожне копіювання; не обіцяти цього.
 
-## Продовження: per-feeder routes
+## P3 — окремий manufacturer installation/coordination етап
 
-Додати dc_routes/ac_routes replacement inputs, exact DC allocation snapshot binding, stale/orphan UNKNOWN, independent AC sizing, route-aware BOM, UA/EN route editor, examples/schema/core/CLI/UI/report/save/load. Common-input compatibility зберегти; не застосовувати неповний override через hidden merge. Acceptance: independent2L DC / L AC arithmetic, distinct inverter sections, null/no-default, stale/orphan/schema regressions, pnpm check і browser dev/file flows. Економна модель виконує ізольований UI module, main agent — engineering schema/core/integration/review.
+Не блокує всю bounded alpha, але блокує підтвердження повної реальної установки. Для кожного нового поля спочатку знайти офіційне exact-SKU джерело, revision/page/table/units/date/applicability та обмеження. Прогалину без джерела лишити null/UNKNOWN. Далі spec → незалежний розрахунковий RED → implementation → review → deliberate manifest → check/CLI/UI/report.
 
-Per-feeder stage виконано:17 regression cases, dc_routes/ac_routes schema, pure routing/quantity helper, individual AC sizing, UI editor і report/export. Review defect ambiguous duplicate IDs відтворено й виправлено; unresolved quantities явно позначено. Thermal/SPEC formulas не змінено; manifest додано лише для routing/quantity helper після GREEN.
+Порядок: PV βVmp/reverse withstand і physical inverter inputs; cable α/reference temperature/installation/temperature/grouping; fault/backfeed/holder/curves/total-clearing coordination; SPD topology/earthing/separation/routing/upstream coordination; DC-switch mounting/thermal/terminal/fault/category applicability. Точні gaps наведено в handoff/evidence docs. Не обирати SPD лише за LPS, не прирівнювати fuse maximum до reverse withstand, не ділити MPPT totals на конектори. Нормативні UA/CZ висновки тільки після перевірки первинних застосовних текстів.
 
-Наступна конкретна незалежна робота: інспектор cable candidates для кожної фактичної лінії (усі rejected/UNKNOWN причини, вхідні умови, джерела й застосовність); він має показувати існуючі core findings, без дублювання обчислень або автоматичного обрання UNKNOWN cable. Acceptance: DC/AC per-feeder selection, known failures alongside missing-data findings, UA/EN, save/load незмінний, keyboard/mobile, CLI/report evidence, pnpm check/browser. Повний manufacturer installation pack залишається BLOCKED на первинних даних, перелічених вище.
+Acceptance кожного завершеного підетапу: field-level official evidence, перевірена застосовність, незалежні boundary/missing/known-FAIL tests, спільний CLI/UI report, save/load й explicit UNKNOWN для решти. Якщо source недоступний — записати BLOCKED і виконати незалежні задачі, не вигадувати defaults.
 
-Inspector stage: existing candidate results показати без нового engineering selection/state. Markdown export додати компактні statuses/R(T)/Iz/drop та всі non-PASS reasons/source IDs; numerical formulas не змінювати. Full project JSON уже містить усі candidate checks.
+## Поза поточним планом
 
-Inspector stage завершено в тій же сесії: existing core candidates, independent line selector, all checks/actual inputs/source metadata, safe HTTP(S) links, UA/EN/native keyboard details/mobile і Markdown non-PASS audit. Fresh software verification наведено в IMPLEMENTATION_REPORT.md. Наступний engineering етап: manufacturer installation/coordination pack із перевіреними missing inputs; поточні missing-data blockers не обходити synthetic чи generic значеннями.
+Parallel cables, optimizer topology, BESS, installers/PWA/npm publishing — окремі майбутні задачі з власними contracts, не привід зараз розширювати scope. Ціни/тарифи/економіка/клієнти/CAD/GIS/private Solar Suite workflows заборонено переносити сюди. Інші Solar repositories не змінювати.
 
-## Користувацький етап і авторство
+## Завершення кожного етапу
 
-Новий scope власника: підготувати корисний обмежений кейс для форумних користувачів, visible origin у програмі/коді й незалежні економні reviews. Оцінка коду, браузера та конкретні acceptance gates — USER_READINESS.md. Публікація/зміна ліцензії не авторизовані цією реалізацією.
-
-Виконано: central attribution metadata, UA/EN About/footer/citation, embedded full Zod/Vite-helper notices, provenance у shared report CLI/UI. Ім’я/URL лишили null до відповіді власника. Додано ручний редактор без JSON, real24-module manual example та CLI/UI/report parity, короткі schema errors. Reviews відтворили й усунули reset без захисту, Markdown injection та silent remap невідомих manual targets. Додано previous-project recovery, guards draft navigation/save та точний reset notice. Formula spec/manifest не змінювалися.
-
-До public alpha три етапи: missing-data guidance; multi-browser + novice/engineer pilot; clean public download pack/rights/identity/history review. Наступна конкретна code робота — missing-data панель із людськими назвами, одиницями, verified source locator і впливом на конкретні checks. Acceptance: існуючі missing arrays core відображаються без нових assumptions/calculations, UA/EN, grouping per field/line, actionable source gaps, real manual case і no-data regression, `pnpm check` та browser. Engineering manufacturer/coordination pack залишається окремо BLOCKED до первинних даних; broad normative features не є умовою preliminary alpha з чіткими межами.
-
-## Завершено: adversarial user-work preservation
-
-2026-10-08:10 економних tester agents,111 baseline observations/3 defect groups; root відтворення→fix→регресії та незалежний postfix review. JSON/native drafts, asyncimport ordering, representable result boundary implemented. Acceptance PASS:164 unit / 30 CLI / 10 manifest та85 browser checks dev/file. Журнал — ADVERSARIAL_TEST_REPORT.md. Lint absent/інші браузери/pilot NOT_RUN. Наступним залишається UA/EN missing-data guidance на actual result/check/source records; не розширювати формули/нормативні claims на основі цього QA.
-
-## Виконано: missing-data guidance
-
-UA/EN панель MISSING/PROVIDED/REVIEW, actual source metadata/units/affected checks і ефективний per-feeder/candidate context без нових формул/defaults. Acceptance software PASS:8unit,9dev+9file browser, full check172unit/30CLI/10manifest. Novice pilot/cross-browser acceptance NOT_RUN. Наступна незалежна робота: allowlist локальний review pack (HTML, UA/EN guide, приклади, існуючий LICENSE/notices/attribution, manifest/checksums); перевірка складу/цілісності й offline відкриття. Public redistribution/push не дозволяти автоматично, доки identity/LICENSE pending. Зовнішній пілот та повні engineering primary data — окремі blockers.
-
-## Виконано: локальний owner-review pack
-
-Allowlist generator/strict verifier, унікальні каталоги без перезапису, CRC/SHA-256, два приклади й UA/EN quick starts. Symlink/outside/traversal/corruption/extra-file guards перевірено6unitcases. Fresh check178unit/30CLI/10manifest PASS;8archive/offline checks PASS. LICENSE/identity не змінювали, pack INTERNAL OWNER REVIEW ONLY.
-
-Наступний конкретний етап — зовнішній пілот: новачок проходить real24module case за quick start; інженер звіряє known FAIL/UNKNOWN, source gaps і report; Windows Chrome/Edge та Safari/Firefox import/save/reload. Acceptance — записані середовища/кроки/зауваження, відтворені дефекти виправлені з регресіями. До отримання цих результатів пілот NOT_RUN. Публічне оформлення потребує owner name/URL/LICENSE та окремого history/release review; missing manufacturer data лишаються UNKNOWN.
+Виконати repository checks і релевантні browser/CLI flows; оновити IMPLEMENTATION_REPORT/NEXT_AI_HANDOFF/цей план; зберегти невдалі run evidence в ignored `.qa`, sanitized summary у docs. Формат статусів PASS/FAIL/NOT_RUN; UNKNOWN описує engineering data, BLOCKED — залежність. Локальний змістовний commit лише project files, без push. Не витрачати ресурс на повторний аудит вже виконаних етапів або запуск десяти агентів заради кількості.

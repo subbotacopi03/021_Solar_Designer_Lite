@@ -24,3 +24,17 @@
 | Окремі DC/AC траси | Full replacements + snapshot/ambiguous/orphan checks | individual-routes example / calculate / report | UA/EN editor + save/load | IMPLEMENTED · per-string / per-inverter, single run only |
 | PWA/desktop installers | — | — | — | NOT IMPLEMENTED |
 | BESS/economics/CAD/GIS | — | — | — | OUT OF SCOPE / PRIVATE |
+
+## Користувацькі доповнення до поточного стану
+
+| Можливість | Статус | Доказ |
+|---|---|---|
+| Native manual plan form + shared checks | IMPLEMENTED | manual-strings.ts; manual browser/integration tests |
+| Applied-project recovery, draft guards, async import ordering | IMPLEMENTED | main.ts/drafts.ts; safety/adversarial browser suites |
+| Nonfinite result rejection, safe report text | IMPLEMENTED | numerical-safety.ts/markdown-text.ts; integration tests |
+| MISSING/PROVIDED/REVIEW UA/EN guidance | IMPLEMENTED | missing-data-model/fields/render; 8unit/18browser checks |
+| Visible software origin/notices | IMPLEMENTED mechanism; personal identity BLOCKED | software-credit.ts/about.ts/data/attribution.json |
+| Internal owner-review ZIP/UAEN guides/checksums | IMPLEMENTED; public release BLOCKED | review-pack.mjs; 6unit/8archive-offline checks |
+| Human pilot/other OS-browser acceptance | NOT RUN | USER_READINESS/ANTIGRAVITY_HANDOFF pilot matrix |
+
+Актуальний порядок доробки — DEVELOPMENT_PLAN.md; старі logs не описують автоматично поточний HEAD.

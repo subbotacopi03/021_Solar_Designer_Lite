@@ -72,3 +72,7 @@ DC-роз’єднувач: додано ABB OTDC32F2 із явним1000V/20A/D
 Короткі інструкції: [українська](docs/QUICK_START_UA.md), [English](docs/QUICK_START_EN.md). `pnpm review:pack` збирає HTML і створює новий allowlist ZIP у ignored `.qa/review-packs/`; для розробника потрібен `zip`. Комплект містить програму, два приклади, UA/EN guides, наявні legal notices, manifest та SHA-256, без резервів/QA/Git. Це **INTERNAL OWNER REVIEW ONLY**, не публічний реліз і не зміна LICENSE.
 
 `pnpm review:verify <розпакована-папка-в-PROJECT_ROOT>` перевіряє склад/розміри/суми. `OPENPV_CHROMIUM_EXECUTABLE=<Chrome> pnpm test:review-pack` додатково перевіряє ZIP через `unzip` та реальний offline import/save/report у fresh browser context. Build/tests не підмінюються checksum-перевіркою; звичайному користувачу Node/zip не потрібні.
+
+## Передача розробки Antigravity
+
+Актуальні пріоритети й acceptance — [DEVELOPMENT_PLAN.md](docs/DEVELOPMENT_PLAN.md), детальний source/test/engineering handoff — [ANTIGRAVITY_HANDOFF.md](docs/ANTIGRAVITY_HANDOFF.md), короткий запуск — [ANTIGRAVITY_START_PROMPT.txt](docs/ANTIGRAVITY_START_PROMPT.txt). Для продовження потрібна вся source-папка; runtime review ZIP містить лише програму й користувацькі матеріали.
