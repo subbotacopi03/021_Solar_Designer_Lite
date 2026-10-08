@@ -13,15 +13,25 @@ export function selectStringFuse(policy, input) {
     const reverse = arrayReverse == null || input.inverter_backfeed_a == null
         ? null
         : arrayReverse + input.inverter_backfeed_a;
+    const knownLowerBound = (arrayReverse ?? 0) + (input.inverter_backfeed_a ?? 0);
     const checks = [];
     const device = input.device;
     if (device) {
-        checks.push(finding("FUSE_FAMILY", device.family === "gPV" ? "PASS" : "FAIL", "Candidate must be a photovoltaic gPV fuse; no substitution by current rating alone"), check("FUSE_DC_VOLTAGE", input.voc_cold_v, device.rated_dc_voltage_v, "V", "Cold string voltage ≤ declared fuse DC voltage", ["voc_cold_v", "rated_dc_voltage_v"]), check("FUSE_BREAKING_CAPACITY", reverse, device.breaking_capacity_a, "A", "Full array + inverter reverse contribution ≤ device DC breaking capacity", ["reverse_current", "breaking_capacity_a"]), finding("FUSE_COORDINATION", "UNKNOWN", "Nominal checks do not prove fault clearing, time-current coordination, holder/pole suitability or total clearing energy", [
+        checks.push(finding("FUSE_FAMILY", device.family === "gPV" ? "PASS" : "FAIL", "Candidate must be a photovoltaic gPV fuse; no substitution by current rating alone"), check("FUSE_DC_VOLTAGE", input.voc_cold_v, device.rated_dc_voltage_v, "V", "Cold string voltage ≤ declared fuse DC voltage", ["voc_cold_v", "rated_dc_voltage_v"]), check("FUSE_BREAKING_CAPACITY", reverse ??
+            (device.breaking_capacity_a != null &&
+                knownLowerBound > device.breaking_capacity_a
+                ? knownLowerBound
+                : null), device.breaking_capacity_a, "A", "Full reverse contribution ≤ device DC breaking capacity; a known nonnegative contribution lower bound can prove FAIL but not PASS", ["reverse_current", "breaking_capacity_a"]), finding("FUSE_COORDINATION", "UNKNOWN", "Nominal checks do not prove fault clearing, time-current coordination, holder/pole suitability or total clearing energy", [
             "time_current_curves",
             "fault_duration",
             "holder_and_poles",
             "cable_withstand",
         ]));
+        checks.push(check("FUSE_MODULE_MAX", device.rated_current_a, input.max_series_fuse_a, "A", "Supplied In ≤ module maximum series fuse, independent of necessity", ["max_series_fuse_a"]), check("FUSE_MIN_RATING", device.rated_current_a, policy.fuse_min_factor == null
+            ? null
+            : policy.fuse_min_factor * input.isc_a, "A", "Supplied In ≥ explicit policy lower bound", ["fuse_min_factor"], "min"), check("FUSE_RATING", device.rated_current_a, policy.fuse_max_factor == null
+            ? null
+            : policy.fuse_max_factor * input.isc_a, "A", "Supplied In ≤ explicit policy upper bound", ["fuse_max_factor"]));
         if (!device.sources.length ||
             device.sources.some((s) => s.verification !== "VERIFIED"))
             checks.push(finding("FUSE_SOURCE", "WARN", "Device ratings require manufacturer evidence"));
@@ -90,7 +100,8 @@ export function selectStringFuse(policy, input) {
     const max = Math.min(policy.fuse_max_factor * input.isc_a, input.max_series_fuse_a);
     const rating = device?.rated_current_a ??
         standardRatingAtLeast(policy.fuse_ratings_a, min);
-    checks.push(check("FUSE_MIN_RATING", rating, min, "A", "Explicit lower fuse factor", [], "min"), check("FUSE_RATING", rating, max, "A", "Explicit policy upper bound and module maximum series-fuse rating"));
+    if (!device)
+        checks.push(check("FUSE_MIN_RATING", rating, min, "A", "Explicit lower fuse factor", [], "min"), check("FUSE_RATING", rating, max, "A", "Explicit policy upper bound and module maximum series-fuse rating"));
     if (rating == null)
         checks.push(finding("FUSE_RATING_AVAILABLE", "FAIL", "No rating available inside explicit fuse range"));
     return {

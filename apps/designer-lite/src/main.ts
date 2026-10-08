@@ -1,4 +1,5 @@
 import "./style.css";
+import realSpds from "../../../data/equipment/verified/spds.json" with { type: "json" };
 import realFuses from "../../../data/equipment/verified/fuses.json" with { type: "json" };
 import realCables from "../../../data/equipment/verified/cables.json" with { type: "json" };
 import teachingCables from "../../../data/equipment/cables.json" with { type: "json" };
@@ -13,6 +14,7 @@ import {
   InverterSchema,
   CableSchema,
   StringFuseDeviceSchema,
+  SpdDeviceSchema,
   type Project,
 } from "../../../packages/schema/src/index.js";
 import {
@@ -224,7 +226,8 @@ function equipmentSources(
     | Project["module"]
     | Project["inverter"]
     | Project["cables"][number]
-    | NonNullable<Project["string_fuse_device"]>,
+    | NonNullable<Project["string_fuse_device"]>
+    | NonNullable<Project["spd_device"]>,
 ) {
   return `<div class="equipment-evidence"><p>${esc(equipment.manufacturer ?? "SYNTHETIC / USER INPUT")} · ${esc(equipment.model ?? equipment.name)}</p>${(equipment.data_notes ?? []).map((n) => `<p class="small">${esc(n)}</p>`).join("")}${equipment.sources.map((s) => `<p class="small">${esc(s.verification)} · ${s.url && /^https?:/.test(s.url) ? `<a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.label)}</a>` : esc(s.label)} · ${esc(s.reviewed_on ?? "UNKNOWN DATE")} · ${esc(s.document_revision ?? "UNKNOWN REVISION")}<br>${esc(s.notes)}</p>`).join("")}</div>`;
 }
@@ -376,7 +379,7 @@ function render() {
   if (tab === "overview")
     content.innerHTML = `<section class="panel"><h2>${lang === "uk" ? "Вихідні дані" : "Project inputs"}</h2><div class="form-grid">${field(x.name, "name", project.name, "text")}${field(x.count + " · " + x.inverter, "inverter_quantity", project.inverter_quantity)}<div><span class="small">${x.module}</span><p>${esc(project.module.name)} · ${project.module.pmax_w} W</p></div></div><h3>${x.planes}</h3>${project.planes.map((p, i) => `<div class="form-grid" style="margin-bottom:16px">${field(x.name, `planes.${i}.name`, p.name, "text")}${field(x.count + " · PV", `planes.${i}.module_count`, p.module_count)}<div class="tools"><button data-remove-plane="${i}" ${project.planes.length === 1 ? "disabled" : ""}>${lang === "uk" ? "Видалити" : "Remove"}</button></div></div>`).join("")}<div class="tools"><button id="addPlane">${x.addPlane}</button><button class="primary" data-tab="strings">${x.next}</button></div></section><section class="panel"><h2>${lang === "uk" ? "Результат ліній" : "Feeder results"}</h2>${cableTable()}</section>${student ? `<div class="banner info">${x.blank}</div>` : ""}`;
   if (tab === "equipment")
-    content.innerHTML = `<section class="panel"><h2>${x.module}</h2>${equipmentSelect("module")}<div class="form-grid">${field(x.name, "module.name", project.module.name, "text")}${["pmax_w", "voc_v", "vmp_v", "isc_a", "imp_a", "beta_voc_pct_c", "beta_vmp_pct_c", "alpha_isc_pct_c", "gamma_pmax_pct_c", "max_system_voltage_v", "max_series_fuse_a", "reverse_current_withstand_a"].map((k) => field(k, "module." + k, (project.module as any)[k])).join("")}</div>${student ? '<p class="small">βVoc, βVmp, γPmax: %/°C (negative). αIsc: %/°C (positive). Vmp &lt; Voc; Imp ≤ Isc.</p>' : ""}</section><section class="panel"><h2>${x.inverter}</h2>${equipmentSelect("inverter")}<div class="form-grid">${field(x.name, "inverter.name", project.inverter.name, "text")}${["ac_power_w", "ac_voltage_v", "max_dc_voltage_v", "max_dc_power_w"].map((k) => field(k, "inverter." + k, (project.inverter as any)[k])).join("")}<label class="field"><span>phases</span><select data-path="inverter.phases" data-number><option ${project.inverter.phases === 1 ? "selected" : ""}>1</option><option ${project.inverter.phases === 3 ? "selected" : ""}>3</option></select></label></div><h3>MPPT · ${project.inverter.mppts.length}</h3>${table(
+    content.innerHTML = `<section class="panel"><h2>${x.module}</h2>${equipmentSelect("module")}<div class="form-grid">${field(x.name, "module.name", project.module.name, "text")}${["pmax_w", "voc_v", "vmp_v", "isc_a", "imp_a", "beta_voc_pct_c", "beta_vmp_pct_c", "alpha_isc_pct_c", "gamma_pmax_pct_c", "max_system_voltage_v", "max_series_fuse_a", "reverse_current_withstand_a"].map((k) => field(k, "module." + k, (project.module as any)[k])).join("")}</div>${student ? '<p class="small">βVoc, βVmp, γPmax: %/°C (negative). αIsc: %/°C (positive). Vmp &lt; Voc; Imp ≤ Isc.</p>' : ""}</section><section class="panel"><h2>${x.inverter}</h2>${equipmentSelect("inverter")}<div class="form-grid">${field(x.name, "inverter.name", project.inverter.name, "text")}${["ac_power_w", "ac_voltage_v", "max_dc_voltage_v", "max_dc_power_w", "max_backfeed_current_a"].map((k) => field(k, "inverter." + k, (project.inverter as any)[k])).join("")}<label class="field"><span>phases</span><select data-path="inverter.phases" data-number><option ${project.inverter.phases === 1 ? "selected" : ""}>1</option><option ${project.inverter.phases === 3 ? "selected" : ""}>3</option></select></label></div><h3>MPPT · ${project.inverter.mppts.length}</h3>${table(
       ["ID", "Vmin", "Vmax", "Imp max, A", "Isc max, A", "Inputs"],
       project.inverter.mppts.map((m) => [
         esc(m.id),
@@ -389,6 +392,8 @@ function render() {
     )}<p class="small">${lang === "uk" ? "Індивідуальні параметри MPPT та sources змінюйте в редакторі JSON." : "Edit individual MPPT parameters and sources in the JSON editor."}</p><button data-tab="json">${x.json}</button></section>`;
   if (tab === "equipment")
     content.innerHTML += `<section class="panel"><h2>${lang === "uk" ? "Кандидат запобіжника gPV" : "gPV fuse candidate"}</h2><label class="field"><span>${lang === "uk" ? "Номінальний кандидат; вибір не означає необхідність або узгодження" : "Nominal candidate; selection does not establish requirement or coordination"}</span><select id="fuseCatalog"><option value="">${lang === "uk" ? "Не задано" : "Not specified"}</option>${realFuses.map((f) => `<option value="${esc(f.id)}" ${project.string_fuse_device?.id === f.id ? "selected" : ""}>${esc(f.name)}</option>`).join("")}</select></label>${project.string_fuse_device ? equipmentSources(project.string_fuse_device) : ""}</section>`;
+  if (tab === "equipment")
+    content.innerHTML += `<section class="panel"><h2>${lang === "uk" ? "Кандидат SPD · окрема перевірка" : "SPD candidate · separate assessment"}</h2><label class="field"><span>${lang === "uk" ? "Тип не визначається лише наявністю LPS" : "LPS presence alone does not determine the type"}</span><select id="spdCatalog"><option value="">${lang === "uk" ? "Не задано" : "Not specified"}</option>${realSpds.map((d) => `<option value="${esc(d.id)}" ${project.spd_device?.id === d.id ? "selected" : ""}>${esc(d.name)}</option>`).join("")}</select></label>${project.spd_device ? equipmentSources(project.spd_device) + table(["Ucpv,V", "UocSTC max,V", "Iscpv,A", "Up,kV", "In,kA8/20", "Iimp,kA10/350"], [[fmt(project.spd_device.ucpv_v), fmt(project.spd_device.max_uoc_stc_v), fmt(project.spd_device.iscpv_a), fmt(project.spd_device.up_kv), fmt(project.spd_device.in_8_20_ka), fmt(project.spd_device.iimp_10_350_ka)]]) : ""}<p class="small">${lang === "uk" ? "Параметри заземлення, separation, трасування та джерела вимоги задайте в JSON. UNKNOWN зберігається до повної координації." : "Enter earthing, separation, routing and requirement sources in JSON. UNKNOWN remains pending complete coordination."}</p><button data-tab="json">${t().json}</button></section>`;
   if (tab === "site")
     content.innerHTML = `<section class="panel"><h2>${lang === "uk" ? "Каталог кабелів" : "Cable catalog"}</h2><label class="field"><span>${lang === "uk" ? "Набір даних" : "Data pack"}</span><select id="cableCatalog"><option value="">${lang === "uk" ? "Поточний набір" : "Current data"}</option><option value="nexans">Nexans ID540479078 · UNKNOWN α / derating</option><option value="teaching">SYNTHETIC · teaching cables</option></select></label>${project.cables
       .filter((c) => c.manufacturer)
@@ -410,7 +415,7 @@ function render() {
   if (tab === "checks")
     content.innerHTML = `<section class="panel"><div class="check-filters">${["ALL", "FAIL", "UNKNOWN", "WARN", "PASS", "NOT_APPLICABLE"].map((s) => `<button data-filter="${s}" class="${filter === s ? "primary" : ""}">${s === "ALL" ? x.all : s} · ${s === "ALL" ? result.checks.length : result.checks.filter((c) => c.status === s).length}</button>`).join("")}</div>${checksTable()}</section>`;
   if (tab === "report")
-    content.innerHTML = `<div class="tools no-print"><button id="print" class="primary">${x.print}</button><button id="reportDownload">${x.exportReport}</button><button id="resultDownload">${x.exportResult}</button></div><article class="report"><h1 class="print-title">Solar Designer Lite · ${esc(project.name)}</h1><section class="panel"><h2>${esc(project.name)}</h2><p>OpenPV ${result.engine_version} · ${badge(result.status)}<br>DC ${fmt(result.dc_power_w / 1000)} kWp / AC ${fmt(result.ac_power_w / 1000)} kW · DC/AC ${fmt(result.dc_ac_ratio, 4)}<br>Tmin ${fmt(project.site.t_min_cell_c)} °C / Tmax cell ${fmt(project.site.t_max_cell_c)} °C</p><p>${x.notice}</p><p>${x.reportNote}</p><h3>${x.equipment}</h3>${equipmentSources(project.module)}${equipmentSources(project.inverter)}<h3>${x.strings}</h3>${planTable()}</section><section class="panel"><h2>${lang === "uk" ? "Кабельні лінії" : "Cable feeders"}</h2>${cableTable()}</section><section class="panel"><h2>BOM</h2>${table(
+    content.innerHTML = `<div class="tools no-print"><button id="print" class="primary">${x.print}</button><button id="reportDownload">${x.exportReport}</button><button id="resultDownload">${x.exportResult}</button></div><article class="report"><h1 class="print-title">Solar Designer Lite · ${esc(project.name)}</h1><section class="panel"><h2>${esc(project.name)}</h2><p>OpenPV ${result.engine_version} · ${badge(result.status)}<br>DC ${fmt(result.dc_power_w / 1000)} kWp / AC ${fmt(result.ac_power_w / 1000)} kW · DC/AC ${fmt(result.dc_ac_ratio, 4)}<br>Tmin ${fmt(project.site.t_min_cell_c)} °C / Tmax cell ${fmt(project.site.t_max_cell_c)} °C</p><p>${x.notice}</p><p>${x.reportNote}</p><h3>${x.equipment}</h3>${equipmentSources(project.module)}${equipmentSources(project.inverter)}${project.string_fuse_device ? equipmentSources(project.string_fuse_device) : ""}${project.spd_device ? equipmentSources(project.spd_device) : ""}<h3>${x.strings}</h3>${planTable()}</section><section class="panel"><h2>${lang === "uk" ? "Кабельні лінії" : "Cable feeders"}</h2>${cableTable()}</section><section class="panel"><h2>BOM</h2>${table(
       [
         lang === "uk" ? "Позиція" : "Item",
         x.count,
@@ -437,6 +442,39 @@ function download(name: string, content: string, type = "application/json") {
   a.download = name;
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function invalidateEquipmentEdit(next: Project, previous: Project): Project {
+  type SourcedEquipment = { sources: Project["module"]["sources"] };
+  const values = (item: SourcedEquipment) => {
+    const { sources, ...data } = item;
+    return JSON.stringify(data);
+  };
+  const invalidate = (
+    item: SourcedEquipment,
+    before: SourcedEquipment | undefined,
+  ) => {
+    if (!before || values(item) !== values(before))
+      item.sources = item.sources.map((source) => ({
+        ...source,
+        verification: "USER_INPUT",
+        reviewed_on: undefined,
+        sha256: undefined,
+        notes:
+          "Equipment edited by user; published source no longer verifies these values.",
+      }));
+  };
+  invalidate(next.module, previous.module);
+  // All catalog equipment has a common source metadata contract.
+  for (const key of ["inverter", "string_fuse_device", "spd_device"] as const) {
+    const item = next[key];
+    if (item) invalidate(item, previous[key]);
+  }
+  for (const cable of next.cables)
+    invalidate(
+      cable,
+      previous.cables.find((c) => c.id === cable.id),
+    );
+  return next;
 }
 function bind() {
   document.querySelectorAll<HTMLButtonElement>("[data-tab]").forEach(
@@ -468,18 +506,14 @@ function bind() {
               : input.type === "number" || input.hasAttribute("data-number")
                 ? Number(input.value)
                 : input.value;
-          if (parts[0] === "module" || parts[0] === "inverter") {
-            clone[parts[0]].sources = clone[parts[0]].sources.map(
-              (source: Project["module"]["sources"][number]) => ({
-                ...source,
-                verification: "USER_INPUT",
-                reviewed_on: undefined,
-                notes:
-                  "Equipment edited by user; published source no longer verifies these values.",
-              }),
+          try {
+            commit(
+              invalidateEquipmentEdit(ProjectSchema.parse(clone), project),
             );
+          } catch (error) {
+            render();
+            toast(String(error));
           }
-          commit(clone);
         }),
     );
   document.querySelectorAll<HTMLButtonElement>("[data-remove-plane]").forEach(
@@ -491,6 +525,14 @@ function bind() {
         commit(p);
       }),
   );
+  document.getElementById("spdCatalog")?.addEventListener("change", (e) => {
+    const id = (e.target as HTMLSelectElement).value;
+    const p = structuredClone(project);
+    const device = realSpds.find((d) => d.id === id);
+    if (device) p.spd_device = SpdDeviceSchema.parse(device);
+    else delete p.spd_device;
+    commit(p);
+  });
   document.getElementById("fuseCatalog")?.addEventListener("change", (e) => {
     const id = (e.target as HTMLSelectElement).value;
     const p = structuredClone(project);
@@ -557,11 +599,12 @@ function bind() {
   );
   on("apply", () => {
     try {
-      commit(
+      const edited = ProjectSchema.parse(
         JSON.parse(
           (document.getElementById("json") as HTMLTextAreaElement).value,
         ),
       );
+      commit(invalidateEquipmentEdit(edited, project));
     } catch (e) {
       toast(String(e));
     }

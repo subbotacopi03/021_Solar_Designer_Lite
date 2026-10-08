@@ -5,6 +5,86 @@ Modules: 120/120
 DC: 70.200 kWp · AC: 50.000 kW · DC/AC: 1.4040
 Tmin cell: -20 °C · Tmax cell: 70 °C
 
+## Обладнання та джерела
+### USER INPUT / SYNTHETIC · Навчальний модуль 585 W
+pmax_w: 585
+voc_v: 50
+vmp_v: 42
+isc_a: 14
+imp_a: 13.2
+beta_voc_pct_c: -0.28
+beta_vmp_pct_c: -0.3
+alpha_isc_pct_c: 0.05
+gamma_pmax_pct_c: -0.35
+max_system_voltage_v: 1100
+max_series_fuse_a: 25
+- SYNTHETIC · Synthetic teaching example, not a manufacturer datasheet · UNKNOWN URL · UNKNOWN DATE · UNKNOWN REVISION ·  ·
+### USER INPUT / SYNTHETIC · Навчальний інвертор 50 kW
+ac_power_w: 50000
+ac_voltage_v: 400
+phases: 3
+max_dc_voltage_v: 1100
+max_dc_power_w: 75000
+max_backfeed_current_a: 0
+MPPT MPPT1: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
+max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
+MPPT MPPT2: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
+max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
+MPPT MPPT3: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
+max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
+MPPT MPPT4: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
+max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
+MPPT MPPT5: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
+max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
+MPPT MPPT6: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
+max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
+MPPT MPPT7: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
+max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
+MPPT MPPT8: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
+max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
+MPPT MPPT9: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
+max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
+MPPT MPPT10: 200–1000 V; Imp 30 A; Isc 30 A; physical inputs 2
+max_current_per_input_a: 15 A; max_isc_per_input_a: 20 A
+- SYNTHETIC · Synthetic teaching example, not a manufacturer datasheet · UNKNOWN URL · UNKNOWN DATE · UNKNOWN REVISION ·  ·
+
+## Кабельні дані та derating
+SYNTHETIC / USER INPUT DC synthetic Cu 4 mm²; R20=4.61 Ω/km; α=0.00393 1/°C; X=UNKNOWN Ω/km; Iz=44 A
+Synthetic test method; must replace with manufacturer values
+SYNTHETIC · Synthetic teaching example, not a manufacturer datasheet · UNKNOWN DATE
+SYNTHETIC / USER INPUT DC synthetic Cu 6 mm²; R20=3.39 Ω/km; α=0.00393 1/°C; X=UNKNOWN Ω/km; Iz=57 A
+Synthetic test method; must replace with manufacturer values
+SYNTHETIC · Synthetic teaching example, not a manufacturer datasheet · UNKNOWN DATE
+SYNTHETIC / USER INPUT DC synthetic Cu 10 mm²; R20=1.95 Ω/km; α=0.00393 1/°C; X=UNKNOWN Ω/km; Iz=79 A
+Synthetic test method; must replace with manufacturer values
+SYNTHETIC · Synthetic teaching example, not a manufacturer datasheet · UNKNOWN DATE
+SYNTHETIC / USER INPUT AC synthetic Cu 6 mm²; R20=3.08 Ω/km; α=0.00393 1/°C; X=0.08 Ω/km; Iz=46 A
+Synthetic test method; must replace with manufacturer values
+SYNTHETIC · Synthetic teaching example, not a manufacturer datasheet · UNKNOWN DATE
+SYNTHETIC / USER INPUT AC synthetic Cu 10 mm²; R20=1.83 Ω/km; α=0.00393 1/°C; X=0.08 Ω/km; Iz=63 A
+Synthetic test method; must replace with manufacturer values
+SYNTHETIC · Synthetic teaching example, not a manufacturer datasheet · UNKNOWN DATE
+SYNTHETIC / USER INPUT AC synthetic Cu 16 mm²; R20=1.15 Ω/km; α=0.00393 1/°C; X=0.08 Ω/km; Iz=85 A
+Synthetic test method; must replace with manufacturer values
+SYNTHETIC · Synthetic teaching example, not a manufacturer datasheet · UNKNOWN DATE
+SYNTHETIC / USER INPUT AC synthetic Cu 25 mm²; R20=0.727 Ω/km; α=0.00393 1/°C; X=0.08 Ω/km; Iz=112 A
+Synthetic test method; must replace with manufacturer values
+SYNTHETIC · Synthetic teaching example, not a manufacturer datasheet · UNKNOWN DATE
+SYNTHETIC / USER INPUT AC synthetic Cu 35 mm²; R20=0.524 Ω/km; α=0.00393 1/°C; X=0.08 Ω/km; Iz=138 A
+Synthetic test method; must replace with manufacturer values
+SYNTHETIC · Synthetic teaching example, not a manufacturer datasheet · UNKNOWN DATE
+SYNTHETIC / USER INPUT AC synthetic Cu 50 mm²; R20=0.387 Ω/km; α=0.00393 1/°C; X=0.08 Ω/km; Iz=168 A
+Synthetic test method; must replace with manufacturer values
+SYNTHETIC · Synthetic teaching example, not a manufacturer datasheet · UNKNOWN DATE
+SYNTHETIC / USER INPUT AC synthetic Cu 70 mm²; R20=0.268 Ω/km; α=0.00393 1/°C; X=0.08 Ω/km; Iz=213 A
+Synthetic test method; must replace with manufacturer values
+SYNTHETIC · Synthetic teaching example, not a manufacturer datasheet · UNKNOWN DATE
+SYNTHETIC / USER INPUT DC synthetic Cu 16 mm²; R20=1.24 Ω/km; α=0.00393 1/°C; X=UNKNOWN Ω/km; Iz=105 A
+Synthetic test method; must replace with manufacturer values
+SYNTHETIC · Synthetic teaching example, not a manufacturer datasheet · UNKNOWN DATE
+DC: {"length_m":30,"conductor_temp_c":90,"derating_factor":0.8,"derating_basis":"Explicit teaching assumption"}
+AC: {"length_m":80,"conductor_temp_c":70,"derating_factor":0.87,"derating_basis":"Explicit teaching assumption"}
+
 ## Стрінги
 | ID | Inverter | MPPT | Plane | Modules |
 |---|---:|---|---|---:|
@@ -17,7 +97,7 @@ Tmin cell: -20 °C · Tmax cell: 70 °C
 | INV1-MPPT7-S1 | 1 | MPPT7 | south | 17 |
 
 ## Перевірки
-- PASS · MODULE_ALLOCATION: 0 / 0 modules — Deterministic heuristic; a failed allocation is not proof that no other configuration exists
+- PASS · MODULE_ALLOCATION: 0 / 0 modules — Deterministic heuristic with bounded recovery; a failed allocation is not proof that no other configuration exists
 - PASS · COUNT:south: 120 / 120 modules — Requested plane count
 - PASS · INV1:DC_POWER: 70200 / 75000 W — Manufacturer max DC power
 - PASS · INV1-MPPT1-S1:VOC_DC: 1013.4000000000001 / 1100 V — Voc(Tmin) × N
@@ -100,49 +180,49 @@ Tmin cell: -20 °C · Tmax cell: 70 °C
 - PASS · ac-demo-50:TEMPERATURE: 70 / 70 °C — Cable temperature rating
 - WARN · ac-demo-50:PROVENANCE: ? / ?  — Catalog ampacity is preliminary; verify datasheet and installation method
 - PASS · AC_BREAKING_CAPACITY: 6 / 10 kA — Prospective fault current ≤ device Icu at actual system voltage
-- NOT_APPLICABLE · INV1-MPPT1-S1:FUSE_REQUIREMENT: ? / ?  — Single string; only array backfeed considered, inverter backfeed must be checked separately
+- NOT_APPLICABLE · INV1-MPPT1-S1:FUSE_REQUIREMENT: ? / ?  — Zero array and explicitly declared inverter backfeed; limited reverse-current assessment only
 - PASS · INV1-MPPT1-S1:dc-demo-4:IB_IN: 17.5 / 17.5 A — Ib ≤ In
 - PASS · INV1-MPPT1-S1:dc-demo-4:IN_IZ: 17.5 / 35.2 A — In ≤ Iz × kT × kg
 - PASS · INV1-MPPT1-S1:dc-demo-4:DROP: 0.9438360629415545 / 1 % — One-way route; R at design conductor temperature
 - PASS · INV1-MPPT1-S1:dc-demo-4:VOLTAGE: 1013.4000000000001 / 1500 V — Rated voltage; confirm conductor-to-earth arrangement
 - PASS · INV1-MPPT1-S1:dc-demo-4:TEMPERATURE: 90 / 90 °C — Cable temperature rating
 - WARN · INV1-MPPT1-S1:dc-demo-4:PROVENANCE: ? / ?  — Catalog ampacity is preliminary; verify datasheet and installation method
-- NOT_APPLICABLE · INV1-MPPT2-S1:FUSE_REQUIREMENT: ? / ?  — Single string; only array backfeed considered, inverter backfeed must be checked separately
+- NOT_APPLICABLE · INV1-MPPT2-S1:FUSE_REQUIREMENT: ? / ?  — Zero array and explicitly declared inverter backfeed; limited reverse-current assessment only
 - PASS · INV1-MPPT2-S1:dc-demo-4:IB_IN: 17.5 / 17.5 A — Ib ≤ In
 - PASS · INV1-MPPT2-S1:dc-demo-4:IN_IZ: 17.5 / 35.2 A — In ≤ Iz × kT × kg
 - PASS · INV1-MPPT2-S1:dc-demo-4:DROP: 0.9993558313498814 / 1 % — One-way route; R at design conductor temperature
 - PASS · INV1-MPPT2-S1:dc-demo-4:VOLTAGE: 957.1 / 1500 V — Rated voltage; confirm conductor-to-earth arrangement
 - PASS · INV1-MPPT2-S1:dc-demo-4:TEMPERATURE: 90 / 90 °C — Cable temperature rating
 - WARN · INV1-MPPT2-S1:dc-demo-4:PROVENANCE: ? / ?  — Catalog ampacity is preliminary; verify datasheet and installation method
-- NOT_APPLICABLE · INV1-MPPT3-S1:FUSE_REQUIREMENT: ? / ?  — Single string; only array backfeed considered, inverter backfeed must be checked separately
+- NOT_APPLICABLE · INV1-MPPT3-S1:FUSE_REQUIREMENT: ? / ?  — Zero array and explicitly declared inverter backfeed; limited reverse-current assessment only
 - PASS · INV1-MPPT3-S1:dc-demo-4:IB_IN: 17.5 / 17.5 A — Ib ≤ In
 - PASS · INV1-MPPT3-S1:dc-demo-4:IN_IZ: 17.5 / 35.2 A — In ≤ Iz × kT × kg
 - PASS · INV1-MPPT3-S1:dc-demo-4:DROP: 0.9993558313498814 / 1 % — One-way route; R at design conductor temperature
 - PASS · INV1-MPPT3-S1:dc-demo-4:VOLTAGE: 957.1 / 1500 V — Rated voltage; confirm conductor-to-earth arrangement
 - PASS · INV1-MPPT3-S1:dc-demo-4:TEMPERATURE: 90 / 90 °C — Cable temperature rating
 - WARN · INV1-MPPT3-S1:dc-demo-4:PROVENANCE: ? / ?  — Catalog ampacity is preliminary; verify datasheet and installation method
-- NOT_APPLICABLE · INV1-MPPT4-S1:FUSE_REQUIREMENT: ? / ?  — Single string; only array backfeed considered, inverter backfeed must be checked separately
+- NOT_APPLICABLE · INV1-MPPT4-S1:FUSE_REQUIREMENT: ? / ?  — Zero array and explicitly declared inverter backfeed; limited reverse-current assessment only
 - PASS · INV1-MPPT4-S1:dc-demo-4:IB_IN: 17.5 / 17.5 A — Ib ≤ In
 - PASS · INV1-MPPT4-S1:dc-demo-4:IN_IZ: 17.5 / 35.2 A — In ≤ Iz × kT × kg
 - PASS · INV1-MPPT4-S1:dc-demo-4:DROP: 0.9993558313498814 / 1 % — One-way route; R at design conductor temperature
 - PASS · INV1-MPPT4-S1:dc-demo-4:VOLTAGE: 957.1 / 1500 V — Rated voltage; confirm conductor-to-earth arrangement
 - PASS · INV1-MPPT4-S1:dc-demo-4:TEMPERATURE: 90 / 90 °C — Cable temperature rating
 - WARN · INV1-MPPT4-S1:dc-demo-4:PROVENANCE: ? / ?  — Catalog ampacity is preliminary; verify datasheet and installation method
-- NOT_APPLICABLE · INV1-MPPT5-S1:FUSE_REQUIREMENT: ? / ?  — Single string; only array backfeed considered, inverter backfeed must be checked separately
+- NOT_APPLICABLE · INV1-MPPT5-S1:FUSE_REQUIREMENT: ? / ?  — Zero array and explicitly declared inverter backfeed; limited reverse-current assessment only
 - PASS · INV1-MPPT5-S1:dc-demo-4:IB_IN: 17.5 / 17.5 A — Ib ≤ In
 - PASS · INV1-MPPT5-S1:dc-demo-4:IN_IZ: 17.5 / 35.2 A — In ≤ Iz × kT × kg
 - PASS · INV1-MPPT5-S1:dc-demo-4:DROP: 0.9993558313498814 / 1 % — One-way route; R at design conductor temperature
 - PASS · INV1-MPPT5-S1:dc-demo-4:VOLTAGE: 957.1 / 1500 V — Rated voltage; confirm conductor-to-earth arrangement
 - PASS · INV1-MPPT5-S1:dc-demo-4:TEMPERATURE: 90 / 90 °C — Cable temperature rating
 - WARN · INV1-MPPT5-S1:dc-demo-4:PROVENANCE: ? / ?  — Catalog ampacity is preliminary; verify datasheet and installation method
-- NOT_APPLICABLE · INV1-MPPT6-S1:FUSE_REQUIREMENT: ? / ?  — Single string; only array backfeed considered, inverter backfeed must be checked separately
+- NOT_APPLICABLE · INV1-MPPT6-S1:FUSE_REQUIREMENT: ? / ?  — Zero array and explicitly declared inverter backfeed; limited reverse-current assessment only
 - PASS · INV1-MPPT6-S1:dc-demo-4:IB_IN: 17.5 / 17.5 A — Ib ≤ In
 - PASS · INV1-MPPT6-S1:dc-demo-4:IN_IZ: 17.5 / 35.2 A — In ≤ Iz × kT × kg
 - PASS · INV1-MPPT6-S1:dc-demo-4:DROP: 0.9993558313498814 / 1 % — One-way route; R at design conductor temperature
 - PASS · INV1-MPPT6-S1:dc-demo-4:VOLTAGE: 957.1 / 1500 V — Rated voltage; confirm conductor-to-earth arrangement
 - PASS · INV1-MPPT6-S1:dc-demo-4:TEMPERATURE: 90 / 90 °C — Cable temperature rating
 - WARN · INV1-MPPT6-S1:dc-demo-4:PROVENANCE: ? / ?  — Catalog ampacity is preliminary; verify datasheet and installation method
-- NOT_APPLICABLE · INV1-MPPT7-S1:FUSE_REQUIREMENT: ? / ?  — Single string; only array backfeed considered, inverter backfeed must be checked separately
+- NOT_APPLICABLE · INV1-MPPT7-S1:FUSE_REQUIREMENT: ? / ?  — Zero array and explicitly declared inverter backfeed; limited reverse-current assessment only
 - PASS · INV1-MPPT7-S1:dc-demo-4:IB_IN: 17.5 / 17.5 A — Ib ≤ In
 - PASS · INV1-MPPT7-S1:dc-demo-4:IN_IZ: 17.5 / 35.2 A — In ≤ Iz × kT × kg
 - PASS · INV1-MPPT7-S1:dc-demo-4:DROP: 0.9993558313498814 / 1 % — One-way route; R at design conductor temperature
@@ -150,7 +230,7 @@ Tmin cell: -20 °C · Tmax cell: 70 °C
 - PASS · INV1-MPPT7-S1:dc-demo-4:TEMPERATURE: 90 / 90 °C — Cable temperature rating
 - WARN · INV1-MPPT7-S1:dc-demo-4:PROVENANCE: ? / ?  — Catalog ampacity is preliminary; verify datasheet and installation method
 - UNKNOWN · SPD: ? / ?  — SPD topology requires earthing system, LPS separation, routing, impulse current and manufacturer coordination. No automatic T1/T2 verdict. · missing: earthing_system, lps_separation, spd_coordination
-- UNKNOWN · PROTECTION_SCOPE: ? / ?  — Full protection design remains outside v0.1: I2 ≤ 1.45 Iz, disconnection time, adiabatic withstand, RCD, DC switch utilization category and inverter backfeed · missing: device_curves, fault_loop, earthing_system, backfeed
+- UNKNOWN · PROTECTION_SCOPE: ? / ?  — Full protection design remains outside v0.1: I2 ≤ 1.45 Iz, disconnection time, adiabatic withstand, RCD, DC switch utilization category and fault-specific inverter backfeed coordination · missing: device_curves, fault_loop, earthing_system, fault_specific_backfeed_coordination
 - WARN · SOURCE:synthetic-demo: ? / ?  — Synthetic teaching example, not a manufacturer datasheet
 - WARN · SOURCE:synthetic-demo: ? / ?  — Synthetic teaching example, not a manufacturer datasheet
 - WARN · SOURCE:teaching-policy: ? / ?  — Explicit teaching policy; not a UA/CZ normative profile
@@ -166,4 +246,4 @@ Tmin cell: -20 °C · Tmax cell: 70 °C
 | AC breaker candidate 80 A | 1 | pcs | Rating candidate; fault and curve checks required |
 
 ## Scope
-AC — окремий однаковий фідер кожного інвертора. DC — окремий кабель кожного стрінгу. Приклади синтетичні; дані ampacity не підтверджені. Повна нормативна перевірка захисту, SPD, заземлення та проєктне погодження не виконані.
+AC — окремий однаковий фідер кожного інвертора. DC — окремий кабель кожного стрінгу. Джерела обладнання наведено вище; навчальні policies та непідтверджені кабельні дані не є нормативним погодженням. Повна нормативна перевірка захисту, SPD, заземлення та проєктне погодження не виконані.

@@ -43,7 +43,7 @@ CLI exit codes: 0 — PASS/WARN або валідна схема; 1 — FAIL; 2 
 - Генератор — детермінована евристика з відновленням малого залишку й обмеженим пошуком альтернатив. Не доводить оптимальність або неможливість альтернативного плану. Ручний план проходить ті самі перевірки.
 - AC — окремий однаковий multicore feeder кожного інвертора; DC — два одножильні провідники кожного стрінгу. Не загальний feeder станції. Довжина — в один бік.
 - Derating вводиться явно з поясненням; автоматичні таблиці UA/CZ не затверджені. Каталог прикладу синтетичний, його Iz не можна використовувати для випуску документації.
-- Fuse та isolator — кандидати; повний захист, RCD, time-current curves, adiabatic withstand, backfeed, SPD, LPS, заземлення, BESS та economics не реалізовані.
+- Fuse та isolator — кандидати. Declared inverter backfeed та nominal fuse/SPD checks реалізовано окремо; повний захист, RCD, time-current curves, adiabatic withstand, SPD topology/LPS/заземлення не завершені. BESS та economics поза scope.
 - Оптимізатори мають схему даних, але topology engine відсутній: UNKNOWN, а не звичайна string перевірка.
 - PDF створюється через друк браузера. Серверний PDF/DOCX, desktop installer, PWA та npm/PyPI publish відсутні.
 
@@ -55,4 +55,4 @@ CLI exit codes: 0 — PASS/WARN або валідна схема; 1 — FAIL; 2 
 
 ## Розвиток 2026-10-08
 
-Додано source-limited exact-SKU каталог Trina/SMA, вибір в UI та приклади `trina-435-sma-8.json` / `trina-440-sma-10.json`. Джерела й UNKNOWN: [docs/EQUIPMENT_CATALOG.md](docs/EQUIPMENT_CATALOG.md). Поточний план і докази: [docs/DEVELOPMENT_PLAN.md](docs/DEVELOPMENT_PLAN.md), [docs/IMPLEMENTATION_REPORT.md](docs/IMPLEMENTATION_REPORT.md).
+Додано source-limited exact-SKU каталог Trina/SMA, Nexans/Eaton/Phoenix candidates, bounded allocation recovery, applicability derating та незалежні nominal protection/SPD checks. Вибір в UI та приклади `trina-435-sma-8.json` / `trina-440-sma-10.json`. Джерела й UNKNOWN: [docs/EQUIPMENT_CATALOG.md](docs/EQUIPMENT_CATALOG.md). Поточний план і докази: [docs/DEVELOPMENT_PLAN.md](docs/DEVELOPMENT_PLAN.md), [docs/IMPLEMENTATION_REPORT.md](docs/IMPLEMENTATION_REPORT.md).

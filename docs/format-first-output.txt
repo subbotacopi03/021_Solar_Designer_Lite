@@ -1,0 +1,6 @@
+Checking formatting...
+[warn] docs/equipment-browser-results.json
+[warn] docs/spec/formula-manifest.json
+[warn] docs/standalone-browser-results.json
+[warn] packages/schema/project.schema.json
+[warn] Code style issues found in 4 files. Run Prettier with --write to fix.

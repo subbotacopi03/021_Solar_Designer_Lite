@@ -1,0 +1,22 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
++ [
++   'ZodError: ZodError'
++ ]
+- []
+
+    at file:///Users/subbota/_%D0%9F%D0%A0%D0%9E%D0%95%D0%9A%D0%A2%D0%98/021_Solar_Designer_Lite/scripts/equipment-browser-smoke.mjs:65:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [ 'ZodError: ZodError' ],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

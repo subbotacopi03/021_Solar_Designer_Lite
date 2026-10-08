@@ -13,3 +13,5 @@ UNKNOWN: α and X not stated; reference conductor temperature for55 A not explic
 Independent tests use α0.00393 only as an explicitly synthetic test fixture:55×.8×.7×1=30.8 A;5.09×[1+.00393×50]=6.090185 Ω/km;2×.02×20×6.090185=4.872148 V. No such α is inserted into the manufacturer record. `source-limited-cable.json` demonstrates valid schema → core/CLI/UI/report with UNKNOWN and null selection.
 
 Further engineering cable selection is BLOCKED on applicable manufacturer resistance temperature data and installation/derating evidence. Existing synthetic candidates remain teaching aids.
+
+Review fix: `derating_evidence.applies_to` містить cable_id, reference_iz_a, reference profile (або null для навчального), exact actual method/ambient/conductor/grouping. Missing snapshot або будь-яка зміна цих умов →DERATING_APPLICABILITY UNKNOWN, selection null. Старі JSON без snapshot залишаються schema-valid, але їхні structured factors не доводять застосовність.

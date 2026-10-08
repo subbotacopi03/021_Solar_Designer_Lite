@@ -1,0 +1,35 @@
+$ pnpm typecheck && pnpm test && pnpm manifest:check && pnpm build && pnpm schema:export && pnpm test:cli
+$ tsc --noEmit
+$ vitest run
+
+ RUN  v4.1.11 /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite
+
+ ❯ tests/differential/spd.test.ts (9 tests | 1 failed) 17ms
+   × known inverter contribution proves SPD failure even when array factor is unknown 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/differential/spd.test.ts > known inverter contribution proves SPD failure even when array factor is unknown
+AssertionError: expected 'UNKNOWN' to be 'FAIL' // Object.is equality
+
+Expected: "FAIL"
+Received: "UNKNOWN"
+
+ ❯ tests/differential/spd.test.ts:121:5
+    119|     core.calculateProject(p).checks.find((c) => c.id.endsWith(":SPD_IS…
+    120|       ?.status,
+    121|   ).toBe("FAIL");
+       |     ^
+    122| });
+    123|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 7 passed (8)
+      Tests  1 failed | 120 passed (121)
+   Start at  16:34:24
+   Duration  262ms (transform 422ms, setup 0ms, import 821ms, tests 158ms, environment 1ms)
+
+[ELIFECYCLE] Test failed. See above for more details.
+[ELIFECYCLE] Command failed with exit code 1.

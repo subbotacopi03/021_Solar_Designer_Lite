@@ -1,0 +1,24 @@
+{
+  "checked_on": "2026-10-08T14:37:03.900Z",
+  "target": "file:///Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/Solar_Designer_Lite.html",
+  "viewports": [1440, 390],
+  "passed": 15,
+  "checks": [
+    "Exact SKU selection, dated provenance and missing beta remain visible",
+    "Rendered and downloaded report retain SKU and source URL",
+    "SKU survives autosave/reload",
+    "Manual equipment edit invalidates verified attribution",
+    "Invalid signed coefficient is rejected without uncaught error or corrupting saved project",
+    "trina-435-sma-8 schema/core/UI import retains UNKNOWN",
+    "trina-440-sma-10 schema/core/UI import retains UNKNOWN",
+    "Manual JSON equipment changes invalidate verified attribution independently of file import",
+    "Bounded recovery example allocates 58/58 across four trackers",
+    "Manufacturer cable pack retains UNKNOWN alpha and sourced report",
+    "Exact fuse candidate voltage check surfaces FAIL in UI",
+    "SPD candidate retains UNKNOWN topology with explicit LPS and sourced report",
+    "English catalog and provenance UI",
+    "390px equipment selection has no horizontal document overflow",
+    "No page or console errors"
+  ],
+  "errors": []
+}

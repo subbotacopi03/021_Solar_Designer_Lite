@@ -1,0 +1,105 @@
+$ vitest run
+
+ RUN  v4.1.11 /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite
+
+ ❯ tests/differential/cable-evidence.test.ts (6 tests | 1 failed) 14ms
+   × derating evidence is bound to its cable, reference and actual conditions 2ms
+ ❯ tests/differential/spd.test.ts (7 tests | 1 failed) 17ms
+   × known array current can prove SPD failure while total backfeed stays unknown 15ms
+ ❯ tests/differential/backfeed.test.ts (10 tests | 4 failed) 18ms
+   × checks supplied fuse current even with backfeed 0 and no proved requirement 4ms
+   × checks supplied fuse current even with backfeed null and no proved requirement 1ms
+   × uses the supplied protective In for cable sizing even if reverse protection is not required 2ms
+   × known array reverse lower bound proves breaking-capacity failure without inventing backfeed 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/differential/backfeed.test.ts > checks supplied fuse current even with backfeed 0 and no proved requirement
+ FAIL  tests/differential/backfeed.test.ts > checks supplied fuse current even with backfeed null and no proved requirement
+AssertionError: expected undefined to be 'FAIL' // Object.is equality
+
+- Expected:
+"FAIL"
+
++ Received:
+undefined
+
+ ❯ tests/differential/backfeed.test.ts:89:66
+     87| it.each([0, null])("checks supplied fuse current even with backfeed %s…
+     88|   const r = selectStringFuse(example().policy, { ...base, inverter_bac…
+     89|   expect(r.checks.find(c => c.id === "FUSE_MODULE_MAX")?.status).toBe(…
+       |                                                                  ^
+     90|   expect(r.checks.find(c => c.id === "FUSE_RATING")?.status).toBe("FAI…
+     91| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  tests/differential/backfeed.test.ts > uses the supplied protective In for cable sizing even if reverse protection is not required
+AssertionError: expected 'PASS' to be 'FAIL' // Object.is equality
+
+Expected: "FAIL"
+Received: "PASS"
+
+ ❯ tests/differential/backfeed.test.ts:96:97
+     94|   p.string_fuse_device = oversized;
+     95|   const r = calculateProject(p);
+     96|   expect(r.dc_lines[0]!.cable.candidates[0]!.checks.find(c => c.id.end…
+       |                                                                                                 ^
+     97| });
+     98| it("known array reverse lower bound proves breaking-capacity failure w…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  tests/differential/backfeed.test.ts > known array reverse lower bound proves breaking-capacity failure without inventing backfeed
+AssertionError: expected 'UNKNOWN' to be 'FAIL' // Object.is equality
+
+Expected: "FAIL"
+Received: "UNKNOWN"
+
+ ❯ tests/differential/backfeed.test.ts:101:73
+     99|   const r = selectStringFuse(example().policy, { ...base, parallel_str…
+    100|   expect(r.reverse_a).toBeNull();
+    101|   expect(r.checks.find(c => c.id === "FUSE_BREAKING_CAPACITY")?.status…
+       |                                                                         ^
+    102| });
+    103|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  tests/differential/cable-evidence.test.ts > derating evidence is bound to its cable, reference and actual conditions
+TypeError: Cannot read properties of undefined (reading 'id')
+ ❯ packages/core/src/cables.ts:195:24
+    193|           ...(reference?.sources ?? []),
+    194|           ...factors.flatMap((e) => e.sources),
+    195|         ].map((s) => s.id),
+       |                        ^
+    196|       ),
+    197|     ];
+ ❯ evaluateCable packages/core/src/cables.ts:195:11
+ ❯ tests/differential/cable-evidence.test.ts:128:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  tests/differential/spd.test.ts > known array current can prove SPD failure while total backfeed stays unknown
+AssertionError: expected 'UNKNOWN' to be 'FAIL' // Object.is equality
+
+Expected: "FAIL"
+Received: "UNKNOWN"
+
+ ❯ tests/differential/spd.test.ts:84:67
+     82|   p.spd_device = { ...device, type: "T2", pv_systems: ["ISOLATED", "GR…
+     83|   const r = core.calculateProject(p);
+     84|   expect(r.checks.find(c => c.id.endsWith(":SPD_ISCPV"))?.status).toBe…
+       |                                                                   ^
+     85| });
+     86|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+
+ Test Files  3 failed | 5 passed (8)
+      Tests  6 failed | 111 passed (117)
+   Start at  16:29:46
+   Duration  253ms (transform 428ms, setup 0ms, import 897ms, tests 165ms, environment 0ms)
+
+[ELIFECYCLE] Test failed. See above for more details.

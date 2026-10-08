@@ -114,17 +114,28 @@ export const FactorEvidenceSchema = z.strictObject({
   basis: z.string().min(1),
   sources: z.array(SourceSchema),
 });
-export const DeratingEvidenceSchema = z.strictObject({
-  temperature: FactorEvidenceSchema,
-  grouping: FactorEvidenceSchema,
-  installation: FactorEvidenceSchema,
-});
 export const AmpacityReferenceSchema = z.strictObject({
   installation_method: z.string().min(1),
   ambient_temp_c: temperature,
   conductor_temp_c: temperature,
   grouped_circuits: count.nullish(),
   sources: z.array(SourceSchema),
+});
+export const DeratingEvidenceSchema = z.strictObject({
+  temperature: FactorEvidenceSchema,
+  grouping: FactorEvidenceSchema,
+  installation: FactorEvidenceSchema,
+  applies_to: z
+    .strictObject({
+      cable_id: z.string().min(1),
+      reference_iz_a: positive,
+      reference: AmpacityReferenceSchema.nullable(),
+      installation_method: z.string().min(1),
+      ambient_temp_c: z.number().finite(),
+      conductor_temp_c: z.number().finite(),
+      grouped_circuits: count,
+    })
+    .optional(),
 });
 export const CableSchema = z.strictObject({
   ...equipmentMetadata,
@@ -212,6 +223,36 @@ export const StringFuseDeviceSchema = z.strictObject({
   total_clearing_i2t_a2s: optionalPositive,
   sources: z.array(SourceSchema),
 });
+const SpdTypeSchema = z.enum(["T1", "T2", "T1+T2"]);
+const DcSystemSchema = z.enum(["ISOLATED", "GROUNDED"]);
+export const SpdDeviceSchema = z.strictObject({
+  ...equipmentMetadata,
+  id: z.string().min(1),
+  name: z.string().min(1),
+  type: SpdTypeSchema,
+  ucpv_v: optionalPositive,
+  max_uoc_stc_v: optionalPositive,
+  iscpv_a: optionalPositive,
+  up_kv: optionalPositive,
+  in_8_20_ka: optionalPositive,
+  imax_8_20_ka: optionalPositive,
+  iimp_10_350_ka: optionalPositive,
+  pv_systems: z.array(DcSystemSchema),
+  sources: z.array(SourceSchema),
+});
+export const SpdContextSchema = z.strictObject({
+  earthing_system: z.string().min(1).nullish(),
+  dc_system: DcSystemSchema.nullish(),
+  lps_present: z.boolean().nullish(),
+  lps_separation_maintained: z.boolean().nullish(),
+  required_type: SpdTypeSchema.nullish(),
+  required_in_8_20_ka: optionalPositive,
+  required_iimp_10_350_ka: optionalPositive,
+  equipment_impulse_withstand_kv: optionalPositive,
+  connection_length_m: nonnegative.nullish(),
+  coordination_basis: z.string().min(1).nullish(),
+  requirement_sources: z.array(SourceSchema),
+});
 export const ProjectSchema = z
   .strictObject({
     schema_version: z.literal("0.1.0"),
@@ -238,6 +279,8 @@ export const ProjectSchema = z
     breaker_icu_ka: optionalPositive,
     manual_strings: z.array(StringConfigurationSchema).max(10000).optional(),
     string_fuse_device: StringFuseDeviceSchema.optional(),
+    spd_device: SpdDeviceSchema.optional(),
+    spd_context: SpdContextSchema.optional(),
   })
   .refine((p) => new Set(p.planes.map((x) => x.id)).size === p.planes.length, {
     message: "Duplicate plane IDs",
@@ -258,3 +301,6 @@ export type Status = EngineeringCheck["status"];
 export type CircuitInput = z.infer<typeof CircuitInputSchema>;
 
 export type StringFuseDevice = z.infer<typeof StringFuseDeviceSchema>;
+
+export type SpdDevice = z.infer<typeof SpdDeviceSchema>;
+export type SpdContext = z.infer<typeof SpdContextSchema>;

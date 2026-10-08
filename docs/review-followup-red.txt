@@ -1,0 +1,50 @@
+$ vitest run
+
+ RUN  v4.1.11 /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite
+
+ ❯ tests/differential/spd.test.ts (9 tests | 1 failed) 16ms
+   × known inverter contribution proves SPD failure even when array factor is unknown 5ms
+ ❯ tests/differential/backfeed.test.ts (12 tests | 1 failed) 23ms
+   × known inverter contribution proves fuse failure even when array factor is unknown 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/differential/backfeed.test.ts > known inverter contribution proves fuse failure even when array factor is unknown
+AssertionError: expected 'UNKNOWN' to be 'FAIL' // Object.is equality
+
+Expected: "FAIL"
+Received: "UNKNOWN"
+
+ ❯ tests/differential/backfeed.test.ts:141:73
+    139|   const r = selectStringFuse(policy, { ...base, parallel_strings: 3, i…
+    140|   expect(r.reverse_a).toBeNull();
+    141|   expect(r.checks.find(c => c.id === "FUSE_BREAKING_CAPACITY")?.status…
+       |                                                                         ^
+    142| });
+    143|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/differential/spd.test.ts > known inverter contribution proves SPD failure even when array factor is unknown
+AssertionError: expected 'UNKNOWN' to be 'FAIL' // Object.is equality
+
+Expected: "FAIL"
+Received: "UNKNOWN"
+
+ ❯ tests/differential/spd.test.ts:114:90
+    112|   p.inverter.max_backfeed_current_a = 2001;
+    113|   p.spd_device = { ...device, type: "T2", pv_systems: ["ISOLATED", "GR…
+    114|   expect(core.calculateProject(p).checks.find(c => c.id.endsWith(":SPD…
+       |                                                                                          ^
+    115| });
+    116|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 6 passed (8)
+      Tests  2 failed | 119 passed (121)
+   Start at  16:33:19
+   Duration  283ms (transform 494ms, setup 0ms, import 1.05s, tests 185ms, environment 0ms)
+
+[ELIFECYCLE] Test failed. See above for more details.

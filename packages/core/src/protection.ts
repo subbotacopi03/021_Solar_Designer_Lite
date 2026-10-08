@@ -39,6 +39,8 @@ export function selectStringFuse(
     arrayReverse == null || input.inverter_backfeed_a == null
       ? null
       : arrayReverse + input.inverter_backfeed_a;
+  const knownLowerBound =
+    (arrayReverse ?? 0) + (input.inverter_backfeed_a ?? 0);
   const checks: EngineeringCheck[] = [];
   const device = input.device;
   if (device) {
@@ -58,10 +60,14 @@ export function selectStringFuse(
       ),
       check(
         "FUSE_BREAKING_CAPACITY",
-        reverse,
+        reverse ??
+          (device.breaking_capacity_a != null &&
+          knownLowerBound > device.breaking_capacity_a
+            ? knownLowerBound
+            : null),
         device.breaking_capacity_a,
         "A",
-        "Full array + inverter reverse contribution ≤ device DC breaking capacity",
+        "Full reverse contribution ≤ device DC breaking capacity; a known nonnegative contribution lower bound can prove FAIL but not PASS",
         ["reverse_current", "breaking_capacity_a"],
       ),
       finding(
@@ -74,6 +80,37 @@ export function selectStringFuse(
           "holder_and_poles",
           "cable_withstand",
         ],
+      ),
+    );
+    checks.push(
+      check(
+        "FUSE_MODULE_MAX",
+        device.rated_current_a,
+        input.max_series_fuse_a,
+        "A",
+        "Supplied In ≤ module maximum series fuse, independent of necessity",
+        ["max_series_fuse_a"],
+      ),
+      check(
+        "FUSE_MIN_RATING",
+        device.rated_current_a,
+        policy.fuse_min_factor == null
+          ? null
+          : policy.fuse_min_factor * input.isc_a,
+        "A",
+        "Supplied In ≥ explicit policy lower bound",
+        ["fuse_min_factor"],
+        "min",
+      ),
+      check(
+        "FUSE_RATING",
+        device.rated_current_a,
+        policy.fuse_max_factor == null
+          ? null
+          : policy.fuse_max_factor * input.isc_a,
+        "A",
+        "Supplied In ≤ explicit policy upper bound",
+        ["fuse_max_factor"],
       ),
     );
     if (
@@ -182,24 +219,25 @@ export function selectStringFuse(
   const rating =
     device?.rated_current_a ??
     standardRatingAtLeast(policy.fuse_ratings_a, min);
-  checks.push(
-    check(
-      "FUSE_MIN_RATING",
-      rating,
-      min,
-      "A",
-      "Explicit lower fuse factor",
-      [],
-      "min",
-    ),
-    check(
-      "FUSE_RATING",
-      rating,
-      max,
-      "A",
-      "Explicit policy upper bound and module maximum series-fuse rating",
-    ),
-  );
+  if (!device)
+    checks.push(
+      check(
+        "FUSE_MIN_RATING",
+        rating,
+        min,
+        "A",
+        "Explicit lower fuse factor",
+        [],
+        "min",
+      ),
+      check(
+        "FUSE_RATING",
+        rating,
+        max,
+        "A",
+        "Explicit policy upper bound and module maximum series-fuse rating",
+      ),
+    );
   if (rating == null)
     checks.push(
       finding(

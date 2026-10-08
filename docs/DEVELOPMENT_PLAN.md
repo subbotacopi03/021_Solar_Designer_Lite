@@ -33,3 +33,19 @@
 ## Виконання 2026-10-08
 
 Пункти1–3 реалізовано й збережено окремими commits. Пункт4: завершено контракт missing manufacturer data та sourced derating applicability, додано Nexans record/UI/example; повний sizing BLOCKED через відсутні α/reference conductor temperature/applicable derating sources. Незалежно продовжено пункти5–6.
+
+## Поточна карта після реалізації
+
+| Статус | Фактичний результат | Доказ |
+|---|---|---|
+| IMPLEMENTED | Exact SKU field evidence, real/synthetic UI selector, source-preserving examples/report | data/equipment/verified/modules.json, inverters.json; tests/integration/equipment.test.ts; scripts/equipment-browser-smoke.mjs |
+| IMPLEMENTED | Pure core, schema/CLI/UI shared pipeline, SPEC-01…10, save/load/Student Mode/UA/EN | packages/core/src/index.ts; tests/differential/spec-regressions.test.ts; scripts/browser-smoke.mjs |
+| PARTIAL | Allocation improved with bounded recovery; global optimality/completeness not proved | packages/core/src/strings.ts; tests/differential/allocation.test.ts:29/29 і58/58 witnesses, caps/WARN |
+| PARTIAL | Cable manufacturer reference + sourced factors/applicability snapshot; no complete manufacturer sizing | packages/core/src/cables.ts; tests/differential/cable-evidence.test.ts; data/equipment/verified/cables.json |
+| PARTIAL | Full declared backfeed/reverse assessment and independent nominal fuse checks; coordination missing | packages/core/src/protection.ts; tests/differential/backfeed.test.ts; verified/fuses.json |
+| PARTIAL | Separate SPD nominal/context module, no automatic LPS type choice | packages/core/src/spd.ts; tests/differential/spd.test.ts; verified/spds.json |
+| NOT IMPLEMENTED | Parallel cable conditions/selection, optimizer topology | cables.ts single-run selection; strings.ts OPTIMIZER_TOPOLOGY UNKNOWN |
+| BLOCKED | Positive real design and cable sizing with missing coefficients/connector/reference data | EQUIPMENT_CATALOG.md, CABLE_EVIDENCE.md; null catalog fields propagate UNKNOWN |
+| BLOCKED | Complete protection/SPD/national coordination | PROTECTION_EVIDENCE.md, SPD_EVIDENCE.md; explicit UNKNOWN findings; missing curves/site/primary normative inputs |
+
+Етапи1–3 виконано. Для4–6 виконано всі незалежні nominal/schema/UI/test contracts; повний engineering verdict заблоковано переліченими evidence gaps, а не названо готовим. Наступний етап: manufacturer installation/coordination pack. Acceptance: офіційні missing inputs, applicability до конкретних cable/device/site умов, незалежні арифметичні cases перед формулами, pnpm check та browser flows; UNKNOWN зберігається там, де evidence досі немає. Не вмикати parallel cables або normative green verdict для обходу блокерів.

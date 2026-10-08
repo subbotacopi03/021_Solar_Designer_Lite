@@ -75,7 +75,9 @@ export function evaluateCable(cable: Cable, input: CableInput) {
       ? null
       : (drop / input.voltage_v) * 100;
   const evidence = input.derating_evidence;
-  const factors = evidence ? Object.values(evidence) : [];
+  const factors = evidence
+    ? [evidence.temperature, evidence.grouping, evidence.installation]
+    : [];
   const factor = evidence
     ? factors.every((e) => e.factor != null)
       ? factors.reduce((product, e) => product * e.factor!, 1)
@@ -118,6 +120,25 @@ export function evaluateCable(cable: Cable, input: CableInput) {
     ),
   ];
   if (evidence) {
+    const applies = evidence.applies_to;
+    const applicable =
+      applies != null &&
+      applies.cable_id === cable.id &&
+      applies.reference_iz_a === cable.iz_a &&
+      JSON.stringify(applies.reference) ===
+        JSON.stringify(cable.ampacity_reference ?? null) &&
+      applies.installation_method === input.installation_method &&
+      applies.ambient_temp_c === input.ambient_temp_c &&
+      applies.conductor_temp_c === input.conductor_temp_c &&
+      applies.grouped_circuits === input.grouped_circuits;
+    checks.push(
+      finding(
+        cable.id + ":DERATING_APPLICABILITY",
+        applicable ? "PASS" : "UNKNOWN",
+        "Factors apply only to the explicit cable/reference and exact actual conditions; changed conditions require new evidence",
+        applicable ? [] : ["applicable_derating_snapshot"],
+      ),
+    );
     if (factor == null) missing.push("derating_evidence.factors");
     if (
       factors.some(

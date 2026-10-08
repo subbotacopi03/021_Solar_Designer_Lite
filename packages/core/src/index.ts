@@ -10,6 +10,8 @@ import {
 } from "./strings.js";
 import { calculateAcCurrent } from "./fundamentals.js";
 import { check, finding, overall } from "./checks.js";
+import { assessSpdCandidate } from "./spd.js";
+export * from "./spd.js";
 import { sizeCable } from "./cables.js";
 import {
   standardRatingAtLeast,
@@ -165,7 +167,9 @@ export function calculateProject(raw: unknown) {
       ...p.dc,
       circuit: "DC",
       ib_a: ib,
-      in_a: fuse.required === null ? null : (fuse.rating_a ?? ib),
+      in_a:
+        p.string_fuse_device?.rated_current_a ??
+        (fuse.required === null ? null : (fuse.rating_a ?? ib)),
       length_m: p.dc.length_m,
       voltage_v: vmp,
       required_voltage_v: voc,
@@ -188,13 +192,58 @@ export function calculateProject(raw: unknown) {
       cable,
     };
   });
+  if (p.spd_device) {
+    const groups = new Map<string, typeof strings>();
+    for (const row of strings) {
+      const key = `INV${row.inverter}:${row.mppt_id}`;
+      groups.set(key, [...(groups.get(key) ?? []), row]);
+    }
+    if (!groups.size) groups.set("PRELIMINARY", []);
+    for (const [key, group] of groups) {
+      const row = group[0],
+        mppt = p.inverter.mppts.find((m) => m.id === row?.mppt_id);
+      const range = mppt ? stringLengthRange(p, mppt) : null;
+      const n = group.length ? Math.max(...group.map((s) => s.modules)) : null;
+      const arrayCurrent =
+        !group.length || p.policy.isc_factor == null
+          ? null
+          : group.length * p.module.isc_a * p.policy.isc_factor;
+      const prospective =
+        !group.length ||
+        p.policy.isc_factor == null ||
+        p.inverter.max_backfeed_current_a == null
+          ? null
+          : group.length * p.module.isc_a * p.policy.isc_factor +
+            p.inverter.max_backfeed_current_a;
+      checks.push(
+        ...assessSpdCandidate({
+          device: p.spd_device,
+          context: p.spd_context,
+          voc_cold_v:
+            n == null || range?.voc_cold_v == null
+              ? null
+              : n * range.voc_cold_v,
+          voc_stc_v: n == null ? null : n * p.module.voc_v,
+          prospective_current_a: prospective,
+          known_current_lower_bound_a: group.length
+            ? (arrayCurrent ?? 0) + (p.inverter.max_backfeed_current_a ?? 0)
+            : null,
+        }).map((c) => ({ ...c, id: key + ":" + c.id })),
+      );
+    }
+  }
   checks.push(
     spdAssessment(),
     finding(
       "PROTECTION_SCOPE",
       "UNKNOWN",
-      "Full protection design remains outside v0.1: I2 ≤ 1.45 Iz, disconnection time, adiabatic withstand, RCD, DC switch utilization category and inverter backfeed",
-      ["device_curves", "fault_loop", "earthing_system", "backfeed"],
+      "Full protection design remains outside v0.1: I2 ≤ 1.45 Iz, disconnection time, adiabatic withstand, RCD, DC switch utilization category and fault-specific inverter backfeed coordination",
+      [
+        "device_curves",
+        "fault_loop",
+        "earthing_system",
+        "fault_specific_backfeed_coordination",
+      ],
     ),
   );
   for (const source of [
@@ -333,6 +382,13 @@ export function projectReport(
           `- ${source.verification} · ${source.label} · ${source.url ?? "UNKNOWN URL"} · ${source.reviewed_on ?? "UNKNOWN DATE"} · ${source.document_revision ?? "UNKNOWN REVISION"} · ${source.locator ?? ""} · ${source.notes ?? ""}`,
       ),
     ]),
+    ...(p.spd_device
+      ? [
+          `\n## ${uk ? "Кандидат SPD" : "SPD candidate"}`,
+          JSON.stringify(p.spd_device),
+          JSON.stringify(p.spd_context ?? "UNKNOWN context"),
+        ]
+      : []),
     ...(p.string_fuse_device
       ? [
           `\n## ${uk ? "Кандидат запобіжника" : "Fuse candidate"}`,

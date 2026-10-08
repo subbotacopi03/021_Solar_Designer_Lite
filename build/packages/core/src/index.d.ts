@@ -1,4 +1,5 @@
 import { type Project, type EngineeringCheck } from "../../schema/src/index.js";
+export * from "./spd.js";
 export * from "./fundamentals.js";
 export * from "./strings.js";
 export * from "./checks.js";

@@ -1,5 +1,5 @@
 {
-  "passed": 16,
+  "passed": 17,
   "checks": [
     "validate: exit 0",
     "calculate: UNKNOWN exit 3, JSON result 120 modules",
@@ -15,6 +15,7 @@
     "constraint recovery: 58/58, per-inverter power quotas, UNKNOWN scope exit 3",
     "source-limited cable: missing alpha/applicability retain UNKNOWN, exit 3",
     "manufacturer fuse voltage: 1069.7 V exceeds1000 V rating, FAIL exit1",
+    "SPD: LPS true alone leaves required type UNKNOWN, exit3",
     "invalid JSON: exit 2",
     "electrical failure: exit 1"
   ]

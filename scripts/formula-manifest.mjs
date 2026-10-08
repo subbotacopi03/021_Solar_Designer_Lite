@@ -56,6 +56,13 @@ const definitions = [
     "A, V, kA",
   ],
 ];
+definitions.push([
+  "SPD-CANDIDATE",
+  "packages/core/src/spd.ts",
+  ["assessSpdCandidate"],
+  "Separate assembly Ucpv/UocSTC/Iscpv/Up and impulse-waveform limits; explicit context, no LPS-only type choice",
+  "V, A, kV, kA8/20µs, kA10/350µs",
+]);
 const manifest = {
   version: "0.1.0",
   hash_basis:

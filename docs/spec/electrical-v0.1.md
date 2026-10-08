@@ -81,3 +81,21 @@ For a worst-case faulted string on one tracker, array reverse contribution=(k−
 Independent cases:3 parallel strings,14 A STC, factor1.25, inverter5 A →2×14×1.25+5=40 A; withstand30 A requires a fuse. Single string with unknown backfeed UNKNOWN; same string with verified0 A backfeed has0 A reverse contribution. Datasheet SMA STP8/10-3AV-40 explicitly declares maximum reverse current into array0 A; synthetic examples declare0 only as a teaching assumption.
 
 A supplied gPV fuse candidate is checked independently for rated DC voltage≥VocCold, rated current inside explicit policy/module series-fuse bounds, and breaking capacity≥total prospective reverse fault current. Missing ratings remain UNKNOWN. Source provenance remains attached. These nominal checks do not establish time-current coordination, low-fault clearing, total clearing energy, holder/pole/application compatibility or regulatory compliance; PROTECTION_SCOPE remains UNKNOWN. Pre-arcing I²t must not be presented as total-clearing I²t.
+
+## SPD candidate module · 2026-10-08
+
+Separate pure SPD module performs necessary nominal checks, not topology selection or regulatory approval. Each occupied inverter/MPPT is assessed independently; trackers are never combined. Device Ucpv is compared with known string VocCold, published maximum UocSTC with actual string VocSTC, Iscpv with explicit design short-circuit current plus full declared inverter backfeed, and device Up with declared equipment impulse withstand as a necessary device-only check (lead voltage not modelled). Device In8/20 and Iimp10/350 cannot be substituted for one another.
+
+Required SPD type must be supplied with requirement sources. LPS presence alone never choosesT1/T2; earthing, DC system, separation, lead length and manufacturer coordination remain explicit. Missing context/source yields UNKNOWN. Even with nominal checks PASS, SPD_SCOPE remains UNKNOWN pending complete lead/routing/coordinated installation assessment and applicable standard verification. T1/T2 combination can satisfy an explicitly statedT1 orT2 nominal type, butT2 cannot satisfyT1.
+
+Manufacturer Phoenix Contact VAL-MS1000DC-PV/2+V,2800628: T2 (IEC/EN family, not UL1CA), Ucpv1170 V, UocSTC≤975 V, Iscpv2000 A (IEC, not UL50 kA SCCR), Up≤3.7 kV, In15 kA8/20, Imax40 kA8/20. Iimp10/350 UNKNOWN. Use the complete assembly, not a replacement plug rated585 V. Independent diagnostic: string UocSTC1000 V and VocCold1100 V passes Ucpv1170 but FAILs the distinct975 V STC limit. No name-based1000 V substitution.
+
+Primary product data and installation guide checked2026-10-08; manufacturer guide is not the full national standard. National requirement source not independently verified remains UNKNOWN.
+
+### Review regressions: independence and evidence applicability (2026-10-08)
+
+A supplied fuse's nominal current must be checked independently against each known module maximum and policy bound before requirement-related returns. DC cable In uses that supplied device rating even if protection necessity is false/unknown. Missing total backfeed remains UNKNOWN, but a nonnegative known array contribution already above fuse breaking capacity or SPD Iscpv proves FAIL; a lower bound within capacity cannot prove PASS.
+
+Structured derating must bind factors to a cable ID, declared reference ampacity/profile and exact actual installation method, ambient/conductor temperatures and circuit count. Missing or changed applicability gives UNKNOWN and prevents selection, without inventing replacement factors. Manual JSON edits of equipment invalidate verified attribution just like form edits; file imports retain explicitly supplied evidence.
+
+Lower-bound clarification: sum every known nonnegative array/inverter contribution; an unknown contribution is not assigned zero in the exact total. Either known contribution may independently prove an overcurrent FAIL. Form validation errors must restore the prior project view and display a message without uncaught exceptions.

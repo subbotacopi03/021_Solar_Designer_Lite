@@ -1,0 +1,43 @@
+[
+  {
+    "id": "phoenix-2800628",
+    "name": "Phoenix Contact VAL-MS1000DC-PV/2+V",
+    "manufacturer": "Phoenix Contact",
+    "model": "2800628",
+    "type": "T2",
+    "ucpv_v": 1170,
+    "max_uoc_stc_v": 975,
+    "iscpv_a": 2000,
+    "up_kv": 3.7,
+    "in_8_20_ka": 15,
+    "imax_8_20_ka": 40,
+    "iimp_10_350_ka": null,
+    "pv_systems": ["ISOLATED", "GROUNDED"],
+    "units": {
+      "ucpv_v": "V DC",
+      "max_uoc_stc_v": "V DC STC",
+      "iscpv_a": "A IEC",
+      "up_kv": "kV",
+      "in_8_20_ka": "kA 8/20 µs",
+      "imax_8_20_ka": "kA 8/20 µs",
+      "iimp_10_350_ka": "kA10/350 µs"
+    },
+    "data_notes": [
+      "UNKNOWN Iimp10/350; do not substitute40kA Imax8/20.",
+      "Required type, earthing, separation, routing and coordination need sourced installation context. LPS presence alone does not select a type.",
+      "Nominal device checks do not establish SPD installation compliance."
+    ],
+    "sources": [
+      {
+        "id": "phoenix-2800628",
+        "label": "Phoenix Contact complete assembly VAL-MS1000DC-PV/2+V2800628",
+        "url": "https://www.phoenixcontact.com/en-in/products/pv-arrester-val-ms-1000dc-pv2v-2800628",
+        "verification": "VERIFIED",
+        "reviewed_on": "2026-10-08",
+        "document_revision": "Online IEC/EN product ratings reviewed2026-10-08",
+        "locator": "PV protective circuit DC voltage side and product type",
+        "notes": "Complete T2 assembly IEC/EN ratings; not UL1CA/50kA and not a585V replacement plug. No national installation requirement verified."
+      }
+    ]
+  }
+]

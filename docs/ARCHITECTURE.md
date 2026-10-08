@@ -14,3 +14,5 @@
 Package manifests are private/source exports in this starter. `pnpm build` emits Node code and declarations under `build/packages`, and static UI under `apps/designer-lite/dist`. Before npm publishing, produce independently bundled package dist, select license, set public exports, add release/versioning and verify package tarballs. These steps are intentionally not represented as completed.
 
 Project version is 0.1.0. Future schema migration must be explicit; unknown schema versions are rejected. No trust in imported results. All consumer apps use validated inputs and the same result aggregation.
+
+Доменні contracts реалізовано окремими pure modules: strings.ts (bounded allocation), cables.ts (source-bound applicability), protection.ts (reverse/current/nominal devices), spd.ts (необхідні nominal/context checks). Full protection/SPD coordination не виводиться з цих номінальних PASS; UNKNOWN збережено.

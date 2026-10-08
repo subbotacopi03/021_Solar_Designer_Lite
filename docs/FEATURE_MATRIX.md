@@ -11,7 +11,7 @@
 | Breaker In/Icu | Candidate/check | calculate | Findings | IMPLEMENTED · not full protection |
 | Fuse requirement/rating | Explicit withstand / policy | calculate | Findings | PARTIAL · explicit inverter backfeed + nominal device checks; curves/coordination UNKNOWN |
 | DC isolator | Nominal candidate | calculate | Result JSON | PARTIAL · device type/voltage checks required |
-| SPD | UNKNOWN finding | calculate | Findings | NOT IMPLEMENTED |
+| SPD | Separate nominal/context checks; topology UNKNOWN | calculate | Candidate selector/findings/report | PARTIAL · source-limited Phoenix2800628; no normative verdict |
 | Optimizer topology | Schema only | validate | JSON | NOT IMPLEMENTED |
 | BOM | Counts/lengths, no prices | report | Table | IMPLEMENTED · basic |
 | Save/load | Schema | File input | JSON + autosave | IMPLEMENTED |

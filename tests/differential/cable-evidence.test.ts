@@ -117,3 +117,32 @@ it("structured derating survives schema/save/load without hidden site defaults",
       .ambient_temp_c,
   ).toBe(60);
 });
+it("derating evidence is bound to its cable, reference and actual conditions", () => {
+  const cable = { ...example().cables[0]!, iz_a: 55 };
+  const i = input();
+  i.derating_evidence = {
+    ...i.derating_evidence!,
+    applies_to: {
+      cable_id: cable.id,
+      reference_iz_a: 55,
+      reference: null,
+      installation_method: "SINGLE_CABLE_OUTDOORS",
+      ambient_temp_c: 60,
+      conductor_temp_c: 70,
+      grouped_circuits: 1,
+    },
+  } as any;
+  expect(
+    evaluateCable(cable, i).checks.find((c) =>
+      c.id.endsWith(":DERATING_APPLICABILITY"),
+    )?.status,
+  ).toBe("PASS");
+  i.ambient_temp_c = 100;
+  i.grouped_circuits = 10;
+  expect(sizeCable([cable], i).selected).toBeNull();
+  expect(
+    evaluateCable(cable, i).checks.find((c) =>
+      c.id.endsWith(":DERATING_APPLICABILITY"),
+    )?.status,
+  ).toBe("UNKNOWN");
+});

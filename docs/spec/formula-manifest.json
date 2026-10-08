@@ -5,10 +5,7 @@
     {
       "id": "PV-TEMP",
       "path": "packages/core/src/fundamentals.ts",
-      "symbols": [
-        "moduleVoltageAt",
-        "moduleVmpAt"
-      ],
+      "symbols": ["moduleVoltageAt", "moduleVmpAt"],
       "formula": "Vstc × (1 + beta/100 × (Tcell − 25))",
       "units": "V, %/°C, °C",
       "sha256": "83563cd6074136c4d539d9e59f314bef5807d33ace52096768957351ea6de403"
@@ -16,9 +13,7 @@
     {
       "id": "AC-CURRENT",
       "path": "packages/core/src/fundamentals.ts",
-      "symbols": [
-        "calculateAcCurrent"
-      ],
+      "symbols": ["calculateAcCurrent"],
       "formula": "Pout / (k × U × cosPhi); k=√3 or 1",
       "units": "W, V, A",
       "sha256": "83563cd6074136c4d539d9e59f314bef5807d33ace52096768957351ea6de403"
@@ -26,9 +21,7 @@
     {
       "id": "CABLE-RESISTANCE",
       "path": "packages/core/src/fundamentals.ts",
-      "symbols": [
-        "resistanceAtTemperature"
-      ],
+      "symbols": ["resistanceAtTemperature"],
       "formula": "R20 × (1 + alpha × (Tconductor − 20))",
       "units": "Ω/km, 1/°C, °C",
       "sha256": "83563cd6074136c4d539d9e59f314bef5807d33ace52096768957351ea6de403"
@@ -36,9 +29,7 @@
     {
       "id": "VOLTAGE-DROP",
       "path": "packages/core/src/fundamentals.ts",
-      "symbols": [
-        "voltageDropV"
-      ],
+      "symbols": ["voltageDropV"],
       "formula": "k × L/1000 × I × (RcosPhi + XsinPhi)",
       "units": "m, A, Ω/km, V",
       "sha256": "83563cd6074136c4d539d9e59f314bef5807d33ace52096768957351ea6de403"
@@ -59,13 +50,10 @@
     {
       "id": "CABLE-SIZING",
       "path": "packages/core/src/cables.ts",
-      "symbols": [
-        "evaluateCable",
-        "sizeCable"
-      ],
+      "symbols": ["evaluateCable", "sizeCable"],
       "formula": "Ib ≤ In ≤ Iz × derating; ΔU ≤ explicit limit",
       "units": "A, %, mm²",
-      "sha256": "cad242480b5966c3a87edd8ec6d0d5b8601d42bd933c1cce3e930429ba8cda2f"
+      "sha256": "6761bba9d2f9f8b2d870b58462bb03926668dd855eb468c83cd8e282bccaa23f"
     },
     {
       "id": "PROTECTION",
@@ -77,7 +65,15 @@
       ],
       "formula": "Explicit manufacturer ratings and policy; unknown backfeed is not assumed",
       "units": "A, V, kA",
-      "sha256": "5ce92ab673b5341be002a19f41ac65cf7f8f9f3d2f9a0b456945ebe9dab60435"
+      "sha256": "f4acb49caa1d21babe49c5361664adb7da59afcac6b2d927b213c12e09680f70"
+    },
+    {
+      "id": "SPD-CANDIDATE",
+      "path": "packages/core/src/spd.ts",
+      "symbols": ["assessSpdCandidate"],
+      "formula": "Separate assembly Ucpv/UocSTC/Iscpv/Up and impulse-waveform limits; explicit context, no LPS-only type choice",
+      "units": "V, A, kV, kA8/20µs, kA10/350µs",
+      "sha256": "19bf94192d19c3348e20308ca7b63f0672d33ca5fed6cd385ecc91ccf68e7d74"
     }
   ]
 }

@@ -70,6 +70,14 @@ try {
   results.push(
     "manufacturer fuse voltage: 1069.7 V exceeds1000 V rating, FAIL exit1",
   );
+  r = run(["calculate", "data/examples/spd-source-limited.json"]);
+  assert.equal(r.status, 3);
+  assert.ok(
+    JSON.parse(r.stdout).checks.some(
+      (c) => c.id.endsWith("SPD_TYPE") && c.status === "UNKNOWN",
+    ),
+  );
+  results.push("SPD: LPS true alone leaves required type UNKNOWN, exit3");
   const bad = join(root, "bad.json");
   writeFileSync(bad, "{");
   r = run(["validate", bad]);

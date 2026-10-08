@@ -12,7 +12,7 @@
 |---|---|---|
 | `pvElectricalDesign.ts`, `stringing.ts` | `packages/core/src/strings.ts` | REWRITE FROM SPEC; independent deterministic heuristic, physical input checks |
 | `cables.ts` | `packages/core/src/cables.ts`, `fundamentals.ts` | REWRITE FROM SPEC; supplied catalog, explicit derating |
-| `protection.ts` | `packages/core/src/protection.ts` | REWRITE FROM SPEC; reverse withstand separated, SPD returns UNKNOWN |
+| `protection.ts` | `packages/core/src/protection.ts` | REWRITE FROM SPEC; reverse withstand separated, nominal SPD checks implemented separately; full coordination UNKNOWN |
 | `cableAndProtectionSizing.ts` | `calculateAcCurrent`, `checkBreakingCapacity` | REWRITE FROM SPEC; no η for given output AC power; no cost-based ranking |
 | `engineeringTrace.ts`, `CalcCheck` shape | `EngineeringCheckSchema` | PORT of result concept, new schema |
 | Formula manifest scripts | `scripts/formula-manifest.mjs` | PORT of change-barrier pattern; full-file SHA-256 rather than copied AST machinery |
@@ -25,3 +25,5 @@ Raw CODE_SAMPLES і вихідні архіви залишаються окре�
 ## Manufacturer evidence 2026-10-08
 
 Офіційні Trina/SMA джерела, exact columns, дата звірки та прогалини: [EQUIPMENT_CATALOG.md](EQUIPMENT_CATALOG.md). Перевірка окремих полів не означає нормативну відповідність або повноту manufacturer catalog. Raw source recovery лишається лише в ignored backup.
+
+Manufacturer field records продовжено офіційними Nexans/Eaton/Phoenix sources: [CABLE_EVIDENCE.md](CABLE_EVIDENCE.md), [PROTECTION_EVIDENCE.md](PROTECTION_EVIDENCE.md), [SPD_EVIDENCE.md](SPD_EVIDENCE.md). Ці product ratings не встановлюють national installation requirements. Missing parameters не заповнено типовими значеннями.

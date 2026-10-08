@@ -79,3 +79,71 @@ it("missing declared backfeed propagates through the shared project pipeline", (
   expect(r.dc_lines[0]!.fuse.required).toBeNull();
   expect(r.checks.flatMap((c) => c.missing)).toContain("inverter_backfeed_a");
 });
+const oversized = {
+  id: "synthetic-50",
+  name: "Synthetic gPV50",
+  family: "gPV",
+  rated_current_a: 50,
+  rated_dc_voltage_v: 1500,
+  breaking_capacity_a: 30,
+  total_clearing_i2t_a2s: null,
+  sources: [],
+};
+it.each([0, null])(
+  "checks supplied fuse current even with backfeed %s and no proved requirement",
+  (backfeed) => {
+    const r = selectStringFuse(example().policy, {
+      ...base,
+      inverter_backfeed_a: backfeed,
+      device: oversized,
+    });
+    expect(r.checks.find((c) => c.id === "FUSE_MODULE_MAX")?.status).toBe(
+      "FAIL",
+    );
+    expect(r.checks.find((c) => c.id === "FUSE_RATING")?.status).toBe("FAIL");
+  },
+);
+it("uses the supplied protective In for cable sizing even if reverse protection is not required", () => {
+  const p = example();
+  p.string_fuse_device = oversized;
+  const r = calculateProject(p);
+  expect(
+    r.dc_lines[0]!.cable.candidates[0]!.checks.find((c) =>
+      c.id.endsWith(":IN_IZ"),
+    )?.status,
+  ).toBe("FAIL");
+});
+it("known array reverse lower bound proves breaking-capacity failure without inventing backfeed", () => {
+  const r = selectStringFuse(example().policy, {
+    ...base,
+    parallel_strings: 3,
+    device: oversized,
+  });
+  expect(r.reverse_a).toBeNull();
+  expect(r.checks.find((c) => c.id === "FUSE_BREAKING_CAPACITY")?.status).toBe(
+    "FAIL",
+  );
+});
+it("an array lower bound inside capacity cannot prove breaking-capacity PASS without backfeed", () => {
+  const r = selectStringFuse(example().policy, {
+    ...base,
+    parallel_strings: 2,
+    device: oversized,
+  });
+  expect(r.checks.find((c) => c.id === "FUSE_BREAKING_CAPACITY")?.status).toBe(
+    "UNKNOWN",
+  );
+});
+it("known inverter contribution proves fuse failure even when array factor is unknown", () => {
+  const policy = { ...example().policy, isc_factor: null };
+  const r = selectStringFuse(policy, {
+    ...base,
+    parallel_strings: 3,
+    inverter_backfeed_a: 40,
+    device: oversized,
+  });
+  expect(r.reverse_a).toBeNull();
+  expect(r.checks.find((c) => c.id === "FUSE_BREAKING_CAPACITY")?.status).toBe(
+    "FAIL",
+  );
+});
