@@ -1,19 +1,43 @@
-# OpenPV / Solar Designer Lite v0.1
+# OpenPV · Solar Designer Lite
 
-A working local-first TypeScript starter: runtime project schemas, pure PV electrical calculations, CLI, a Ukrainian/English browser UI, synthetic examples, formula manifest and regression tests.
+An open tool for preliminary electrical checks of PV plants with string inverters. Runs offline in the browser, no installation, Ukrainian and English UI. [Українська версія](README.md).
+
+> Preliminary engineering calculation for PV designers, not approved design documentation. No UA/CZ normative compliance is claimed. Real installations require primary manufacturer data and an independent engineering review.
+
+## Download and start
+
+1. Download `Solar_Designer_Lite.html` from [Releases](https://github.com/subbotacopi03/021_Solar_Designer_Lite/releases) (or from the repository root).
+2. Open it with a double click. No Node, server or internet needed; data stays in your browser.
+3. Click "Open JSON" and select `data/examples/trina435-manual24.json`.
+4. Step-by-step guide: [docs/QUICK_START_EN.md](docs/QUICK_START_EN.md).
+
+## Features
+
+- Temperature-corrected Voc/Vmp, MPPT window, module and inverter voltage limits.
+- Automatic string allocation and a manual plan validated by the same checks.
+- Separate Isc/Imp, MPPT total and physical-input checks.
+- Per-string DC and per-inverter AC lines: current, R(T), voltage drop, preliminary cable sizing.
+- Nominal fuse, reverse-current, SPD and DC switch-disconnector checks.
+- Electrical BOM without prices, Markdown/PDF report, Student Mode.
+- Sourced exact-SKU equipment records: [docs/EQUIPMENT_CATALOG.md](docs/EQUIPMENT_CATALOG.md).
+
+Missing inputs produce UNKNOWN; the program never fills them with typical values. A known FAIL stays FAIL even when other data is missing.
+
+## Limits of v0.1
+
+One module and inverter type per project, one string per physical input, heuristic (not proven optimal) allocation, no parallel cables, manual derating, no full protection coordination, SPD topology, optimizers, BESS or economics. See [the specification](docs/spec/electrical-v0.1.md) and [architecture](docs/ARCHITECTURE.md).
+
+## Development
 
 ```bash
-pnpm install --frozen-lockfile
+pnpm install --frozen-lockfile   # Node 24, pnpm 11.25.0
 pnpm check
 pnpm dev
+pnpm build && pnpm cli calculate data/examples/student-50kw.json
 ```
 
-Node 24, pnpm 11.25.0. Run `pnpm build` before CLI use: `pnpm cli calculate data/examples/student-50kw.json`. UNKNOWN returns exit code 3. The UI supports project JSON save/load, manual strings, checks, BOM, Markdown report and browser print/PDF.
+CLI exit codes: 0 PASS/WARN, 1 FAIL, 2 input/JSON error, 3 UNKNOWN.
 
-Preliminary design only. Synthetic catalog ampacities are unverified. Explicit cell/conductor temperatures, derating and policy are required. No hidden datasheet defaults. Separate Isc/Imp and physical-input limits. One string per physical input. Generator is a deterministic heuristic, not an optimal solver.
+## Contributing and license
 
-Optimizer topology, complete protection/SPD/earthing, national compliance profiles, BESS, commercial finance, installers and public package publishing are not implemented. See the Ukrainian specification and handoff for exact scope. Licensed under the Mozilla Public License 2.0 (see LICENSE); the project is not yet published; no proprietary Solar Suite code samples are bundled.
-
-Manufacturer field evidence now includes two Trina PV SKUs and two SMA string inverter SKUs, plus source-limited Nexans cable, Eaton fuse and Phoenix SPD candidates. Real/synthetic selectors, dated sources and missing-data explanations survive schema/core/CLI/UI/report. Bounded allocation recovery fixes independent29/29 and58/58 counterexamples without claiming global optimality. Structured derating binds evidence to exact cable/reference/site conditions; nominal fuse/SPD failures remain independent of unknown coordination. See docs/IMPLEMENTATION_REPORT.md for current verification and blockers.
-
-DC switch-disconnector candidates now use an explicitly selected operational Ue/Ie/category/pole/wiring profile. ABB OTDC32F2 is20A at1000V DC-21B; its model name, Ui and Ith are not substitutes. Per-string nominal checks are separate from still-unknown installation/fault coordination. See docs/DC_SWITCH_EVIDENCE.md.
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [Issues](https://github.com/subbotacopi03/021_Solar_Designer_Lite/issues). Licensed under the [Mozilla Public License 2.0](LICENSE). Attribution: [ATTRIBUTION.md](ATTRIBUTION.md). No telemetry.

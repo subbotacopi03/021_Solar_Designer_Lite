@@ -31,7 +31,8 @@
     "test:missing:browser": "node scripts/missing-data-browser-smoke.mjs",
     "review:pack": "pnpm build && node scripts/review-pack.mjs",
     "review:verify": "node scripts/review-pack.mjs --verify",
-    "test:review-pack": "node scripts/review-pack-smoke.mjs"
+    "test:review-pack": "node scripts/review-pack-smoke.mjs",
+    "public:export": "node scripts/public-export.mjs"
   },
   "dependencies": {
     "zod": "4.6.5"

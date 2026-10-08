@@ -1,8 +1,46 @@
 # OpenPV · Solar Designer Lite
 
-Працюючий стартовий комплект v0.1: PV electrical core, runtime schema, CLI та локальний калькулятор українською й англійською. Це попередній розрахунок, а не погоджена проєктна документація.
+Відкритий інструмент попередньої електричної перевірки сонячних електростанцій зі стрінговими інверторами. Працює в браузері без інтернету та встановлення, українською й англійською. [English version](README_EN.md).
 
-## Запуск
+> Це попередній розрахунок для інженера-проєктувальника, а не погоджена проєктна документація. Програма не підтверджує відповідність нормам UA/CZ. Перед реальним монтажем потрібні первинні дані виробників і незалежна інженерна перевірка.
+
+## Завантажити й почати
+
+1. Відкрийте [Releases](https://github.com/subbotacopi03/021_Solar_Designer_Lite/releases) і завантажте `Solar_Designer_Lite.html` (або візьміть файл з кореня репозиторію).
+2. Відкрийте його подвійним кліком у браузері. Node, сервер та інтернет не потрібні; дані лишаються у вашому браузері.
+3. Натисніть «Відкрити JSON» і виберіть приклад `data/examples/trina435-manual24.json` (Trina TSM-435NEG9R.28 + SMA STP8.0-3AV-40, два стрінги по 12 модулів).
+4. Покрокова інструкція: [docs/QUICK_START_UA.md](docs/QUICK_START_UA.md) · [English](docs/QUICK_START_EN.md).
+
+Свій проєкт зберігайте кнопкою «Зберегти JSON» — це переносна копія між комп’ютерами. Звіт: Markdown або друк у PDF.
+
+## Що вміє програма
+
+- Напруга Voc/Vmp з урахуванням температури комірки, вікно MPPT, межі напруги модуля й інвертора.
+- Автоматична розкладка стрінгів по MPPT і ручний план з тими самими перевірками.
+- Окремі перевірки Isc/Imp, сумарних меж MPPT і меж фізичних входів.
+- DC та AC лінії кожного стрінгу/інвертора: струм, R(T), падіння напруги, попередній підбір перерізу.
+- Номінальні перевірки запобіжників, зворотного струму, SPD і DC-роз’єднувача.
+- Електричний BOM без цін, звіт, навчальний режим (Student Mode).
+- Каталог реальних моделей з посиланнями на datasheet: [docs/EQUIPMENT_CATALOG.md](docs/EQUIPMENT_CATALOG.md).
+
+## Як читати результат
+
+- **PASS** — перевірку виконано, значення в межах.
+- **WARN** — у межах, але з припущенням або непідтвердженим джерелом.
+- **FAIL** — відоме порушення. Лишається FAIL, навіть якщо інших даних бракує.
+- **UNKNOWN** — бракує вхідного параметра. Програма ніколи не підставляє «типові» значення; панель «Що потрібно уточнити» показує, яке саме поле знайти в документації виробника.
+
+## Межі версії 0.1
+
+- Один тип модуля та інвертора на проєкт; один стрінг на фізичний вхід, без Y-конекторів.
+- Генератор стрінгів — детермінована евристика, не доказ оптимальності.
+- Кожен інвертор має власну AC лінію; паралельні кабелі не підтримуються.
+- Derating вводиться вручну з поясненням; нормативні таблиці не затверджені.
+- Повна координація захисту, SPD-топологія, заземлення, оптимізатори, BESS та економіка не реалізовані.
+
+Детально: [специфікація розрахунків](docs/spec/electrical-v0.1.md), [архітектура](docs/ARCHITECTURE.md), [матриця можливостей](docs/FEATURE_MATRIX.md).
+
+## Для розробників
 
 Потрібні Node 24 та pnpm 11.25.0.
 
@@ -12,9 +50,7 @@ pnpm check
 pnpm dev
 ```
 
-Для швидкого перегляду без інсталяції відкрийте `Solar_Designer_Lite.html` подвійним кліком. Для розробки відкрийте локальну адресу, яку надрукує Vite. Застосунок працює без серверної БД; введення зберігається у localStorage цього браузера. Перенесення між пристроями — через JSON.
-
-## CLI
+CLI:
 
 ```bash
 pnpm build
@@ -23,56 +59,20 @@ pnpm cli calculate data/examples/student-50kw.json --out result.json
 pnpm cli report data/examples/student-50kw.json --out report.md --lang uk
 ```
 
-CLI exit codes: 0 — PASS/WARN або валідна схема; 1 — FAIL; 2 — помилка вводу/JSON; 3 — UNKNOWN. Валідна схема не означає придатну електричну конфігурацію. Демонстраційний проєкт повертає UNKNOWN через незавершену перевірку захисту/SPD.
+Коди виходу: 0 — PASS/WARN; 1 — FAIL; 2 — помилка вводу/JSON; 3 — UNKNOWN.
 
-## Що працює
-
-| Компонент | Реалізація |
+| Пакет | Призначення |
 |---|---|
-| `packages/schema` | Zod-схеми проєкту, PV модуля, інвертора, MPPT, кабелю, політики й findings |
-| `packages/core` | Voc/Vmp(T), string window, генератор і ручний план, MPPT/input limits, DC/AC, AC current, R(T), ΔU, попередній cable selection |
-| `packages/cli` | validate, calculate, report; детермінований JSON / Markdown |
-| `apps/designer-lite` | 8 розділів, UA/EN, save/load, редактор JSON, manual string plan, Student Mode, BOM, звіт і друк/PDF |
-| `tests` | Golden arithmetic, SPEC differential regressions, project workflow та allocation invariants |
-| `scripts` | Formula manifest change barrier і перевірки браузера |
+| `packages/schema` | Zod-схеми проєкту, обладнання, політики й результатів |
+| `packages/core` | Чисте розрахункове ядро без файлів, мережі та цін |
+| `packages/cli` | validate / calculate / report |
+| `apps/designer-lite` | Браузерний інтерфейс UA/EN; збирається в один `Solar_Designer_Lite.html` |
+| `tests` | Незалежна ручна арифметика, регресії специфікації, сценарії |
 
-## Межі v0.1
+## Як допомогти проєкту
 
-- Один тип модуля та інвертора на проєкт; інвертори мають однакову конфігурацію MPPT.
-- Кожна площина має власні MPPT; паралельні стрінги одного MPPT однакової довжини. Один стрінг на фізичний вхід; Y connectors не підтримуються.
-- Генератор — детермінована евристика з відновленням малого залишку й обмеженим пошуком альтернатив. Не доводить оптимальність або неможливість альтернативного плану. Ручний план проходить ті самі перевірки.
-- AC — окремий multicore feeder кожного інвертора з власними умовами траси; DC — два одножильні провідники кожного стрінгу. Не загальний feeder станції. Довжина — в один бік.
-- Derating вводиться явно з поясненням; автоматичні таблиці UA/CZ не затверджені. Каталог прикладу синтетичний, його Iz не можна використовувати для випуску документації.
-- Fuse та isolator — кандидати. Declared inverter backfeed та nominal fuse/SPD checks реалізовано окремо; повний захист, RCD, time-current curves, adiabatic withstand, SPD topology/LPS/заземлення не завершені. BESS та economics поза scope.
-- Оптимізатори мають схему даних, але topology engine відсутній: UNKNOWN, а не звичайна string перевірка.
-- PDF створюється через друк браузера. Серверний PDF/DOCX, desktop installer, PWA та npm/PyPI publish відсутні.
+Найцінніші внески: перевірені записи обладнання з офіційних datasheet, повідомлення про розбіжність з ручним розрахунком, баги в різних браузерах/ОС, тести й переклади. Правила — [CONTRIBUTING.md](CONTRIBUTING.md); баги й пропозиції — через [Issues](https://github.com/subbotacopi03/021_Solar_Designer_Lite/issues). Навчальні вправи: [docs/STUDENT_EXERCISES.md](docs/STUDENT_EXERCISES.md).
 
-## Статус публікації
+## Ліцензія та авторство
 
-Комплект не опубліковано. Ліцензія — [Mozilla Public License 2.0](LICENSE); публічне ім’я правовласника й URL ще очікують підтвердження. Розрахункові модулі спираються на SPEC та описані арифметичні кейси. До публічного push потрібен окремий перегляд історії та історичних diagnostic logs; див. [готовність для користувача](docs/USER_READINESS.md). Резервні каталоги й журнали не включати до download pack.
-
-## Авторство та простий ручний кейс
-
-Походження програми показується у footer, «Про проєкт» та Markdown-звітах. Публічне ім’я власника й канонічний URL очікують підтвердження у `data/attribution.json`; механізм і межі — [ATTRIBUTION.md](ATTRIBUTION.md). Повні повідомлення сторонніх компонентів доступні в програмі й `THIRD_PARTY_NOTICES.txt`. Відстеження запусків відсутнє.
-
-Завантажте `data/examples/trina435-manual24.json`: два ручні стрінги по12 exact Trina модулів на MPPT A/B SMA. Редактор має звичайні поля й кнопки; JSON лишається додатковим варіантом. 24/24 модулів, відомий cold-Voc PASS, загальний UNKNOWN через відсутні manufacturer inputs. Новий приклад запитує підтвердження, попередній застосований проєкт можна відновити; JSON лишається переносною резервною копією.
-
-Читайте `docs/START_HERE_UA.md`, `docs/spec/electrical-v0.1.md`, `docs/SOURCE_PROVENANCE.md`, `docs/NEXT_AI_HANDOFF.md` і `docs/IMPLEMENTATION_REPORT.md`.
-
-## Розвиток 2026-10-08
-
-Додано source-limited exact-SKU каталог Trina/SMA, Nexans/Eaton/Phoenix candidates, bounded allocation recovery, applicability derating та незалежні nominal protection/SPD checks. Вибір в UI та приклади `trina-435-sma-8.json` / `trina-440-sma-10.json`. Джерела й UNKNOWN: [docs/EQUIPMENT_CATALOG.md](docs/EQUIPMENT_CATALOG.md). Поточний план і докази: [docs/DEVELOPMENT_PLAN.md](docs/DEVELOPMENT_PLAN.md), [docs/IMPLEMENTATION_REPORT.md](docs/IMPLEMENTATION_REPORT.md).
-
-DC-роз’єднувач: додано ABB OTDC32F2 із явним1000V/20A/DC-21B профілем, scope/category/wiring controls та незалежними nominal checks. Повна installation/coordination UNKNOWN: [DC_SWITCH_EVIDENCE.md](docs/DC_SWITCH_EVIDENCE.md).
-
-Локальна adversarial перевірка десятьма економними tester agents, знайдені дефекти та виконані виправлення: [журнал перевірок](docs/ADVERSARIAL_TEST_REPORT.md). Регресії втрати чернеток, порядку імпортів і числового overflow: `pnpm test:adversarial:browser` (потребує Playwright browser або `OPENPV_CHROMIUM_EXECUTABLE`; optional `OPENPV_TEST_URL`).
-
-## Локальний комплект для перегляду власником
-
-Короткі інструкції: [українська](docs/QUICK_START_UA.md), [English](docs/QUICK_START_EN.md). `pnpm review:pack` збирає HTML і створює новий allowlist ZIP у ignored `.qa/review-packs/`; для розробника потрібен `zip`. Комплект містить програму, два приклади, UA/EN guides, наявні legal notices, manifest та SHA-256, без резервів/QA/Git. Це **INTERNAL OWNER REVIEW ONLY**, не публічний реліз і не зміна LICENSE.
-
-`pnpm review:verify <розпакована-папка-в-PROJECT_ROOT>` перевіряє склад/розміри/суми. `OPENPV_CHROMIUM_EXECUTABLE=<Chrome> pnpm test:review-pack` додатково перевіряє ZIP через `unzip` та реальний offline import/save/report у fresh browser context. Build/tests не підмінюються checksum-перевіркою; звичайному користувачу Node/zip не потрібні.
-
-## Передача розробки Antigravity
-
-Актуальні пріоритети й acceptance — [DEVELOPMENT_PLAN.md](docs/DEVELOPMENT_PLAN.md), детальний source/test/engineering handoff — [ANTIGRAVITY_HANDOFF.md](docs/ANTIGRAVITY_HANDOFF.md), короткий запуск — [ANTIGRAVITY_START_PROMPT.txt](docs/ANTIGRAVITY_START_PROMPT.txt). Для продовження потрібна вся source-папка; runtime review ZIP містить лише програму й користувацькі матеріали.
+[Mozilla Public License 2.0](LICENSE): можна використовувати, змінювати й поширювати; змінені файли цього проєкту поширюються під тією ж ліцензією. Авторство — [ATTRIBUTION.md](ATTRIBUTION.md), сторонні компоненти — [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt). Програма не збирає й не надсилає жодних даних.

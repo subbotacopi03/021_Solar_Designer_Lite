@@ -1,6 +1,6 @@
 # OpenPV development rules
 
-Read README.md, docs/spec/electrical-v0.1.md and docs/NEXT_AI_HANDOFF.md before modifying calculations. Respond to the owner in Ukrainian. Use only single-level lists.
+Read README.md, CONTRIBUTING.md and docs/spec/electrical-v0.1.md before modifying calculations. Respond in Ukrainian unless the user writes in another language. Use only single-level lists.
 
 Preserve UNKNOWN and missing-input semantics. No silent datasheet/site defaults. No sign repair with abs(). Separate Voc/Vmp, Isc/Imp, MPPT/physical-input limits and maximum series-fuse/reverse-current ratings. Never use legacy expected results as sole proof of engineering correctness.
 

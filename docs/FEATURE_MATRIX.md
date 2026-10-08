@@ -35,6 +35,6 @@
 | MISSING/PROVIDED/REVIEW UA/EN guidance | IMPLEMENTED | missing-data-model/fields/render; 8unit/18browser checks |
 | Visible software origin/notices | IMPLEMENTED mechanism; personal identity BLOCKED | software-credit.ts/about.ts/data/attribution.json |
 | Internal owner-review ZIP/UAEN guides/checksums | IMPLEMENTED; public release BLOCKED | review-pack.mjs; 6unit/8archive-offline checks |
-| Human pilot/other OS-browser acceptance | NOT RUN | USER_READINESS/ANTIGRAVITY_HANDOFF pilot matrix |
+| Human pilot/other OS-browser acceptance | NOT RUN | PILOT_TEST_MATRIX |
 
-Актуальний порядок доробки — DEVELOPMENT_PLAN.md; старі logs не описують автоматично поточний HEAD.
+Плани розвитку обговорюються в Issues.
