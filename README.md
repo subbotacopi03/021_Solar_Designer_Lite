@@ -69,10 +69,6 @@ pnpm cli report data/examples/student-50kw.json --out report.md --lang uk
 | `apps/designer-lite` | Браузерний інтерфейс UA/EN; збирається в один `Solar_Designer_Lite.html` |
 | `tests` | Незалежна ручна арифметика, регресії специфікації, сценарії |
 
-## Як допомогти проєкту
-
-Найцінніші внески: перевірені записи обладнання з офіційних datasheet, повідомлення про розбіжність з ручним розрахунком, баги в різних браузерах/ОС, тести й переклади. Правила — [CONTRIBUTING.md](CONTRIBUTING.md); баги й пропозиції — через [Issues](https://github.com/subbotacopi03/021_Solar_Designer_Lite/issues). Навчальні вправи: [docs/STUDENT_EXERCISES.md](docs/STUDENT_EXERCISES.md).
-
 ## Ліцензія та авторство
 
 [Mozilla Public License 2.0](LICENSE): можна використовувати, змінювати й поширювати; змінені файли цього проєкту поширюються під тією ж ліцензією. Авторство — [ATTRIBUTION.md](ATTRIBUTION.md), сторонні компоненти — [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt). Програма не збирає й не надсилає жодних даних.
