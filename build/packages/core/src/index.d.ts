@@ -113,6 +113,11 @@ export declare function calculateProject(raw: unknown): {
                         label: string;
                         verification: "USER_INPUT" | "UNVERIFIED" | "VERIFIED" | "SYNTHETIC";
                         url?: string | undefined;
+                        reviewed_on?: string | undefined;
+                        document_revision?: string | undefined;
+                        locator?: string | undefined;
+                        sha256?: string | undefined;
+                        notes?: string | undefined;
                     }[];
                     x_ohm_km?: number | null | undefined;
                     max_voltage_v?: number | null | undefined;
@@ -152,6 +157,11 @@ export declare function calculateProject(raw: unknown): {
                         label: string;
                         verification: "USER_INPUT" | "UNVERIFIED" | "VERIFIED" | "SYNTHETIC";
                         url?: string | undefined;
+                        reviewed_on?: string | undefined;
+                        document_revision?: string | undefined;
+                        locator?: string | undefined;
+                        sha256?: string | undefined;
+                        notes?: string | undefined;
                     }[];
                     x_ohm_km?: number | null | undefined;
                     max_voltage_v?: number | null | undefined;
@@ -206,6 +216,11 @@ export declare function calculateProject(raw: unknown): {
                     label: string;
                     verification: "USER_INPUT" | "UNVERIFIED" | "VERIFIED" | "SYNTHETIC";
                     url?: string | undefined;
+                    reviewed_on?: string | undefined;
+                    document_revision?: string | undefined;
+                    locator?: string | undefined;
+                    sha256?: string | undefined;
+                    notes?: string | undefined;
                 }[];
                 x_ohm_km?: number | null | undefined;
                 max_voltage_v?: number | null | undefined;
@@ -245,6 +260,11 @@ export declare function calculateProject(raw: unknown): {
                     label: string;
                     verification: "USER_INPUT" | "UNVERIFIED" | "VERIFIED" | "SYNTHETIC";
                     url?: string | undefined;
+                    reviewed_on?: string | undefined;
+                    document_revision?: string | undefined;
+                    locator?: string | undefined;
+                    sha256?: string | undefined;
+                    notes?: string | undefined;
                 }[];
                 x_ohm_km?: number | null | undefined;
                 max_voltage_v?: number | null | undefined;

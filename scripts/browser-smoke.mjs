@@ -1,7 +1,10 @@
 import { chromium } from "playwright";
 import { readFileSync, writeFileSync } from "node:fs";
 import assert from "node:assert/strict";
-const options = { headless: true, executablePath: process.env.OPENPV_CHROMIUM_EXECUTABLE };
+const options = {
+  headless: true,
+  executablePath: process.env.OPENPV_CHROMIUM_EXECUTABLE,
+};
 if (process.env.OPENPV_BUNDLED_CHROMIUM === "1") {
   const bundled = (await import("@sparticuz/chromium")).default;
   options.executablePath =
@@ -72,13 +75,11 @@ await page.locator("#lang").click();
 assert.ok((await page.locator("h1").innerText()).includes("PV electrical"));
 checks.push("Ukrainian/English UI switch");
 await page.locator("#lang").click();
-await page
-  .locator("#file")
-  .setInputFiles({
-    name: "demo.json",
-    mimeType: "application/json",
-    buffer: readFileSync("data/examples/two-planes.json"),
-  });
+await page.locator("#file").setInputFiles({
+  name: "demo.json",
+  mimeType: "application/json",
+  buffer: readFileSync("data/examples/two-planes.json"),
+});
 await page.waitForFunction(() =>
   document.querySelector(".eyebrow")?.textContent?.includes("Дві площини"),
 );

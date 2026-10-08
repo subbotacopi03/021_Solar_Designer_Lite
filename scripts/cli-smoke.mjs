@@ -25,6 +25,28 @@ try {
   assert.equal(r.status, 3);
   assert.match(readFileSync(report, "utf8"), /120\/120/);
   results.push("report: Markdown written, exit 3");
+  for (const name of ["trina-435-sma-8", "trina-440-sma-10"]) {
+    const file = `data/examples/${name}.json`;
+    const input = JSON.parse(readFileSync(file, "utf8"));
+    r = run(["validate", file]);
+    assert.equal(r.status, 0);
+    results.push(`${name}: valid schema, exit 0`);
+    r = run(["calculate", file]);
+    assert.equal(r.status, 3);
+    assert.equal(JSON.parse(r.stdout).status, "UNKNOWN");
+    results.push(`${name}: sourced input retains UNKNOWN, exit 3`);
+    for (const language of ["uk", "en"]) {
+      r = run(["report", file, "--lang", language]);
+      assert.equal(r.status, 3);
+      assert.ok(r.stdout.includes(input.module.model));
+      assert.ok(r.stdout.includes(input.module.sources[0].url));
+      assert.ok(r.stdout.includes("2026-10-08"));
+      assert.ok(r.stdout.includes("beta_vmp_pct_c"));
+      results.push(
+        `${name}: ${language} report includes evidence and UNKNOWN, exit 3`,
+      );
+    }
+  }
   const bad = join(root, "bad.json");
   writeFileSync(bad, "{");
   r = run(["validate", bad]);

@@ -21,3 +21,7 @@
 Не заявляється бінарна/поведінкова тотожність старим модулям. GT-STR-03 round-robin і legacy fuse requirement не переносилися як обов’язкова правильна відповідь. SPEC-10 змінює legacy AC-current expected values. Усі відмінності мають бути переглянуті перед інтеграцією назад у Suite.
 
 Raw CODE_SAMPLES і вихідні архіви залишаються окремо та не входять у deliverable. Production репозиторії не змінювалися.
+
+## Manufacturer evidence 2026-10-08
+
+Офіційні Trina/SMA джерела, exact columns, дата звірки та прогалини: [EQUIPMENT_CATALOG.md](EQUIPMENT_CATALOG.md). Перевірка окремих полів не означає нормативну відповідність або повноту manufacturer catalog. Raw source recovery лишається лише в ignored backup.

@@ -10,11 +10,26 @@ export const SourceSchema = z.strictObject({
   label: z.string().min(1),
   url: z.url().optional(),
   verification: z.enum(["USER_INPUT", "UNVERIFIED", "VERIFIED", "SYNTHETIC"]),
+  reviewed_on: z.iso.date().optional(),
+  document_revision: z.string().min(1).optional(),
+  locator: z.string().min(1).optional(),
+  sha256: z
+    .string()
+    .regex(/^[a-f0-9]{64}$/)
+    .optional(),
+  notes: z.string().min(1).optional(),
 });
+const equipmentMetadata = {
+  manufacturer: z.string().min(1).optional(),
+  model: z.string().min(1).optional(),
+  units: z.record(z.string(), z.string()).optional(),
+  data_notes: z.array(z.string()).optional(),
+};
 export const PvModuleSchema = z
   .strictObject({
     id: z.string().min(1),
     name: z.string().min(1),
+    ...equipmentMetadata,
     pmax_w: positive,
     voc_v: positive,
     vmp_v: positive,
@@ -56,6 +71,7 @@ export const InverterSchema = z
   .strictObject({
     id: z.string().min(1),
     name: z.string().min(1),
+    ...equipmentMetadata,
     ac_power_w: positive,
     ac_voltage_v: positive,
     phases: z.union([z.literal(1), z.literal(3)]),

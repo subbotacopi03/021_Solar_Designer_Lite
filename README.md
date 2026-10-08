@@ -52,3 +52,7 @@ CLI exit codes: 0 — PASS/WARN або валідна схема; 1 — FAIL; 2 
 Комплект не опубліковано. `UNLICENSED` — тимчасовий стан до рішення власника про MPL-2.0/Apache-2.0 та права на reuse. Приватні code samples, клієнтські дані, ціни та шаблони Solar Suite не включені. Нова реалізація спирається на SPEC та описані арифметичні кейси, а не на дослівне копіювання production modules.
 
 Читайте `docs/START_HERE_UA.md`, `docs/spec/electrical-v0.1.md`, `docs/SOURCE_PROVENANCE.md`, `docs/NEXT_AI_HANDOFF.md` і `docs/IMPLEMENTATION_REPORT.md`.
+
+## Розвиток 2026-10-08
+
+Додано source-limited exact-SKU каталог Trina/SMA, вибір в UI та приклади `trina-435-sma-8.json` / `trina-440-sma-10.json`. Джерела й UNKNOWN: [docs/EQUIPMENT_CATALOG.md](docs/EQUIPMENT_CATALOG.md). Поточний план і докази: [docs/DEVELOPMENT_PLAN.md](docs/DEVELOPMENT_PLAN.md), [docs/IMPLEMENTATION_REPORT.md](docs/IMPLEMENTATION_REPORT.md).

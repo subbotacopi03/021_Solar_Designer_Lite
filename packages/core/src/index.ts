@@ -308,6 +308,27 @@ export function projectReport(
     `Modules: ${result.installed_modules}/${result.requested_modules}`,
     `DC: ${(result.dc_power_w / 1000).toFixed(3)} kWp · AC: ${(result.ac_power_w / 1000).toFixed(3)} kW · DC/AC: ${result.dc_ac_ratio.toFixed(4)}`,
     `Tmin cell: ${p.site.t_min_cell_c ?? "UNKNOWN"} °C · Tmax cell: ${p.site.t_max_cell_c ?? "UNKNOWN"} °C`,
+    `\n## ${uk ? "Обладнання та джерела" : "Equipment and sources"}`,
+    ...([p.module, p.inverter] as const).flatMap((equipment) => [
+      `### ${equipment.manufacturer ?? "USER INPUT / SYNTHETIC"} · ${equipment.model ?? equipment.name}`,
+      ...Object.entries(equipment)
+        .filter(([key, value]) => typeof value === "number" || value === null)
+        .map(
+          ([key, value]) =>
+            `${key}: ${value ?? "UNKNOWN"} ${equipment.units?.[key] ?? ""}`,
+        ),
+      ...("mppts" in equipment
+        ? equipment.mppts.flatMap((mppt) => [
+            `MPPT ${mppt.id}: ${mppt.min_voltage_v}–${mppt.max_voltage_v} V; Imp ${mppt.max_current_a ?? "UNKNOWN"} A; Isc ${mppt.max_isc_a ?? "UNKNOWN"} A; physical inputs ${mppt.inputs ?? "UNKNOWN"}`,
+            `max_current_per_input_a: ${mppt.max_current_per_input_a ?? "UNKNOWN"} A; max_isc_per_input_a: ${mppt.max_isc_per_input_a ?? "UNKNOWN"} A`,
+          ])
+        : []),
+      ...(equipment.data_notes ?? []).map((note) => `- ${note}`),
+      ...equipment.sources.map(
+        (source) =>
+          `- ${source.verification} · ${source.label} · ${source.url ?? "UNKNOWN URL"} · ${source.reviewed_on ?? "UNKNOWN DATE"} · ${source.document_revision ?? "UNKNOWN REVISION"} · ${source.locator ?? ""} · ${source.notes ?? ""}`,
+      ),
+    ]),
     `\n## ${uk ? "Стрінги" : "Strings"}`,
     "| ID | Inverter | MPPT | Plane | Modules |",
     "|---|---:|---|---|---:|",
@@ -328,7 +349,7 @@ export function projectReport(
     ),
     "\n## Scope",
     uk
-      ? "AC — окремий однаковий фідер кожного інвертора. DC — окремий кабель кожного стрінгу. Приклади синтетичні; дані ampacity не підтверджені. Повна нормативна перевірка захисту, SPD, заземлення та проєктне погодження не виконані."
-      : "AC is one identical feeder per inverter; DC is one route per string. Synthetic equipment and unverified ampacity. Full protection, SPD, earthing and regulatory review not completed.",
+      ? "AC — окремий однаковий фідер кожного інвертора. DC — окремий кабель кожного стрінгу. Джерела обладнання наведено вище; навчальні policies та непідтверджені кабельні дані не є нормативним погодженням. Повна нормативна перевірка захисту, SPD, заземлення та проєктне погодження не виконані."
+      : "AC is one identical feeder per inverter; DC is one route per string. Equipment sources are listed above; teaching policies and unverified ampacity do not establish regulatory compliance. Full protection, SPD, earthing and regulatory review not completed.",
   ].join("\n");
 }

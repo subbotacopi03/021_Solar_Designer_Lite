@@ -1,0 +1,102 @@
+[
+  {
+    "id": "trina-tsm-435neg9r28",
+    "name": "Trina Solar TSM-435NEG9R.28",
+    "manufacturer": "Trina Solar",
+    "model": "TSM-435NEG9R.28",
+    "pmax_w": 435,
+    "voc_v": 51.8,
+    "vmp_v": 43.6,
+    "isc_a": 10.64,
+    "imp_a": 9.99,
+    "beta_voc_pct_c": -0.24,
+    "beta_vmp_pct_c": null,
+    "alpha_isc_pct_c": 0.04,
+    "gamma_pmax_pct_c": -0.3,
+    "max_system_voltage_v": 1500,
+    "max_series_fuse_a": 20,
+    "reverse_current_withstand_a": null,
+    "units": {
+      "pmax_w": "W",
+      "voc_v": "V",
+      "vmp_v": "V",
+      "isc_a": "A",
+      "imp_a": "A",
+      "beta_voc_pct_c": "%/°C",
+      "beta_vmp_pct_c": "%/°C",
+      "alpha_isc_pct_c": "%/°C",
+      "gamma_pmax_pct_c": "%/°C",
+      "max_system_voltage_v": "V DC",
+      "max_series_fuse_a": "A",
+      "reverse_current_withstand_a": "A"
+    },
+    "data_notes": [
+      "UNKNOWN beta_vmp_pct_c: not stated; automatic allocation blocked by SPEC-03. Gamma minus alpha is not substituted.",
+      "UNKNOWN reverse_current_withstand_a: maximum series fuse 20 A is a different rating.",
+      "STC: 1000 W/m², cell 25 °C, AM1.5; measuring tolerance ±3%. This edition has two distinct power-bin SKUs, not two manufacturers."
+    ],
+    "sources": [
+      {
+        "id": "trina-neg9r28-2023-a",
+        "label": "Trina Solar Vertex S+ NEG9R.28, TSM_EN_2023_A",
+        "url": "https://static.trinasolar.com/sites/default/files/NEG9R.28_EN.pdf",
+        "verification": "VERIFIED",
+        "reviewed_on": "2026-10-08",
+        "document_revision": "TSM_EN_2023_A",
+        "locator": "Page 2: STC, temperature and maximum ratings",
+        "sha256": "bb1712d2e3656097085c551b6437cda4071b7e38cd8ba0301bc5824070e8b7fd",
+        "notes": "Only transcribed fields checked against this edition; beta Vmp and reverse-current withstand are not stated. This does not certify compatibility."
+      }
+    ]
+  },
+  {
+    "id": "trina-tsm-440neg9r28",
+    "name": "Trina Solar TSM-440NEG9R.28",
+    "manufacturer": "Trina Solar",
+    "model": "TSM-440NEG9R.28",
+    "pmax_w": 440,
+    "voc_v": 52.2,
+    "vmp_v": 44.0,
+    "isc_a": 10.67,
+    "imp_a": 10.01,
+    "beta_voc_pct_c": -0.24,
+    "beta_vmp_pct_c": null,
+    "alpha_isc_pct_c": 0.04,
+    "gamma_pmax_pct_c": -0.3,
+    "max_system_voltage_v": 1500,
+    "max_series_fuse_a": 20,
+    "reverse_current_withstand_a": null,
+    "units": {
+      "pmax_w": "W",
+      "voc_v": "V",
+      "vmp_v": "V",
+      "isc_a": "A",
+      "imp_a": "A",
+      "beta_voc_pct_c": "%/°C",
+      "beta_vmp_pct_c": "%/°C",
+      "alpha_isc_pct_c": "%/°C",
+      "gamma_pmax_pct_c": "%/°C",
+      "max_system_voltage_v": "V DC",
+      "max_series_fuse_a": "A",
+      "reverse_current_withstand_a": "A"
+    },
+    "data_notes": [
+      "UNKNOWN beta_vmp_pct_c: not stated; automatic allocation blocked by SPEC-03. Gamma minus alpha is not substituted.",
+      "UNKNOWN reverse_current_withstand_a: maximum series fuse 20 A is a different rating.",
+      "STC: 1000 W/m², cell 25 °C, AM1.5; measuring tolerance ±3%. This edition has two distinct power-bin SKUs, not two manufacturers."
+    ],
+    "sources": [
+      {
+        "id": "trina-neg9r28-2023-a",
+        "label": "Trina Solar Vertex S+ NEG9R.28, TSM_EN_2023_A",
+        "url": "https://static.trinasolar.com/sites/default/files/NEG9R.28_EN.pdf",
+        "verification": "VERIFIED",
+        "reviewed_on": "2026-10-08",
+        "document_revision": "TSM_EN_2023_A",
+        "locator": "Page 2: STC, temperature and maximum ratings",
+        "sha256": "bb1712d2e3656097085c551b6437cda4071b7e38cd8ba0301bc5824070e8b7fd",
+        "notes": "Only transcribed fields checked against this edition; beta Vmp and reverse-current withstand are not stated. This does not certify compatibility."
+      }
+    ]
+  }
+]

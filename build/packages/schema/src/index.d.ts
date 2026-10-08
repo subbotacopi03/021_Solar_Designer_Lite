@@ -9,10 +9,13 @@ export declare const SourceSchema: z.ZodObject<{
         VERIFIED: "VERIFIED";
         SYNTHETIC: "SYNTHETIC";
     }>;
+    reviewed_on: z.ZodOptional<z.ZodISODate>;
+    document_revision: z.ZodOptional<z.ZodString>;
+    locator: z.ZodOptional<z.ZodString>;
+    sha256: z.ZodOptional<z.ZodString>;
+    notes: z.ZodOptional<z.ZodString>;
 }, z.core.$strict>;
 export declare const PvModuleSchema: z.ZodObject<{
-    id: z.ZodString;
-    name: z.ZodString;
     pmax_w: z.ZodNumber;
     voc_v: z.ZodNumber;
     vmp_v: z.ZodNumber;
@@ -35,7 +38,18 @@ export declare const PvModuleSchema: z.ZodObject<{
             VERIFIED: "VERIFIED";
             SYNTHETIC: "SYNTHETIC";
         }>;
+        reviewed_on: z.ZodOptional<z.ZodISODate>;
+        document_revision: z.ZodOptional<z.ZodString>;
+        locator: z.ZodOptional<z.ZodString>;
+        sha256: z.ZodOptional<z.ZodString>;
+        notes: z.ZodOptional<z.ZodString>;
     }, z.core.$strict>>;
+    manufacturer: z.ZodOptional<z.ZodString>;
+    model: z.ZodOptional<z.ZodString>;
+    units: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodString>>;
+    data_notes: z.ZodOptional<z.ZodArray<z.ZodString>>;
+    id: z.ZodString;
+    name: z.ZodString;
 }, z.core.$strict>;
 export declare const MpptSchema: z.ZodObject<{
     id: z.ZodString;
@@ -49,8 +63,6 @@ export declare const MpptSchema: z.ZodObject<{
     max_isc_per_input_a: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
 }, z.core.$strict>;
 export declare const InverterSchema: z.ZodObject<{
-    id: z.ZodString;
-    name: z.ZodString;
     ac_power_w: z.ZodNumber;
     ac_voltage_v: z.ZodNumber;
     phases: z.ZodUnion<readonly [z.ZodLiteral<1>, z.ZodLiteral<3>]>;
@@ -78,7 +90,18 @@ export declare const InverterSchema: z.ZodObject<{
             VERIFIED: "VERIFIED";
             SYNTHETIC: "SYNTHETIC";
         }>;
+        reviewed_on: z.ZodOptional<z.ZodISODate>;
+        document_revision: z.ZodOptional<z.ZodString>;
+        locator: z.ZodOptional<z.ZodString>;
+        sha256: z.ZodOptional<z.ZodString>;
+        notes: z.ZodOptional<z.ZodString>;
     }, z.core.$strict>>;
+    manufacturer: z.ZodOptional<z.ZodString>;
+    model: z.ZodOptional<z.ZodString>;
+    units: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodString>>;
+    data_notes: z.ZodOptional<z.ZodArray<z.ZodString>>;
+    id: z.ZodString;
+    name: z.ZodString;
 }, z.core.$strict>;
 export declare const OptimizerSchema: z.ZodObject<{
     id: z.ZodString;
@@ -96,6 +119,11 @@ export declare const OptimizerSchema: z.ZodObject<{
             VERIFIED: "VERIFIED";
             SYNTHETIC: "SYNTHETIC";
         }>;
+        reviewed_on: z.ZodOptional<z.ZodISODate>;
+        document_revision: z.ZodOptional<z.ZodString>;
+        locator: z.ZodOptional<z.ZodString>;
+        sha256: z.ZodOptional<z.ZodString>;
+        notes: z.ZodOptional<z.ZodString>;
     }, z.core.$strict>>;
 }, z.core.$strict>;
 export declare const SiteConditionsSchema: z.ZodObject<{
@@ -132,6 +160,11 @@ export declare const CableSchema: z.ZodObject<{
             VERIFIED: "VERIFIED";
             SYNTHETIC: "SYNTHETIC";
         }>;
+        reviewed_on: z.ZodOptional<z.ZodISODate>;
+        document_revision: z.ZodOptional<z.ZodString>;
+        locator: z.ZodOptional<z.ZodString>;
+        sha256: z.ZodOptional<z.ZodString>;
+        notes: z.ZodOptional<z.ZodString>;
     }, z.core.$strict>>;
 }, z.core.$strict>;
 export declare const ElectricalPolicySchema: z.ZodObject<{
@@ -155,6 +188,11 @@ export declare const ElectricalPolicySchema: z.ZodObject<{
             VERIFIED: "VERIFIED";
             SYNTHETIC: "SYNTHETIC";
         }>;
+        reviewed_on: z.ZodOptional<z.ZodISODate>;
+        document_revision: z.ZodOptional<z.ZodString>;
+        locator: z.ZodOptional<z.ZodString>;
+        sha256: z.ZodOptional<z.ZodString>;
+        notes: z.ZodOptional<z.ZodString>;
     }, z.core.$strict>>;
 }, z.core.$strict>;
 export declare const StringConfigurationSchema: z.ZodObject<{
@@ -203,8 +241,6 @@ export declare const ProjectSchema: z.ZodObject<{
     schema_version: z.ZodLiteral<"0.1.0">;
     name: z.ZodString;
     module: z.ZodObject<{
-        id: z.ZodString;
-        name: z.ZodString;
         pmax_w: z.ZodNumber;
         voc_v: z.ZodNumber;
         vmp_v: z.ZodNumber;
@@ -227,11 +263,20 @@ export declare const ProjectSchema: z.ZodObject<{
                 VERIFIED: "VERIFIED";
                 SYNTHETIC: "SYNTHETIC";
             }>;
+            reviewed_on: z.ZodOptional<z.ZodISODate>;
+            document_revision: z.ZodOptional<z.ZodString>;
+            locator: z.ZodOptional<z.ZodString>;
+            sha256: z.ZodOptional<z.ZodString>;
+            notes: z.ZodOptional<z.ZodString>;
         }, z.core.$strict>>;
-    }, z.core.$strict>;
-    inverter: z.ZodObject<{
+        manufacturer: z.ZodOptional<z.ZodString>;
+        model: z.ZodOptional<z.ZodString>;
+        units: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodString>>;
+        data_notes: z.ZodOptional<z.ZodArray<z.ZodString>>;
         id: z.ZodString;
         name: z.ZodString;
+    }, z.core.$strict>;
+    inverter: z.ZodObject<{
         ac_power_w: z.ZodNumber;
         ac_voltage_v: z.ZodNumber;
         phases: z.ZodUnion<readonly [z.ZodLiteral<1>, z.ZodLiteral<3>]>;
@@ -259,7 +304,18 @@ export declare const ProjectSchema: z.ZodObject<{
                 VERIFIED: "VERIFIED";
                 SYNTHETIC: "SYNTHETIC";
             }>;
+            reviewed_on: z.ZodOptional<z.ZodISODate>;
+            document_revision: z.ZodOptional<z.ZodString>;
+            locator: z.ZodOptional<z.ZodString>;
+            sha256: z.ZodOptional<z.ZodString>;
+            notes: z.ZodOptional<z.ZodString>;
         }, z.core.$strict>>;
+        manufacturer: z.ZodOptional<z.ZodString>;
+        model: z.ZodOptional<z.ZodString>;
+        units: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodString>>;
+        data_notes: z.ZodOptional<z.ZodArray<z.ZodString>>;
+        id: z.ZodString;
+        name: z.ZodString;
     }, z.core.$strict>;
     inverter_quantity: z.ZodNumber;
     planes: z.ZodArray<z.ZodObject<{
@@ -293,6 +349,11 @@ export declare const ProjectSchema: z.ZodObject<{
                 VERIFIED: "VERIFIED";
                 SYNTHETIC: "SYNTHETIC";
             }>;
+            reviewed_on: z.ZodOptional<z.ZodISODate>;
+            document_revision: z.ZodOptional<z.ZodString>;
+            locator: z.ZodOptional<z.ZodString>;
+            sha256: z.ZodOptional<z.ZodString>;
+            notes: z.ZodOptional<z.ZodString>;
         }, z.core.$strict>>;
     }, z.core.$strict>;
     cables: z.ZodArray<z.ZodObject<{
@@ -324,6 +385,11 @@ export declare const ProjectSchema: z.ZodObject<{
                 VERIFIED: "VERIFIED";
                 SYNTHETIC: "SYNTHETIC";
             }>;
+            reviewed_on: z.ZodOptional<z.ZodISODate>;
+            document_revision: z.ZodOptional<z.ZodString>;
+            locator: z.ZodOptional<z.ZodString>;
+            sha256: z.ZodOptional<z.ZodString>;
+            notes: z.ZodOptional<z.ZodString>;
         }, z.core.$strict>>;
     }, z.core.$strict>>;
     dc: z.ZodObject<{

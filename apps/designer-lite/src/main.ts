@@ -1,7 +1,13 @@
 import "./style.css";
+import realModules from "../../../data/equipment/verified/modules.json" with { type: "json" };
+import realInverters from "../../../data/equipment/verified/inverters.json" with { type: "json" };
+import syntheticModules from "../../../data/equipment/modules.json" with { type: "json" };
+import syntheticInverters from "../../../data/equipment/inverters.json" with { type: "json" };
 import demo from "../../../data/examples/student-50kw.json" with { type: "json" };
 import {
   ProjectSchema,
+  PvModuleSchema,
+  InverterSchema,
   type Project,
 } from "../../../packages/schema/src/index.js";
 import {
@@ -9,6 +15,12 @@ import {
   projectReport,
   type ProjectResult,
 } from "../../../packages/core/src/index.js";
+const moduleCatalog = [...realModules, ...syntheticModules].map((m) =>
+  PvModuleSchema.parse(m),
+);
+const inverterCatalog = [...realInverters, ...syntheticInverters].map((i) =>
+  InverterSchema.parse(i),
+);
 type Lang = "uk" | "en";
 let lang: Lang = "uk";
 let tab = "overview";
@@ -35,7 +47,7 @@ const texts = {
     ratio: "Співвідношення DC/AC",
     allocated: "Розміщено модулів",
     notice:
-      "Попередній розрахунок. Приклад містить синтетичне обладнання та непідтверджені дані кабелів. UNKNOWN означає, що даних для висновку недостатньо.",
+      "Попередній розрахунок. Походження обладнання наведено в каталозі; навчальні policies та кабелі потребують окремої перевірки. UNKNOWN означає, що даних для висновку недостатньо.",
     module: "PV модуль",
     inverter: "Інвертор",
     name: "Назва",
@@ -96,7 +108,7 @@ const texts = {
     ratio: "DC/AC ratio",
     allocated: "Allocated modules",
     notice:
-      "Preliminary calculation. Synthetic example equipment and unverified cable data. UNKNOWN means the available data does not support a verdict.",
+      "Preliminary calculation. Equipment provenance is shown in the catalog; teaching policies and cable data require separate review. UNKNOWN means the available data does not support a verdict.",
     module: "PV module",
     inverter: "Inverter",
     name: "Name",
@@ -202,6 +214,32 @@ function table(headers: string[], rows: string[][]) {
   return `<div class="table-wrap"><table><thead><tr>${headers.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows.map((row) => `<tr>${row.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
 }
 const badge = (s: string) => `<span class="status ${esc(s)}">${esc(s)}</span>`;
+function equipmentSources(equipment: Project["module"] | Project["inverter"]) {
+  return `<div class="equipment-evidence"><p>${esc(equipment.manufacturer ?? "SYNTHETIC / USER INPUT")} · ${esc(equipment.model ?? equipment.name)}</p>${(equipment.data_notes ?? []).map((n) => `<p class="small">${esc(n)}</p>`).join("")}${equipment.sources.map((s) => `<p class="small">${esc(s.verification)} · ${s.url && /^https?:/.test(s.url) ? `<a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.label)}</a>` : esc(s.label)} · ${esc(s.reviewed_on ?? "UNKNOWN DATE")} · ${esc(s.document_revision ?? "UNKNOWN REVISION")}<br>${esc(s.notes)}</p>`).join("")}</div>`;
+}
+function equipmentSelect(side: "module" | "inverter") {
+  const catalog = side === "module" ? moduleCatalog : inverterCatalog;
+  const equipment = project[side];
+  return `<label class="field"><span>${lang === "uk" ? "Каталог виробників / навчальні дані" : "Manufacturer catalog / teaching data"}</span><select id="${side}Catalog"><option value="">${lang === "uk" ? "Власні / змінені дані" : "Custom / edited data"}</option>${[
+    false,
+    true,
+  ]
+    .map(
+      (synthetic) =>
+        `<optgroup label="${synthetic ? "SYNTHETIC · teaching" : "Manufacturer · source-limited"}">${catalog
+          .filter(
+            (e) =>
+              e.sources.some((s) => s.verification === "SYNTHETIC") ===
+              synthetic,
+          )
+          .map(
+            (e) =>
+              `<option value="${esc(e.id)}" ${JSON.stringify(e) === JSON.stringify(equipment) ? "selected" : ""}>${esc(e.name)}</option>`,
+          )
+          .join("")}</optgroup>`,
+    )
+    .join("")}</select></label>${equipmentSources(equipment)}`;
+}
 function checksTable() {
   const rows = result.checks.filter(
     (c) => filter === "ALL" || c.status === filter,
@@ -327,7 +365,7 @@ function render() {
   if (tab === "overview")
     content.innerHTML = `<section class="panel"><h2>${lang === "uk" ? "Вихідні дані" : "Project inputs"}</h2><div class="form-grid">${field(x.name, "name", project.name, "text")}${field(x.count + " · " + x.inverter, "inverter_quantity", project.inverter_quantity)}<div><span class="small">${x.module}</span><p>${esc(project.module.name)} · ${project.module.pmax_w} W</p></div></div><h3>${x.planes}</h3>${project.planes.map((p, i) => `<div class="form-grid" style="margin-bottom:16px">${field(x.name, `planes.${i}.name`, p.name, "text")}${field(x.count + " · PV", `planes.${i}.module_count`, p.module_count)}<div class="tools"><button data-remove-plane="${i}" ${project.planes.length === 1 ? "disabled" : ""}>${lang === "uk" ? "Видалити" : "Remove"}</button></div></div>`).join("")}<div class="tools"><button id="addPlane">${x.addPlane}</button><button class="primary" data-tab="strings">${x.next}</button></div></section><section class="panel"><h2>${lang === "uk" ? "Результат ліній" : "Feeder results"}</h2>${cableTable()}</section>${student ? `<div class="banner info">${x.blank}</div>` : ""}`;
   if (tab === "equipment")
-    content.innerHTML = `<section class="panel"><h2>${x.module}</h2><div class="form-grid">${field(x.name, "module.name", project.module.name, "text")}${["pmax_w", "voc_v", "vmp_v", "isc_a", "imp_a", "beta_voc_pct_c", "beta_vmp_pct_c", "alpha_isc_pct_c", "gamma_pmax_pct_c", "max_system_voltage_v", "max_series_fuse_a", "reverse_current_withstand_a"].map((k) => field(k, "module." + k, (project.module as any)[k])).join("")}</div>${student ? '<p class="small">βVoc, βVmp, γPmax: %/°C (negative). αIsc: %/°C (positive). Vmp &lt; Voc; Imp ≤ Isc.</p>' : ""}</section><section class="panel"><h2>${x.inverter}</h2><div class="form-grid">${field(x.name, "inverter.name", project.inverter.name, "text")}${["ac_power_w", "ac_voltage_v", "max_dc_voltage_v", "max_dc_power_w"].map((k) => field(k, "inverter." + k, (project.inverter as any)[k])).join("")}<label class="field"><span>phases</span><select data-path="inverter.phases" data-number><option ${project.inverter.phases === 1 ? "selected" : ""}>1</option><option ${project.inverter.phases === 3 ? "selected" : ""}>3</option></select></label></div><h3>MPPT · ${project.inverter.mppts.length}</h3>${table(
+    content.innerHTML = `<section class="panel"><h2>${x.module}</h2>${equipmentSelect("module")}<div class="form-grid">${field(x.name, "module.name", project.module.name, "text")}${["pmax_w", "voc_v", "vmp_v", "isc_a", "imp_a", "beta_voc_pct_c", "beta_vmp_pct_c", "alpha_isc_pct_c", "gamma_pmax_pct_c", "max_system_voltage_v", "max_series_fuse_a", "reverse_current_withstand_a"].map((k) => field(k, "module." + k, (project.module as any)[k])).join("")}</div>${student ? '<p class="small">βVoc, βVmp, γPmax: %/°C (negative). αIsc: %/°C (positive). Vmp &lt; Voc; Imp ≤ Isc.</p>' : ""}</section><section class="panel"><h2>${x.inverter}</h2>${equipmentSelect("inverter")}<div class="form-grid">${field(x.name, "inverter.name", project.inverter.name, "text")}${["ac_power_w", "ac_voltage_v", "max_dc_voltage_v", "max_dc_power_w"].map((k) => field(k, "inverter." + k, (project.inverter as any)[k])).join("")}<label class="field"><span>phases</span><select data-path="inverter.phases" data-number><option ${project.inverter.phases === 1 ? "selected" : ""}>1</option><option ${project.inverter.phases === 3 ? "selected" : ""}>3</option></select></label></div><h3>MPPT · ${project.inverter.mppts.length}</h3>${table(
       ["ID", "Vmin", "Vmax", "Imp max, A", "Isc max, A", "Inputs"],
       project.inverter.mppts.map((m) => [
         esc(m.id),
@@ -354,7 +392,7 @@ function render() {
   if (tab === "checks")
     content.innerHTML = `<section class="panel"><div class="check-filters">${["ALL", "FAIL", "UNKNOWN", "WARN", "PASS", "NOT_APPLICABLE"].map((s) => `<button data-filter="${s}" class="${filter === s ? "primary" : ""}">${s === "ALL" ? x.all : s} · ${s === "ALL" ? result.checks.length : result.checks.filter((c) => c.status === s).length}</button>`).join("")}</div>${checksTable()}</section>`;
   if (tab === "report")
-    content.innerHTML = `<div class="tools no-print"><button id="print" class="primary">${x.print}</button><button id="reportDownload">${x.exportReport}</button><button id="resultDownload">${x.exportResult}</button></div><article class="report"><h1 class="print-title">Solar Designer Lite · ${esc(project.name)}</h1><section class="panel"><h2>${esc(project.name)}</h2><p>OpenPV ${result.engine_version} · ${badge(result.status)}<br>DC ${fmt(result.dc_power_w / 1000)} kWp / AC ${fmt(result.ac_power_w / 1000)} kW · DC/AC ${fmt(result.dc_ac_ratio, 4)}<br>Tmin ${fmt(project.site.t_min_cell_c)} °C / Tmax cell ${fmt(project.site.t_max_cell_c)} °C</p><p>${x.notice}</p><p>${x.reportNote}</p><h3>${x.strings}</h3>${planTable()}</section><section class="panel"><h2>${lang === "uk" ? "Кабельні лінії" : "Cable feeders"}</h2>${cableTable()}</section><section class="panel"><h2>BOM</h2>${table(
+    content.innerHTML = `<div class="tools no-print"><button id="print" class="primary">${x.print}</button><button id="reportDownload">${x.exportReport}</button><button id="resultDownload">${x.exportResult}</button></div><article class="report"><h1 class="print-title">Solar Designer Lite · ${esc(project.name)}</h1><section class="panel"><h2>${esc(project.name)}</h2><p>OpenPV ${result.engine_version} · ${badge(result.status)}<br>DC ${fmt(result.dc_power_w / 1000)} kWp / AC ${fmt(result.ac_power_w / 1000)} kW · DC/AC ${fmt(result.dc_ac_ratio, 4)}<br>Tmin ${fmt(project.site.t_min_cell_c)} °C / Tmax cell ${fmt(project.site.t_max_cell_c)} °C</p><p>${x.notice}</p><p>${x.reportNote}</p><h3>${x.equipment}</h3>${equipmentSources(project.module)}${equipmentSources(project.inverter)}<h3>${x.strings}</h3>${planTable()}</section><section class="panel"><h2>${lang === "uk" ? "Кабельні лінії" : "Cable feeders"}</h2>${cableTable()}</section><section class="panel"><h2>BOM</h2>${table(
       [
         lang === "uk" ? "Позиція" : "Item",
         x.count,
@@ -412,6 +450,17 @@ function bind() {
               : input.type === "number" || input.hasAttribute("data-number")
                 ? Number(input.value)
                 : input.value;
+          if (parts[0] === "module" || parts[0] === "inverter") {
+            clone[parts[0]].sources = clone[parts[0]].sources.map(
+              (source: Project["module"]["sources"][number]) => ({
+                ...source,
+                verification: "USER_INPUT",
+                reviewed_on: undefined,
+                notes:
+                  "Equipment edited by user; published source no longer verifies these values.",
+              }),
+            );
+          }
           commit(clone);
         }),
     );
@@ -424,6 +473,25 @@ function bind() {
         commit(p);
       }),
   );
+  for (const side of ["module", "inverter"] as const) {
+    document
+      .getElementById(side + "Catalog")
+      ?.addEventListener("change", (e) => {
+        const id = (e.target as HTMLSelectElement).value;
+        const p = structuredClone(project);
+        if (side === "module") {
+          const selected = moduleCatalog.find((m) => m.id === id);
+          if (!selected) return;
+          p.module = structuredClone(selected);
+        } else {
+          const selected = inverterCatalog.find((i) => i.id === id);
+          if (!selected) return;
+          p.inverter = structuredClone(selected);
+        }
+        delete p.manual_strings;
+        commit(p);
+      });
+  }
   const on = (id: string, fn: () => void) => {
     document.getElementById(id)?.addEventListener("click", fn);
   };

@@ -6,7 +6,7 @@
 |---|---|
 | Schema | Strict Zod input; unknown properties rejected; positive finite electrical values; unique IDs |
 | Core | Pure functions; status, missing, basis, source_ids; no costs/finance |
-| Data | Explicit synthetic equipment/policy/examples, replaceable by verified input |
+| Data | Separate synthetic teaching data and source-limited exact-SKU records; metadata remains in saved project/report |
 | CLI | validate / calculate / report; stable exit codes |
 | UI | Local state + runtime validation; save/load of input only; results recalculated |
 | QA | Golden numeric cases, SPEC regressions, workflow tests, formula hash barrier |

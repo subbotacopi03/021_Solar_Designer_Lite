@@ -18,7 +18,7 @@
 | Report | Markdown | report | Markdown / browser print PDF | IMPLEMENTED |
 | Student Mode | Same core | Examples | Three exercises | IMPLEMENTED |
 | UA/EN | IDs/basis English | Report UA/EN | UI UA/EN | IMPLEMENTED · basis technical English |
-| Verified manufacturer catalog | Input supported | Input | JSON | NOT INCLUDED |
+| Manufacturer field evidence | 2 PV + 2 string inverter SKUs | 2 source-limited examples | Selector + evidence | IMPLEMENTED · βVmp/connector ratings UNKNOWN |
 | UA/CZ compliance packs | Input policy | Input | JSON | NOT IMPLEMENTED |
 | PWA/desktop installers | — | — | — | NOT IMPLEMENTED |
 | BESS/economics/CAD/GIS | — | — | — | OUT OF SCOPE / PRIVATE |

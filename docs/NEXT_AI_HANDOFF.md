@@ -1,3 +1,17 @@
+# Оновлення 2026-10-08 · етап 1
+
+Корінь: `/Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite`. Резерв: `_previous_workspace_20261008_160124`; вихідний ZIP у ньому. CRC PASS; 98/98 manifest hashes/sizes PASS (`STARTER_INTEGRITY.json`). Git ініціалізовано локально; push/release/license change не виконано.
+
+Каталог exact SKU: Trina TSM-435NEG9R.28, TSM-440NEG9R.28; SMA STP8.0-3AV-40, STP10.0-3AV-40. `data/equipment/verified/`, `EQUIPMENT_CATALOG.md`, schema metadata, UI selectors, датовані джерела в UI/report; 2 examples. SYNTHETIC data збережено окремо. UNKNOWN βVmp/reverse withstand/physical connector currents не підмінено. Ручне UI редагування знімає VERIFIED.
+
+PASS: frozen install (Node 24.19.0/pnpm 11.25.0); baseline 84 tests/5 CLI/11 browser. Після каталогу `pnpm check`: 89 tests, 13 CLI, manifest 7, typecheck/build/schema. Browser: 11 baseline + 9 equipment checks, desktop 1440 та mobile 390px, без runtime/console errors. Prettier check змінених TS/JS/JSON PASS. Окремого lint script немає: NOT RUN. Спочатку Vitest помилково читав backup (13 failed suites); `vitest.config.ts` обмежує tests/, повторний baseline PASS. Equipment browser спочатку виявив favicon 404; додано explicit data favicon, повторний запуск PASS. Повні журнали baseline/equipment у docs; screenshots у .qa (ignored). Browser plugin відсутній; використано repository Playwright і локальний Chrome.
+
+Наступний етап: bounded search для string allocation. Уже відтворено контрприклад: E10 займає MPPT A 6..19, W19 не вміщається в B6..10; допустимий witness E10→B, W19→A дає всі 29. Потрібні spec-first tests, детермінований objective, power/input/plane limits, чесний search-limit finding. Формули каталожного етапу не змінено; manifest не оновлювався.
+
+Нижче — попередній звіт стартового комплекту; його заяви про відсутність manufacturer data замінено оновленням вище.
+
+---
+
 # OpenPV / Solar Designer Lite — handoff
 
 Власник: Oleksandr Subbota. Мета: безкоштовний навчальний калькулятор і майбутнє відкрите PV electrical core, над яким private Solar Suite зберігає комерційні продукти. Спілкування українською. Без вкладених списків.
