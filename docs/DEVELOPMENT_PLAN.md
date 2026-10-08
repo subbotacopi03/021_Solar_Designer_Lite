@@ -49,3 +49,9 @@
 | BLOCKED | Complete protection/SPD/national coordination | PROTECTION_EVIDENCE.md, SPD_EVIDENCE.md; explicit UNKNOWN findings; missing curves/site/primary normative inputs |
 
 Етапи1–3 виконано. Для4–6 виконано всі незалежні nominal/schema/UI/test contracts; повний engineering verdict заблоковано переліченими evidence gaps, а не названо готовим. Наступний етап: manufacturer installation/coordination pack. Acceptance: офіційні missing inputs, applicability до конкретних cable/device/site умов, незалежні арифметичні cases перед формулами, pnpm check та browser flows; UNKNOWN зберігається там, де evidence досі немає. Не вмикати parallel cables або normative green verdict для обходу блокерів.
+
+## Продовження: DC switch-disconnector nominal contract
+
+Наступна незалежна частина protection: exact ABB OTDC32F2 source-limited candidate, окремі Ue/Ie/category/pole/wiring profiles без підміни Ui/Ith. Acceptance: explicit profile + installation scope; voltage/current/category/wiring independent FAIL; unknown coordination; switch Ie не впливає на cable fuse In; schema/core/CLI/UI/report roundtrip, UA/EN, save/load, manual-edit attribution. Spec → RED arithmetic → implementation → GREEN/manifest/check/browser/review → local commit. Existing manufacturer/coefficient/normative blockers залишаються.
+
+DC-switch stage реалізовано: strict optional schema, pure assessment, ABB nominal profile,2 examples, UI/context controls, report/BOM та independent checks. Full installation/coordination лишається UNKNOWN. Критерії software verification і review фіксуються у IMPLEMENTATION_REPORT.md; наступний engineering pack потребує installation/fault/standard evidence.

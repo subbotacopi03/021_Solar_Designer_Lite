@@ -1,0 +1,18 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Solar Designer Lite/. Input:
+
+''
+
+    at file:///Users/subbota/_%D0%9F%D0%A0%D0%9E%D0%95%D0%9A%D0%A2%D0%98/021_Solar_Designer_Lite/scripts/dc-switch-browser-smoke.mjs:16:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: '',
+  expected: /Solar Designer Lite/,
+  operator: 'match',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

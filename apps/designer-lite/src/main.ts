@@ -1,4 +1,5 @@
 import "./style.css";
+import realDcSwitches from "../../../data/equipment/verified/dc-switches.json" with { type: "json" };
 import realSpds from "../../../data/equipment/verified/spds.json" with { type: "json" };
 import realFuses from "../../../data/equipment/verified/fuses.json" with { type: "json" };
 import realCables from "../../../data/equipment/verified/cables.json" with { type: "json" };
@@ -15,6 +16,7 @@ import {
   CableSchema,
   StringFuseDeviceSchema,
   SpdDeviceSchema,
+  DcSwitchDeviceSchema,
   type Project,
 } from "../../../packages/schema/src/index.js";
 import {
@@ -227,9 +229,74 @@ function equipmentSources(
     | Project["inverter"]
     | Project["cables"][number]
     | NonNullable<Project["string_fuse_device"]>
-    | NonNullable<Project["spd_device"]>,
+    | NonNullable<Project["spd_device"]>
+    | NonNullable<Project["dc_switch_device"]>,
 ) {
   return `<div class="equipment-evidence"><p>${esc(equipment.manufacturer ?? "SYNTHETIC / USER INPUT")} · ${esc(equipment.model ?? equipment.name)}</p>${(equipment.data_notes ?? []).map((n) => `<p class="small">${esc(n)}</p>`).join("")}${equipment.sources.map((s) => `<p class="small">${esc(s.verification)} · ${s.url && /^https?:/.test(s.url) ? `<a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.label)}</a>` : esc(s.label)} · ${esc(s.reviewed_on ?? "UNKNOWN DATE")} · ${esc(s.document_revision ?? "UNKNOWN REVISION")}<br>${esc(s.notes)}</p>`).join("")}</div>`;
+}
+function dcSwitchSummary() {
+  const d = project.dc_switch_device;
+  return d
+    ? equipmentSources(d) +
+        table(
+          [
+            "Profile",
+            "Ue,V DC",
+            "Ie,A",
+            "Category",
+            "Poles",
+            "Circuits",
+            "Diagram",
+          ],
+          d.profiles.map((p) => [
+            esc(p.id),
+            fmt(p.operational_voltage_v),
+            fmt(p.operational_current_a),
+            esc(p.utilization_category),
+            fmt(p.poles),
+            fmt(p.circuits),
+            esc(p.wiring_diagrams.join(" / ")),
+          ]),
+        )
+    : "";
+}
+function dcSwitchPanel() {
+  const d = project.dc_switch_device,
+    c = project.dc_switch_context;
+  const options = (
+    path: string,
+    value: string | null | undefined,
+    rows: [string, string][],
+  ) =>
+    `<select data-path="dc_switch_context.${path}"><option value="">${lang === "uk" ? "Не задано" : "Not specified"}</option>${rows.map(([id, label]) => `<option value="${esc(id)}" ${value === id ? "selected" : ""}>${esc(label)}</option>`).join("")}</select>`;
+  return `<section class="panel"><h2>${lang === "uk" ? "Кандидат DC-роз’єднувача" : "DC switch-disconnector candidate"}</h2><label class="field"><span>${lang === "uk" ? "Конкретний пристрій; повна придатність потребує перевірки" : "Exact device; complete suitability requires review"}</span><select id="dcSwitchCatalog"><option value="">${lang === "uk" ? "Не задано" : "Not specified"}</option>${realDcSwitches.map((d) => `<option value="${esc(d.id)}" ${project.dc_switch_device?.id === d.id ? "selected" : ""}>${esc(d.name)}</option>`).join("")}</select></label>${dcSwitchSummary()}${
+    d && c
+      ? `<div class="form-grid"><label class="field"><span>${lang === "uk" ? "Робочий профіль виробника" : "Manufacturer operational profile"}</span>${options(
+          "rating_id",
+          c.rating_id,
+          d.profiles.map((p) => [
+            p.id,
+            `${p.operational_voltage_v ?? "UNKNOWN"}V / ${p.operational_current_a ?? "UNKNOWN"}A / ${p.utilization_category} / ${p.poles}P`,
+          ]),
+        )}</label><label class="field"><span>${lang === "uk" ? "Місце встановлення кандидата" : "Candidate installation scope"}</span>${options(
+          "scope",
+          c.scope,
+          [
+            [
+              "PER_STRING",
+              lang === "uk"
+                ? "Окремо на кожен стрінг"
+                : "Separately per string",
+            ],
+            ["MPPT", "MPPT — UNKNOWN"],
+            [
+              "INVERTER",
+              lang === "uk" ? "Інвертор — UNKNOWN" : "Inverter — UNKNOWN",
+            ],
+          ],
+        )}</label>${field(lang === "uk" ? "Потрібна категорія (явна вимога)" : "Required category (explicit requirement)", "dc_switch_context.required_category", c.required_category, "text")}${field(lang === "uk" ? "Код схеми виробника" : "Manufacturer wiring diagram code", "dc_switch_context.wiring_diagram", c.wiring_diagram, "text")}${field(lang === "uk" ? "Підключені полюси" : "Connected poles", "dc_switch_context.poles", c.poles)}</div><p class="small">${lang === "uk" ? "Ue/Ie — робочі номінали; Ui/Ith не є їх заміною. Джерела вимог і монтажні умови задайте в JSON. Введений код схеми не підтверджує фізичне підключення; повна координація UNKNOWN." : "Ue/Ie are operational ratings; Ui/Ith cannot substitute. Enter requirement sources and installation conditions in JSON. A diagram code does not verify physical wiring; full coordination remains UNKNOWN."}</p>`
+      : ""
+  }</section>`;
 }
 function equipmentSelect(side: "module" | "inverter") {
   const catalog = side === "module" ? moduleCatalog : inverterCatalog;
@@ -392,6 +459,7 @@ function render() {
     )}<p class="small">${lang === "uk" ? "Індивідуальні параметри MPPT та sources змінюйте в редакторі JSON." : "Edit individual MPPT parameters and sources in the JSON editor."}</p><button data-tab="json">${x.json}</button></section>`;
   if (tab === "equipment")
     content.innerHTML += `<section class="panel"><h2>${lang === "uk" ? "Кандидат запобіжника gPV" : "gPV fuse candidate"}</h2><label class="field"><span>${lang === "uk" ? "Номінальний кандидат; вибір не означає необхідність або узгодження" : "Nominal candidate; selection does not establish requirement or coordination"}</span><select id="fuseCatalog"><option value="">${lang === "uk" ? "Не задано" : "Not specified"}</option>${realFuses.map((f) => `<option value="${esc(f.id)}" ${project.string_fuse_device?.id === f.id ? "selected" : ""}>${esc(f.name)}</option>`).join("")}</select></label>${project.string_fuse_device ? equipmentSources(project.string_fuse_device) : ""}</section>`;
+  if (tab === "equipment") content.innerHTML += dcSwitchPanel();
   if (tab === "equipment")
     content.innerHTML += `<section class="panel"><h2>${lang === "uk" ? "Кандидат SPD · окрема перевірка" : "SPD candidate · separate assessment"}</h2><label class="field"><span>${lang === "uk" ? "Тип не визначається лише наявністю LPS" : "LPS presence alone does not determine the type"}</span><select id="spdCatalog"><option value="">${lang === "uk" ? "Не задано" : "Not specified"}</option>${realSpds.map((d) => `<option value="${esc(d.id)}" ${project.spd_device?.id === d.id ? "selected" : ""}>${esc(d.name)}</option>`).join("")}</select></label>${project.spd_device ? equipmentSources(project.spd_device) + table(["Ucpv,V", "UocSTC max,V", "Iscpv,A", "Up,kV", "In,kA8/20", "Iimp,kA10/350"], [[fmt(project.spd_device.ucpv_v), fmt(project.spd_device.max_uoc_stc_v), fmt(project.spd_device.iscpv_a), fmt(project.spd_device.up_kv), fmt(project.spd_device.in_8_20_ka), fmt(project.spd_device.iimp_10_350_ka)]]) : ""}<p class="small">${lang === "uk" ? "Параметри заземлення, separation, трасування та джерела вимоги задайте в JSON. UNKNOWN зберігається до повної координації." : "Enter earthing, separation, routing and requirement sources in JSON. UNKNOWN remains pending complete coordination."}</p><button data-tab="json">${t().json}</button></section>`;
   if (tab === "site")
@@ -415,7 +483,7 @@ function render() {
   if (tab === "checks")
     content.innerHTML = `<section class="panel"><div class="check-filters">${["ALL", "FAIL", "UNKNOWN", "WARN", "PASS", "NOT_APPLICABLE"].map((s) => `<button data-filter="${s}" class="${filter === s ? "primary" : ""}">${s === "ALL" ? x.all : s} · ${s === "ALL" ? result.checks.length : result.checks.filter((c) => c.status === s).length}</button>`).join("")}</div>${checksTable()}</section>`;
   if (tab === "report")
-    content.innerHTML = `<div class="tools no-print"><button id="print" class="primary">${x.print}</button><button id="reportDownload">${x.exportReport}</button><button id="resultDownload">${x.exportResult}</button></div><article class="report"><h1 class="print-title">Solar Designer Lite · ${esc(project.name)}</h1><section class="panel"><h2>${esc(project.name)}</h2><p>OpenPV ${result.engine_version} · ${badge(result.status)}<br>DC ${fmt(result.dc_power_w / 1000)} kWp / AC ${fmt(result.ac_power_w / 1000)} kW · DC/AC ${fmt(result.dc_ac_ratio, 4)}<br>Tmin ${fmt(project.site.t_min_cell_c)} °C / Tmax cell ${fmt(project.site.t_max_cell_c)} °C</p><p>${x.notice}</p><p>${x.reportNote}</p><h3>${x.equipment}</h3>${equipmentSources(project.module)}${equipmentSources(project.inverter)}${project.string_fuse_device ? equipmentSources(project.string_fuse_device) : ""}${project.spd_device ? equipmentSources(project.spd_device) : ""}<h3>${x.strings}</h3>${planTable()}</section><section class="panel"><h2>${lang === "uk" ? "Кабельні лінії" : "Cable feeders"}</h2>${cableTable()}</section><section class="panel"><h2>BOM</h2>${table(
+    content.innerHTML = `<div class="tools no-print"><button id="print" class="primary">${x.print}</button><button id="reportDownload">${x.exportReport}</button><button id="resultDownload">${x.exportResult}</button></div><article class="report"><h1 class="print-title">Solar Designer Lite · ${esc(project.name)}</h1><section class="panel"><h2>${esc(project.name)}</h2><p>OpenPV ${result.engine_version} · ${badge(result.status)}<br>DC ${fmt(result.dc_power_w / 1000)} kWp / AC ${fmt(result.ac_power_w / 1000)} kW · DC/AC ${fmt(result.dc_ac_ratio, 4)}<br>Tmin ${fmt(project.site.t_min_cell_c)} °C / Tmax cell ${fmt(project.site.t_max_cell_c)} °C</p><p>${x.notice}</p><p>${x.reportNote}</p><h3>${x.equipment}</h3>${equipmentSources(project.module)}${equipmentSources(project.inverter)}${project.string_fuse_device ? equipmentSources(project.string_fuse_device) : ""}${project.spd_device ? equipmentSources(project.spd_device) : ""}${dcSwitchSummary()}<h3>${x.strings}</h3>${planTable()}</section><section class="panel"><h2>${lang === "uk" ? "Кабельні лінії" : "Cable feeders"}</h2>${cableTable()}</section><section class="panel"><h2>BOM</h2>${table(
       [
         lang === "uk" ? "Позиція" : "Item",
         x.count,
@@ -465,7 +533,12 @@ function invalidateEquipmentEdit(next: Project, previous: Project): Project {
   };
   invalidate(next.module, previous.module);
   // All catalog equipment has a common source metadata contract.
-  for (const key of ["inverter", "string_fuse_device", "spd_device"] as const) {
+  for (const key of [
+    "inverter",
+    "string_fuse_device",
+    "spd_device",
+    "dc_switch_device",
+  ] as const) {
     const item = next[key];
     if (item) invalidate(item, previous[key]);
   }
@@ -525,6 +598,29 @@ function bind() {
         commit(p);
       }),
   );
+  document
+    .getElementById("dcSwitchCatalog")
+    ?.addEventListener("change", (e) => {
+      const p = structuredClone(project),
+        device = realDcSwitches.find(
+          (d) => d.id === (e.target as HTMLSelectElement).value,
+        );
+      if (device) {
+        p.dc_switch_device = DcSwitchDeviceSchema.parse(device);
+        p.dc_switch_context = {
+          rating_id: null,
+          required_category: null,
+          wiring_diagram: null,
+          poles: null,
+          scope: null,
+          sources: [],
+        };
+      } else {
+        delete p.dc_switch_device;
+        delete p.dc_switch_context;
+      }
+      commit(p);
+    });
   document.getElementById("spdCatalog")?.addEventListener("change", (e) => {
     const id = (e.target as HTMLSelectElement).value;
     const p = structuredClone(project);

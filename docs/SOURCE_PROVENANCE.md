@@ -27,3 +27,5 @@ Raw CODE_SAMPLES і вихідні архіви залишаються окре�
 Офіційні Trina/SMA джерела, exact columns, дата звірки та прогалини: [EQUIPMENT_CATALOG.md](EQUIPMENT_CATALOG.md). Перевірка окремих полів не означає нормативну відповідність або повноту manufacturer catalog. Raw source recovery лишається лише в ignored backup.
 
 Manufacturer field records продовжено офіційними Nexans/Eaton/Phoenix sources: [CABLE_EVIDENCE.md](CABLE_EVIDENCE.md), [PROTECTION_EVIDENCE.md](PROTECTION_EVIDENCE.md), [SPD_EVIDENCE.md](SPD_EVIDENCE.md). Ці product ratings не встановлюють national installation requirements. Missing parameters не заповнено типовими значеннями.
+
+ABB OTDC32F2 evidence/import scope: [DC_SWITCH_EVIDENCE.md](DC_SWITCH_EVIDENCE.md). Тільки1000V operational profile; не переносити DC-PV2 із маркетингу іншої серії, Ui/Ith не є Ue/Ie.

@@ -215,6 +215,34 @@ export const StringFuseDeviceSchema = z.strictObject({
     total_clearing_i2t_a2s: optionalPositive,
     sources: z.array(SourceSchema),
 });
+export const DcSwitchProfileSchema = z.strictObject({
+    id: z.string().min(1),
+    operational_voltage_v: optionalPositive,
+    operational_current_a: optionalPositive,
+    utilization_category: z.string().min(1),
+    poles: count,
+    circuits: count,
+    wiring_diagrams: z.array(z.string().min(1)).min(1),
+});
+export const DcSwitchDeviceSchema = z
+    .strictObject({
+    ...equipmentMetadata,
+    id: z.string().min(1),
+    name: z.string().min(1),
+    insulation_voltage_v: optionalPositive,
+    thermal_current_a: optionalPositive,
+    profiles: z.array(DcSwitchProfileSchema).min(1).max(20),
+    sources: z.array(SourceSchema),
+})
+    .refine((d) => new Set(d.profiles.map((p) => p.id)).size === d.profiles.length, { message: "Duplicate DC switch profile IDs" });
+export const DcSwitchContextSchema = z.strictObject({
+    rating_id: z.string().min(1).nullish(),
+    required_category: z.string().min(1).nullish(),
+    wiring_diagram: z.string().min(1).nullish(),
+    poles: count.nullish(),
+    scope: z.enum(["PER_STRING", "MPPT", "INVERTER"]).nullish(),
+    sources: z.array(SourceSchema),
+});
 const SpdTypeSchema = z.enum(["T1", "T2", "T1+T2"]);
 const DcSystemSchema = z.enum(["ISOLATED", "GROUNDED"]);
 export const SpdDeviceSchema = z.strictObject({
@@ -268,6 +296,8 @@ export const ProjectSchema = z
     prospective_short_circuit_ka: optionalPositive,
     breaker_icu_ka: optionalPositive,
     manual_strings: z.array(StringConfigurationSchema).max(10000).optional(),
+    dc_switch_device: DcSwitchDeviceSchema.optional(),
+    dc_switch_context: DcSwitchContextSchema.optional(),
     string_fuse_device: StringFuseDeviceSchema.optional(),
     spd_device: SpdDeviceSchema.optional(),
     spd_context: SpdContextSchema.optional(),

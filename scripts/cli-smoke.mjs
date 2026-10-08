@@ -78,6 +78,38 @@ try {
     ),
   );
   results.push("SPD: LPS true alone leaves required type UNKNOWN, exit3");
+  for (const [name, code] of [
+    ["dc-switch-source-limited", 3],
+    ["dc-switch-voltage-fail", 1],
+  ]) {
+    r = run(["calculate", `data/examples/${name}.json`]);
+    assert.equal(r.status, code);
+    const value = JSON.parse(r.stdout);
+    assert.ok(
+      value.checks.some(
+        (c) => c.id.endsWith("DC_SWITCH_SCOPE") && c.status === "UNKNOWN",
+      ),
+    );
+    if (code === 1)
+      assert.ok(
+        value.checks.some(
+          (c) => c.id.endsWith("DC_SWITCH_VOLTAGE") && c.status === "FAIL",
+        ),
+      );
+    results.push(`${name}: explicit operational ratings/scope, exit${code}`);
+  }
+  r = run([
+    "report",
+    "data/examples/dc-switch-source-limited.json",
+    "--lang",
+    "en",
+  ]);
+  assert.equal(r.status, 3);
+  assert.match(r.stdout, /1SCA121456R1001/);
+  assert.match(r.stdout, /operational_current_a/);
+  results.push(
+    "DC switch report: exact SKU/source/profile retained, UNKNOWN exit3",
+  );
   const bad = join(root, "bad.json");
   writeFileSync(bad, "{");
   r = run(["validate", bad]);

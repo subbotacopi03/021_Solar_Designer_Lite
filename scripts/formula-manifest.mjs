@@ -63,6 +63,13 @@ definitions.push([
   "Separate assembly Ucpv/UocSTC/Iscpv/Up and impulse-waveform limits; explicit context, no LPS-only type choice",
   "V, A, kV, kA8/20µs, kA10/350µs",
 ]);
+definitions.push([
+  "DC-SWITCH",
+  "packages/core/src/dc-switch.ts",
+  ["assessDcSwitchCandidate"],
+  "Explicit Ue/Ie/category/poles/wiring profile; per-string nominal assessment, no Ui/Ith substitution",
+  "V DC, A, poles",
+]);
 const manifest = {
   version: "0.1.0",
   hash_basis:

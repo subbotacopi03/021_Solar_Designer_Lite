@@ -180,6 +180,7 @@
         ]
       },
       "isolator_a": 20,
+      "dc_switch_checks": [],
       "cable": {
         "selected": {
           "cable": {
@@ -794,6 +795,7 @@
         ]
       },
       "isolator_a": 20,
+      "dc_switch_checks": [],
       "cable": {
         "selected": {
           "cable": {
@@ -1408,6 +1410,7 @@
         ]
       },
       "isolator_a": 20,
+      "dc_switch_checks": [],
       "cable": {
         "selected": {
           "cable": {
@@ -2022,6 +2025,7 @@
         ]
       },
       "isolator_a": 20,
+      "dc_switch_checks": [],
       "cable": {
         "selected": {
           "cable": {
@@ -2636,6 +2640,7 @@
         ]
       },
       "isolator_a": 20,
+      "dc_switch_checks": [],
       "cable": {
         "selected": {
           "cable": {
@@ -3250,6 +3255,7 @@
         ]
       },
       "isolator_a": 20,
+      "dc_switch_checks": [],
       "cable": {
         "selected": {
           "cable": {
@@ -3864,6 +3870,7 @@
         ]
       },
       "isolator_a": 20,
+      "dc_switch_checks": [],
       "cable": {
         "selected": {
           "cable": {

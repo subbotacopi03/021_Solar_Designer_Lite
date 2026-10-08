@@ -522,6 +522,77 @@ export declare const StringFuseDeviceSchema: z.ZodObject<{
     units: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodString>>;
     data_notes: z.ZodOptional<z.ZodArray<z.ZodString>>;
 }, z.core.$strict>;
+export declare const DcSwitchProfileSchema: z.ZodObject<{
+    id: z.ZodString;
+    operational_voltage_v: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    operational_current_a: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    utilization_category: z.ZodString;
+    poles: z.ZodNumber;
+    circuits: z.ZodNumber;
+    wiring_diagrams: z.ZodArray<z.ZodString>;
+}, z.core.$strict>;
+export declare const DcSwitchDeviceSchema: z.ZodObject<{
+    id: z.ZodString;
+    name: z.ZodString;
+    insulation_voltage_v: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    thermal_current_a: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    profiles: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        operational_voltage_v: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        operational_current_a: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        utilization_category: z.ZodString;
+        poles: z.ZodNumber;
+        circuits: z.ZodNumber;
+        wiring_diagrams: z.ZodArray<z.ZodString>;
+    }, z.core.$strict>>;
+    sources: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        label: z.ZodString;
+        url: z.ZodOptional<z.ZodURL>;
+        verification: z.ZodEnum<{
+            USER_INPUT: "USER_INPUT";
+            UNVERIFIED: "UNVERIFIED";
+            VERIFIED: "VERIFIED";
+            SYNTHETIC: "SYNTHETIC";
+        }>;
+        reviewed_on: z.ZodOptional<z.ZodISODate>;
+        document_revision: z.ZodOptional<z.ZodString>;
+        locator: z.ZodOptional<z.ZodString>;
+        sha256: z.ZodOptional<z.ZodString>;
+        notes: z.ZodOptional<z.ZodString>;
+    }, z.core.$strict>>;
+    manufacturer: z.ZodOptional<z.ZodString>;
+    model: z.ZodOptional<z.ZodString>;
+    units: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodString>>;
+    data_notes: z.ZodOptional<z.ZodArray<z.ZodString>>;
+}, z.core.$strict>;
+export declare const DcSwitchContextSchema: z.ZodObject<{
+    rating_id: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    required_category: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    wiring_diagram: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    poles: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    scope: z.ZodOptional<z.ZodNullable<z.ZodEnum<{
+        PER_STRING: "PER_STRING";
+        MPPT: "MPPT";
+        INVERTER: "INVERTER";
+    }>>>;
+    sources: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        label: z.ZodString;
+        url: z.ZodOptional<z.ZodURL>;
+        verification: z.ZodEnum<{
+            USER_INPUT: "USER_INPUT";
+            UNVERIFIED: "UNVERIFIED";
+            VERIFIED: "VERIFIED";
+            SYNTHETIC: "SYNTHETIC";
+        }>;
+        reviewed_on: z.ZodOptional<z.ZodISODate>;
+        document_revision: z.ZodOptional<z.ZodString>;
+        locator: z.ZodOptional<z.ZodString>;
+        sha256: z.ZodOptional<z.ZodString>;
+        notes: z.ZodOptional<z.ZodString>;
+    }, z.core.$strict>>;
+}, z.core.$strict>;
 export declare const SpdDeviceSchema: z.ZodObject<{
     id: z.ZodString;
     name: z.ZodString;
@@ -990,6 +1061,68 @@ export declare const ProjectSchema: z.ZodObject<{
         plane_id: z.ZodString;
         modules: z.ZodNumber;
     }, z.core.$strict>>>;
+    dc_switch_device: z.ZodOptional<z.ZodObject<{
+        id: z.ZodString;
+        name: z.ZodString;
+        insulation_voltage_v: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        thermal_current_a: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        profiles: z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            operational_voltage_v: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+            operational_current_a: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+            utilization_category: z.ZodString;
+            poles: z.ZodNumber;
+            circuits: z.ZodNumber;
+            wiring_diagrams: z.ZodArray<z.ZodString>;
+        }, z.core.$strict>>;
+        sources: z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            label: z.ZodString;
+            url: z.ZodOptional<z.ZodURL>;
+            verification: z.ZodEnum<{
+                USER_INPUT: "USER_INPUT";
+                UNVERIFIED: "UNVERIFIED";
+                VERIFIED: "VERIFIED";
+                SYNTHETIC: "SYNTHETIC";
+            }>;
+            reviewed_on: z.ZodOptional<z.ZodISODate>;
+            document_revision: z.ZodOptional<z.ZodString>;
+            locator: z.ZodOptional<z.ZodString>;
+            sha256: z.ZodOptional<z.ZodString>;
+            notes: z.ZodOptional<z.ZodString>;
+        }, z.core.$strict>>;
+        manufacturer: z.ZodOptional<z.ZodString>;
+        model: z.ZodOptional<z.ZodString>;
+        units: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodString>>;
+        data_notes: z.ZodOptional<z.ZodArray<z.ZodString>>;
+    }, z.core.$strict>>;
+    dc_switch_context: z.ZodOptional<z.ZodObject<{
+        rating_id: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        required_category: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        wiring_diagram: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        poles: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        scope: z.ZodOptional<z.ZodNullable<z.ZodEnum<{
+            PER_STRING: "PER_STRING";
+            MPPT: "MPPT";
+            INVERTER: "INVERTER";
+        }>>>;
+        sources: z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            label: z.ZodString;
+            url: z.ZodOptional<z.ZodURL>;
+            verification: z.ZodEnum<{
+                USER_INPUT: "USER_INPUT";
+                UNVERIFIED: "UNVERIFIED";
+                VERIFIED: "VERIFIED";
+                SYNTHETIC: "SYNTHETIC";
+            }>;
+            reviewed_on: z.ZodOptional<z.ZodISODate>;
+            document_revision: z.ZodOptional<z.ZodString>;
+            locator: z.ZodOptional<z.ZodString>;
+            sha256: z.ZodOptional<z.ZodString>;
+            notes: z.ZodOptional<z.ZodString>;
+        }, z.core.$strict>>;
+    }, z.core.$strict>>;
     string_fuse_device: z.ZodOptional<z.ZodObject<{
         id: z.ZodString;
         name: z.ZodString;
@@ -1108,3 +1241,5 @@ export type CircuitInput = z.infer<typeof CircuitInputSchema>;
 export type StringFuseDevice = z.infer<typeof StringFuseDeviceSchema>;
 export type SpdDevice = z.infer<typeof SpdDeviceSchema>;
 export type SpdContext = z.infer<typeof SpdContextSchema>;
+export type DcSwitchDevice = z.infer<typeof DcSwitchDeviceSchema>;
+export type DcSwitchContext = z.infer<typeof DcSwitchContextSchema>;

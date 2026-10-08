@@ -1,4 +1,5 @@
 import { type Project, type EngineeringCheck } from "../../schema/src/index.js";
+export * from "./dc-switch.js";
 export * from "./spd.js";
 export * from "./fundamentals.js";
 export * from "./strings.js";
@@ -47,6 +48,18 @@ export declare function calculateProject(raw: unknown): {
             checks: EngineeringCheck[];
         };
         isolator_a: number | null;
+        dc_switch_checks: {
+            id: string;
+            status: "PASS" | "WARN" | "FAIL" | "UNKNOWN" | "NOT_APPLICABLE";
+            demand: number | null;
+            capacity: number | null;
+            unit: string;
+            utilization: number | null;
+            missing: string[];
+            basis: string;
+            source_ids: string[];
+            message_key: string;
+        }[];
         cable: {
             selected: {
                 cable: {

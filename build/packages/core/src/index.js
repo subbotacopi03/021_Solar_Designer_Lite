@@ -2,6 +2,8 @@ import { ProjectSchema, } from "../../schema/src/index.js";
 import { generateStringPlan, validateStringPlan, stringLengthRange, } from "./strings.js";
 import { calculateAcCurrent } from "./fundamentals.js";
 import { check, finding, overall } from "./checks.js";
+import { assessDcSwitchCandidate } from "./dc-switch.js";
+export * from "./dc-switch.js";
 import { assessSpdCandidate } from "./spd.js";
 export * from "./spd.js";
 import { sizeCable } from "./cables.js";
@@ -76,6 +78,14 @@ export function calculateProject(raw) {
             device: p.string_fuse_device,
         });
         const ib = p.policy.isc_factor == null ? null : p.module.isc_a * p.policy.isc_factor;
+        const switchChecks = p.dc_switch_device
+            ? assessDcSwitchCandidate({
+                device: p.dc_switch_device,
+                context: p.dc_switch_context,
+                voc_cold_v: voc,
+                design_current_a: ib,
+            })
+            : [];
         const cable = sizeCable(p.cables, {
             ...p.dc,
             circuit: "DC",
@@ -90,17 +100,27 @@ export function calculateProject(raw) {
             derating_basis: p.dc.derating_basis,
             drop_limit_pct: p.policy.dc_drop_max_pct,
         });
-        checks.push(...fuse.checks.map((c) => ({ ...c, id: row.id + ":" + c.id })), ...cable.checks.map((c) => ({ ...c, id: row.id + ":" + c.id })));
+        checks.push(...switchChecks.map((c) => ({ ...c, id: row.id + ":" + c.id })), ...fuse.checks.map((c) => ({ ...c, id: row.id + ":" + c.id })), ...cable.checks.map((c) => ({ ...c, id: row.id + ":" + c.id })));
         return {
             string_id: row.id,
             voc_cold_v: voc,
             vmp_hot_v: vmp,
             ib_a: ib,
             fuse,
-            isolator_a: selectDcIsolator(p.policy, p.module.isc_a),
+            isolator_a: p.dc_switch_device
+                ? null
+                : selectDcIsolator(p.policy, p.module.isc_a),
+            dc_switch_checks: switchChecks,
             cable,
         };
     });
+    if (p.dc_switch_device && !strings.length)
+        checks.push(...assessDcSwitchCandidate({
+            device: p.dc_switch_device,
+            context: p.dc_switch_context,
+            voc_cold_v: null,
+            design_current_a: null,
+        }).map((c) => ({ ...c, id: "PRELIMINARY:" + c.id })));
     if (p.spd_device) {
         const groups = new Map();
         for (const row of strings) {
@@ -191,6 +211,15 @@ export function calculateProject(raw) {
         if (line.fuse.rating_a != null)
             fuses.set(line.fuse.rating_a, (fuses.get(line.fuse.rating_a) ?? 0) + 1);
     }
+    if (p.dc_switch_device &&
+        p.dc_switch_context?.scope === "PER_STRING" &&
+        dcLines.length)
+        bom.push({
+            item: p.dc_switch_device.name,
+            quantity: dcLines.length,
+            unit: "pcs",
+            basis: "Unapproved per-string candidate; nominal checks do not establish installation/coordination",
+        });
     for (const [rating, quantity] of isolators)
         bom.push({
             item: `DC isolator candidate ${rating} A`,
@@ -260,6 +289,13 @@ export function projectReport(p, result, language = "uk") {
             ...(equipment.data_notes ?? []).map((note) => `- ${note}`),
             ...equipment.sources.map((source) => `- ${source.verification} · ${source.label} · ${source.url ?? "UNKNOWN URL"} · ${source.reviewed_on ?? "UNKNOWN DATE"} · ${source.document_revision ?? "UNKNOWN REVISION"} · ${source.locator ?? ""} · ${source.notes ?? ""}`),
         ]),
+        ...(p.dc_switch_device
+            ? [
+                `\n## ${uk ? "Кандидат DC-роз’єднувача" : "DC switch-disconnector candidate"}`,
+                JSON.stringify(p.dc_switch_device),
+                JSON.stringify(p.dc_switch_context ?? "UNKNOWN context"),
+            ]
+            : []),
         ...(p.spd_device
             ? [
                 `\n## ${uk ? "Кандидат SPD" : "SPD candidate"}`,

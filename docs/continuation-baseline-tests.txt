@@ -1,0 +1,9 @@
+$ vitest run
+
+ RUN  v4.1.11 /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite
+
+
+ Test Files  8 passed (8)
+      Tests  121 passed (121)
+   Start at  16:40:59
+   Duration  466ms (transform 613ms, setup 0ms, import 1.88s, tests 176ms, environment 1ms)

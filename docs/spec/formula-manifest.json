@@ -74,6 +74,14 @@
       "formula": "Separate assembly Ucpv/UocSTC/Iscpv/Up and impulse-waveform limits; explicit context, no LPS-only type choice",
       "units": "V, A, kV, kA8/20µs, kA10/350µs",
       "sha256": "19bf94192d19c3348e20308ca7b63f0672d33ca5fed6cd385ecc91ccf68e7d74"
+    },
+    {
+      "id": "DC-SWITCH",
+      "path": "packages/core/src/dc-switch.ts",
+      "symbols": ["assessDcSwitchCandidate"],
+      "formula": "Explicit Ue/Ie/category/poles/wiring profile; per-string nominal assessment, no Ui/Ith substitution",
+      "units": "V DC, A, poles",
+      "sha256": "a50e4de7d4d47c444ee98d40afb5a2b9ed6299c13bc20be430a64f34f95eca85"
     }
   ]
 }

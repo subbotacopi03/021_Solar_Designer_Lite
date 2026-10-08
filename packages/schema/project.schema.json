@@ -1935,6 +1935,289 @@
         "additionalProperties": false
       }
     },
+    "dc_switch_device": {
+      "type": "object",
+      "properties": {
+        "manufacturer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "units": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "data_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "insulation_voltage_v": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "thermal_current_a": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "profiles": {
+          "minItems": 1,
+          "maxItems": 20,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "operational_voltage_v": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "operational_current_a": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "utilization_category": {
+                "type": "string",
+                "minLength": 1
+              },
+              "poles": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              },
+              "circuits": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              },
+              "wiring_diagrams": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "required": [
+              "id",
+              "utilization_category",
+              "poles",
+              "circuits",
+              "wiring_diagrams"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "verification": {
+                "type": "string",
+                "enum": ["USER_INPUT", "UNVERIFIED", "VERIFIED", "SYNTHETIC"]
+              },
+              "reviewed_on": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+              },
+              "document_revision": {
+                "type": "string",
+                "minLength": 1
+              },
+              "locator": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "notes": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": ["id", "label", "verification"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["id", "name", "profiles", "sources"],
+      "additionalProperties": false
+    },
+    "dc_switch_context": {
+      "type": "object",
+      "properties": {
+        "rating_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "required_category": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "wiring_diagram": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "poles": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": ["PER_STRING", "MPPT", "INVERTER"]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "verification": {
+                "type": "string",
+                "enum": ["USER_INPUT", "UNVERIFIED", "VERIFIED", "SYNTHETIC"]
+              },
+              "reviewed_on": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+              },
+              "document_revision": {
+                "type": "string",
+                "minLength": 1
+              },
+              "locator": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "notes": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": ["id", "label", "verification"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["sources"],
+      "additionalProperties": false
+    },
     "string_fuse_device": {
       "type": "object",
       "properties": {

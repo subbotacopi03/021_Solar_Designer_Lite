@@ -1,0 +1,32 @@
+$ vitest run
+
+ RUN  v4.1.11 /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite
+
+ ❯ tests/differential/dc-switch.test.ts (10 tests | 1 failed) 40ms
+   × source-limited example survives strict schema/save/load and preserves operational ratings 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/differential/dc-switch.test.ts > source-limited example survives strict schema/save/load and preserves operational ratings
+AssertionError: expected 'FAIL' to be 'UNKNOWN' // Object.is equality
+
+Expected: "UNKNOWN"
+Received: "FAIL"
+
+ ❯ tests/differential/dc-switch.test.ts:134:43
+    132|   expect(p.dc_switch_device!.profiles[0]!.operational_current_a).toBe(…
+    133|   expect(p.dc_switch_device!.thermal_current_a).toBe(45);
+    134|   expect(core.calculateProject(p).status).toBe("UNKNOWN");
+       |                                           ^
+    135|   expect(core.projectReport(p, core.calculateProject(p), "en")).toCont…
+    136|     "1SCC301022C0201",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 8 passed (9)
+      Tests  1 failed | 130 passed (131)
+   Start at  16:45:33
+   Duration  304ms (transform 500ms, setup 0ms, import 1.10s, tests 299ms, environment 0ms)
+
+[ELIFECYCLE] Test failed. See above for more details.

@@ -1,0 +1,507 @@
+{
+  "schema_version": "0.1.0",
+  "name": "DC switch voltage counterexample",
+  "module": {
+    "id": "demo-585",
+    "name": "Навчальний модуль 585 W",
+    "pmax_w": 585,
+    "voc_v": 50,
+    "vmp_v": 42,
+    "isc_a": 14,
+    "imp_a": 13.2,
+    "beta_voc_pct_c": -0.28,
+    "beta_vmp_pct_c": -0.3,
+    "alpha_isc_pct_c": 0.05,
+    "gamma_pmax_pct_c": -0.35,
+    "max_system_voltage_v": 1100,
+    "max_series_fuse_a": 25,
+    "sources": [
+      {
+        "id": "synthetic-demo",
+        "label": "Synthetic teaching example, not a manufacturer datasheet",
+        "verification": "SYNTHETIC"
+      }
+    ]
+  },
+  "inverter": {
+    "id": "demo-50k",
+    "name": "Навчальний інвертор 50 kW",
+    "ac_power_w": 50000,
+    "ac_voltage_v": 400,
+    "phases": 3,
+    "max_dc_voltage_v": 1100,
+    "max_dc_power_w": 75000,
+    "requires_optimizer": false,
+    "mppts": [
+      {
+        "id": "MPPT1",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT2",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT3",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT4",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT5",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT6",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT7",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT8",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT9",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      },
+      {
+        "id": "MPPT10",
+        "min_voltage_v": 200,
+        "max_voltage_v": 1000,
+        "max_current_a": 30,
+        "max_isc_a": 30,
+        "max_strings": 2,
+        "inputs": 2,
+        "max_current_per_input_a": 15,
+        "max_isc_per_input_a": 20
+      }
+    ],
+    "sources": [
+      {
+        "id": "synthetic-demo",
+        "label": "Synthetic teaching example, not a manufacturer datasheet",
+        "verification": "SYNTHETIC"
+      }
+    ],
+    "max_backfeed_current_a": 0
+  },
+  "inverter_quantity": 1,
+  "planes": [
+    {
+      "id": "south",
+      "name": "South",
+      "module_count": 19
+    }
+  ],
+  "site": {
+    "t_min_cell_c": -20,
+    "t_max_cell_c": 70,
+    "cos_phi": 0.95
+  },
+  "policy": {
+    "id": "teaching-explicit-v1",
+    "isc_factor": 1.25,
+    "dc_ac_band": [0.9, 1.5],
+    "dc_drop_max_pct": 1,
+    "ac_drop_max_pct": 1.5,
+    "breaker_ratings_a": [
+      6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125, 160, 200, 250
+    ],
+    "fuse_ratings_a": [6, 10, 12, 15, 16, 20, 25, 32, 40, 50],
+    "isolator_ratings_a": [16, 20, 25, 32, 40, 63, 80, 100, 125],
+    "fuse_min_factor": 1.5,
+    "fuse_max_factor": 2.4,
+    "sources": [
+      {
+        "id": "teaching-policy",
+        "label": "Explicit teaching policy; not a UA/CZ normative profile",
+        "verification": "UNVERIFIED"
+      }
+    ]
+  },
+  "cables": [
+    {
+      "id": "dc-demo-4",
+      "name": "DC synthetic Cu 4 mm²",
+      "circuit": "DC",
+      "material": "Cu",
+      "section_mm2": 4,
+      "r20_ohm_km": 4.61,
+      "alpha_per_c": 0.00393,
+      "x_ohm_km": null,
+      "max_voltage_v": 1500,
+      "max_conductor_temp_c": 90,
+      "iz_a": 44,
+      "installation_basis": "Synthetic test method; must replace with manufacturer values",
+      "sources": [
+        {
+          "id": "synthetic-demo",
+          "label": "Synthetic teaching example, not a manufacturer datasheet",
+          "verification": "SYNTHETIC"
+        }
+      ]
+    },
+    {
+      "id": "dc-demo-6",
+      "name": "DC synthetic Cu 6 mm²",
+      "circuit": "DC",
+      "material": "Cu",
+      "section_mm2": 6,
+      "r20_ohm_km": 3.39,
+      "alpha_per_c": 0.00393,
+      "x_ohm_km": null,
+      "max_voltage_v": 1500,
+      "max_conductor_temp_c": 90,
+      "iz_a": 57,
+      "installation_basis": "Synthetic test method; must replace with manufacturer values",
+      "sources": [
+        {
+          "id": "synthetic-demo",
+          "label": "Synthetic teaching example, not a manufacturer datasheet",
+          "verification": "SYNTHETIC"
+        }
+      ]
+    },
+    {
+      "id": "dc-demo-10",
+      "name": "DC synthetic Cu 10 mm²",
+      "circuit": "DC",
+      "material": "Cu",
+      "section_mm2": 10,
+      "r20_ohm_km": 1.95,
+      "alpha_per_c": 0.00393,
+      "x_ohm_km": null,
+      "max_voltage_v": 1500,
+      "max_conductor_temp_c": 90,
+      "iz_a": 79,
+      "installation_basis": "Synthetic test method; must replace with manufacturer values",
+      "sources": [
+        {
+          "id": "synthetic-demo",
+          "label": "Synthetic teaching example, not a manufacturer datasheet",
+          "verification": "SYNTHETIC"
+        }
+      ]
+    },
+    {
+      "id": "ac-demo-6",
+      "name": "AC synthetic Cu 6 mm²",
+      "circuit": "AC",
+      "material": "Cu",
+      "section_mm2": 6,
+      "r20_ohm_km": 3.08,
+      "alpha_per_c": 0.00393,
+      "x_ohm_km": 0.08,
+      "max_voltage_v": 1000,
+      "max_conductor_temp_c": 70,
+      "iz_a": 46,
+      "installation_basis": "Synthetic test method; must replace with manufacturer values",
+      "sources": [
+        {
+          "id": "synthetic-demo",
+          "label": "Synthetic teaching example, not a manufacturer datasheet",
+          "verification": "SYNTHETIC"
+        }
+      ]
+    },
+    {
+      "id": "ac-demo-10",
+      "name": "AC synthetic Cu 10 mm²",
+      "circuit": "AC",
+      "material": "Cu",
+      "section_mm2": 10,
+      "r20_ohm_km": 1.83,
+      "alpha_per_c": 0.00393,
+      "x_ohm_km": 0.08,
+      "max_voltage_v": 1000,
+      "max_conductor_temp_c": 70,
+      "iz_a": 63,
+      "installation_basis": "Synthetic test method; must replace with manufacturer values",
+      "sources": [
+        {
+          "id": "synthetic-demo",
+          "label": "Synthetic teaching example, not a manufacturer datasheet",
+          "verification": "SYNTHETIC"
+        }
+      ]
+    },
+    {
+      "id": "ac-demo-16",
+      "name": "AC synthetic Cu 16 mm²",
+      "circuit": "AC",
+      "material": "Cu",
+      "section_mm2": 16,
+      "r20_ohm_km": 1.15,
+      "alpha_per_c": 0.00393,
+      "x_ohm_km": 0.08,
+      "max_voltage_v": 1000,
+      "max_conductor_temp_c": 70,
+      "iz_a": 85,
+      "installation_basis": "Synthetic test method; must replace with manufacturer values",
+      "sources": [
+        {
+          "id": "synthetic-demo",
+          "label": "Synthetic teaching example, not a manufacturer datasheet",
+          "verification": "SYNTHETIC"
+        }
+      ]
+    },
+    {
+      "id": "ac-demo-25",
+      "name": "AC synthetic Cu 25 mm²",
+      "circuit": "AC",
+      "material": "Cu",
+      "section_mm2": 25,
+      "r20_ohm_km": 0.727,
+      "alpha_per_c": 0.00393,
+      "x_ohm_km": 0.08,
+      "max_voltage_v": 1000,
+      "max_conductor_temp_c": 70,
+      "iz_a": 112,
+      "installation_basis": "Synthetic test method; must replace with manufacturer values",
+      "sources": [
+        {
+          "id": "synthetic-demo",
+          "label": "Synthetic teaching example, not a manufacturer datasheet",
+          "verification": "SYNTHETIC"
+        }
+      ]
+    },
+    {
+      "id": "ac-demo-35",
+      "name": "AC synthetic Cu 35 mm²",
+      "circuit": "AC",
+      "material": "Cu",
+      "section_mm2": 35,
+      "r20_ohm_km": 0.524,
+      "alpha_per_c": 0.00393,
+      "x_ohm_km": 0.08,
+      "max_voltage_v": 1000,
+      "max_conductor_temp_c": 70,
+      "iz_a": 138,
+      "installation_basis": "Synthetic test method; must replace with manufacturer values",
+      "sources": [
+        {
+          "id": "synthetic-demo",
+          "label": "Synthetic teaching example, not a manufacturer datasheet",
+          "verification": "SYNTHETIC"
+        }
+      ]
+    },
+    {
+      "id": "ac-demo-50",
+      "name": "AC synthetic Cu 50 mm²",
+      "circuit": "AC",
+      "material": "Cu",
+      "section_mm2": 50,
+      "r20_ohm_km": 0.387,
+      "alpha_per_c": 0.00393,
+      "x_ohm_km": 0.08,
+      "max_voltage_v": 1000,
+      "max_conductor_temp_c": 70,
+      "iz_a": 168,
+      "installation_basis": "Synthetic test method; must replace with manufacturer values",
+      "sources": [
+        {
+          "id": "synthetic-demo",
+          "label": "Synthetic teaching example, not a manufacturer datasheet",
+          "verification": "SYNTHETIC"
+        }
+      ]
+    },
+    {
+      "id": "ac-demo-70",
+      "name": "AC synthetic Cu 70 mm²",
+      "circuit": "AC",
+      "material": "Cu",
+      "section_mm2": 70,
+      "r20_ohm_km": 0.268,
+      "alpha_per_c": 0.00393,
+      "x_ohm_km": 0.08,
+      "max_voltage_v": 1000,
+      "max_conductor_temp_c": 70,
+      "iz_a": 213,
+      "installation_basis": "Synthetic test method; must replace with manufacturer values",
+      "sources": [
+        {
+          "id": "synthetic-demo",
+          "label": "Synthetic teaching example, not a manufacturer datasheet",
+          "verification": "SYNTHETIC"
+        }
+      ]
+    },
+    {
+      "id": "dc-demo-16",
+      "name": "DC synthetic Cu 16 mm²",
+      "circuit": "DC",
+      "material": "Cu",
+      "section_mm2": 16,
+      "r20_ohm_km": 1.24,
+      "alpha_per_c": 0.00393,
+      "x_ohm_km": null,
+      "max_voltage_v": 1500,
+      "max_conductor_temp_c": 90,
+      "iz_a": 105,
+      "installation_basis": "Synthetic test method; must replace with manufacturer values",
+      "sources": [
+        {
+          "id": "synthetic-demo",
+          "label": "Synthetic teaching example, not a manufacturer datasheet",
+          "verification": "SYNTHETIC"
+        }
+      ]
+    }
+  ],
+  "dc": {
+    "length_m": 30,
+    "conductor_temp_c": 90,
+    "derating_factor": 0.8,
+    "derating_basis": "Explicit teaching assumption"
+  },
+  "ac": {
+    "length_m": 80,
+    "conductor_temp_c": 70,
+    "derating_factor": 0.87,
+    "derating_basis": "Explicit teaching assumption"
+  },
+  "prospective_short_circuit_ka": 6,
+  "breaker_icu_ka": 10,
+  "dc_switch_device": {
+    "id": "abb-otdc32f2",
+    "name": "ABB OTDC32F2 /1SCA121456R1001",
+    "manufacturer": "ABB",
+    "model": "OTDC32F2 (1SCA121456R1001)",
+    "insulation_voltage_v": 1250,
+    "thermal_current_a": 45,
+    "profiles": [
+      {
+        "id": "dc21b-1000-2p",
+        "operational_voltage_v": 1000,
+        "operational_current_a": 20,
+        "utilization_category": "DC-21B",
+        "poles": 2,
+        "circuits": 1,
+        "wiring_diagrams": ["2a", "2b"]
+      }
+    ],
+    "units": {
+      "operational_voltage_v": "V DC",
+      "operational_current_a": "A",
+      "insulation_voltage_v": "V",
+      "thermal_current_a": "A",
+      "poles": "poles",
+      "circuits": "circuits"
+    },
+    "data_notes": [
+      "1000V profile: Ie20A DC-21B,2poles/1circuit, diagrams2a/2b. Model32 and Ith45 are not Ie at1000V.",
+      "Ui1250V applies at pollutiondegree2 with external handle; pollutiondegree3 Ui1000V. Direct handle requires installation instruction.",
+      "Ith45A open/40°C enclosure with10mm² Cu; at60°C enclosure Ith32A. Actual installation/terminals/thermal derating not evaluated.",
+      "UNKNOWN installation/category requirement, physical wiring, reverse-current switching and fault coordination. Do not infer DC-PV2 from the OTDC family name.",
+      "Catalogue publishes Icw0.8kA/1s at1000V; fault-specific withstand is not evaluated here."
+    ],
+    "sources": [
+      {
+        "id": "abb-otdc-23-08",
+        "label": "ABB Switch-disconnectors OTDC,1SCC301022C0201 Rev23-08",
+        "url": "https://library.e.abb.com/public/579fddc18eb04ee49c7f8755470aafbd/Switch-disconnectors%20OTDC_1SCC301022C0201_23-08.pdf",
+        "verification": "VERIFIED",
+        "reviewed_on": "2026-10-08",
+        "document_revision": "1SCC301022C0201 Rev23-08",
+        "locator": "PDF p22 technical OTDC32F column1000V/2P; p24 exact order code; p27 circuits2a/2b",
+        "sha256": "f96d19251871a22ba99308ea9bcddcce36dd293a12b8dd404660d0e170cd3b70",
+        "notes": "Transcribed nominal fields only; DC-21B does not establish DC-PV2 suitability. Technical660V and ordering600V entries not combined; only1000V profile imported."
+      }
+    ]
+  },
+  "dc_switch_context": {
+    "rating_id": "dc21b-1000-2p",
+    "required_category": "DC-21B",
+    "wiring_diagram": "2a",
+    "poles": 2,
+    "scope": "PER_STRING",
+    "sources": [
+      {
+        "id": "teaching-switch-context",
+        "label": "Synthetic requirement/wiring declaration, not national approval",
+        "verification": "SYNTHETIC"
+      }
+    ]
+  },
+  "manual_strings": [
+    {
+      "id": "s1",
+      "inverter": 1,
+      "mppt_id": "MPPT1",
+      "plane_id": "south",
+      "modules": 19
+    }
+  ]
+}

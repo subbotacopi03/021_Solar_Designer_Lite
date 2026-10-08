@@ -1,0 +1,36 @@
+$ vitest run
+
+ RUN  v4.1.11 /Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite
+
+ ❯ tests/differential/dc-switch.test.ts (13 tests | 3 failed) 65ms
+   × unknown/unsupported scope null cannot erase known single-string excess 11ms
+   × unknown/unsupported scope MPPT cannot erase known single-string excess 0ms
+   × unknown/unsupported scope INVERTER cannot erase known single-string excess 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/differential/dc-switch.test.ts > unknown/unsupported scope null cannot erase known single-string excess
+ FAIL  tests/differential/dc-switch.test.ts > unknown/unsupported scope MPPT cannot erase known single-string excess
+ FAIL  tests/differential/dc-switch.test.ts > unknown/unsupported scope INVERTER cannot erase known single-string excess
+AssertionError: expected 'UNKNOWN' to be 'FAIL' // Object.is equality
+
+Expected: "FAIL"
+Received: "UNKNOWN"
+
+ ❯ tests/differential/dc-switch.test.ts:149:66
+    147| it.each([null, "MPPT", "INVERTER"] as const)("unknown/unsupported scop…
+    148|   const checks = assess({ context: { ...context, scope }, voc_cold_v: …
+    149|   expect(checks.find(c => c.id === "DC_SWITCH_VOLTAGE")?.status).toBe(…
+       |                                                                  ^
+    150|   expect(checks.find(c => c.id === "DC_SWITCH_CURRENT")?.status).toBe(…
+    151|   expect(checks.find(c => c.id === "DC_SWITCH_TOPOLOGY")?.status).toBe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+
+ Test Files  1 failed | 8 passed (9)
+      Tests  3 failed | 131 passed (134)
+   Start at  16:48:58
+   Duration  328ms (transform 482ms, setup 0ms, import 1.07s, tests 380ms, environment 0ms)
+
+[ELIFECYCLE] Test failed. See above for more details.
