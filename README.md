@@ -71,4 +71,5 @@ pnpm cli report data/examples/student-50kw.json --out report.md --lang uk
 
 ## Ліцензія та авторство
 
-[Mozilla Public License 2.0](LICENSE): можна використовувати, змінювати й поширювати; змінені файли цього проєкту поширюються під тією ж ліцензією. Авторство — [ATTRIBUTION.md](ATTRIBUTION.md), сторонні компоненти — [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt). Програма не збирає й не надсилає жодних даних.
+**Автор проєкту:** Суббота Олександр Володимирович  
+**Ліцензія:** [Mozilla Public License 2.0](LICENSE): можна використовувати, змінювати й поширювати; змінені файли цього проєкту поширюються під тією ж ліцензією. Авторство — [ATTRIBUTION.md](ATTRIBUTION.md), сторонні компоненти — [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt). Програма не збирає й не надсилає жодних даних.

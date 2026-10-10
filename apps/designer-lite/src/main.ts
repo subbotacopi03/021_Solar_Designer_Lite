@@ -11,6 +11,7 @@ import attribution from "../../../data/attribution.json" with { type: "json" };
 import legal from "../../../data/legal-notices.json" with { type: "json" };
 import "./style.css";
 import { renderRoutes, bindRoutes } from "./routes.js";
+import { renderHandbook } from "./handbook.js";
 import {
   equipmentLabel,
   inverterFields,
@@ -63,6 +64,7 @@ const texts = {
     checks: "Перевірки",
     report: "Звіт і BOM",
     learn: "Навчання",
+    handbook: "Довідник",
     json: "Дані проєкту",
     save: "Зберегти JSON",
     load: "Відкрити JSON",
@@ -124,6 +126,7 @@ const texts = {
     checks: "Checks",
     report: "Report & BOM",
     learn: "Learning",
+    handbook: "Handbook",
     json: "Project data",
     save: "Save JSON",
     load: "Open JSON",
@@ -500,6 +503,7 @@ function render() {
     "checks",
     "report",
     "learn",
+    "handbook",
     "json",
   ];
   document.getElementById("app")!.innerHTML =
@@ -558,6 +562,7 @@ function render() {
     )}</section><section class="panel"><h2>${x.checks}</h2>${reportChecksTable()}</section></article>`;
   if (tab === "json")
     content.innerHTML = `<section class="panel"><h2>${x.edit}</h2><p class="subtitle">schema_version = 0.1.0 · W, V, A, m, mm², Ω/km, °C, %/°C</p><textarea id="json" aria-label="Project JSON">${esc(JSON.stringify(project, null, 2))}</textarea><div class="tools" style="margin-top:16px"><button id="apply" class="primary">${x.apply}</button><button id="cancel">${x.cancel}</button></div></section>`;
+  if (tab === "handbook") content.innerHTML = renderHandbook(lang);
   if (tab === "learn")
     content.innerHTML = `<section class="panel"><h2>${x.learnTitle}</h2><p>${x.intro}</p><div class="exercise"><strong>01 · Voc(Tmin)</strong><p>Voc(T) = VocSTC × [1 + βVoc/100 × (T − 25)]<br>50 × [1 + (−0.28/100) × (−20 − 25)] = 56.3 V.<br>19 PV → 1069.7 V; 20 PV → 1126 V &gt; 1100 V.</p><button data-exercise="cold">${lang === "uk" ? "Порівняти при Tmin −35 °C" : "Compare at Tmin −35 °C"}</button></div><div class="exercise"><strong>02 · UNKNOWN</strong><p>${lang === "uk" ? "Видаліть βVmp. Основний розрахунок стрінгів має стати UNKNOWN. γPmax − αIsc може бути лише окремою апроксимацією." : "Remove βVmp. Main string result must become UNKNOWN. γPmax − αIsc is an approximation only."}</p><button data-exercise="missing">${lang === "uk" ? "Перевірити відсутнє βVmp" : "Test missing βVmp"}</button></div><div class="exercise"><strong>03 · Iac &amp; ΔU</strong><p>Iac = Pout / (√3 × U × cos φ).<br>50 000 / (√3 × 400 × 0.95) = 75.967 A.<br>R(T) = R20 × [1 + α × (T − 20)].<br>${lang === "uk" ? "Збільште AC трасу з 80 до 160 m та перевірте зміну перерізу." : "Increase the AC route from 80 to 160 m and inspect the selected cable."}</p><button data-exercise="length">${lang === "uk" ? "AC траса 160 m" : "AC route 160 m"}</button></div><button data-reset>${x.reset}</button></section>`;
   if (tab === "site")

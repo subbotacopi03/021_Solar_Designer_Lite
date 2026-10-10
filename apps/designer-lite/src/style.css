@@ -625,3 +625,106 @@ tbody tr:last-child td {
 .missing-item .code {
   white-space: pre-wrap;
 }
+.handbook h3 {
+  margin-top: 32px;
+  padding-top: 12px;
+  border-top: 1px solid #dfe6e2;
+}
+.handbook p,
+.handbook li {
+  line-height: 1.55;
+  max-width: 980px;
+}
+.hb-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 12px 0 8px;
+}
+.hb-figure {
+  margin: 16px 0;
+}
+.hb-figure figcaption {
+  font-size: 13px;
+  color: #5b6b73;
+  margin-top: 4px;
+}
+.hb-svg {
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  font-size: 12px;
+}
+.hb-svg text {
+  fill: #1f2b33;
+}
+.hb-box {
+  fill: #eef4f1;
+  stroke: #2f6f5e;
+  stroke-width: 1.5;
+}
+.hb-box.pv,
+.hb-module {
+  fill: #dce6f5;
+  stroke: #2e4f8f;
+  stroke-width: 1.2;
+}
+.hb-box.inv {
+  fill: #e4f2ea;
+  stroke: #1d6b4f;
+}
+.hb-box.bat {
+  fill: #fbf0dc;
+  stroke: #a5711a;
+}
+.hb-box.grid {
+  fill: #f1e6f4;
+  stroke: #6d3f80;
+}
+.hb-opt {
+  fill: #2f6f5e;
+}
+.hb-micro {
+  fill: #a5711a;
+}
+.hb-line,
+.hb-axis {
+  stroke: #1f2b33;
+  stroke-width: 1.5;
+}
+.hb-line.dc {
+  stroke: #c0392b;
+}
+#hb-arrow path {
+  fill: #1f2b33;
+}
+.hb-curve {
+  fill: none;
+  stroke: #c0392b;
+  stroke-width: 2.5;
+}
+.hb-curve.cold {
+  stroke: #2e5bff;
+}
+.hb-power {
+  fill: none;
+  stroke: #5b6b73;
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+.hb-dot {
+  fill: #c0392b;
+}
+.hb-svg .hb-cold {
+  fill: #2e5bff;
+}
+.hb-svg .hb-note {
+  fill: #5b6b73;
+}
+.hb-svg .hb-head {
+  font-weight: 700;
+  font-size: 13px;
+}
+.hb-steps li {
+  margin-bottom: 6px;
+}

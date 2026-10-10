@@ -2,7 +2,7 @@
   "target": "file:///Users/subbota/_ПРОЕКТИ/021_Solar_Designer_Lite/Solar_Designer_Lite.html",
   "checks": [
     "Initial demo and 120/120 module allocation",
-    "All eight navigation sections",
+    "All nine navigation sections",
     "Positive beta rejected without replacing project",
     "Missing beta Vmp leads to UNKNOWN",
     "Autosave restored and recalculated",
