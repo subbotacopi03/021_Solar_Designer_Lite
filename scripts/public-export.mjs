@@ -53,6 +53,8 @@ const INCLUDE_FILES = [
   "docs/designer-lite-mobile.png",
   "docs/designer-lite-overview.png",
   "docs/designer-lite-strings.png",
+  "docs/handbook-desktop.png",
+  "docs/handbook-mobile.png",
   "docs/example-report.md",
   "docs/example-report.pdf",
   "docs/example-result.json",

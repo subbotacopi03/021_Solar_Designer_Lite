@@ -38,6 +38,7 @@ pnpm build && pnpm cli calculate data/examples/student-50kw.json
 
 CLI exit codes: 0 PASS/WARN, 1 FAIL, 2 input/JSON error, 3 UNKNOWN.
 
-## License
+## License and authorship
 
+**Project author:** Oleksandr V. Subbota (Суббота Олександр Володимирович)  
 Licensed under the [Mozilla Public License 2.0](LICENSE). Attribution: [ATTRIBUTION.md](ATTRIBUTION.md). No telemetry.

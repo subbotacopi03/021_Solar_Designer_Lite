@@ -34,13 +34,14 @@ for (const tab of [
   "checks",
   "report",
   "learn",
+  "handbook",
   "json",
   "overview",
 ]) {
   await page.locator(`nav [data-tab="${tab}"]`).click();
   assert.ok(await page.locator("#content").innerText());
 }
-checks.push("All eight navigation sections");
+checks.push("All nine navigation sections");
 await page.locator('nav [data-tab="equipment"]').click();
 await page.locator('[data-path="module.beta_voc_pct_c"]').fill("0.28");
 await page.locator('[data-path="module.beta_voc_pct_c"]').press("Tab");
