@@ -4,5 +4,6 @@
   "type": "module",
   "private": true,
   "license": "MPL-2.0",
-  "exports": "./src/index.ts"
+  "exports": "./src/index.ts",
+  "author": "Oleksandr Subbota"
 }
